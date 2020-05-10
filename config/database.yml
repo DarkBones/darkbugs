@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  host: db
+  username: darkbugs
+  pool: 5
+
+development:
+  <<: *default
+  database: darkbugs_development
+
+test:
+  <<: *default
+  database: darkbugs_test
+
+production:
+  <<: *default
+  database: darkbugs_production

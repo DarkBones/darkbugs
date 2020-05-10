@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: darkbugs
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      PGDATA: /var/lib/postgresql/data/darkbugs
+    volumes:
+      - postgres:/var/lib/postgresql/data/darkbugs
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/darkbugs
+      - bundler_gems:/usr/local/bundle/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
+
+volumes:
+  postgres:
+  bundler_gems:
