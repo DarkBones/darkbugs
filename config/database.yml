@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   encoding: utf8
   host: db
-  username: darkbugs
+  username: postgres
   pool: 5
 
 development:
