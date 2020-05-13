@@ -28,10 +28,21 @@ spec:
       - args:
         - bash
         - -c
-        - rm -f tmp/pids/server.pid && bundle install && yarn install --check-files && bundle exec rake db:create && bundle exec rails s -p 3000 -b '0.0.0.0'
+        - rm -f tmp/pids/server.pid && bundle install && yarn install --check-files && bundle exec rake db:create && bundle exec rails s -p 3000 -b '0.0.0.0' -e production
         image: darkbones/darkbugs:latest
         imagePullPolicy: ""
         name: web
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: password
         ports:
         - containerPort: 3000
         resources: {}
