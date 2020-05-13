@@ -3,20 +3,20 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_DB: darkbugs
+      POSTGRES_DB: darkbugs_dev
       POSTGRES_USER: postgres
       POSTGRES_HOST_AUTH_METHOD: "trust"
-      PGDATA: /var/lib/postgresql/data/darkbugs
+      PGDATA: /var/lib/postgresql/data
     volumes:
-      - postgres:/var/lib/postgresql/data/darkbugs
+      - postgres:/var/lib/postgresql/data
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rake db:create && bundle exec rails s -p 4000 -b '0.0.0.0'"
     volumes:
       - .:/darkbugs
       - bundler_gems:/usr/local/bundle/
     ports:
-      - "3000:3000"
+      - "4000:4000"
     depends_on:
       - db
     links:
