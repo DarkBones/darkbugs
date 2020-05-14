@@ -14,9 +14,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
-        cmd: kompose convert
-        version: 1.21.0 (992df58d8)
       creationTimestamp: null
       labels:
         service: web
@@ -33,13 +30,18 @@ spec:
           - name: DB_USERNAME
             valueFrom:
               secretKeyRef:
-                name: secrets
+                name: secrets-db
                 key: username
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: secrets
+                name: secrets-db
                 key: password
+          - name: RAILS_MASTER_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-rails
+                key: master_key
         ports:
         - containerPort: 3000
         resources: {}

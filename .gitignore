@@ -27,7 +27,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/k8s/secret.yaml
+/config/k8s/secret*
 
 /public/packs
 /public/packs-test
