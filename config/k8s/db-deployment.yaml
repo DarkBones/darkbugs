@@ -40,7 +40,7 @@ spec:
         ports:
         - containerPort: 5432
         image: postgres
-        imagePullPolicy: ""
+        imagePullPolicy: Always
         name: db
         resources: {}
         volumeMounts:
