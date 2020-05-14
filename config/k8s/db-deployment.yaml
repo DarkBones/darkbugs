@@ -30,17 +30,17 @@ spec:
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: secrets
+              name: secrets-db
               key: username
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: secrets
+              name: secrets-db
               key: password
         ports:
         - containerPort: 5432
         image: postgres
-        imagePullPolicy: ""
+        imagePullPolicy: Always
         name: db
         resources: {}
         volumeMounts:
