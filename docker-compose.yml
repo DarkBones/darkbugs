@@ -11,7 +11,9 @@ services:
       - postgres:/var/lib/postgresql/data
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rake db:create && bundle exec rails s -p 4000 -b '0.0.0.0'"
+    environment:
+      DB_USERNAME: postgres
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && yarn install --check-files && bundle exec rake db:create && bundle exec rails s -p 4000 -b '0.0.0.0'"
     volumes:
       - .:/darkbugs
       - bundler_gems:/usr/local/bundle/
