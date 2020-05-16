@@ -12,7 +12,10 @@ services:
   web:
     build: .
     environment:
+      APP_NAME: Darkbugs
       DB_USERNAME: postgres
+      LAUNCHY_DRY_RUN: 'true'
+      BROWSER: /dev/null
     command: bash -c "rm -f /app/tmp/pids/server.pid && bundle install && yarn install --check-files && bundle exec rake db:create && bundle exec rails s -p 4000 -b '0.0.0.0'"
     volumes:
       - .:/app
