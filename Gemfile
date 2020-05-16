@@ -16,6 +16,7 @@ gem 'webpacker', '~> 4.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'letter_opener', '>= 1.7.0'
 end
 
 group :development do
@@ -34,4 +35,3 @@ end
 group :production do
   gem 'postageapp', '>= 1.3.1'
 end
-
