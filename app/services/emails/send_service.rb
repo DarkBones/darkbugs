@@ -1,28 +1,44 @@
 module Emails
-  class SendService < BaseService
-    def execute
-      request = PostageApp::Request.new(
-        :send_message,
-        {
-          headers: {
-            from: 'sender@example.com',
-            subject: 'THIS IS A TEST EMAIL'
-          },
-          recipients: 'donkerbc@gmail.com',
-          content: {
-            'text/plain' => 'text email content',
-            'text/html' -> 'html email content'
-          }#,
-          # attachments: {
-          #   'document.pdf' => {
-          #     content_type: 'application / pdf ',
-          #     content: Base64.encode64(File.open(' / path / to / document.pdf ', ' rb ').read)
-          #   }
-          # }
-        }
+  SENDERS = [
+    SENDER_NO_REPLY = "noreply@#{ENV['APP_NAME']}.com".downcase.freeze,
+    SENDER_INFO = "info@#{ENV['APP_NAME']}.com".downcase.freeze
+  ].freeze
 
-        response = request.send
-      )
+  class SendService < BaseService
+    class InvalidRequestError < Error; end
+
+    def execute
+      handle_errors do
+        request = PostageApp::Request.new(
+          :send_message,
+          message_params
+        )
+
+        @response = request.send
+        raise InvalidRequestError unless @response.status == 'ok'
+        success
+      end
+    end
+
+    private def handle_errors
+      yield
+    rescue InvalidRequestError
+      error(@response, :bad_request)
+    end
+
+    private def message_params
+      {
+        headers: {
+          # @TODO: Set display name property
+          from: @params['sender'],
+          subject: @params['subject']
+        },
+        recipients: @params['recipients'],
+        content: {
+          'text/plain' => @params['content_text'],
+          'text/html' => @params['content_html']
+        }
+      }
     end
   end
 end

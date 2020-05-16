@@ -27,6 +27,8 @@ spec:
         imagePullPolicy: "Always"
         name: web
         env:
+          - name: APP_NAME
+            value: Darkbugs
           - name: DB_USERNAME
             valueFrom:
               secretKeyRef:
