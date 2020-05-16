@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     unlocks: 'users/unlocks'
   }
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   resources :users
 
