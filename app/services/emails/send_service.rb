@@ -1,7 +1,7 @@
 module Emails
   SENDERS = [
-    SENDER_NO_REPLY = "#{ENV['APP_NAME']} noreply@#{ENV['APP_NAME'].downcase}.com".freeze,
-    SENDER_INFO = "#{ENV['APP_NAME']} info@#{ENV['APP_NAME'].downcase}.com".freeze
+    SENDER_NO_REPLY = "#{ENV['APP_NAME']} <noreply@#{ENV['APP_NAME'].downcase}.com>".freeze,
+    SENDER_INFO = "#{ENV['APP_NAME']} <info@#{ENV['APP_NAME'].downcase}.com>".freeze
   ].freeze
 
   class SendService < BaseService
