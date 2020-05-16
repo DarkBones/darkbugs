@@ -38,3 +38,5 @@ yarn-debug.log*
 
 docker-compose.yml
 .idea/*
+
+/lib/tasks/test.rake
