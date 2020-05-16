@@ -31,3 +31,7 @@ group :test do
   gem 'webdrivers'
 end
 
+group :production do
+  gem 'postageapp', '>= 1.3.1'
+end
+
