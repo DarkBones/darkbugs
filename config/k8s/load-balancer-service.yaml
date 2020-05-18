@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: darkbugs-load-balancer
 spec:
+  loadBalancerIP: 52.228.114.222
   type: LoadBalancer
   selector:
     service: web
