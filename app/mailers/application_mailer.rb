@@ -1,4 +1,4 @@
 class ApplicationMailer < PostageApp::Mailer
-  default from: Emails::SENDER_NO_REPLY
+  default from: UserMailer::SENDER_NO_REPLY
   layout 'mailer'
 end

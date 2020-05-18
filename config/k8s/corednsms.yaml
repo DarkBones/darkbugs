@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  darkbugs.server: |
+    darkbugs.com:53 {
+        errors
+        cache 30
+        rewrite name substring darkbugs.com default.svc.cluster.local
+        forward .  /etc/resolv.conf # you can redirect this to a specific DNS server such as 10.0.0.10
+    }

@@ -61,6 +61,8 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "darkbugs_production"
 
   config.action_mailer.perform_caching = false
+  # @TODO: provide proper url
+  config.action_mailer.default_url_options = { host: '52.228.114.222' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
