@@ -40,3 +40,4 @@ docker-compose.yml
 .idea/*
 
 /lib/tasks/test.rake
+/app/views/layouts/_template.html.haml
