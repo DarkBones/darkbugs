@@ -21,15 +21,20 @@ gem 'webpacker', '~> 4.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'foreman'
+  gem 'guard', '~>2.14.2', require: false
+  gem 'guard-livereload', '~>2.5.2', require: false
+  gem 'guard-minitest', '~>2.4.6', require: false
   gem 'letter_opener', '>= 1.7.0'
   gem 'letter_opener_web', '>= 1.4.0'
+  gem 'rack-livereload'
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do

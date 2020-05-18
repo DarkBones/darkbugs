@@ -1,6 +1,7 @@
 @import '_variables';
-@import 'home';
 @import 'sb_admin';
-@import 'users';
 @import 'bootstrap';
-//@import 'font-awesome';
+
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
