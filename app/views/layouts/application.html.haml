@@ -7,5 +7,9 @@
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-  %body
+  %body.nav-fixed
+    %nav.topnav.navbar.navbar-expand.shadow.navbar-light.bg-white#sidenavAccordion
+      = link_to ENV['APP_NAME'], root_path, class: 'navbar-brand d-none d-sm-block'
+      %button.btn.btn-icon.btn-transparent-dark.order-1.order-lg-0.mr-lg-2#sidebarToggle
+        %i{'data-feather'=>'menu'}
     = yield
