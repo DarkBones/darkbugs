@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Darkbugs
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body.bg-primary
+    #layoutAuthentication
+      #layoutAuthentication_content
+        %main
+          .container
+            .row.justify-content-center
+              = yield
+      .layoutAuthentication_footer
+        %footer.footer.mt-auto.footer-dark
+          .container-fluid
+            .row
+              .col-md-6.small
+                = "Copyright &copy; #{ENV['APP_NAME']} #{Time.now.year}".html_safe

@@ -9,6 +9,8 @@ services:
       PGDATA: /var/lib/postgresql/data
     volumes:
       - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   web:
     build: .
     environment:
