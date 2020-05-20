@@ -4,26 +4,28 @@ en:
     - &forgot_password Forgot your password?
   views:
     users:
-      confirmation:
+      confirmations:
         new:
           title: Resend Confirmation
           instructions: Enter your email address and we will send you new confirmation instructions.
           return_to_login: *return_to_login
           submit: Send Confirmation
           forgot_password: *forgot_password
-      password:
+      passwords:
         new:
           title: Password Recovery
           instructions: Enter your email address and we will send you a link to reset your password.
           return_to_login: *return_to_login
           submit: Reset Password
           no_confirmation: Didn't receive confirmation instructions?
-      sign_up:
-        title: Sign Up
-        submit: Sign Up
-        existing_account: Already have an account? Login!
-      sign_in:
-        title: Login
-        forgot_password: *forgot_password
-        submit: Login
-        sign_up: Need an account? Sign up!
+      registrations:
+        new:
+          title: Sign Up
+          submit: Sign Up
+          existing_account: Already have an account? Login!
+      sessions:
+        new:
+          title: Login
+          forgot_password: *forgot_password
+          submit: Login
+          sign_up: Need an account? Sign up!
