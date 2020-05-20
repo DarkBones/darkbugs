@@ -33,7 +33,8 @@ module ApplicationHelper
   end
 
   private def i18n_path_prefix
-    url = request.path.gsub '/', '.'
-    "views#{url}"
+    action = params[:action]
+    action = 'new' if ['create', 'update'].include? action
+    "views.#{params[:controller].gsub '/', '.'}.#{action}"
   end
 end
