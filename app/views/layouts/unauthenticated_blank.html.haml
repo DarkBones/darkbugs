@@ -7,7 +7,11 @@
     = csp_meta_tag
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-  %body.nav-fixed
-    = render partial: 'layouts/navbar/navbar'
-    = yield
-    = render partial: 'layouts/footer', locals: { style: 'footer-dark' }
+  %body.bg-primary
+    #layoutAuthentication
+      #layoutAuthentication_content
+        %main
+          .container
+            .row.justify-content-center
+              = yield
+      = render partial: 'layouts/footer', locals: { style: 'footer-dark' }
