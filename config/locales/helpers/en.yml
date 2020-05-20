@@ -1,0 +1,8 @@
+en:
+  helpers:
+    label:
+      user:
+        email: Email
+    placeholder:
+      user:
+        email: Enter email address
