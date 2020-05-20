@@ -1,10 +1,19 @@
 en:
+  aliases:
+    - &return_to_login Return to login
   views:
     users:
       confirmation:
         new:
           title: Resend Confirmation
           instructions: Enter your email address and we will send you new confirmation instructions.
-          return_to_login: Return to login
+          return_to_login: *return_to_login
           submit: Send Confirmation
           forgot_password: Forgot your password?
+      password:
+        new:
+          title: Password Recovery
+          instructions: Enter your email address and we will send you a link to reset your password.
+          return_to_login: *return_to_login
+          submit: Reset Password
+          no_confirmation: Didn't receive confirmation instructions?
