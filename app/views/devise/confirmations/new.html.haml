@@ -2,18 +2,18 @@
   .card.shadow-lg.border-0.rounded-lg.mt-5
     .card-header.justify-content-center
       %h3.font-weight-light.my-4
-        Resend Confirmation Instructions
+        = t 'title'
     .card-body
       .small.mb-3.text-muted
-        Enter your email address and we will send you new confirmation instructions.
+        = t 'instructions'
       = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
         = render 'devise/shared/error_messages', resource: resource
         .form-group
           = f.label :email, class: 'small mb-1'
-          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: 'Enter email address' # @TODO: i18n
+          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true # @TODO: i18n
         .form-group.d-flex.align-items-center.justify-content-between.mt-4.mb-0
-          = link_to 'Return to login', new_session_path(resource_name), class: 'small'
-          = f.submit 'Send Confirmation', class: 'btn btn-primary' # @TODO: replace_with
+          = link_to t('return_to_login'), new_session_path(resource_name), class: 'small'
+          = f.submit t('submit'), class: 'btn btn-primary' # @TODO: replace_with
     .card-footer.text-center
       .small
-        = link_to 'Forgot your password?', new_password_path(resource_name)
+        = link_to t('forgot_password'), new_password_path(resource_name)

@@ -1,0 +1,10 @@
+en:
+  views:
+    users:
+      confirmation:
+        new:
+          title: Resend Confirmation
+          instructions: Enter your email address and we will send you new confirmation instructions.
+          return_to_login: Return to login
+          submit: Send Confirmation
+          forgot_password: Forgot your password?
