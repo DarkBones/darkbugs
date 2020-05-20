@@ -5,8 +5,9 @@
         = t 'title'
     .card-body
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .text-danger.mb-3
-          = flash[:alert]
+        - if flash[:alert].present?
+          .text-danger.mb-3
+            = flash[:alert]
         .form-group
           = f.label :email, class: 'small mb-1'
           = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
