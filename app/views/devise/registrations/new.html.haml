@@ -2,20 +2,21 @@
   .card.shadow-lg.border-0.rounded-lg.mt-5
     .card-header.justify-content-center
       %h3.font-weight-light.my-4
-        Sign Up
+        = t 'title'
     .card-body
       = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = render 'devise/shared/error_messages', resource: resource
         .form-group
           = f.label :email, class: 'small mb-1'
-          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: 'Enter email address' # @TODO: i18n
+          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
         .form-group
           = f.label :password, class: 'small mb-1'
-          = f.password_field :password, autocomplete: 'new-password', class: 'form-control py-4', placeholder: 'Enter password' # @TODO: i18n
+          = f.password_field :password, autocomplete: 'new-password', class: 'form-control py-4', placeholder: true
         .form-group
           = f.label :password_confirmation, class: 'small mb-1'
-          = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control py-4', placeholder: 'Confirm password' # @TODO: i18n
+          = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control py-4', placeholder: true
         .form-group.mt-4.mb-0
-          = f.submit 'Sign up', class: 'btn btn-primary btn-block' # @TODO: replace_with
+          = f.submit t('submit'), class: 'btn btn-primary btn-block' # @TODO: replace_with
     .card-footer.text-center
       .small
-        = link_to 'Already have an account? Login!', new_session_path(resource_name)
+        = link_to t('existing_account'), new_session_path(resource_name)
