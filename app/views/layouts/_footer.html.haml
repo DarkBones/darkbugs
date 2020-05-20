@@ -1,0 +1,17 @@
+- style ||= 'footer-light'
+
+%footer.footer.mt-auto{:class => style}
+  .container-fluid
+    .row
+      .col-md-6.small
+        = "Copyright &copy; #{ENV['APP_NAME']} #{Time.now.year}".html_safe
+    .row
+      .col-12.small
+        - if !(Rails.env.production?)
+          %div
+            - app_info_data = app_info
+            = app_info_data[:hostname]
+            = '//'
+            = app_info_data[:source]
+            = '//'
+            = app_info_data[:sha]
