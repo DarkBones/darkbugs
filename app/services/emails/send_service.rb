@@ -29,7 +29,6 @@ module Emails
     private def message_params
       {
         headers: {
-          # @TODO: Set display name property
           from: @params['sender'],
           subject: @params['subject']
         },
