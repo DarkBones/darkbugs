@@ -9,39 +9,25 @@ class UserMailer < PostageApp::Mailer
 
   def confirmation_instructions(record, _token, _opts={})
     postageapp_template 'user_confirmation'
-    postageapp_variables :name => record.email,
-                         :confirmation_link => user_confirmation_url(confirmation_token: record.confirmation_token)
-    mail(to: "donkerbc@gmail.com")
+    postageapp_variables :title => 'Confirm Your Account',
+                         :name => record.email ||= record.email,
+                         :link => user_confirmation_url(confirmation_token: record.confirmation_token)
+    mail(to: record.email)
   end
 
   def reset_password_instructions(record, token, opts = {})
-    # PostageApp specific elements (example):
-    # postageapp_template 'my-password-reset'
-    # postageapp_variables :name => record.class.name ||= record.email,
-    #                      :link => "password_url(:reset_password_token => record.reset_password_token)"
-    #
-    # devise_mail(record, :reset_password_instructions)
-    postageapp_template 'user_confirmation'
-    postageapp_variables  :name => record.email,
-                          :confirmation_link => edit_user_password_url(reset_password_token: record.reset_password_token)
-    mail(to: "donkerbc@gmail.com")
-    # super
+    postageapp_template 'reset_password'
+    postageapp_variables  :title => 'Reset Your Password <i> NOW PLEASE',
+                          :name => record.email ||= record.email,
+                          :link => edit_user_password_url(reset_password_token: record.reset_password_token)
+    mail(to: record.email)
   end
 
   def unlock_instructions(record)
-    # PostageApp specific elements (example):
-    postageapp_template 'my-unlock-instructions'
-    postageapp_variables :name => record.name ||= record.email,
+    postageapp_template 'unlock_instructions'
+    postageapp_variables :title => 'Unlock Your Account',
+                         :name => record.name ||= record.email,
                          :link => unlock_url(:unlock_token => record.unlock_token)
-    devise_mail(record, :unlock_instructions)
+    mail(to: record.email)
   end
-
-  protected
-
-  # Ensures template subject is used instead of the default devise mailer subject.
-  # def headers_for(action)
-  #   headers = super
-  #   headers[:subject] = ''
-  #   headers
-  # end
 end
