@@ -21,7 +21,7 @@ Devise.setup do |config|
   # config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
   # Configure the class responsible to send e-mails.
-  config.mailer = 'UserMailer' if Rails.env.production?
+  config.mailer = Rails.env.production? ? 'UserMailer' : 'UserMailerLocal'
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'

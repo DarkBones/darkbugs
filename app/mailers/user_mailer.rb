@@ -15,11 +15,9 @@ class UserMailer < PostageApp::Mailer
     mail(to: record.email)
   end
 
-  def reset_password_instructions(record, token, opts = {})
-    postageapp_template 'reset_password'
-    postageapp_variables  :title => 'Reset Your Password <i> NOW PLEASE',
-                          :name => record.email ||= record.email,
-                          :link => edit_user_password_url(reset_password_token: record.reset_password_token)
+  def reset_password_instructions(record, _token, _opts = {})
+    @title = 'this is a test title'
+    @test = 'this is a test test'
     mail(to: record.email)
   end
 
