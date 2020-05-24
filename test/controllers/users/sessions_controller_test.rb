@@ -48,5 +48,20 @@ module Users
       assert_not_includes response.body, 'Invalid Email or password'
       assert_response :redirect
     end
+
+    def test_locked
+      user = users(:locked)
+      params = {
+        user: {
+          email: user.email,
+          password: ENV['DEFAULT_TEST_PASS']
+        }
+      }
+
+      post :create, params: params
+      assert_response :success
+      assert_includes response.body, 'Your account is locked'
+      assert_template :new
+    end
   end
 end
