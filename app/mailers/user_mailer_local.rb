@@ -1,14 +1,9 @@
-class UserMailer < PostageApp::Mailer
-  SENDERS = [
-    SENDER_NO_REPLY = "#{ENV['APP_NAME']} <noreply@#{ENV['APP_NAME'].downcase}.com>".freeze,
-    SENDER_INFO = "#{ENV['APP_NAME']} <info@#{ENV['APP_NAME'].downcase}.com>".freeze
-  ].freeze
-
+class UserMailerLocal < Devise::Mailer
   include Devise::Mailers::Helpers
   layout 'mailer'
 
   default template_path: 'user_mailer/'
-  default from: SENDER_NO_REPLY
+  default from: UserMailer::SENDER_NO_REPLY
 
   def confirmation_instructions(record, token, _opts = {})
     @title = I18n.t('mailers.user_mailer.confirmation_instructions.title')
