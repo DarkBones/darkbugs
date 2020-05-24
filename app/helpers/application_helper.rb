@@ -35,6 +35,10 @@ module ApplicationHelper
   private def i18n_path_prefix
     action = params[:action]
     action = 'new' if ['create', 'update'].include? action
-    "views.#{params[:controller].gsub '/', '.'}.#{action}"
+    if I18n.exists?("views.#{params[:controller].gsub '/', '.'}.#{action}")
+      "views.#{params[:controller].gsub '/', '.'}.#{action}"
+    else
+      "views.#{params[:controller].gsub '/', '.'}.new"
+    end
   end
 end

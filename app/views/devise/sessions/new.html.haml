@@ -8,6 +8,9 @@
         - if flash[:alert].present?
           .text-danger.mb-3
             = flash[:alert]
+        - elsif flash[:notice].present?
+          .text-success.mb-3
+            = flash[:notice]
         .form-group
           = f.label :email, class: 'small mb-1'
           = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
