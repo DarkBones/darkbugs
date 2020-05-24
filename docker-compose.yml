@@ -18,7 +18,6 @@ services:
       DB_USERNAME: postgres
       LAUNCHY_DRY_RUN: 'true'
       BROWSER: /dev/null
-      DEFAUlT_TEST_PASS: LocaMulo32!
     command: bash -c "rm -f /app/tmp/pids/server.pid && bundle install && yarn install --check-files && bundle exec rake db:create && foreman start -f Procfile.dev"
     volumes:
       - .:/app
