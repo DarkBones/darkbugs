@@ -6,7 +6,7 @@ module Users
 
     def setup
       @user = users(:default)
-      @request.env["devise.mapping"] = Devise.mappings[:user]
+      @request.env['devise.mapping'] = Devise.mappings[:user]
     end
 
     def test_new
@@ -18,7 +18,7 @@ module Users
     def test_create_blank
       post :create
       assert_response :success
-      assert_includes response.body, "Email can&#39;t be blank"
+      assert_includes response.body, 'Email can&#39;t be blank'
       assert_template :new
     end
 
@@ -27,7 +27,7 @@ module Users
 
       post :create, params: params
       assert_response :redirect
-      assert_not_includes response.body, "Email can&#39;t be blank"
+      assert_not_includes response.body, 'Email can&#39;t be blank'
     end
   end
 end
