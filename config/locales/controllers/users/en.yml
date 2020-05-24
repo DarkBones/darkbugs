@@ -1,0 +1,6 @@
+---
+en:
+  controllers:
+    users:
+      confirmations:
+        success: Confirmation email sent
