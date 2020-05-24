@@ -1,11 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+default:
+  email: default@test.test
+  encrypted_password: <%= User.new.send(:password_digest, ENV['DEFAULT_TEST_PASS']) %>
+  confirmation_token: default@test.test
+  confirmed_at: <%= 1.week.ago %>
+  confirmation_sent_at: <%= 1.week.ago %>
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+unconfirmed:
+  email: unconfirmed@test.test
+  encrypted_password: <%= User.new.send(:password_digest, ENV['DEFAULT_TEST_PASS']) %>
+  confirmation_token: unconfirmed@test.test
+  confirmation_sent_at: <%= 1.week.ago %>
