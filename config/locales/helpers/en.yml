@@ -1,12 +1,6 @@
 ---
 en:
   helpers:
-    label:
-      user:
-        email: Email
-        password: Password
-        password_confirmation: Password confirmation
-        remember_me: Remember me
     placeholder:
       user:
         email: Enter email address

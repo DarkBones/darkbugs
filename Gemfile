@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
 
+gem 'activestorage', '>= 6.0.3.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
 gem 'devise', '>= 4.7.1'
@@ -10,10 +11,12 @@ gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails', '>= 4.4.0'
+gem 'nested_form'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.0.3'
 gem 'sass-rails', '>= 6'
+gem 'simple_form'
 gem 'sprockets-rails', '>= 2.3.2'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

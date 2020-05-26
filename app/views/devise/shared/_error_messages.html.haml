@@ -1,3 +1,4 @@
 - if resource.errors.any?
   .text-danger.mb-3
     = resource.errors.full_messages.join (', ')
+    - puts resource.errors.to_yaml
