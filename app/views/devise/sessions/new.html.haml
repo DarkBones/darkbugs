@@ -4,25 +4,22 @@
       %h3.font-weight-light.my-4
         = t 'title'
     .card-body
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         - if flash[:alert].present?
           .text-danger.mb-3
             = flash[:alert]
         - elsif flash[:notice].present?
           .text-success.mb-3
             = flash[:notice]
-        .form-group
-          = f.label :email, class: 'small mb-1'
-          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
-        .form-group
-          = f.label :password, class: 'small mb-1'
-          = f.password_field :password, autocomplete: 'current-password', class: 'form-control py-4', placeholder: true
-        .form-group
+        = f.input :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
+        = f.input :password, autocomplete: 'current-password', class: 'form-control py-4', placeholder: true
+        .form-group.col-12
           .custom-control.custom-checkbox
             = f.check_box :remember_me, class: 'custom-control-input'
             = f.label :remember_me, class: 'custom-control-label'
-        .form-group.d-flex.align-items-center.justify-content-between.mt-4.mb-0
+        .col-6
           = link_to t('forgot_password'), new_password_path(resource_name), class: 'small'
+        .col-6.text-right
           = f.submit t('submit'), class: 'btn btn-primary' # @TODO: replace_with
     .card-footer.text-center
       .small
