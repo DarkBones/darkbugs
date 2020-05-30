@@ -12,4 +12,13 @@ class User < ApplicationRecord
   validates_presence_of :password
   validates_presence_of :password_confirmation
   validates_presence_of :user_profile
+
+  # -- Instance Methods --------------------------------------------------------
+  def name
+    user_profile.username
+  end
+
+  def avatar
+    'default_profile_picture.png'
+  end
 end
