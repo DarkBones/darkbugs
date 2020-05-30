@@ -15,7 +15,7 @@
         = link_to edit_user_registration_path, class: 'dropdown-item' do
           .dropdown-item-icon
             %i.fa.fa-cog
-          Account
+          = i18n 'account'
         = link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do
           .dropdown-item-icon
             %i.fa.fa-sign-out-alt
