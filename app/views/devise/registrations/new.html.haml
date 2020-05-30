@@ -1,22 +1,22 @@
+-# - @user = User.new
+- @user.build_user_profile
 .col-lg-7
   .card.shadow-lg.border-0.rounded-lg.mt-5
     .card-header.justify-content-center
       %h3.font-weight-light.my-4
         = t 'title'
     .card-body
-      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-        = render 'devise/shared/error_messages', resource: resource
-        .form-group
-          = f.label :email, class: 'small mb-1'
-          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
-        .form-group
-          = f.label :password, class: 'small mb-1'
-          = f.password_field :password, autocomplete: 'new-password', class: 'form-control py-4', placeholder: true
-        .form-group
-          = f.label :password_confirmation, class: 'small mb-1'
-          = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control py-4', placeholder: true
-        .form-group.mt-4.mb-0
-          = f.submit t('submit'), class: 'btn btn-primary btn-block' # @TODO: replace_with
+      .row
+        .col-12
+          = simple_form_for @user do |f|
+            = render 'devise/shared/error_messages', resource: resource
+            = f.simple_fields_for :user_profile, :user_profile do |up|
+              = render partial: 'user_profile', locals: { f: up }
+            = f.input :email, autocomplete: 'email'
+            = f.input :password, input_html: { autocomplete: 'off', value: params.dig(:user, :password) }
+            = f.input :password_confirmation, input_html: { autocomplete: 'off' }
+            .mt-4.mb-0.col-12
+              = f.submit t('submit'), class: 'btn btn-primary btn-block' # @TODO: replace_with
     .card-footer.text-center
       .small
         = link_to t('existing_account'), new_session_path(resource_name)
