@@ -1,1 +1,1 @@
-= f.input :username, autofocus: true, input_html: { autocomplete: 'off' }
+= f.input :username, autofocus: true, input_html: { autocomplete: 'off', value: params.dig(:user, :user_profile_attributes, :username) }

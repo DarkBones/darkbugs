@@ -13,8 +13,8 @@
             = f.simple_fields_for :user_profile, :user_profile do |up|
               = render partial: 'user_profile', locals: { f: up }
             = f.input :email, autocomplete: 'email'
-            = f.input :password, autocomplete: 'new-password'
-            = f.input :password_confirmation, autocomplete: 'new-password'
+            = f.input :password, input_html: { autocomplete: 'off', value: params.dig(:user, :password) }
+            = f.input :password_confirmation, input_html: { autocomplete: 'off' }
             .mt-4.mb-0.col-12
               = f.submit t('submit'), class: 'btn btn-primary btn-block' # @TODO: replace_with
     .card-footer.text-center
