@@ -8,11 +8,10 @@
         = t('instructions')
       = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = render 'devise/shared/error_messages', resource: resource
-        .form-group
-          = f.label :email, class: 'small mb-1'
-          = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
-        .form-group.d-flex.align-items-center.justify-content-between.mt-4.mb-0
+        = f.input :email, autofocus: true, autocomplete: 'email'
+        .col-6
           = link_to t('return_to_login'), new_session_path(resource_name), class: 'small'
+        .col-6.text-right
           = f.submit t('submit'), class: 'btn btn-primary' # @TODO: replace_with
     .card-footer.text-center
       .small

@@ -1,3 +1,8 @@
-- if resource.errors.any?
-  .text-danger.mb-3
-    = resource.errors.full_messages.join (', ')
+- if flash[:alert].present?
+  .col-12
+    .text-danger.mb-3
+      = flash[:alert]
+- elsif flash[:notice].present?
+  .col-12
+    .text-success.mb-3
+      = flash[:notice]
