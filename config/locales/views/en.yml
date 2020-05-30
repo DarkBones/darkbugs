@@ -6,6 +6,9 @@ en:
     - &no_confirmation Didn't receive confirmation instructions?
     - &sign_up_prompt Need an account? Sign up!
   views:
+    devise:
+      edit_account: Account
+      logout: Logout
     users:
       confirmations:
         new:
