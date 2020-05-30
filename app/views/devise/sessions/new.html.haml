@@ -5,12 +5,7 @@
         = t 'title'
     .card-body
       = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        - if flash[:alert].present?
-          .text-danger.mb-3
-            = flash[:alert]
-        - elsif flash[:notice].present?
-          .text-success.mb-3
-            = flash[:notice]
+        = render 'devise/shared/error_messages'
         = f.input :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
         = f.input :password, autocomplete: 'current-password', class: 'form-control py-4', placeholder: true
         .form-group.col-12

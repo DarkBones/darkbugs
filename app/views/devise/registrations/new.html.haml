@@ -9,7 +9,7 @@
       .row
         .col-12
           = simple_form_for @user do |f|
-            = render 'devise/shared/error_messages', resource: resource
+            = render 'devise/shared/error_messages'
             = f.simple_fields_for :user_profile, :user_profile do |up|
               = render partial: 'user_profile', locals: { f: up }
             = f.input :email, autocomplete: 'email'
