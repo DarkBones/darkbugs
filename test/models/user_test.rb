@@ -22,8 +22,6 @@ class UserTest < ActiveSupport::TestCase
         password_confirmation: '@&h8jTJ9DbGLg,X_'
       })
 
-    puts user.errors.full_messages
-
     assert_not user.persisted?
     assert user.user_profile.nil?
   end
