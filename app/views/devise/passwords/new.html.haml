@@ -16,3 +16,5 @@
     .card-footer.text-center
       .small
         = link_to t('no_confirmation'), new_confirmation_path(resource_name)
+        %br
+        = link_to t('sign_up'), new_registration_path(resource_name)

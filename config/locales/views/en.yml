@@ -3,6 +3,8 @@ en:
   aliases:
     - &return_to_login Return to login
     - &forgot_password Forgot your password?
+    - &no_confirmation Didn't receive confirmation instructions?
+    - &sign_up_prompt Need an account? Sign up!
   views:
     users:
       confirmations:
@@ -12,13 +14,15 @@ en:
           return_to_login: *return_to_login
           submit: Send Confirmation
           forgot_password: *forgot_password
+          sign_up: *sign_up_prompt
       passwords:
         new:
           title: Password Recovery
           instructions: Enter your email address and we will send you a link to reset your password.
           return_to_login: *return_to_login
           submit: Reset Password
-          no_confirmation: Didn't receive confirmation instructions?
+          no_confirmation: *no_confirmation
+          sign_up: *sign_up_prompt
       registrations:
         new:
           title: Sign Up
@@ -29,7 +33,8 @@ en:
           title: Login
           forgot_password: *forgot_password
           submit: Login
-          sign_up: Need an account? Sign up!
+          sign_up: *sign_up_prompt
+          no_confirmation: *no_confirmation
       unlocks:
         new:
           title: Resend Unlock Instructions
