@@ -39,6 +39,9 @@ module Users
     def test_create
       params = {
         user: {
+          user_profile_attributes: {
+            username: 'testusername'
+          },
           email: 'new_user@test.test',
           password: '&v)&8YAU~]HkqVA',
           password_confirmation: '&v)&8YAU~]HkqVA'
