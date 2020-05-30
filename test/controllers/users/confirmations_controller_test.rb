@@ -2,6 +2,8 @@ require 'test_helper'
 
 module Users
   class ConfirmationsControllerTest < ActionController::TestCase
+    include Devise::Test::ControllerHelpers
+
     def setup
       @user = users(:default)
       @request.env['devise.mapping'] = Devise.mappings[:user]

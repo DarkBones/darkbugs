@@ -28,7 +28,7 @@ module ApplicationHelper
     class_names.join(' ')
   end
 
-  def t(path)
+  def i18n(path)
     I18n.t "#{i18n_path_prefix}.#{path}"
   end
 

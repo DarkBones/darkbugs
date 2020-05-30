@@ -4,7 +4,7 @@
   .card.shadow-lg.border-0.rounded-lg.mt-5
     .card-header.justify-content-center
       %h3.font-weight-light.my-4
-        = t 'title'
+        = i18n 'title'
     .card-body
       .row
         .col-12
@@ -16,7 +16,7 @@
             = f.input :password, input_html: { autocomplete: 'off', value: params.dig(:user, :password) }
             = f.input :password_confirmation, input_html: { autocomplete: 'off' }
             .mt-4.mb-0.col-12
-              = f.submit t('submit'), class: 'btn btn-primary btn-block' # @TODO: replace_with
+              = f.submit i18n('submit'), class: 'btn btn-primary btn-block' # @TODO: replace_with
     .card-footer.text-center
       .small
-        = link_to t('existing_account'), new_session_path(resource_name)
+        = link_to i18n('existing_account'), new_session_path(resource_name)
