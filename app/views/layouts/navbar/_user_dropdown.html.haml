@@ -12,11 +12,12 @@
             .dropdown-user-details-email
               = @user.email
         .dropdown-divider
-        %a.dropdown-item{:href => "#!"}
+        = link_to edit_user_registration_path, class: 'dropdown-item' do
           .dropdown-item-icon
-            %i{"data-feather" => "settings"}
+            %i.fa.fa-cog
           Account
-        %a.dropdown-item{:href => "#!"}
+        = link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do
           .dropdown-item-icon
-            %i{"data-feather" => "log-out"}
+            %i.fa.fa-sign-out-alt
           Logout
+
