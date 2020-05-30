@@ -34,8 +34,6 @@ module Users
       user = users(:unconfirmed)
       params = { user: { email: user.email } }
 
-      puts user.confirmation_token
-
       post :create, params: params
       assert_response :redirect
       assert_not_includes response.body, 'Email can&#39;t be blank'

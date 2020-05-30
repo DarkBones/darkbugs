@@ -30,3 +30,10 @@ en:
           forgot_password: *forgot_password
           submit: Login
           sign_up: Need an account? Sign up!
+      unlocks:
+        new:
+          title: Resend Unlock Instructions
+          instructions: Enter your email address and we will send you new unlock instructions
+          return_to_login: *return_to_login
+          submit: Send Instructions
+          forgot_password: *forgot_password
