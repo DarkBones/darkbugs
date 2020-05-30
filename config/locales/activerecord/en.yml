@@ -2,8 +2,6 @@
 en:
   aliases:
     - &cant_be_blank can't be blank
-  errors:
-    format: "%{attribute} %{message}"
   activerecord:
     attributes:
       user_profile:
