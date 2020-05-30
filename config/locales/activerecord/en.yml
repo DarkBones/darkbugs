@@ -1,0 +1,19 @@
+---
+en:
+  aliases:
+    - &cant_be_blank can't be blank
+  activerecord:
+    attributes:
+      user_profile:
+        username: Username
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: *cant_be_blank
+        user_profile:
+          attributes:
+            username:
+              blank: *cant_be_blank
+              invalid: can't include special characters
