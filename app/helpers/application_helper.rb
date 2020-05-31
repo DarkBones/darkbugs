@@ -38,7 +38,7 @@ module ApplicationHelper
     if I18n.exists?("views.#{params[:controller].gsub '/', '.'}.#{action}")
       "views.#{params[:controller].gsub '/', '.'}.#{action}"
     else
-      "views.#{params[:controller].gsub '/', '.'}.new"
+      "views.#{params[:controller].gsub '/', '.'}.index"
     end
   end
 end

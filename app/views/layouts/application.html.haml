@@ -1,8 +1,9 @@
 !!!
+
 %html{class: css_page_class}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title = ENV['APP_NAME']
+    %title= ENV['APP_NAME']
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -13,21 +14,18 @@
       = render partial: 'layouts/sidenav/sidenav'
       #layoutSidenav_content
         %main
-          .page-header.pb-10.page-header-dark.bg-gradient-primary-to-secondary
-            .container-fluid
-              .page-header-content
-                %h1.page-header-title
-                  .page-header-icon
-                    = yield :title_icon
-                  %span
-                    = yield :title
-                .page-header-subtitle.mt-3
-                  = yield :title_sub
+          - if content_for?(:title)
+            .page-header.pb-10.page-header-dark.bg-gradient-primary-to-secondary
+              .container-fluid
+                .page-header-content
+                  %h1.page-header-title
+                    - if content_for(:title_icon)
+                      .page-header-icon
+                        = yield :title_icon
+                    %span
+                      = yield :title
+                  .page-header-subtitle.mt-3
+                    = yield :title_sub
           .container-fluid.mt-n10
-            .card.mb-4
-              .card-header Content example
-              .card-body
-                .chart-area
-                  %canvas#myAreaChart{:height => "30", :width => "100%"}
-          = yield
+            = yield
         = render partial: 'layouts/footer'

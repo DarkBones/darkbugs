@@ -11,7 +11,7 @@
           = simple_form_for @user do |f|
             = render 'devise/shared/error_messages'
             = f.simple_fields_for :user_profile, :user_profile do |up|
-              = render partial: 'user_profile', locals: { f: up }
+              = up.input :username, autofocus: true, input_html: { autocomplete: 'off', value: params.dig(:user, :user_profile_attributes, :username) }
             = f.input :email, autocomplete: 'email'
             = f.input :password, input_html: { autocomplete: 'off', value: params.dig(:user, :password) }
             = f.input :password_confirmation, input_html: { autocomplete: 'off' }
