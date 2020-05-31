@@ -1,8 +1,7 @@
-= content_for :title_icon do
-  %i.fa.fa-cog
+= render partial: 'layouts/header'
 
-= content_for :title do
-  Welcome
-
-= content_for :title_sub do
-  Example dashboard overview and content summary
+.card.mb-4
+  .card-header
+    = i18n 'card_header'
+  .card-body
+    test

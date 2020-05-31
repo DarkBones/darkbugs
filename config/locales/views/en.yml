@@ -31,6 +31,14 @@ en:
           title: Sign Up
           submit: Sign Up
           existing_account: Already have an account? Login!
+        edit:
+          title: Edit Account
+          title_sub: Edit your account and profile here
+          profile_card_header: Profile
+          password_card_header: Password
+          pending_confirmation: "Currently waiting confirmation for: %{email}"
+          submit_account: Update Profile
+          submit_password: Update Password
       sessions:
         new:
           title: Login

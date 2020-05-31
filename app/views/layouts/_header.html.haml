@@ -1,0 +1,11 @@
+- icon_class ||= 'fas fa-network-wired'
+
+- if icon_class.length > 0
+  = content_for :title_icon do
+    %i{ :class => icon_class }
+
+= content_for :title do
+  = i18n 'title'
+
+= content_for :title_sub do
+  = i18n 'title_sub'
