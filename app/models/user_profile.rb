@@ -1,6 +1,7 @@
 class UserProfile < ApplicationRecord
   # -- Relationships --------------------------------------------------------
   belongs_to :user
+  has_one_attached :avatar
 
   # -- Validations --------------------------------------------------------
   validates_presence_of :username
