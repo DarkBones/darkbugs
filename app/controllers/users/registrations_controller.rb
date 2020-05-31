@@ -46,7 +46,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if params[UPDATE_PASSWORD_COMMIT].present?
       super
     else
-      resource.update_attributes!(resource_params)
+      # resource.update!(resource_params)
+      @user.user_profile.avatar.attach(params[:user][:user_profile_attributes][:avatar])
     end
   rescue ActiveRecord::RecordInvalid => e
     flash.now.alert = e.message
@@ -55,7 +56,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   private def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, user_profile_attributes: [:username]])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, user_profile_attributes: [:username, :first_name, :last_name, :bio, :id]])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, user_profile_attributes: [:username, :first_name, :last_name, :bio, :id, :avatar]])
   end
 
   # If you have extra params to permit, append them to the sanitizer.

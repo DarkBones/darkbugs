@@ -13,6 +13,7 @@
               .row
                 .col-12
                   = image_tag @user.avatar, class: 'img-fluid'
+                  = up.file_field :avatar
             .col-12.col-sm-8.col-md-9
               .row
                 = up.input :username, autofocus: true, input_html: { autocomplete: 'username' }
