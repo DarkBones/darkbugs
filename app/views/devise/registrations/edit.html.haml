@@ -1,37 +1,81 @@
--#@TODO: i18n
-%h2
-  Edit #{resource_name.to_s.humanize}
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-user' }
+
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = render "devise/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    %div
-      Currently waiting confirmation for: #{resource.unconfirmed_email}
-  .field
-    = f.label :password
-    %i (leave blank if you don't want to change it)
-    %br/
-    = f.password_field :password, autocomplete: "new-password"
-    - if @minimum_password_length
+  .col-12.col-lg-9
+    .card.mb-4
+      .card-header
+        = i18n 'profile_card_header'
+      .card-body
+        = render 'devise/shared/error_messages'
+        .row
+          = f.simple_fields_for :user_profile, :user_profile do |up|
+            .col-12.col-sm-4.col-md-3
+              .row
+                .col-12
+                  = image_tag @user.avatar, class: 'img-fluid'
+            .col-12.col-sm-8.col-md-9
+              .row
+                = up.input :username, autofocus: true, input_html: { autocomplete: 'username' }
+                = up.input :first_name, wrapper: :md6
+                = up.input :last_name, wrapper: :md6
+                = up.input :bio
+                = f.input :email, autocomplete: 'email'
+                - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                  .col-12.text-danger.small.mb-4
+                    = t('views.users.registrations.edit.pending_confirmation', email: resource.unconfirmed_email)
+              .text-right
+                = f.submit i18n('submit_account'), class: 'btn btn-primary', commit: 'update-profile' # @TODO: replace_with
+
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  .col-12.col-lg-9
+    .card.mb-4
+      .card-header
+        = i18n 'password_card_header'
+      .card-body
+        .row
+          .col-12
+            .row
+              = f.input :current_password, autocomplete: 'password'
+              = f.input :password, autocomplete: 'new-password'
+              = f.input :password_confirmation, autocomplete: 'new-password'
+            .text-right
+              = f.submit i18n('submit_password'), class: 'btn btn-primary', name: Users::RegistrationsController::UPDATE_PASSWORD_COMMIT # @TODO: replace_with
+
+
+-#@TODO: i18n
+  %h2
+    Edit #{resource_name.to_s.humanize}
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+    = render "devise/shared/error_messages"
+    .field
+      = f.label :email
       %br/
-      %em
-        = @minimum_password_length
-        characters minimum
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .field
-    = f.label :current_password
-    %i (we need your current password to confirm your changes)
-    %br/
-    = f.password_field :current_password, autocomplete: "current-password"
-  .actions
-    = f.submit "Update"
-%h3 Cancel my account
-%p
-  Unhappy? #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
-= link_to "Back", :back
+      = f.email_field :email, autofocus: true, autocomplete: "email"
+    - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+      %div
+        Currently waiting confirmation for: #{resource.unconfirmed_email}
+    .field
+      = f.label :password
+      %i (leave blank if you don't want to change it)
+      %br/
+      = f.password_field :password, autocomplete: "new-password"
+      - if @minimum_password_length
+        %br/
+        %em
+          = @minimum_password_length
+          characters minimum
+    .field
+      = f.label :password_confirmation
+      %br/
+      = f.password_field :password_confirmation, autocomplete: "new-password"
+    .field
+      = f.label :current_password
+      %i (we need your current password to confirm your changes)
+      %br/
+      = f.password_field :current_password, autocomplete: "current-password"
+    .actions
+      = f.submit "Update"
+  %h3 Cancel my account
+  %p
+    Unhappy? #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
+  = link_to "Back", :back

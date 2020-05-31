@@ -52,7 +52,7 @@ SimpleForm.setup do |config|
   #
   # vertical default_wrapper
   config.wrappers :vertical_form, tag: 'div', class: 'form-group col-12', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
-    b.use :html5
+    b.use :html5 if Rails.env.production?
     b.use :placeholder
     b.optional :maxlength
     b.optional :minlength
@@ -69,7 +69,7 @@ SimpleForm.setup do |config|
     1.upto(12) do |col|
       class_name = width.presence.nil? ? "col-#{col}" : "col-#{width}-#{col}"
       config.wrappers "#{width}#{col}".to_sym, tag: 'div', class: "form-group #{class_name}", error_class: 'has-error' do |b|
-        b.use :html5
+        b.use :html5 if Rails.env.production?
         b.use :placeholder
         b.use :label, class: 'small mb-1'
 

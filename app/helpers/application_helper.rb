@@ -28,17 +28,20 @@ module ApplicationHelper
     class_names.join(' ')
   end
 
-  def t(path)
+  def i18n(path)
     I18n.t "#{i18n_path_prefix}.#{path}"
   end
 
   private def i18n_path_prefix
     action = params[:action]
-    action = 'new' if ['create', 'update'].include? action
+    action = 'new' if ['create'].include? action
+    action = 'edit' if ['update'].include? action
     if I18n.exists?("views.#{params[:controller].gsub '/', '.'}.#{action}")
       "views.#{params[:controller].gsub '/', '.'}.#{action}"
-    else
+    elsif I18n.exists?("views.#{params[:controller].gsub '/', '.'}.new")
       "views.#{params[:controller].gsub '/', '.'}.new"
+    elsif I18n.exists?("views.#{params[:controller].gsub '/', '.'}.index")
+      "views.#{params[:controller].gsub '/', '.'}.index"
     end
   end
 end

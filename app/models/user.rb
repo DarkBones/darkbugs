@@ -9,7 +9,16 @@ class User < ApplicationRecord
 
   # -- Validations --------------------------------------------------------
   validates_presence_of :email
-  validates_presence_of :password
-  validates_presence_of :password_confirmation
+  validates_presence_of :password, on: create
+  validates_presence_of :password_confirmation, on: create
   validates_presence_of :user_profile
+
+  # -- Instance Methods --------------------------------------------------------
+  def name
+    user_profile.username
+  end
+
+  def avatar
+    'default_profile_picture.png'
+  end
 end

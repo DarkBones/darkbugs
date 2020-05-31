@@ -1,3 +1,13 @@
 - if resource.errors.any?
-  .text-danger.mb-3
+  .col-12
+    .text-danger.mb-3
     = resource.errors.full_messages.join (', ')
+- if defined?(include_flash) && include_flash
+  - if flash[:alert].present?
+    .col-12
+      .text-danger.mb-3
+        = flash[:alert]
+  - elsif flash[:notice].present?
+    .col-12
+      .text-success.mb-3
+        = flash[:notice]
