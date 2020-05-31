@@ -2,6 +2,8 @@ require 'test_helper'
 
 module Users
   class ConfirmationsControllerTest < ActionController::TestCase
+    include Devise::Test::ControllerHelpers
+
     def setup
       @user = users(:default)
       @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -33,8 +35,6 @@ module Users
     def test_create
       user = users(:unconfirmed)
       params = { user: { email: user.email } }
-
-      puts user.confirmation_token
 
       post :create, params: params
       assert_response :redirect

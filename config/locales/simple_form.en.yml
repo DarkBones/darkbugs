@@ -16,6 +16,7 @@ en:
         email: Email
         password: Password
         password_confirmation: Password confirmation
+        current_password: Current password
         remember_me: Remember me
         first_name: First name
         last_name: Last name
@@ -25,6 +26,7 @@ en:
         email: Enter email address
         password: Enter password
         password_confirmation: Confirm password
+        current_password: Your current password
         first_name: Your first name
         last_name: Your last name
         username: Pick a username

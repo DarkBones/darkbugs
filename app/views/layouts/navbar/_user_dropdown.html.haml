@@ -1,0 +1,23 @@
+%li.nav-item.dropdown.no-caret.mr-3.dropdown-user
+  .dropdown.show
+    %li.nav-item.dropdown.no-caret.mr-3.dropdown-user
+      %a#navbarDropdownUserImage.btn.btn-icon.btn-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "javascript:void(0);", :role => "button"}
+        = image_tag @user.avatar, class: 'img-fluid'
+      .dropdown-menu.dropdown-menu-right.border-0.shadow.animated--fade-in-up{"aria-labelledby" => "navbarDropdownUserImage"}
+        %h6.dropdown-header.d-flex.align-items-center
+          = image_tag @user.avatar, class: 'dropdown-user-img'
+          .dropdown-user-details
+            .dropdown-user-details-name
+              = @user.name
+            .dropdown-user-details-email
+              = @user.email
+        .dropdown-divider
+        = link_to edit_user_registration_path, class: 'dropdown-item' do
+          .dropdown-item-icon
+            %i.fa.fa-cog
+          = t 'views.devise.edit_account'
+        = link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do
+          .dropdown-item-icon
+            %i.fa.fa-sign-out-alt
+          = t 'views.devise.logout'
+

@@ -3,3 +3,9 @@
   %button.btn.btn-transparent-dark.order-1.order-lg-0.mr-lg-2#sidebarToggle
     %i.fa.fa-bars.fa-lg
   = render partial: 'layouts/navbar/links'
+
+:javascript
+  $('#sidebarToggle').on('click', function (e) {
+    e.preventDefault();
+    $('body').toggleClass('sidenav-toggled');
+  });
