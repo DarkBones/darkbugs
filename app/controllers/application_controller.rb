@@ -5,4 +5,8 @@ class ApplicationController < ActionController::Base
   private def set_user
     @user = current_user
   end
+
+  private def clear_flash
+    flash.discard if request.xhr?
+  end
 end
