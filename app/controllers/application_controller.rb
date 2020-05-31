@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_user
+  after_action :clear_flash
 
   private def set_user
     @user = current_user
