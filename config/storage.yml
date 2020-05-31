@@ -6,6 +6,12 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+azure:
+  service: AzureStorage
+  storage_account_name: <%= Rails.application.credentials.dig(:azure_storage, :account_name) %>
+  storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :access_key) %>
+  container: <%= Rails.application.credentials.dig(:azure_storage, :container) %>
+
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

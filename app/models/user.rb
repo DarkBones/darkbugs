@@ -19,6 +19,6 @@ class User < ApplicationRecord
   end
 
   def avatar
-    'default_profile_picture.png'
+    user_profile.avatar || 'default_profile_picture.png'
   end
 end
