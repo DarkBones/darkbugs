@@ -43,6 +43,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   private def update_resource(resource, resource_params)
+    puts 1/0
     if params[UPDATE_PASSWORD_COMMIT].present?
       super
     else
