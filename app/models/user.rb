@@ -1,7 +1,9 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable, :lockable, stretches: 13
+  :recoverable, :rememberable, :validatable,
+  :confirmable, :lockable, stretches: 13
+
+  include Rails.application.routes.url_helpers
 
   # -- Relationships --------------------------------------------------------
   has_one :user_profile, dependent: :destroy
@@ -13,12 +15,24 @@ class User < ApplicationRecord
   validates_presence_of :password_confirmation, on: create
   validates_presence_of :user_profile
 
+  # -- Constants ---------------------------------------------------------------
+  DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
+
   # -- Instance Methods --------------------------------------------------------
   def name
     user_profile.username
   end
 
   def avatar
-    user_profile.avatar || 'default_profile_picture.png'
+    return DEFAULT_PROFILE_PICTURE if user_profile.avatar.attachment.nil?
+    user_profile.avatar || DEFAULT_PROFILE_PICTURE
+  end
+
+  def avatar_path
+    if user_profile.avatar.attachment.present?
+      rails_blob_path(user_profile.avatar, disposition: 'attachment', only_path: true)
+    else
+      ActionController::Base.helpers.asset_path(DEFAULT_PROFILE_PICTURE)
+    end
   end
 end
