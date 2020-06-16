@@ -26,7 +26,7 @@
               .text-right
                 = f.submit i18n('submit_account'), class: 'btn btn-primary', commit: 'update-profile' # @TODO: replace_with
 
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: 'edit_password' }) do |f|
   .col-12.col-lg-9
     .card.mb-4
       .card-header
