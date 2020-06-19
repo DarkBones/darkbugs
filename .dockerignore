@@ -1,2 +1,2 @@
-/config/master.key
-/config/k8s/secret*
+config/master.key
+config/k8s/secret*
