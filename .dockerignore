@@ -1,2 +1,2 @@
 /config/master.key
-/config/kube/secret.yaml
+/config/k8s/secret*
