@@ -4,28 +4,40 @@ import axios from 'axios'
 
 export default class InputFile extends React.Component {
 
-  state = {
-    file: {}
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      file: {}
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   onChange = (e) => {
+    console.log('onChange')
     e.persist()
-    this.setState(() => {
-      return {
-        [e.target.name]: e.target.files[0]
-      }
+    this.setState({
+      file: e.target.files[0]
+    }, function(){
+      console.log(this.state.file)
     })
   }
 
   onSubmit = (e) => {
     e.preventDefault()
-    const form = new FormData()
-    form.append("file", this.state.file)
-    // fetch(`http://localhost:4000/uploads`, {
-    //   method: "POST",
-    //   body: form
-    // })
-    axios.post(`http://localhost:4000/uploads`, {params: form})
+    const token = document.querySelector('[name=csrf-token]').content
+    const formData = new FormData();
+
+    formData.append("file", this.state.file)
+
+    console.log(formData)
+    console.log('fetch')
+
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = token
+
+    axios.post(`http://localhost:4000/uploads`, formData)
       .then(resp => console.log(resp))
       .catch(error => console.log(error))
   }
