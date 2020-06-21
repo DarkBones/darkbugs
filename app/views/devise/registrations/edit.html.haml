@@ -12,7 +12,7 @@
             .col-12.col-sm-4.col-md-3
               .row
                 .col-12
-                  = react_component('file_uploader/InputFile', src: @user.avatar_path, sourceInputName: "user[user_profile_attributes][avatar]", buttonText: i18n('upload_image'))
+                  = react_component('file_uploader/InputFile', src: @user.avatar_path, buttonText: i18n('upload_image'), fileType: 'image/jpeg, image/png')
                   -# = up.file_field :avatar
             .col-12.col-sm-8.col-md-9
               .row
