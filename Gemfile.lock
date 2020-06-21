@@ -69,6 +69,13 @@ GEM
       faraday (~> 0.9)
       faraday_middleware (~> 0.10)
       nokogiri (~> 1.6, >= 1.6.8)
+    azure-storage-blob (1.1.0)
+      azure-core (~> 0.1.13)
+      azure-storage-common (~> 1.0)
+      nokogiri (~> 1.6, >= 1.6.8)
+    azure-storage-common (1.1.0)
+      azure-core (~> 0.1.13)
+      nokogiri (~> 1.6, >= 1.6.8)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -329,6 +336,7 @@ PLATFORMS
 DEPENDENCIES
   activestorage (>= 6.0.3.1)
   azure-storage (~> 0.15.0.preview)
+  azure-storage-blob
   bootsnap (>= 1.4.2)
   bootstrap-sass
   byebug
