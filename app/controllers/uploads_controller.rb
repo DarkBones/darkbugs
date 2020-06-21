@@ -3,6 +3,8 @@ class UploadsController < ApplicationController
     puts '-------------------------------------------'
     puts '-------------------------------------------'
     puts params
+    puts params.class.name
+    puts params.to_yaml
     puts '==========================================='
     puts '==========================================='
   end
