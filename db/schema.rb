@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_161048) do
+ActiveRecord::Schema.define(version: 2020_05_31_191044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,15 +34,6 @@ ActiveRecord::Schema.define(version: 2020_06_21_161048) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "uploads", force: :cascade do |t|
-    t.string "owner_table"
-    t.integer "owner_id"
-    t.string "owner_field"
-    t.string "path"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "user_profiles", force: :cascade do |t|
@@ -76,8 +67,6 @@ ActiveRecord::Schema.define(version: 2020_06_21_161048) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "api_key"
-    t.index ["api_key"], name: "index_users_on_api_key"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
