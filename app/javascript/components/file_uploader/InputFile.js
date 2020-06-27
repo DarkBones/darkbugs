@@ -8,20 +8,20 @@ export default class InputFile extends React.Component {
     super(props);
 
     this.state = {
-      file: {}
+      file: {},
+      placeholder: this.props.src
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.triggerUploadInput = this.triggerUploadInput.bind(this)
   }
 
   onChange = (e) => {
-    console.log('onChange')
     e.persist()
     this.setState({
-      file: e.target.files[0]
-    }, function(){
-      console.log(this.state.file)
+      file: e.target.files[0],
+      placeholder: URL.createObjectURL(e.target.files[0])
     })
   }
 
@@ -32,9 +32,6 @@ export default class InputFile extends React.Component {
 
     formData.append("file", this.state.file)
 
-    console.log(formData)
-    console.log('fetch')
-
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token
 
     axios.post(`http://localhost:4000/uploads`, formData)
@@ -42,16 +39,47 @@ export default class InputFile extends React.Component {
       .catch(error => console.log(error))
   }
 
+  triggerUploadInput = () => {
+    document.getElementById(`${this.props.id}FileInput`).click()
+  }
+
   render() {
-    // alert(document.querySelector('[name=csrf-token]').content);
     return (
       <div className="form">
-        <h1>New Upload</h1>
+        <div
+        className="media">
+          <img
+            src={this.state.placeholder}
+            className="img-fluid"
+            />
+          <div
+            className="dropdown"
+            id={`${this.props.id}EditDropdown`}>
+            <button
+              className="btn btn-dark dropdown-toggle"
+              type="button"
+              id={`${this.props.id}EditDropdownButton`}
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
+              Edit
+            </button>
+            <div
+              className="dropdown-menu"
+              aria-labelledby={`${this.props.id}EditDropdownButton`}>
+              <a
+                className="dropdown-item clickable"
+                onClick={this.triggerUploadInput}>
+                Upload Image
+              </a>
+              <a className="dropdown-item">Remove</a>
+            </div>
+          </div>
+        </div>
         <form onSubmit={this.onSubmit}>
-          <label>Image Upload</label>
-          <input type="file" name="file" onChange={this.onChange} accept={this.props.fileType}/>
+          <input className="hidden" type="file" name="file" onChange={this.onChange} accept={this.props.fileType} id={`${this.props.id}FileInput`}/>
           <br/>
-          <input type="submit"/>
+          <input type="submit" className="btn btn-primary" />
         </form>
       </div>
     )
@@ -59,5 +87,7 @@ export default class InputFile extends React.Component {
 }
 
 InputFile.propTypes = {
-  fileType: PropTypes.string.isRequired
+  fileType: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  src: PropTypes.string
 }
