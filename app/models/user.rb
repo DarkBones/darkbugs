@@ -24,12 +24,13 @@ class User < ApplicationRecord
   end
 
   def avatar
-    return DEFAULT_PROFILE_PICTURE if user_profile.avatar.attachment.nil?
+    return DEFAULT_PROFILE_PICTURE unless user_profile.avatar.attached?
+
     user_profile.avatar || DEFAULT_PROFILE_PICTURE
   end
 
   def avatar_path
-    if user_profile.avatar.attachment.present?
+    if user_profile.avatar.attached?
       rails_blob_path(user_profile.avatar, disposition: 'attachment', only_path: true)
     else
       ActionController::Base.helpers.asset_path(DEFAULT_PROFILE_PICTURE)
