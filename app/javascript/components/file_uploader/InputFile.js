@@ -45,7 +45,14 @@ export default class InputFile extends React.Component {
         <Preview file={this.state.placeholder} />
         <EditButton id={this.props.id} />
         <form onSubmit={this.onSubmit}>
-          <input className='hidden' type='file' name='file' onChange={this.onChange} accept={this.props.fileType} id={`${this.props.id}FileInput`}/>
+          <input
+            className='hidden'
+            type='file'
+            name='file'
+            onChange={this.onChange}
+            accept={this.props.fileType}
+            id={`${this.props.id}FileInput`}
+          />
           {button}
         </form>
       </div>
