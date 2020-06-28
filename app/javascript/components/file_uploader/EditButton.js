@@ -6,26 +6,26 @@ export default function EditButton(props) {
   }
 
   return <div
-    className="dropdown mt-n5 ml-2"
+    className='dropdown mt-n5 ml-2'
     id={`${props.id}EditDropdown`}>
     <button
-      className="btn btn-dark dropdown-toggle py-1 px-2"
-      type="button"
+      className='btn btn-dark dropdown-toggle py-1 px-2'
+      type='button'
       id={`${props.id}EditDropdownButton`}
-      data-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false">
+      data-toggle='dropdown'
+      aria-haspopup='true'
+      aria-expanded='false'>
       Edit
     </button>
     <div
-      className="dropdown-menu"
+      className='dropdown-menu'
       aria-labelledby={`${props.id}EditDropdownButton`}>
       <a
-        className="dropdown-item clickable"
+        className='dropdown-item clickable'
         onClick={triggerUploadInput}>
         Upload Image
       </a>
-      <a className="dropdown-item">Remove</a>
+      <a className='dropdown-item'>Remove</a>
     </div>
   </div>
 }
