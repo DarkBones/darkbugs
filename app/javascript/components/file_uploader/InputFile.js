@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import UploadFile from './UploadFile'
 import Preview from './Preview'
+import EditButton from "./EditButton"
 
 export default class InputFile extends React.Component {
 
@@ -16,7 +17,7 @@ export default class InputFile extends React.Component {
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.triggerUploadInput = this.triggerUploadInput.bind(this)
+    // this.triggerUploadInput = this.triggerUploadInput.bind(this)
   }
 
   onChange = (e) => {
@@ -33,10 +34,6 @@ export default class InputFile extends React.Component {
     UploadFile(this.state.file)
   }
 
-  triggerUploadInput = () => {
-    document.getElementById(`${this.props.id}FileInput`).click()
-  }
-
   render() {
     const showSubmit = this.state.showSubmit
     let button
@@ -47,29 +44,7 @@ export default class InputFile extends React.Component {
     return (
       <div className="form">
         <Preview file={this.state.placeholder} />
-        <div
-          className="dropdown mt-n5 ml-2"
-          id={`${this.props.id}EditDropdown`}>
-          <button
-            className="btn btn-dark dropdown-toggle py-1 px-2"
-            type="button"
-            id={`${this.props.id}EditDropdownButton`}
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false">
-            Edit
-          </button>
-          <div
-            className="dropdown-menu"
-            aria-labelledby={`${this.props.id}EditDropdownButton`}>
-            <a
-              className="dropdown-item clickable"
-              onClick={this.triggerUploadInput}>
-              Upload Image
-            </a>
-            <a className="dropdown-item">Remove</a>
-          </div>
-        </div>
+        <EditButton id={this.props.id} />
         <form onSubmit={this.onSubmit}>
           <input className="hidden" type="file" name="file" onChange={this.onChange} accept={this.props.fileType} id={`${this.props.id}FileInput`}/>
           {button}
