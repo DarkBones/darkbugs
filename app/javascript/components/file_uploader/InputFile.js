@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UploadFile from './UploadFile'
+import uploadFile from './uploadFile'
 import Preview from './Preview'
-import EditButton from "./EditButton"
+import EditButton from './EditButton'
 
 export default class InputFile extends React.Component {
 
@@ -17,7 +17,6 @@ export default class InputFile extends React.Component {
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    // this.triggerUploadInput = this.triggerUploadInput.bind(this)
   }
 
   onChange = (e) => {
@@ -31,22 +30,22 @@ export default class InputFile extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    UploadFile(this.state.file)
+    uploadFile(this.state.file)
   }
 
   render() {
     const showSubmit = this.state.showSubmit
     let button
     if (showSubmit) {
-      button = <input type="submit" className="btn btn-primary" id={`${this.props.id}Submit`}/>
+      button = <input type='submit' className='btn btn-primary' id={`${this.props.id}Submit`}/>
     }
 
     return (
-      <div className="form">
+      <div className='form'>
         <Preview file={this.state.placeholder} />
         <EditButton id={this.props.id} />
         <form onSubmit={this.onSubmit}>
-          <input className="hidden" type="file" name="file" onChange={this.onChange} accept={this.props.fileType} id={`${this.props.id}FileInput`}/>
+          <input className='hidden' type='file' name='file' onChange={this.onChange} accept={this.props.fileType} id={`${this.props.id}FileInput`}/>
           {button}
         </form>
       </div>
