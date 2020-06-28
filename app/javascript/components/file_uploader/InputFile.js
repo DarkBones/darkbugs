@@ -37,7 +37,11 @@ export default class InputFile extends React.Component {
     const showSubmit = this.state.showSubmit
     let button
     if (showSubmit) {
-      button = <input type='submit' className='btn btn-primary' id={`${this.props.id}Submit`}/>
+      button = <input
+        type='submit'
+        className='btn btn-primary mt-4'
+        id={`${this.props.id}Submit`}
+      />
     }
 
     return (
