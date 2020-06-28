@@ -9,7 +9,8 @@ export default class InputFile extends React.Component {
 
     this.state = {
       file: {},
-      placeholder: this.props.src
+      placeholder: this.props.src,
+      showSubmit: false
     }
 
     this.onChange = this.onChange.bind(this)
@@ -21,7 +22,8 @@ export default class InputFile extends React.Component {
     e.persist()
     this.setState({
       file: e.target.files[0],
-      placeholder: URL.createObjectURL(e.target.files[0])
+      placeholder: URL.createObjectURL(e.target.files[0]),
+      showSubmit: true
     })
   }
 
@@ -44,6 +46,12 @@ export default class InputFile extends React.Component {
   }
 
   render() {
+    const showSubmit = this.state.showSubmit
+    let button
+    if (showSubmit) {
+      button = <input type="submit" className="btn btn-primary" id={`${this.props.id}Submit`}/>
+    }
+
     return (
       <div className="form">
         <div
@@ -52,11 +60,12 @@ export default class InputFile extends React.Component {
             src={this.state.placeholder}
             className="img-fluid"
             />
+        </div>
           <div
-            className="dropdown"
+            className="dropdown mt-n5 ml-2"
             id={`${this.props.id}EditDropdown`}>
             <button
-              className="btn btn-dark dropdown-toggle"
+              className="btn btn-dark dropdown-toggle py-1 px-2"
               type="button"
               id={`${this.props.id}EditDropdownButton`}
               data-toggle="dropdown"
@@ -75,11 +84,9 @@ export default class InputFile extends React.Component {
               <a className="dropdown-item">Remove</a>
             </div>
           </div>
-        </div>
         <form onSubmit={this.onSubmit}>
           <input className="hidden" type="file" name="file" onChange={this.onChange} accept={this.props.fileType} id={`${this.props.id}FileInput`}/>
-          <br/>
-          <input type="submit" className="btn btn-primary" />
+          {button}
         </form>
       </div>
     )
