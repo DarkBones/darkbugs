@@ -14,18 +14,25 @@ export default function EditButton(props) {
       id={`${props.id}EditDropdownButton`}
       data-toggle='dropdown'
       aria-haspopup='true'
-      aria-expanded='false'>
+      aria-expanded='false'
+    >
       Edit
     </button>
     <div
       className='dropdown-menu'
-      aria-labelledby={`${props.id}EditDropdownButton`}>
+      aria-labelledby={`${props.id}EditDropdownButton`}
+    >
       <a
         className='dropdown-item clickable'
-        onClick={triggerUploadInput}>
+        onClick={triggerUploadInput}
+      >
         Upload Image
       </a>
-      <a className='dropdown-item'>Remove</a>
+      <a
+        className='dropdown-item'
+      >
+        Remove
+      </a>
     </div>
   </div>
 }

@@ -29,10 +29,12 @@ export default function Preview(props) {
 
   return <div
     className='box'
-    style={boxStyle}>
+    style={boxStyle}
+    >
     <div
       className='media rounded'
-      style={mediaStyle}>
+      style={mediaStyle}
+    >
       <img
         src={props.file}
         className='img'
