@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
+import UploadFile from './UploadFile'
 
 export default class InputFile extends React.Component {
 
@@ -29,16 +29,7 @@ export default class InputFile extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const token = document.querySelector('[name=csrf-token]').content
-    const formData = new FormData();
-
-    formData.append("file", this.state.file)
-
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = token
-
-    axios.post(`http://localhost:4000/uploads`, formData)
-      .then(resp => console.log(resp))
-      .catch(error => console.log(error))
+    UploadFile(this.state.file)
   }
 
   triggerUploadInput = () => {
