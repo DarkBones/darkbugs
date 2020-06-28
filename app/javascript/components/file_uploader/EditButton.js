@@ -9,14 +9,16 @@ export default function EditButton(props) {
     className='dropdown mt-n5 ml-2'
     id={`${props.id}EditDropdown`}>
     <button
-      className='btn btn-dark dropdown-toggle py-1 px-2'
+      className='btn btn-dark dropdown-toggle py-1 px-2 small'
       type='button'
       id={`${props.id}EditDropdownButton`}
       data-toggle='dropdown'
       aria-haspopup='true'
       aria-expanded='false'
     >
-      Edit
+      <small>
+        Edit
+      </small>
     </button>
     <div
       className='dropdown-menu'
