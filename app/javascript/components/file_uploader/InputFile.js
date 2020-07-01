@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import uploadFile from './uploadFile'
 import Preview from './Preview'
 import EditButton from './EditButton'
+import { useTranslation } from 'react-i18next';
+import {i18n as i18next} from "i18next";
 
 export default class InputFile extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       file: {},
       placeholder: this.props.src,
@@ -34,7 +35,10 @@ export default class InputFile extends React.Component {
     window.location.reload(false)
   }
 
+  // const {t, i18n} = useTranslation();
+  // const t = useTranslation();
   render() {
+
     const showSubmit = this.state.showSubmit
     let button
     if (showSubmit) {
@@ -47,6 +51,7 @@ export default class InputFile extends React.Component {
 
     return (
       <div className='form'>
+        {i18next.t('javascript.components.test')}
         <Preview file={this.state.placeholder} />
         <EditButton id={this.props.id} />
         <form onSubmit={this.onSubmit}>
