@@ -9,5 +9,5 @@ export default async function uploadFile(file) {
 
   axios.defaults.headers.common['X-CSRF-TOKEN'] = token
 
-  return axios.post(`http://localhost:4000/uploads`, formData)
+  return axios.post(`http://localhost:4000/uploads/user_avatar`, formData)
 }
