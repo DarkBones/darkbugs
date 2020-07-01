@@ -31,7 +31,9 @@ export default class InputFile extends React.Component {
   async onSubmit(e) {
     e.preventDefault()
     const resp = await uploadFile(this.state.file)
-    window.location.reload(false)
+    this.setState({
+      showSubmit: false
+    })
   }
 
   render() {
