@@ -31,7 +31,8 @@ export default function EditButton(props) {
         Upload Image
       </a>
       <a
-        className='dropdown-item'
+        className='dropdown-item clickable'
+        onClick={props.onRemove}
       >
         Remove
       </a>

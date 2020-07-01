@@ -33,7 +33,11 @@ class User < ApplicationRecord
     if user_profile.avatar.attached?
       rails_blob_path(user_profile.avatar, disposition: 'attachment', only_path: true)
     else
-      ActionController::Base.helpers.asset_path(DEFAULT_PROFILE_PICTURE)
+      avatar_placeholder_path
     end
+  end
+
+  def avatar_placeholder_path
+    ActionController::Base.helpers.asset_path(DEFAULT_PROFILE_PICTURE)
   end
 end
