@@ -12,7 +12,7 @@
             .col-12.col-sm-4.col-md-3
               .row
                 .col-12
-                  = react_component('file_uploader/InputFile', src: @user.avatar_path, buttonText: i18n('upload_image'), fileType: 'image/jpeg, image/png', id: 'avatar')
+                  = react_component('file_uploader/FileUploader', src: @user.avatar_path, buttonText: i18n('upload_image'), fileType: 'image/jpeg, image/png', id: 'avatar')
             .col-12.col-sm-8.col-md-9
               .row
                 = up.input :username, autofocus: true, input_html: { autocomplete: 'username' }

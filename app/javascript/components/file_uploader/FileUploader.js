@@ -1,12 +1,11 @@
 import React from 'react'
+import i18n from '../../i18n'
 import PropTypes from 'prop-types'
 import uploadFile from './uploadFile'
 import Preview from './Preview'
 import EditButton from './EditButton'
-import { useTranslation } from 'react-i18next';
-import {i18n as i18next} from "i18next";
 
-export default class InputFile extends React.Component {
+export default class FileUploader extends React.Component {
 
   constructor(props) {
     super(props);
@@ -35,10 +34,7 @@ export default class InputFile extends React.Component {
     window.location.reload(false)
   }
 
-  // const {t, i18n} = useTranslation();
-  // const t = useTranslation();
   render() {
-
     const showSubmit = this.state.showSubmit
     let button
     if (showSubmit) {
@@ -46,12 +42,12 @@ export default class InputFile extends React.Component {
         type='submit'
         className='btn btn-primary mt-4'
         id={`${this.props.id}Submit`}
+        value={i18n.t('components.file_uploader.FileUploader.submit')}
       />
     }
 
     return (
       <div className='form'>
-        {i18next.t('javascript.components.test')}
         <Preview file={this.state.placeholder} />
         <EditButton id={this.props.id} />
         <form onSubmit={this.onSubmit}>
@@ -70,7 +66,7 @@ export default class InputFile extends React.Component {
   }
 }
 
-InputFile.propTypes = {
+FileUploader.propTypes = {
   fileType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   src: PropTypes.string
