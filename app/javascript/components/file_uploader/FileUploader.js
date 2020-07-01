@@ -1,11 +1,12 @@
 import React from 'react'
+import i18n from '../../i18n'
 import PropTypes from 'prop-types'
 import uploadFile from './uploadFile'
 import removeFile from './removeFile'
 import Preview from './Preview'
 import EditButton from './EditButton'
 
-export default class InputFile extends React.Component {
+export default class FileUploader extends React.Component {
 
   constructor(props) {
     super(props)
@@ -58,6 +59,7 @@ export default class InputFile extends React.Component {
         type='submit'
         className='btn btn-primary mt-4'
         id={`${this.props.id}Submit`}
+        value={i18n.t('components.file_uploader.FileUploader.submit')}
       />
     }
 
@@ -84,7 +86,7 @@ export default class InputFile extends React.Component {
   }
 }
 
-InputFile.propTypes = {
+FileUploader.propTypes = {
   fileType: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   src: PropTypes.string,
