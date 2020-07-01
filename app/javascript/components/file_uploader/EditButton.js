@@ -1,4 +1,5 @@
 import React from 'react'
+import i18n from "../../i18n";
 
 export default function EditButton(props) {
   function triggerUploadInput () {
@@ -17,7 +18,7 @@ export default function EditButton(props) {
       aria-expanded='false'
     >
       <small>
-        Edit
+        {i18n.t('components.file_uploader.FileUploader.EditButton.button')}
       </small>
     </button>
     <div
@@ -28,12 +29,12 @@ export default function EditButton(props) {
         className='dropdown-item clickable'
         onClick={triggerUploadInput}
       >
-        Upload Image
+        {i18n.t('components.file_uploader.FileUploader.EditButton.options.upload')}
       </a>
       <a
         className='dropdown-item'
       >
-        Remove
+        {i18n.t('components.file_uploader.FileUploader.EditButton.options.delete')}
       </a>
     </div>
   </div>
