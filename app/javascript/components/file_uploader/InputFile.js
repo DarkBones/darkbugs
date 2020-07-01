@@ -8,7 +8,7 @@ import EditButton from './EditButton'
 export default class InputFile extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       file: {},
