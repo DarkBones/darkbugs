@@ -64,7 +64,7 @@ export default class FileUploader extends React.Component {
     }
 
     return (
-      <div className='form'>
+      <div className='form mb-4'>
         <Preview file={this.state.preview} />
         <EditButton
           id={this.props.id}
