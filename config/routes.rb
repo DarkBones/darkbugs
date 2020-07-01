@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   resources :uploads, only: [:create]
   resources :users
 
+  get 'locales/:lang/translation.json' => 'translations#show'
+
   root 'home#index'
 end

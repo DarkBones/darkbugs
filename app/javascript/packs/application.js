@@ -7,6 +7,7 @@ import 'stylesheets/application'
 import 'jquery'
 import 'popper.js'
 import 'bootstrap'
+import '../i18n'
 
 window.jQuery = $;
 window.$ = $;
