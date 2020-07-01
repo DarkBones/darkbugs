@@ -39,6 +39,7 @@ en:
           pending_confirmation: "Currently waiting confirmation for: %{email}"
           submit_account: Update Profile
           submit_password: Update Password
+          upload_image: Upload Profile Image
       sessions:
         new:
           title: Login
