@@ -1,0 +1,16 @@
+{
+  "components": {
+    "file_uploader": {
+      "FileUploader": {
+        "submit": "Upload",
+        "EditButton": {
+          "button": "Edit",
+          "options": {
+            "upload": "Upload Image",
+            "delete": "Remove"
+          }
+        }
+      }
+    }
+  }
+}

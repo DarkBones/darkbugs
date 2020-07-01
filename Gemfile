@@ -4,6 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 gem 'activestorage', '>= 6.0.3.1'
+gem 'azure-storage', '~> 0.15.0.preview', require: false
+gem 'azure-storage-blob'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
 gem 'devise', '>= 4.7.1'
@@ -15,6 +17,8 @@ gem 'nested_form'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.0.3'
+gem 'rack-cors'
+gem 'react-rails'
 gem 'sass-rails', '>= 6'
 gem 'simple_form'
 gem 'sprockets-rails', '>= 2.3.2'
