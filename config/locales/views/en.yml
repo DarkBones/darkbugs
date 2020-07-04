@@ -9,6 +9,12 @@ en:
     devise:
       edit_account: Account
       logout: Logout
+    organizations:
+      new:
+        title: New Organization
+        title_sub: Create your own team
+        card_header: New Organization
+        submit: Create Organization
     users:
       confirmations:
         new:
@@ -33,7 +39,7 @@ en:
           existing_account: Already have an account? Login!
         edit:
           title: Edit Account
-          title_sub: Edit your account and profile here
+          title_sub: Edit your account and profile
           profile_card_header: Profile
           password_card_header: Password
           pending_confirmation: "Currently waiting confirmation for: %{email}"

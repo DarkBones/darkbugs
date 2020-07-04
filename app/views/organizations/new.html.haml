@@ -1,0 +1,14 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users' }
+
+= simple_form_for(@organization, html: { method: :post }) do |f|
+  .col-12.col-lg-9
+    .card.mb-4
+      .card-header
+        = i18n 'card_header'
+      .card-body
+        .row
+          .col-12
+            .row
+              = f.input :name
+            .text-right
+              = f.submit i18n('submit'), class: 'btn btn-primary'

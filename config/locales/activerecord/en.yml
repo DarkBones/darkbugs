@@ -2,12 +2,20 @@
 en:
   aliases:
     - &cant_be_blank can't be blank
+    - &already_taken is already taken
   activerecord:
     attributes:
+      organization:
+        name: Name
       user_profile:
         username: Username
     errors:
       models:
+        organization:
+          attributes:
+            name:
+              blank: *cant_be_blank
+              taken: *already_taken
         user:
           attributes:
             email:
