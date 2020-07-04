@@ -20455,6 +20455,12 @@ body {
   background-color: #00ac69;
 }
 
+.btn-icon .avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .btn {
   display: -webkit-inline-box;
   display: inline-flex;
