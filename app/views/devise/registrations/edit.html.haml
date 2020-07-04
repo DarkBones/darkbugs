@@ -6,7 +6,6 @@
       .card-header
         = i18n 'profile_card_header'
       .card-body
-        = render 'devise/shared/error_messages'
         .row
           = f.simple_fields_for :user_profile, :user_profile do |up|
             .col-12.col-sm-4.col-md-3
