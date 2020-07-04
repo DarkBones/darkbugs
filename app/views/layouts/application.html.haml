@@ -14,6 +14,7 @@
       = render partial: 'layouts/sidenav/sidenav'
       #layoutSidenav_content
         %main
+          = render partial: 'layouts/flash_message'
           - if content_for?(:title)
             .page-header.pb-10.page-header-dark.bg-gradient-primary-to-secondary
               .container-fluid

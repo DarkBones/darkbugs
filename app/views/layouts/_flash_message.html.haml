@@ -1,0 +1,20 @@
+:ruby
+  type_classes = {
+    error: 'alert-danger',
+    alert: 'alert-danger',
+    default: 'alert-success'
+  }
+
+  icon_classes = {
+    error: 'fa-exclamation-triangle',
+    alert: 'fa-exclamation-triangle',
+    default: 'fa-check-square'
+  }
+
+- flash.each do |type, message|
+  - type_class = type_classes.key?(type.to_sym) ? type_classes[type.to_sym] : type_classes[:default]
+  - icon_class = icon_classes.key?(type.to_sym) ? icon_classes[type.to_sym] : icon_classes[:default]
+
+  .alert.alert-flash-message{ class: type_class }
+    %i.fa{ class: icon_class }
+    = simple_format(message, {}, wrapper_tag: 'div')

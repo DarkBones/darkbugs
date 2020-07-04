@@ -21,6 +21,8 @@ en:
         first_name: First name
         last_name: Last name
         username: Username
+      organization:
+        name: Name
     placeholders:
       defaults:
         email: Enter email address
@@ -30,3 +32,5 @@ en:
         first_name: Your first name
         last_name: Your last name
         username: Pick a username
+      organization:
+        name: Name your organization / team
