@@ -41,6 +41,18 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:CREATOR], @user.user_organizations.last.role
   end
 
+  def test_slug
+    name = '~!@#$%^&*()+=\test .. slug{}[]:;"''"'
+    post :create, params: {
+      organization: {
+        name: name
+      }
+    }
+
+    organization = Organization.last
+    assert_equal 'test-slut', organization.slug
+  end
+
   def test_create_fail_duplicate_name
     2.times do
       post :create, params: {
