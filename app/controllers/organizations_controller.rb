@@ -2,6 +2,8 @@ class OrganizationsController < ApplicationController
   respond_to :html
   before_action :build_organization, only: %i[new create]
 
+  def index; end
+
   def create
     @user.organizations.create!(create_or_update_params)
   rescue ActiveRecord::RecordInvalid => e
