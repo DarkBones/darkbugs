@@ -10,6 +10,9 @@ en:
       edit_account: Account
       logout: Logout
     organizations:
+      index:
+        title: Organizations
+        title_sub: Your organizations
       new:
         title: New Organization
         title_sub: Create your own team
