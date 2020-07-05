@@ -14,6 +14,9 @@ en:
         title: Organizations
         title_sub: Your organizations
         card_header: Organizations
+        members:
+          one: "%{count} member"
+          other: "%{count} members"
         roles:
           creator: "Created on %{date}"
           admin: "Member since %{date}"
