@@ -43,4 +43,14 @@ class User < ApplicationRecord
   def avatar_placeholder_path
     ActionController::Base.helpers.asset_path(DEFAULT_PROFILE_PICTURE)
   end
+
+  def local_date(time)
+    # TODO: convert to user's timezone
+    time.to_date
+  end
+
+  def local_datetime(time)
+    # TODO: convert to user's timezone
+    time
+  end
 end

@@ -28,8 +28,8 @@ module ApplicationHelper
     class_names.join(' ')
   end
 
-  def i18n(path)
-    I18n.t "#{i18n_path_prefix}.#{path}"
+  def i18n(path, *options)
+    I18n.t "#{i18n_path_prefix}.#{path}", options[0]
   end
 
   private def i18n_path_prefix

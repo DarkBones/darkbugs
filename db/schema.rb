@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_07_05_125949) do
   create_table "user_organizations", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "organization_id"
+    t.integer "role"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["organization_id"], name: "index_user_organizations_on_organization_id"

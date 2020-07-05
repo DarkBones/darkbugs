@@ -13,6 +13,11 @@ en:
       index:
         title: Organizations
         title_sub: Your organizations
+        card_header: Organizations
+        roles:
+          creator: "Created on %{date}"
+          admin: "Member since %{date}"
+          member: "Member since %{date}"
       new:
         title: New Organization
         title_sub: Create your own team
