@@ -1,5 +1,4 @@
 class OrganizationsController < ApplicationController
-  respond_to :html
   before_action :build_organization, only: %i[new create]
 
   def index
