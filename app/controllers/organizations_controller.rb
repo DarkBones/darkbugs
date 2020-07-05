@@ -3,7 +3,7 @@ class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
 
   def create
-    Organization.create!(create_or_update_params)
+    @user.organizations.create!(create_or_update_params)
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:error] = e.message
     render action: :new
