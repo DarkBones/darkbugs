@@ -1,0 +1,5 @@
+= link_to organization_path(organization) do
+  %li
+    = organization.name
+    .small
+      = i18n("roles.#{organization.user_role(@user)}", date: @user.local_date(organization.join_date(@user)))

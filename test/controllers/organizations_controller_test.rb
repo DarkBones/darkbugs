@@ -8,7 +8,19 @@ class OrganizationsControllerTest < ActionController::TestCase
   def test_index
     get :index
 
-    puts response.body.to_yaml
+    names = ['0000 first', 'default', 'test']
+    messages = ['Created on', 'Created on', 'Member since']
+
+    assert_select "ul#organization_list" do |elements|
+      elements.each do |element|
+        assert_select element, "li" do |lis|
+          lis.each_with_index do |li, idx|
+            assert_includes li.text, names[idx]
+            assert_includes li.text, messages[idx]
+          end
+        end
+      end
+    end
   end
 
   def test_create
@@ -26,6 +38,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal 'new-organization', organization.slug
     assert_equal user_organization_count + 1, @user.organizations.count
     assert_equal 1, organization.users.count
+    assert_equal UserOrganization::ROLES[:CREATOR], @user.user_organizations.last.role
   end
 
   def test_create_fail_duplicate_name

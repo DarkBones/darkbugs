@@ -1,11 +1,24 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+default_default:
+  user: default
+  organization: default
+  role: <%= UserOrganization::ROLES[:CREATOR] %>
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+locked_test:
+  user: locked
+  organization: test
+  role: <%= UserOrganization::ROLES[:CREATOR] %>
+
+default_test:
+  user: default
+  organization: test
+  role: <%= UserOrganization::ROLES[:MEMBER] %>
+
+default_first:
+  user: default
+  organization: first
+  role: <%= UserOrganization::ROLES[:CREATOR] %>
+
+locked_first:
+  user: locked
+  organization: first
+  role: <%= UserOrganization::ROLES[:MEMBER] %>

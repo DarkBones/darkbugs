@@ -3,6 +3,7 @@ class CreateUserOrganizations < ActiveRecord::Migration[6.0]
     create_table :user_organizations do |t|
       t.references :user
       t.references :organization
+      t.integer :role
       t.timestamps
     end
   end

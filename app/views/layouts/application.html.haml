@@ -28,5 +28,7 @@
                   .page-header-subtitle.mt-3
                     = yield :title_sub
           .container-fluid.mt-n10
+            - if content_for(:card_header)
+              = render partial: 'layouts/card_layout'
             = yield
         = render partial: 'layouts/footer'
