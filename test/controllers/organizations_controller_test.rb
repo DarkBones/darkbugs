@@ -5,7 +5,14 @@ class OrganizationsControllerTest < ActionController::TestCase
     login
   end
 
+  def test_index
+    get :index
+
+    puts response.body.to_yaml
+  end
+
   def test_create
+    user_organization_count = @user.organizations.count
     post :create, params: {
       organization: {
         name: 'new organization'
@@ -17,9 +24,11 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'new organization', organization.name
     assert_equal 'new-organization', organization.slug
+    assert_equal user_organization_count + 1, @user.organizations.count
+    assert_equal 1, organization.users.count
   end
 
-  def test_create_fail_duplicate
+  def test_create_fail_duplicate_name
     2.times do
       post :create, params: {
         organization: {
@@ -31,5 +40,13 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :new
     assert_includes response.body, 'Name is already taken'
+  end
+
+  def test_create_fail_empty_name
+    post :create
+
+    assert_response :success
+    assert_template :new
+    assert_includes response.body, "Name can't be blank"
   end
 end
