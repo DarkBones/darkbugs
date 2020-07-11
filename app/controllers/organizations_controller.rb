@@ -7,6 +7,7 @@ class OrganizationsController < ApplicationController
 
   def create
     Organization.create!(create_params)
+    redirect_to action: :index
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:error] = e.message
     render action: :new

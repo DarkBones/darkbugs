@@ -15,6 +15,7 @@ en:
         title: Organizations
         title_sub: Your organizations
         card_header: Organizations
+        new_button: New Organization
         members:
           one: "%{count} member"
           other: "%{count} members"
