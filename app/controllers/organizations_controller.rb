@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
-  before_action :load_organization, only: %i[show invite_members create_members]
+  before_action :load_organization, only: %i[show add_members create_members]
 
   def index
     @organizations = @user.organizations.order(:slug)
@@ -18,7 +18,7 @@ class OrganizationsController < ApplicationController
 
   def show; end
 
-  def invite_members; end
+  def add_members; end
 
   def create_members
     raise ArgumentError, I18n.t('controllers.organizations.create_members.no_usernames') unless add_members_params[:usernames].present?
