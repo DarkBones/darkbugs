@@ -43,6 +43,9 @@ en:
         card_header: Add Members
         submit: Add Members
       create_members:
+        title: New Members
+        title_sub: Results of adding members
+        card_header: Results
         username: Username
         status: Status
         statuses:
