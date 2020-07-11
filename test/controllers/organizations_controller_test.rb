@@ -119,4 +119,16 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_includes response.body, 'User is already a member'
     assert_includes response.body, 'User successfully added'
   end
+
+  def test_create_members_non_admin
+    post :create_members, params: {
+      organization_slug: organizations(:test).slug,
+      organization: {
+        usernames: 'test\r\ndefault_username\r\nunconfirmed'
+      }
+    }
+
+    assert_response :bad_request
+    assert_includes response.body, 'Only administrators can add members'
+  end
 end
