@@ -21,7 +21,7 @@ class OrganizationsController < ApplicationController
   def add_members; end
 
   def create_members
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.create_members.unauthorized') if @organization.user_is_admin?(@user)
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.create_members.unauthorized') unless @organization.user_is_admin?(@user)
     raise ArgumentError, I18n.t('controllers.organizations.create_members.no_usernames') unless add_members_params[:usernames].present?
 
     @results = Organizations::AddUsersService.new(@organization, add_members_params[:usernames]).execute
