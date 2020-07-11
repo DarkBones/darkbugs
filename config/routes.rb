@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :users
   resources :organizations, param: :slug, except: [:update, :delete] do
     post :create_members
-    get :invite_members
+    get :add_members
   end
 
   root 'home#index'

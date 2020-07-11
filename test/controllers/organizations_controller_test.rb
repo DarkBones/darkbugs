@@ -87,7 +87,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_invite_members
-    get :new_members, params: { organization_slug: organizations(:default).slug }
+    get :add_members, params: { organization_slug: organizations(:default).slug }
 
     assert_response :success
     assert_template :new_members
