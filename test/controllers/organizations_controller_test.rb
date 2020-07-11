@@ -109,7 +109,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     post :create_members, params: {
       organization_slug: organizations(:default).slug,
       organization: {
-        usernames: "test\r\ndefault_username\r\nunconfirmed"
+        usernames: 'test\r\ndefault_username\r\nunconfirmed'
       }
     }
 
