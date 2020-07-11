@@ -2,6 +2,8 @@
 
 = content_for :card_header do
   = i18n 'card_header'
+= content_for :header_button do
+  = link_to i18n('new_button'), new_organization_path, class: 'btn btn-light'
 = content_for :card_body do
   %ul.list-unstyled#organization_list
     = render @organizations
