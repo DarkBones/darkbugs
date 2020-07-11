@@ -6035,7 +6035,12 @@ input[type=button].btn-block {
   white-space: nowrap;
   background-color: transparent;
   border: 0;
+
+  .dropdown-item-icon {
+    width: 1.5rem;
+  }
 }
+
 
 .dropdown-item:hover, .dropdown-item:focus {
   color: #172130;

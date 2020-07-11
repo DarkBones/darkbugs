@@ -9,6 +9,7 @@ en:
     devise:
       edit_account: Account
       logout: Logout
+      organizations: Organizations
     organizations:
       index:
         title: Organizations

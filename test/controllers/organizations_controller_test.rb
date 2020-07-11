@@ -50,7 +50,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     organization = Organization.last
-    assert_equal 'test-slut', organization.slug
+    assert_equal 'test-slug', organization.slug
   end
 
   def test_create_fail_duplicate_name
