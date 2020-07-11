@@ -21,14 +21,15 @@ class OrganizationsController < ApplicationController
   def add_members; end
 
   def create_members
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.create_members.unauthorized') if @organization.user_is_admin?(@user)
     raise ArgumentError, I18n.t('controllers.organizations.create_members.no_usernames') unless add_members_params[:usernames].present?
 
     @results = Organizations::AddUsersService.new(@organization, add_members_params[:usernames]).execute
 
     render action: :add_members_results
-  rescue ArgumentError => e
+  rescue ArgumentError, ActionController::BadRequest => e
     flash.now[:error] = e.message
-    render action: :invite_members, status: :bad_request
+    render action: :add_members, status: :bad_request
   end
 
   private def build_organization
