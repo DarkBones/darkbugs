@@ -53,4 +53,9 @@ class User < ApplicationRecord
     # TODO: convert to user's timezone
     time
   end
+
+  # -- Class Methods --------------------------------------------------------
+  def self.find_by_username(username)
+    UserProfile.find_by(username: username)&.user
+  end
 end

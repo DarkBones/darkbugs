@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
-  before_action :load_organization, only: :show
+  before_action :load_organization, only: %i[show invite_members create_members]
 
   def index
     @organizations = @user.organizations.order(:slug)
@@ -11,12 +11,25 @@ class OrganizationsController < ApplicationController
     redirect_to action: :index
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:error] = e.message
-    render action: :new
+    render action: :new, status: :bad_request
   end
 
   def new; end
 
   def show; end
+
+  def invite_members; end
+
+  def create_members
+    raise ArgumentError, I18n.t('controllers.organizations.create_members.no_usernames') unless add_members_params[:usernames].present?
+
+    @results = Organizations::AddUsersService.new(@organization, add_members_params[:usernames]).execute
+
+    render action: :add_members_results
+  rescue ArgumentError => e
+    flash.now[:error] = e.message
+    render action: :invite_members, status: :bad_request
+  end
 
   private def build_organization
     @organization = Organization.new(create_params)
@@ -24,7 +37,8 @@ class OrganizationsController < ApplicationController
   end
 
   private def load_organization
-    @organization = @user.organizations.find_by!(slug: params[:slug])
+    slug = params[:slug] || params[:organization_slug]
+    @organization = @user.organizations.find_by!(slug: slug)
   end
 
   private def create_params
@@ -34,5 +48,9 @@ class OrganizationsController < ApplicationController
                                               role: UserOrganization::ROLES[:CREATOR],
                                               user: @user
                                             }])
+  end
+
+  private def add_members_params
+    params.fetch(:organization, {}).permit(:usernames)
   end
 end

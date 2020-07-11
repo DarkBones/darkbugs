@@ -3,3 +3,9 @@ default:
   first_name: Default
   last_name: User
   username: default_username
+
+unconfirmed:
+  user: unconfirmed
+  first_name: un
+  last_name: confirmed
+  username: unconfirmed
