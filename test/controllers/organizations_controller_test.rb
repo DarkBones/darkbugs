@@ -115,6 +115,8 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template :add_members_results
-    puts @response.body.to_yaml
+    assert_includes response.body, 'User doesn&#39;t exist'
+    assert_includes response.body, 'User is already a member'
+    assert_includes response.body, 'User successfully added'
   end
 end
