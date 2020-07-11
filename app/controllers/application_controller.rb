@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   private def load_organization
     if request.subdomain.present?
-      @org = Organization.find_by!(slug: request.subdomain)
+      @org = current_user.organizations.find_by!(slug: request.subdomain)
     else
       @org = current_user
     end
