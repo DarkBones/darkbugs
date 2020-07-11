@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class OrganizationsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
+
   def setup
-    login
+    @user = users(:default)
+    @request.env['HTTP_HOST'] = 'host'
+    sign_in @user
   end
 
   def test_index
@@ -33,7 +37,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     organization = Organization.last
 
-    assert_response :success
+    assert_response :redirect
     assert_equal 'new organization', organization.name
     assert_equal 'new-organization', organization.slug
     assert_equal user_organization_count + 1, @user.organizations.count
