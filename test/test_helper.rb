@@ -15,6 +15,10 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
+  setup do
+    @request.env['HTTP_HOST'] = 'host'
+  end
+
   def login
     @user = users(:default)
     sign_in @user
