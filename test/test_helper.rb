@@ -4,6 +4,8 @@ require 'rails/test_help'
 
 class ActiveSupport::TestCase
   include Devise::Test::ControllerHelpers
+  include Warden::Test::Helpers
+  Warden.test_mode!
 
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
@@ -16,5 +18,9 @@ class ActiveSupport::TestCase
   def login
     @user = users(:default)
     sign_in @user
+  end
+
+  def teardown
+    Warden.test_reset!
   end
 end
