@@ -1,0 +1,16 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users', title: @organization.name, title_sub: i18n('members', count: @organization.users.count) }
+
+= content_for :card_header do
+  = i18n 'card_header'
+-# = content_for :header_button do
+-#   = link_to i18n('invite_button'), new_organization_path, class: 'btn btn-light'
+= content_for :card_body do
+  %ul.list-unstyled#organization_list
+    - @organization.users.each do |user|
+      %li.mb-4
+        = image_tag user.avatar, class: 'avatar mr-2'
+        = user.name
+        .float-right
+          = render partial: 'shared/ellipsis_dropdown', locals: {items: [['remove', root_path, :delete]]}
+        .small.text-muted.d-inline-block
+          = i18n("roles.#{@organization.user_role(user)}", date: @user.local_date(@organization.join_date(user)))

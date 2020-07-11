@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
+  before_action :load_organization, only: :show
 
   def index
     @organizations = @user.organizations.order(:slug)
@@ -15,9 +16,15 @@ class OrganizationsController < ApplicationController
 
   def new; end
 
+  def show; end
+
   private def build_organization
     @organization = Organization.new(create_params)
     @organization.validate if params[:organization].present?
+  end
+
+  private def load_organization
+    @organization = @user.organizations.find_by!(slug: params[:slug])
   end
 
   private def create_params

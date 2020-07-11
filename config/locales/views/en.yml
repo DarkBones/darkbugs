@@ -5,7 +5,16 @@ en:
     - &forgot_password Forgot your password?
     - &no_confirmation Didn't receive confirmation instructions?
     - &sign_up_prompt Need an account? Sign up!
+    - members: &members
+        one: "%{count} member"
+        other: "%{count} members"
+    - roles: &roles
+        creator: "Created on %{date}"
+        admin: "Admin since %{date}"
+        member: "Member since %{date}"
   views:
+    shared:
+      warning: 'Are you sure? This action cannot be reversed.'
     devise:
       edit_account: Account
       logout: Logout
@@ -16,13 +25,13 @@ en:
         title_sub: Your organizations
         card_header: Organizations
         new_button: New Organization
-        members:
-          one: "%{count} member"
-          other: "%{count} members"
-        roles:
-          creator: "Created on %{date}"
-          admin: "Member since %{date}"
-          member: "Member since %{date}"
+        members: *members
+        roles: *roles
+      show:
+        members: *members
+        card_header: Members
+        invite_button: Invite Members
+        roles: *roles
       new:
         title: New Organization
         title_sub: Create your own team
