@@ -21,6 +21,14 @@ class Organization < ApplicationRecord
   end
 
   private def create_slug
-    self.slug = name&.parameterize
+    slug = name&.parameterize
+    full_slug = slug
+
+    while Organization.where(slug: full_slug).exists?
+      rand = SecureRandom.urlsafe_base64(8, false)
+      full_slug = "#{slug}-#{rand}"
+    end
+
+    self.slug = full_slug
   end
 end

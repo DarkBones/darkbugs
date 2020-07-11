@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   delete 'uploads/user_avatar' => 'uploads#delete_user_avatar'
 
   resources :users
-  resources :organizations, except: [:update, :delete]
+  resources :organizations, param: :slug, except: [:update, :delete]
 
   root 'home#index'
 end

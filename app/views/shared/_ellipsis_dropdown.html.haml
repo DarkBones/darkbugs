@@ -1,0 +1,16 @@
+:ruby
+  keys = [:title, :path, :method]
+  items = items.map { |item| keys.zip(item).to_h }
+
+.btn-group
+  %i.fas.fa-ellipsis-h.clickable{ data: { toggle: 'dropdown' } }
+    .sr-only Toggle Dropdown
+  .dropdown-menu.dropdown-menu-right
+    - items.each do |link|
+      - data = {}
+      - if link[:method] == :delete
+        - data = { confirm: t('views.shared.warning') }
+
+      = link_to link[:path], data: data  do
+        .dropdown-item
+          = link[:title]

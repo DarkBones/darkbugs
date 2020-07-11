@@ -78,4 +78,11 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_template :new
     assert_includes response.body, "Name can't be blank"
   end
+
+  def test_show
+    get :show, params: { id: organizations(:default).slug }
+
+    assert_response :success
+    assert_template :show
+  end
 end
