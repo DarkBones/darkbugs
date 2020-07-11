@@ -2,8 +2,10 @@
 
 = content_for :card_header do
   = i18n 'card_header'
--# = content_for :header_button do
--#   = link_to i18n('invite_button'), new_organization_path, class: 'btn btn-light'
+
+- if @organization.user_is_admin?(@user)
+  = content_for :header_button do
+    = link_to i18n('invite_button'), organization_invite_members_path(@organization.slug), class: 'btn btn-light'
 = content_for :card_body do
   %ul.list-unstyled#organization_list
     - @organization.users.each do |user|

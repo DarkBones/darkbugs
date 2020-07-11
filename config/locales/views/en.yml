@@ -37,6 +37,19 @@ en:
         title_sub: Create your own team
         card_header: New Organization
         submit: Create Organization
+      invite_members:
+        title: Add Members
+        title_sub: Add new members
+        card_header: Add Members
+        submit: Add Members
+      create_members:
+        username: Username
+        status: Status
+        statuses:
+          user_not_found: User doesn't exist
+          already_in_organization: User is already a member
+          failed: Failed to add user
+          success: User successfully added
     users:
       confirmations:
         new:

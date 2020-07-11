@@ -1,0 +1,19 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users', title: @organization.name, title_sub: i18n('members', count: @organization.users.count) }
+
+= content_for :card_header do
+  = i18n 'card_header'
+
+= content_for :card_body do
+  %table
+    %tbody
+      %tr
+        %thead
+          = i18n 'username'
+        %thead
+          = i18n 'status'
+      - @results[:results].each do |result|
+        %tr
+          %td
+            = result[:username]
+          %td
+            = i18n "statuses.#{result[:status]}"

@@ -1,0 +1,6 @@
+---
+en:
+  controllers:
+    organizations:
+      create_members:
+        no_usernames: Usernames can't be blank

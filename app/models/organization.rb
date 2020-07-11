@@ -4,6 +4,8 @@ class Organization < ApplicationRecord
   has_many :users, through: :user_organizations
   accepts_nested_attributes_for :user_organizations
 
+  attr_reader :usernames
+
   # -- Validations ------------------------------------------------------------
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -18,6 +20,17 @@ class Organization < ApplicationRecord
 
   def join_date(user)
     user_organizations.find_by(user: user).created_at
+  end
+
+  def user_is_admin?(user)
+    [UserOrganization::ROLES[:CREATOR], UserOrganization::ROLES[:ADMIN]]
+      .include?(
+        user_organizations.find_by(user_id: user).role
+      )
+  end
+
+  def add_members(usernames)
+    puts usernames
   end
 
   private def create_slug

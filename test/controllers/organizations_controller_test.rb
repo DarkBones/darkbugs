@@ -85,4 +85,36 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :show
   end
+
+  def test_invite_members
+    get :new_members, params: { organization_slug: organizations(:default).slug }
+
+    assert_response :success
+    assert_template :new_members
+  end
+
+  def test_create_members_empty
+    post :create_members, params: {
+      organization_slug: organizations(:default).slug,
+      organization: {
+        usernames: ''
+      }
+    }
+
+    assert_response :bad_request
+    assert_includes response.body, "Usernames can't be blank"
+  end
+
+  def test_create_members
+    post :create_members, params: {
+      organization_slug: organizations(:default).slug,
+      organization: {
+        usernames: "test\r\ndefault_username\r\nunconfirmed"
+      }
+    }
+
+    assert_response :success
+    assert_template :add_members_results
+    puts @response.body.to_yaml
+  end
 end

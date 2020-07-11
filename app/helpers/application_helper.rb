@@ -33,6 +33,7 @@ module ApplicationHelper
   end
 
   private def i18n_path_prefix
+    puts params[:action]
     action = params[:action]
     action = 'new' if ['create'].include? action
     action = 'edit' if ['update'].include? action

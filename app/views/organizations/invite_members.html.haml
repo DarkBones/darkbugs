@@ -1,0 +1,12 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users' }
+- url = organization_create_members_url(@organization.slug)
+
+= content_for :card_header do
+  = i18n 'card_header'
+= content_for :card_body do
+  = simple_form_for(@organization, url: url, method: :post) do |f|
+    .col-12
+      .row
+        = f.input :usernames, :input_html => {:rows => 10}, :as => :text
+      .text-right
+        = f.submit i18n('submit'), class: 'btn btn-primary'
