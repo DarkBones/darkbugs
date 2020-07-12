@@ -1,11 +1,11 @@
-- is_admin = @organization.user_is_admin?(@user)
+- is_admin = @organization.user_is_admin?(@current_user)
 
 = render partial: 'layouts/header', locals: { icon_class: 'fas fa-users', title: @organization.name, title_sub: i18n('members', count: @organization.users.count) }
 
 = content_for :card_header do
   = i18n 'card_header'
 
-- if @organization.user_is_admin?(@user)
+- if @organization.user_is_admin?(@current_user)
   = content_for :header_button do
     = link_to i18n('invite_button'), organization_add_members_path(@organization.slug), class: 'btn btn-light'
 = content_for :card_body do
@@ -15,7 +15,7 @@
         = image_tag user.avatar, class: 'avatar mr-2'
         = user.name
 
-        - if is_admin && @user != user
+        - if is_admin && @current_user != user
           :ruby
             items = [
               [i18n('delete'), root_path, :delete]
@@ -31,4 +31,4 @@
             = render partial: 'shared/ellipsis_dropdown', locals: {items: items}
 
         .small.text-muted.d-inline-block
-          = i18n("roles.#{@organization.user_role(user)}", date: @user.local_date(@organization.join_date(user)))
+          = i18n("roles.#{@organization.user_role(user)}", date: @current_user.local_date(@organization.join_date(user)))

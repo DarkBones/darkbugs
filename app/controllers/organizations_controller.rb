@@ -1,11 +1,12 @@
 class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
   before_action :load_organization, only: %i[show add_members create_members grant_admin revoke_admin]
+  before_action :check_admin, only: %i[add_members grant_admin revoke_admin]
   before_action :load_user, only: %i[grant_admin revoke_admin]
   before_action :load_user_organization, only: %i[grant_admin revoke_admin]
 
   def index
-    @organizations = @user.organizations.order(:slug)
+    @organizations = @current_user.organizations.order(:slug)
   end
 
   def create
@@ -23,7 +24,7 @@ class OrganizationsController < ApplicationController
   def add_members; end
 
   def create_members
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.create_members.unauthorized') unless @organization.user_is_admin?(@user)
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.create_members.unauthorized') unless @organization.user_is_admin?(@current_user)
     raise ArgumentError, I18n.t('controllers.organizations.create_members.no_usernames') unless add_members_params[:usernames].present?
 
     @results = Organizations::AddUsersService.new(@organization, add_members_params[:usernames]).execute
@@ -51,10 +52,8 @@ class OrganizationsController < ApplicationController
   end
 
   private def email_new_members(users, organization)
-    # Devise.mailer.test_mail_test(@user, 'token').deliver_now
-
     users.each do |user|
-      Devise.mailer.added_to_organization(user, @user, @organization).deliver_now
+      Devise.mailer.added_to_organization(user, @current_user, @organization).deliver_now
     end
   end
 
@@ -69,7 +68,7 @@ class OrganizationsController < ApplicationController
 
   private def load_organization
     slug = params[:slug] || params[:organization_slug]
-    @organization = @user.organizations.find_by!(slug: slug)
+    @organization = @current_user.organizations.find_by!(slug: slug)
   end
 
   private def load_user_organization
@@ -81,8 +80,12 @@ class OrganizationsController < ApplicationController
       :name
     ).merge(user_organizations_attributes: [{
                                               role: UserOrganization::ROLES[:CREATOR],
-                                              user: @user
+                                              user: @current_user
                                             }])
+  end
+
+  private def check_admin
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.unauthorized') unless @organization.user_is_admin?(@current_user)
   end
 
   private def add_members_params
