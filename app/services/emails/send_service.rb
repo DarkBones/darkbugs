@@ -16,8 +16,6 @@ module Emails
 
         @response = request.send
         raise InvalidRequestError unless @response.status == 'ok'
-        puts @response.to_yaml
-        puts 1/0
         success
       end
     end
