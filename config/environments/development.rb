@@ -64,4 +64,5 @@ Rails.application.configure do
 
   # To enable subdomains on dev
   config.action_dispatch.tld_length = 0
+  config.hosts << 'lvh.me'
 end

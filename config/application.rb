@@ -2,6 +2,7 @@ require_relative 'boot'
 
 require 'rails/all'
 require 'sprockets/railtie'
+require 'apartment/elevators/subdomain'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -22,5 +23,7 @@ module Darkbugs
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
+    config.middleware.use Apartment::Elevators::Subdomain
   end
 end
