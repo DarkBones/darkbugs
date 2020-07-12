@@ -66,7 +66,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       }
     end
 
-    assert_response :success
+    assert_response :bad_request
     assert_template :new
     assert_includes response.body, 'Name is already taken'
   end
@@ -74,23 +74,23 @@ class OrganizationsControllerTest < ActionController::TestCase
   def test_create_fail_empty_name
     post :create
 
-    assert_response :success
+    assert_response :bad_request
     assert_template :new
     assert_includes response.body, "Name can't be blank"
   end
 
   def test_show
-    get :show, params: { id: organizations(:default).slug }
+    get :show, params: { slug: organizations(:default).slug }
 
     assert_response :success
     assert_template :show
   end
 
-  def test_invite_members
+  def test_add_members
     get :add_members, params: { organization_slug: organizations(:default).slug }
 
     assert_response :success
-    assert_template :new_members
+    assert_template :add_members
   end
 
   def test_create_members_empty
@@ -109,7 +109,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     post :create_members, params: {
       organization_slug: organizations(:default).slug,
       organization: {
-        usernames: 'test\r\ndefault_username\r\nunconfirmed'
+        usernames: "test\r\ndefault_username\r\nunconfirmed"
       }
     }
 
