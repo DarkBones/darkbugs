@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :load_organization
 
   private def set_user
-    @user = current_user
+    @current_user = current_user
   end
 
   private def clear_flash
