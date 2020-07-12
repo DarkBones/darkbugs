@@ -22,9 +22,9 @@
             ]
 
             if @organization.user_is_admin?(user)
-              items.push([i18n('remove_admin'), organization_revoke_admin_path(@organization.slug)])
+              items.push([i18n('remove_admin'), organization_revoke_admin_path(@organization.slug, user.uuid), :put])
             else
-              items.push([i18n('make_admin'), organization_grant_admin_path(@organization.slug)])
+              items.push([i18n('make_admin'), organization_grant_admin_path(@organization.slug, user.uuid), :put])
             end
 
           .float-right

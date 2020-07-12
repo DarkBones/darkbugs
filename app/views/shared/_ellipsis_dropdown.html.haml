@@ -11,6 +11,6 @@
       - if link[:method] == :delete
         - data = { confirm: t('views.shared.warning') }
 
-      = link_to link[:path], data: data  do
+      = link_to link[:path], data: data, method: link[:method] || :get do
         .dropdown-item
           = link[:title]
