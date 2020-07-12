@@ -35,15 +35,13 @@ module Organizations
           next
         end
 
-        # user_organization = UserOrganization.create(
-        #   user: user,
-        #   organization: organization,
-        #   role: UserOrganization::ROLES[:MEMBER]
-        # )
+        user_organization = UserOrganization.create(
+          user: user,
+          organization: organization,
+          role: UserOrganization::ROLES[:MEMBER]
+        )
 
-        user_organization = nil
-
-        unless user_organization.nil?
+        if user_organization.nil?
           r[:status] = FAILED
           next
         end
