@@ -29,10 +29,6 @@ class Organization < ApplicationRecord
       )
   end
 
-  def add_members(usernames)
-    puts usernames
-  end
-
   def ordered_users
     users.includes(:user_organizations).order('user_organizations.role')
   end
