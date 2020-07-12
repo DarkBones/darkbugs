@@ -12,6 +12,7 @@ class Organization < ApplicationRecord
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_slug, on: :create
+  after_create :create_tenant
 
   # -- Instance Methods --------------------------------------------------------
   def user_role(user)
@@ -43,5 +44,9 @@ class Organization < ApplicationRecord
     end
 
     self.slug = full_slug
+  end
+
+  private def create_tenant
+    Apartment::Tenant.create(slug)
   end
 end
