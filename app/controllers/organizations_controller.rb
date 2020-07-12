@@ -26,10 +26,24 @@ class OrganizationsController < ApplicationController
 
     @results = Organizations::AddUsersService.new(@organization, add_members_params[:usernames]).execute
 
+    successful_users = @results[:results]
+                             .reject { |v| v[:status] != Organizations::AddUsersService::SUCCESS }
+                             .map { |v| v[:user] }
+
+    email_new_members(successful_users, @organization)
+
     render action: :add_members_results
   rescue ArgumentError, ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :add_members, status: :bad_request
+  end
+
+  private def email_new_members(users, organization)
+    # Devise.mailer.test_mail_test(@user, 'token').deliver_now
+
+    users.each do |user|
+      Devise.mailer.added_to_organization(user, @user, @organization).deliver_now
+    end
   end
 
   private def build_organization

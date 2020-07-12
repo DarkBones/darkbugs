@@ -23,6 +23,7 @@ module Organizations
     private def process_results(results)
       results.each do |r|
         user = User.find_by_username(r[:username])
+        r[:user] = user
 
         if user.nil?
           r[:status] = USER_NOT_FOUND
@@ -34,17 +35,20 @@ module Organizations
           next
         end
 
-        user_organization = UserOrganization.create(
-          user: user,
-          organization: organization,
-          role: UserOrganization::ROLES[:MEMBER]
-        )
+        # user_organization = UserOrganization.create(
+        #   user: user,
+        #   organization: organization,
+        #   role: UserOrganization::ROLES[:MEMBER]
+        # )
 
-        if user_organization.nil?
+        user_organization = nil
+
+        unless user_organization.nil?
           r[:status] = FAILED
-        else
-          r[:status] = SUCCESS
+          next
         end
+
+        r[:status] = SUCCESS
       end
 
       results
@@ -54,6 +58,7 @@ module Organizations
       usernames.map do |un|
         {
           username: un,
+          user: nil,
           status: NOT_STARTED
         }
       end
