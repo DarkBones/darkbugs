@@ -33,6 +33,10 @@ class Organization < ApplicationRecord
     puts usernames
   end
 
+  def ordered_users
+    users.includes(:user_organizations).order('user_organizations.role')
+  end
+
   private def create_slug
     slug = name&.parameterize
     full_slug = slug

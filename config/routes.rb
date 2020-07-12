@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :organizations, param: :slug, except: [:update, :delete] do
     post :create_members
     get :add_members
+    get :grant_admin
+    get :revoke_admin
   end
 
   root 'home#index'
