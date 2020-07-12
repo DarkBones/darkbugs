@@ -4,12 +4,14 @@ default:
   confirmation_token: default@test.test
   confirmed_at: <%= 1.week.ago %>
   confirmation_sent_at: <%= 1.week.ago %>
+  uuid: default
 
 unconfirmed:
   email: unconfirmed@test.test
   encrypted_password: <%= User.new.send(:password_digest, ENV['DEFAULT_TEST_PASS']) %>
   confirmation_token: unconfirmed@test.test
   confirmation_sent_at: <%= 1.week.ago %>
+  uuid: unconfirmed
 
 locked:
   email: locked@test.test
@@ -19,3 +21,4 @@ locked:
   confirmation_sent_at: <%= 1.week.ago %>
   unlock_token: locked@test.test
   locked_at: <%= Time.now %>
+  uuid: locked

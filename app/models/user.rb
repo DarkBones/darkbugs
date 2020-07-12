@@ -22,6 +22,9 @@ class User < ApplicationRecord
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
 
+  # -- Callbacks ------------------------------------------------------------
+  before_validation :create_uuid, on: :create
+
   # -- Instance Methods --------------------------------------------------------
   def name
     user_profile.username
@@ -58,5 +61,15 @@ class User < ApplicationRecord
   # -- Class Methods --------------------------------------------------------
   def self.find_by_username(username)
     UserProfile.find_by(username: username)&.user
+  end
+
+  private def create_uuid
+    uuid = SecureRandom.urlsafe_base64(8, false)
+
+    while User.where(uuid: uuid).exists?
+      uuid = SecureRandom.urlsafe_base64(8, false)
+    end
+
+    self.uuid = uuid
   end
 end
