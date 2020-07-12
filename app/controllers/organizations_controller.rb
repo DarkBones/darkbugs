@@ -1,6 +1,8 @@
 class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
-  before_action :load_organization, only: %i[show add_members create_members]
+  before_action :load_organization, only: %i[show add_members create_members grant_admin revoke_admin]
+  before_action :load_user, only: %i[grant_admin revoke_admin]
+  before_action :load_user_organization, only: %i[grant_admin revoke_admin]
 
   def index
     @organizations = @user.organizations.order(:slug)
@@ -38,6 +40,16 @@ class OrganizationsController < ApplicationController
     render action: :add_members, status: :bad_request
   end
 
+  def grant_admin
+    @user_organization.update_attributes!(role: UserOrganization::ROLES[:ADMIN])
+    redirect_back(fallback_location: root_path)
+  end
+
+  def revoke_admin
+    @user_organization.update_attributes!(role: UserOrganization::ROLES[:MEMBER])
+    redirect_back(fallback_location: root_path)
+  end
+
   private def email_new_members(users, organization)
     # Devise.mailer.test_mail_test(@user, 'token').deliver_now
 
@@ -51,9 +63,17 @@ class OrganizationsController < ApplicationController
     @organization.validate if params[:organization].present?
   end
 
+  private def load_user
+    @user = User.identify(params[:user_uuid])
+  end
+
   private def load_organization
     slug = params[:slug] || params[:organization_slug]
     @organization = @user.organizations.find_by!(slug: slug)
+  end
+
+  private def load_user_organization
+    @user_organization = @user.user_organizations.find_by!(organization: @organization)
   end
 
   private def create_params

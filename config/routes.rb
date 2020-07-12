@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   resources :organizations, param: :slug, except: [:update, :delete] do
     post :create_members
     get :add_members
-    get :grant_admin
-    get :revoke_admin
   end
+  put '/organizations/:slug/grant_admin/:user_uuid', to: 'organizations#grant_admin', as: 'organization_grant_admin'
+  put '/organizations/:slug/revoke_admin/:user_uuid', to: 'organizations#revoke_admin', as: 'organization_revoke_admin'
 
   root 'home#index'
 end

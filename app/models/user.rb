@@ -4,6 +4,7 @@ class User < ApplicationRecord
          :confirmable, :lockable, stretches: 13
 
   include Rails.application.routes.url_helpers
+  include Identifiable
 
   # -- Relationships --------------------------------------------------------
   has_one :user_profile, dependent: :destroy
