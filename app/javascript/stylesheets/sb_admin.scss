@@ -6035,7 +6035,12 @@ input[type=button].btn-block {
   white-space: nowrap;
   background-color: transparent;
   border: 0;
+
+  .dropdown-item-icon {
+    width: 1.5rem;
+  }
 }
+
 
 .dropdown-item:hover, .dropdown-item:focus {
   color: #172130;
@@ -20779,7 +20784,7 @@ body {
 
 .card {
   box-shadow: 0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15);
-  overflow: hidden;
+  //overflow: hidden;
 }
 
 .card .card-header {

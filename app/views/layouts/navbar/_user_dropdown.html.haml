@@ -2,15 +2,15 @@
   .dropdown.show
     %li.nav-item.dropdown.no-caret.mr-3.dropdown-user
       %a#navbarDropdownUserImage.btn.btn-icon.btn-light.dropdown-toggle{'aria-expanded' => 'false', 'aria-haspopup' => 'true', 'data-toggle' => 'dropdown', :href => 'javascript:void(0);', :role => 'button'}
-        = image_tag @user.avatar, class: 'avatar'
+        = image_tag @current_user.avatar, class: 'avatar'
       .dropdown-menu.dropdown-menu-right.border-0.shadow.animated--fade-in-up{'aria-labelledby' => 'navbarDropdownUserImage'}
         %h6.dropdown-header.d-flex.align-items-center
-          = render partial: 'shared/user_avatar', locals: { user: @user, img_class: 'dropdown-user-img' }
+          = render partial: 'shared/user_avatar', locals: { user: @current_user, img_class: 'dropdown-user-img' }
           .dropdown-user-details
             .dropdown-user-details-name
-              = @user.name
+              = @current_user.name
             .dropdown-user-details-email
-              = @user.email
+              = @current_user.email
         .dropdown-divider
         = render partial: 'layouts/navbar/user_dropdown_links'
 

@@ -21,3 +21,10 @@ en:
         p1: Your account has been locked due to an excessive number of unsuccessful sign in attempts.
         p2: Click the link below to unlock your account.
         link_text: Unlock my account
+      added_to_organization:
+        title: Welcome to %{organization}!
+        subject: You have been added to an organization
+        greet: Hi %{name},
+        p1: "%{adder} has added you to %{organization}!"
+        p2: You can now view the organization's projects and tickets.
+        link_text: View your Organizations

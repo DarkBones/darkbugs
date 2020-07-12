@@ -5,10 +5,57 @@ en:
     - &forgot_password Forgot your password?
     - &no_confirmation Didn't receive confirmation instructions?
     - &sign_up_prompt Need an account? Sign up!
+    - members: &members
+        one: "%{count} member"
+        other: "%{count} members"
+    - roles: &roles
+        creator: "Created on %{date}"
+        admin: "Admin since %{date}"
+        member: "Member since %{date}"
   views:
+    shared:
+      warning: 'Are you sure? This action cannot be reversed.'
     devise:
       edit_account: Account
       logout: Logout
+      organizations: Organizations
+    organizations:
+      index:
+        title: Organizations
+        title_sub: Your organizations
+        card_header: Organizations
+        new_button: New Organization
+        members: *members
+        roles: *roles
+      show:
+        members: *members
+        card_header: Members
+        invite_button: Invite Members
+        roles: *roles
+        delete: Remove
+        make_admin: Grant admin privileges
+        remove_admin: Revoke admin privileges
+      new:
+        title: New Organization
+        title_sub: Create your own team
+        card_header: New Organization
+        submit: Create Organization
+      add_members:
+        title: Add Members
+        title_sub: Add new members
+        card_header: Add Members
+        submit: Add Members
+      create_members:
+        title: New Members
+        title_sub: Results of adding members
+        card_header: Results
+        username: Username
+        status: Status
+        statuses:
+          user_not_found: User doesn't exist
+          already_in_organization: User is already a member
+          failed: Failed to add user
+          success: User successfully added
     users:
       confirmations:
         new:
@@ -33,7 +80,7 @@ en:
           existing_account: Already have an account? Login!
         edit:
           title: Edit Account
-          title_sub: Edit your account and profile here
+          title_sub: Edit your account and profile
           profile_card_header: Profile
           password_card_header: Password
           pending_confirmation: "Currently waiting confirmation for: %{email}"

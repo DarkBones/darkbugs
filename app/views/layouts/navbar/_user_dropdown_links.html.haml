@@ -2,6 +2,10 @@
   .dropdown-item-icon
     %i.fa.fa-cog
   = t 'views.devise.edit_account'
+= link_to organizations_path, class: 'dropdown-item' do
+  .dropdown-item-icon
+    %i.fa.fa-users
+  = t 'views.devise.organizations'
 = link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do
   .dropdown-item-icon
     %i.fa.fa-sign-out-alt

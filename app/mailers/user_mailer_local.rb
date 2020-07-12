@@ -1,5 +1,6 @@
 class UserMailerLocal < Devise::Mailer
   include Devise::Mailers::Helpers
+  include Rails.application.routes.url_helpers
   layout 'mailer'
 
   default template_path: 'user_mailer/'
@@ -27,5 +28,15 @@ class UserMailerLocal < Devise::Mailer
     @link = user_unlock_url(:unlock_token => token)
     mail(to: record.email,
          subject: @title)
+  end
+
+  def added_to_organization(added_user, added_by, organization, _opts = {})
+    @title = I18n.t('mailers.user_mailer.added_to_organization.title', organization: organization.name)
+    @added_by = added_by.name
+    @name = added_user.name
+    @organization = organization.name
+    @link = organizations_path
+    mail(to: added_user.email,
+         subject: I18n.t('mailers.user_mailer.added_to_organization.subject'))
   end
 end

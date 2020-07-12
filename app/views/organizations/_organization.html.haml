@@ -1,0 +1,7 @@
+%li.mb-3
+  .font-weight-bold
+    = link_to organization.name, organization_path(organization.slug)
+  .small.text-muted
+    = i18n('members', count: organization.users.count)
+  .small.text-muted
+    = i18n("roles.#{organization.user_role(@current_user)}", date: @current_user.local_date(organization.join_date(@current_user)))
