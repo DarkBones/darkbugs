@@ -1,7 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :build_organization, only: %i[new create]
   before_action :load_organization, only: %i[show add_members create_members grant_admin revoke_admin]
-  before_action :check_admin, only: %i[add_members grant_admin revoke_admin]
   before_action :load_user, only: %i[grant_admin revoke_admin]
   before_action :load_user_organization, only: %i[grant_admin revoke_admin]
 
@@ -42,13 +41,23 @@ class OrganizationsController < ApplicationController
   end
 
   def grant_admin
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
+
     @user_organization.update_attributes!(role: UserOrganization::ROLES[:ADMIN])
     redirect_back(fallback_location: root_path)
+  rescue ArgumentError, ActionController::BadRequest => e
+    flash.now[:error] = e.message
+    render action: :show, status: :bad_request
   end
 
   def revoke_admin
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.revoke_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
+
     @user_organization.update_attributes!(role: UserOrganization::ROLES[:MEMBER])
     redirect_back(fallback_location: root_path)
+  rescue ArgumentError, ActionController::BadRequest => e
+    flash.now[:error] = e.message
+    render action: :show, status: :bad_request
   end
 
   private def email_new_members(users, organization)
@@ -82,10 +91,6 @@ class OrganizationsController < ApplicationController
                                               role: UserOrganization::ROLES[:CREATOR],
                                               user: @current_user
                                             }])
-  end
-
-  private def check_admin
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.unauthorized') unless @organization.user_is_admin?(@current_user)
   end
 
   private def add_members_params
