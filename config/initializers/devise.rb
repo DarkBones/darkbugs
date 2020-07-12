@@ -23,7 +23,7 @@ Devise.setup do |config|
   # Configure the class responsible to send e-mails.
   if Rails.env.production?
     config.mailer = 'UserMailer'
-  elsif Rails.env.development?
+  else
     config.mailer = 'UserMailerLocal'
   end
 

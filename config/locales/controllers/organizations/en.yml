@@ -1,0 +1,11 @@
+---
+en:
+  controllers:
+    organizations:
+      create_members:
+        no_usernames: Usernames can't be blank
+        unauthorized: Only administrators can add members
+      grant_admin:
+        unauthorized: Only administrators can grant administrator privileges
+      revoke_admin:
+        unauthorized: Only administrators can revoke administrator privileges

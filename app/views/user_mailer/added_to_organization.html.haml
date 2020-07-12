@@ -1,0 +1,4 @@
+%p= I18n.t 'mailers.user_mailer.added_to_organization.greet', name: @name
+%p= I18n.t 'mailers.user_mailer.added_to_organization.p1', adder: @added_by, organization: @organization
+%p= I18n.t 'mailers.user_mailer.added_to_organization.p2'
+%p= link_to I18n.t('mailers.user_mailer.added_to_organization.link_text'), @link

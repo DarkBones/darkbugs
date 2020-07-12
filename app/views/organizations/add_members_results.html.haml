@@ -1,0 +1,20 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users' }
+
+= content_for :card_header do
+  = i18n 'card_header'
+
+= content_for :card_body do
+  %table.table.table-bordered.table-hover.dataTable
+    %thead
+      %tr{:role => 'role'}
+        %th
+          = i18n 'username'
+        %th
+          = i18n 'status'
+      %tbody
+        - @results[:results].each do |result|
+          %tr{:role => 'role'}
+            %td
+              = result[:username]
+            %td
+              = i18n "statuses.#{result[:status]}"
