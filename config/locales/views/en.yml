@@ -32,6 +32,9 @@ en:
         card_header: Members
         invite_button: Invite Members
         roles: *roles
+        delete: Remove
+        make_admin: Grant admin privileges
+        remove_admin: Revoke admin privileges
       new:
         title: New Organization
         title_sub: Create your own team
