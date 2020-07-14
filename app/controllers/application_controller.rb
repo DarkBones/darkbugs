@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_user
   after_action :clear_flash
-  before_action :load_organization
+  before_action :set_tenant
 
   private def set_user
     @current_user = current_user
@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
     flash.discard if request.xhr?
   end
 
-  private def load_organization
+  private def set_tenant
     if request.subdomain.present?
-      # @org = current_user.organizations.find_by!(slug: request.subdomain)
+      Apartment::Tenant.switch!(request.subdomain)
     else
-      @org = current_user
+      Apartment::Tenant.switch!
     end
   end
 end
