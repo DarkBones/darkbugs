@@ -2,6 +2,7 @@
   .dropdown.show
     %li.nav-item.dropdown.no-caret.mr-3.dropdown-user
       %a#navbarDropdownUserImage.btn.btn-icon.btn-light.dropdown-toggle{'aria-expanded' => 'false', 'aria-haspopup' => 'true', 'data-toggle' => 'dropdown', :href => 'javascript:void(0);', :role => 'button'}
+        - puts @current_user.avatar.to_yaml
         = image_tag @current_user.avatar, class: 'avatar'
       .dropdown-menu.dropdown-menu-right.border-0.shadow.animated--fade-in-up{'aria-labelledby' => 'navbarDropdownUserImage'}
         %h6.dropdown-header.d-flex.align-items-center

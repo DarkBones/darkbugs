@@ -6,5 +6,5 @@ export default async function removeFile() {
 
   axios.defaults.headers.common['X-CSRF-TOKEN'] = token
 
-  return axios.delete(`http://localhost:4000/uploads/user_avatar`)
+  return axios.delete(`/uploads/user_avatar`)
 }
