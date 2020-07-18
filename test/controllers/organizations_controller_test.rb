@@ -131,4 +131,22 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :bad_request
     assert_includes response.body, 'Only administrators can add members'
   end
+
+  def test_create_duplicate_case_insensitive
+    post :create, params: {
+      organization: {
+        name: 'test duplicate name'
+      }
+    }
+
+    post :create, params: {
+      organization: {
+        name: 'Test Duplicate Name'
+      }
+    }
+
+    assert_response :bad_request
+    assert_template :new
+    assert_includes response.body, 'Name is already taken'
+  end
 end
