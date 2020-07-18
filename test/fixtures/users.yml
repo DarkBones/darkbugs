@@ -22,3 +22,11 @@ locked:
   unlock_token: locked@test.test
   locked_at: <%= Time.now %>
   uuid: locked
+
+test:
+  email: test@test.test
+  encrypted_password: <%= User.new.send(:password_digest, ENV['DEFAULT_TEST_PASS']) %>
+  confirmation_token: test@test.test
+  confirmed_at: <%= 1.week.ago %>
+  confirmation_sent_at: <%= 1.week.ago %>
+  uuid: test

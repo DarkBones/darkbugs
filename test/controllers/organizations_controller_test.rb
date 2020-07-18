@@ -6,6 +6,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   def setup
     @user = users(:default)
     @request.env['HTTP_HOST'] = 'host'
+    @organization = organizations(:default)
     sign_in @user
   end
 
@@ -80,14 +81,14 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, params: { slug: organizations(:default).slug }
+    get :show, params: { slug: @organization.slug }
 
     assert_response :success
     assert_template :show
   end
 
   def test_add_members
-    get :add_members, params: { organization_slug: organizations(:default).slug }
+    get :add_members, params: { organization_slug: @organization.slug }
 
     assert_response :success
     assert_template :add_members
@@ -95,7 +96,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   def test_create_members_empty
     post :create_members, params: {
-      organization_slug: organizations(:default).slug,
+      organization_slug: @organization.slug,
       organization: {
         usernames: ''
       }
@@ -107,9 +108,9 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   def test_create_members
     post :create_members, params: {
-      organization_slug: organizations(:default).slug,
+      organization_slug: @organization.slug,
       organization: {
-        usernames: "test\r\ndefault_username\r\nunconfirmed"
+        usernames: "nonexistinguser\r\ndefault_username\r\nunconfirmed"
       }
     }
 
@@ -148,5 +149,67 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_response :bad_request
     assert_template :new
     assert_includes response.body, 'Name is already taken'
+  end
+
+  def test_grant_admin_privileges
+    user = users(:test)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
+  end
+
+  def test_revoke_admin_privileges
+    user = users(:test)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+    user_organization.update!(role: UserOrganization::ROLES[:ADMIN])
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
+
+    put :revoke_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
+  end
+
+  def test_fail_grant_as_non_admin
+    sign_in users(:test)
+
+    user = users(:locked)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
+  end
+
+  def test_fail_revoke_as_non_admin
+    sign_in users(:test)
+
+    user = users(:locked)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+    user_organization.update!(role: UserOrganization::ROLES[:ADMIN])
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
   end
 end
