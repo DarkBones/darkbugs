@@ -7,5 +7,8 @@ en:
         unauthorized: Only administrators can add members
       grant_admin:
         unauthorized: Only administrators can grant administrator privileges
+        same_user: You can't grant administrator privileges to yourself
+        already_admin: User is already an administrator
       revoke_admin:
         unauthorized: Only administrators can revoke administrator privileges
+        same_user: You can't revoke your own administrator privileges

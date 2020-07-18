@@ -43,6 +43,8 @@ class OrganizationsController < ApplicationController
 
   def grant_admin
     raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.same_user') if @user == @current_user
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.already_admin') if @organization.user_is_admin?(@user)
 
     @user_organization.update!(role: UserOrganization::ROLES[:ADMIN])
     redirect_back(fallback_location: root_path)
@@ -53,6 +55,7 @@ class OrganizationsController < ApplicationController
 
   def revoke_admin
     raise ActionController::BadRequest, I18n.t('controllers.organizations.revoke_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.same_user') if @user == @current_user
 
     @user_organization.update!(role: UserOrganization::ROLES[:MEMBER])
     redirect_back(fallback_location: root_path)
