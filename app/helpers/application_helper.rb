@@ -33,15 +33,16 @@ module ApplicationHelper
   end
 
   private def i18n_path_prefix
-    action = params[:action]
-    action = 'new' if ['create'].include? action
-    action = 'edit' if ['update'].include? action
-    if I18n.exists?("views.#{params[:controller].gsub '/', '.'}.#{action}")
-      "views.#{params[:controller].gsub '/', '.'}.#{action}"
-    elsif I18n.exists?("views.#{params[:controller].gsub '/', '.'}.new")
-      "views.#{params[:controller].gsub '/', '.'}.new"
-    elsif I18n.exists?("views.#{params[:controller].gsub '/', '.'}.index")
-      "views.#{params[:controller].gsub '/', '.'}.index"
-    end
+    actions = {
+      create: 'new',
+      update: 'edit'
+    }
+
+    controller = params[:controller].gsub '/', '.'
+
+    action = actions[params[:action].to_sym]
+    action ||= params[:action]
+
+    "views.#{controller}.#{action}"
   end
 end
