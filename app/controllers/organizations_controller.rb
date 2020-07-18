@@ -1,9 +1,9 @@
 class OrganizationsController < ApplicationController
+  before_action :switch_to_public
   before_action :build_organization, only: %i[new create]
   before_action :load_organization, only: %i[show add_members create_members grant_admin revoke_admin]
   before_action :load_user, only: %i[grant_admin revoke_admin]
   before_action :load_user_organization, only: %i[grant_admin revoke_admin]
-  before_action :switch_to_public
 
   def index
     @organizations = @current_user.organizations.order(:slug)
