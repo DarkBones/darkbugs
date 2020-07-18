@@ -3,6 +3,7 @@ class OrganizationsController < ApplicationController
   before_action :load_organization, only: %i[show add_members create_members grant_admin revoke_admin]
   before_action :load_user, only: %i[grant_admin revoke_admin]
   before_action :load_user_organization, only: %i[grant_admin revoke_admin]
+  before_action :switch_to_public
 
   def index
     @organizations = @current_user.organizations.order(:slug)
@@ -58,6 +59,10 @@ class OrganizationsController < ApplicationController
   rescue ArgumentError, ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :show, status: :bad_request
+  end
+
+  private def switch_to_public
+    Apartment::Tenant.switch!
   end
 
   private def email_new_members(users, organization)

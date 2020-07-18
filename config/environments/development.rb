@@ -63,6 +63,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # To enable subdomains on dev
-  config.action_dispatch.tld_length = 0
-  config.hosts << 'lvh.me'
+  config.hosts << /([a-z0-9\-_]+\.)*lvh\.me/i
 end
