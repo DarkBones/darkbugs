@@ -194,6 +194,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
+    assert_includes response.body, "Only administrators can grant administrator privileges"
   end
 
   def test_fail_revoke_as_non_admin
@@ -205,12 +206,13 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
 
-    put :grant_admin, params: {
+    put :revoke_admin, params: {
       slug: @organization.slug,
       user_uuid: user.uuid
     }
 
     assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
+    assert_includes response.body, "Only administrators can revoke administrator privileges"
   end
 
   def test_fail_grant_same_user
@@ -223,6 +225,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+    assert_includes response.body, "You can't grant administrator privileges to yourself"
   end
 
   def test_fail_revoke_same_user
@@ -235,6 +238,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+    assert_includes response.body, "You can't revoke your own administrator privileges"
   end
 
   def test_fail_grant_creator
@@ -250,5 +254,33 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+    assert_includes response.body, "User is already an administrator"
+  end
+
+  def test_remove_member
+    user = users(:test)
+
+    assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
+
+    put :remove_member, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_nil UserOrganization.find_by(user: user, organization: @organization)
+  end
+
+  def test_remove_member_fail_non_admin
+    sign_in users(:test)
+
+    user = users(:locked)
+
+    put :remove_member, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
+    assert_includes response.body, "Only administrators can remove members"
   end
 end

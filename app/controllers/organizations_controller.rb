@@ -1,9 +1,9 @@
 class OrganizationsController < ApplicationController
   before_action :switch_to_public
-  before_action :build_organization, only: %i[new create]
-  before_action :load_organization, only: %i[show add_members create_members grant_admin revoke_admin]
-  before_action :load_user, only: %i[grant_admin revoke_admin]
-  before_action :load_user_organization, only: %i[grant_admin revoke_admin]
+  before_action :build_organization,      only: %i[new create]
+  before_action :load_organization,       only: %i[show add_members create_members grant_admin revoke_admin remove_member]
+  before_action :load_user,               only: %i[grant_admin revoke_admin remove_member]
+  before_action :load_user_organization,  only: %i[grant_admin revoke_admin remove_member]
 
   def index
     @organizations = @current_user.organizations.order(:slug)
@@ -48,18 +48,28 @@ class OrganizationsController < ApplicationController
 
     @user_organization.update!(role: UserOrganization::ROLES[:ADMIN])
     redirect_back(fallback_location: root_path)
-  rescue ArgumentError, ActionController::BadRequest => e
+  rescue ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :show, status: :bad_request
   end
 
   def revoke_admin
     raise ActionController::BadRequest, I18n.t('controllers.organizations.revoke_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.same_user') if @user == @current_user
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.revoke_admin.same_user') if @user == @current_user
 
     @user_organization.update!(role: UserOrganization::ROLES[:MEMBER])
     redirect_back(fallback_location: root_path)
-  rescue ArgumentError, ActionController::BadRequest => e
+  rescue ActionController::BadRequest => e
+    flash.now[:error] = e.message
+    render action: :show, status: :bad_request
+  end
+
+  def remove_member
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.remove_member.unauthorized') unless @organization.user_is_admin?(@current_user)
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.remove_member.same_user') if @user == @current_user
+
+    @user_organization.destroy!
+  rescue ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :show, status: :bad_request
   end

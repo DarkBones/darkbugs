@@ -18,7 +18,7 @@
         - if is_admin && @current_user != user
           :ruby
             items = [
-              [i18n('delete'), root_path, :delete]
+              [i18n('delete'), organization_remove_member_path(@organization.slug, user.uuid), :delete]
             ]
 
             if @organization.user_is_admin?(user)
