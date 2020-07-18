@@ -262,7 +262,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
 
-    put :remove_member, params: {
+    delete :remove_member, params: {
       slug: @organization.slug,
       user_uuid: user.uuid
     }
@@ -275,7 +275,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     user = users(:locked)
 
-    put :remove_member, params: {
+    delete :remove_member, params: {
       slug: @organization.slug,
       user_uuid: user.uuid
     }
