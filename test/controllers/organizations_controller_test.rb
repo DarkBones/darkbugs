@@ -212,4 +212,43 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
   end
+
+  def test_fail_grant_same_user
+    user_organization = UserOrganization.find_by!(user: @user, organization: @organization)
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: @user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+  end
+
+  def test_fail_revoke_same_user
+    user_organization = UserOrganization.find_by!(user: @user, organization: @organization)
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
+
+    put :revoke_admin, params: {
+      slug: @organization.slug,
+      user_uuid: @user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+  end
+
+  def test_fail_grant_creator
+    user = users(:test)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+    user_organization.update!(role: UserOrganization::ROLES[:CREATOR])
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+  end
 end
