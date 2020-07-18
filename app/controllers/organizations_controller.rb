@@ -69,6 +69,7 @@ class OrganizationsController < ApplicationController
     raise ActionController::BadRequest, I18n.t('controllers.organizations.remove_member.same_user') if @user == @current_user
 
     @user_organization.destroy!
+    redirect_back(fallback_location: root_path)
   rescue ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :show, status: :bad_request
