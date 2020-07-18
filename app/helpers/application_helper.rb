@@ -33,14 +33,14 @@ module ApplicationHelper
   end
 
   private def i18n_path_prefix
-    actions = {
+    action_mapping = {
       create: 'new',
       update: 'edit'
     }
 
     controller = params[:controller].gsub '/', '.'
 
-    action = actions[params[:action].to_sym]
+    action = action_mapping[params[:action].to_sym]
     action ||= params[:action]
 
     "views.#{controller}.#{action}"
