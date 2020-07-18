@@ -30,6 +30,17 @@ class Organization < ApplicationRecord
       )
   end
 
+  def admins
+    users
+      .includes(:user_organizations)
+      .where('user_organizations.role in (?)',
+             [
+               UserOrganization::ROLES[:CREATOR],
+               UserOrganization::ROLES[:ADMIN]
+             ]
+      )
+  end
+
   def ordered_users
     users.includes(:user_organizations).order('user_organizations.role')
   end

@@ -7,6 +7,6 @@ class UserOrganization < ApplicationRecord
   }.freeze
 
   # -- Relationships --------------------------------------------------------
-  belongs_to :user, dependent: :destroy
-  belongs_to :organization, dependent: :destroy
+  belongs_to :user
+  belongs_to :organization
 end

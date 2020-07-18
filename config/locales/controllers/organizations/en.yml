@@ -12,3 +12,6 @@ en:
       revoke_admin:
         unauthorized: Only administrators can revoke administrator privileges
         same_user: You can't revoke your own administrator privileges
+      remove_member:
+        unauthorized: Only administrators can remove members
+        same_user: You cannot remove yourself
