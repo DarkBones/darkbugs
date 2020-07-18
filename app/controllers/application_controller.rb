@@ -14,10 +14,6 @@ class ApplicationController < ActionController::Base
 
   private def set_tenant
     if request.subdomain.present?
-      puts request.subdomain
-      puts request.subdomain
-      puts request.subdomain
-      puts request.subdomain
       Apartment::Tenant.switch!(request.subdomain)
     else
       Apartment::Tenant.switch!
