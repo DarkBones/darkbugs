@@ -285,4 +285,41 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
     assert_match 'Only administrators can take this action', flash[:error]
   end
+
+  def test_delete_form
+    get :delete, params: { organization_slug: @organization.slug }
+
+    assert_response :success
+    assert_template :delete
+    assert_nil flash[:error]
+  end
+
+  def test_delete_form_non_admin
+    sign_in users(:test)
+    get :delete, params: { organization_slug: @organization.slug }
+
+    assert_response :bad_request
+    assert_match 'Only administrators can take this action', flash[:error]
+  end
+
+  def test_destroy
+    post :destroy, params: { organization_slug: @organization.slug, organization: { name: @organization.name } }
+
+    assert @organization.reload.archived
+  end
+
+  def test_destroy_name_mismatch
+    post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
+
+    assert_not @organization.reload.archived
+    assert_match "The name doesn't match", flash[:error]
+  end
+
+  def test_destroy_non_admin
+    sign_in users(:test)
+    post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
+
+    assert_not @organization.reload.archived
+    assert_match 'Only administrators can take this action', flash[:error]
+  end
 end

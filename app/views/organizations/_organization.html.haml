@@ -11,7 +11,7 @@
   .float-right
     = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
   .font-weight-bold
-    = link_to organization.name, organization_path(organization.slug)
+    = link_to organization.name, root_url(subdomain: organization.slug)
   .small.text-muted
     = i18n('members', count: organization.users.count)
   .small.text-muted
