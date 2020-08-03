@@ -2,18 +2,14 @@
 en:
   controllers:
     organizations:
+      errors:
+        unauthorized: Only administrators can take this action
       create_members:
         no_usernames: Usernames can't be blank
-        unauthorized: Only administrators can add members
       grant_admin:
-        unauthorized: Only administrators can grant administrator privileges
         same_user: You can't grant administrator privileges to yourself
         already_admin: User is already an administrator
       revoke_admin:
-        unauthorized: Only administrators can revoke administrator privileges
         same_user: You can't revoke your own administrator privileges
       remove_member:
-        unauthorized: Only administrators can remove members
         same_user: You cannot remove yourself
-      delete:
-        unauthorized: Only administrators can delete organizations
