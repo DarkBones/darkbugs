@@ -27,6 +27,8 @@ en:
         new_button: New Organization
         members: *members
         roles: *roles
+        view_members: View Members
+        delete: Delete Organization
       show:
         members: *members
         card_header: Members
@@ -56,6 +58,13 @@ en:
           already_in_organization: User is already a member
           failed: Failed to add user
           success: User successfully added
+      delete:
+        title: Delete %{name}
+        title_sub: Are you sure you want to delete %{name}?
+        card_header: Delete %{name}
+        warning: Deleting %{name} will also delete all its projects. This cannot be undone.
+        confirm: Type "%{name}" below to confirm you want to delete it.
+        submit: Delete Organization
     users:
       confirmations:
         new:

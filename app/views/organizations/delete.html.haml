@@ -1,0 +1,13 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users', title: i18n('title', name: @organization.name), title_sub: i18n('title_sub', name: @organization.name) }
+
+= content_for :card_header do
+  = i18n 'card_header', name: @organization.name
+= content_for :card_body do
+  .alert.alert-warning.alert-solid
+    = i18n 'warning', name: @organization.name
+  = simple_form_for(@organization, url: organization_destroy_path(@organization.slug), html: { method: :post }) do |f|
+    .col-12
+      .row
+        = f.input :name, input_html: { value: '' }, placeholder: false, label: i18n('confirm', name: @organization.name)
+      .text-right
+        = f.submit i18n('submit'), class: 'btn btn-danger'

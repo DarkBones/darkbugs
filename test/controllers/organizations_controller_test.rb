@@ -6,6 +6,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   def setup
     @user = users(:default)
     @request.env['HTTP_HOST'] = 'host'
+    @organization = organizations(:default)
     sign_in @user
   end
 
@@ -68,7 +69,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :bad_request
     assert_template :new
-    assert_includes response.body, 'Name is already taken'
+    assert_match 'Name is already taken', flash[:error]
   end
 
   def test_create_fail_empty_name
@@ -76,18 +77,18 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :bad_request
     assert_template :new
-    assert_includes response.body, "Name can't be blank"
+    assert_match "Name can't be blank", flash[:error]
   end
 
   def test_show
-    get :show, params: { slug: organizations(:default).slug }
+    get :show, params: { slug: @organization.slug }
 
     assert_response :success
     assert_template :show
   end
 
   def test_add_members
-    get :add_members, params: { organization_slug: organizations(:default).slug }
+    get :add_members, params: { organization_slug: @organization.slug }
 
     assert_response :success
     assert_template :add_members
@@ -95,7 +96,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   def test_create_members_empty
     post :create_members, params: {
-      organization_slug: organizations(:default).slug,
+      organization_slug: @organization.slug,
       organization: {
         usernames: ''
       }
@@ -107,9 +108,9 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   def test_create_members
     post :create_members, params: {
-      organization_slug: organizations(:default).slug,
+      organization_slug: @organization.slug,
       organization: {
-        usernames: "test\r\ndefault_username\r\nunconfirmed"
+        usernames: "nonexistinguser\r\ndefault_username\r\nunconfirmed"
       }
     }
 
@@ -129,7 +130,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_response :bad_request
-    assert_includes response.body, 'Only administrators can add members'
+    assert_match 'Only administrators can take this action', flash[:error]
   end
 
   def test_create_duplicate_case_insensitive
@@ -147,6 +148,178 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :bad_request
     assert_template :new
-    assert_includes response.body, 'Name is already taken'
+    assert_match 'Name is already taken', flash[:error]
+  end
+
+  def test_grant_admin_privileges
+    user = users(:test)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
+  end
+
+  def test_revoke_admin_privileges
+    user = users(:test)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+    user_organization.update!(role: UserOrganization::ROLES[:ADMIN])
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
+
+    put :revoke_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
+  end
+
+  def test_fail_grant_as_non_admin
+    sign_in users(:test)
+
+    user = users(:locked)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+
+    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.role
+
+    assert_no_difference 'Organization.count' do
+      put :grant_admin, params: {
+        slug: @organization.slug,
+        user_uuid: user.uuid
+      }
+
+      assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
+      assert_match 'Only administrators can take this action', flash[:error]
+    end
+  end
+
+  def test_fail_revoke_as_non_admin
+    sign_in users(:test)
+
+    user = users(:locked)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+    user_organization.update!(role: UserOrganization::ROLES[:ADMIN])
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
+
+    put :revoke_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
+    assert_match 'Only administrators can take this action', flash[:error]
+  end
+
+  def test_fail_grant_same_user
+    user_organization = UserOrganization.find_by!(user: @user, organization: @organization)
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: @user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+    assert_match "You can't grant administrator privileges to yourself", flash[:error]
+  end
+
+  def test_fail_revoke_same_user
+    user_organization = UserOrganization.find_by!(user: @user, organization: @organization)
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
+
+    put :revoke_admin, params: {
+      slug: @organization.slug,
+      user_uuid: @user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+    assert_match "You can't revoke your own administrator privileges", flash[:error]
+  end
+
+  def test_fail_grant_creator
+    user = users(:test)
+    user_organization = UserOrganization.find_by!(user: user, organization: @organization)
+    user_organization.update!(role: UserOrganization::ROLES[:CREATOR])
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
+
+    put :grant_admin, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
+    assert_match 'User is already an administrator', flash[:error]
+  end
+
+  def test_remove_member
+    user = users(:test)
+
+    assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
+
+    delete :remove_member, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_nil UserOrganization.find_by(user: user, organization: @organization)
+  end
+
+  def test_remove_member_fail_non_admin
+    sign_in users(:test)
+
+    user = users(:locked)
+
+    delete :remove_member, params: {
+      slug: @organization.slug,
+      user_uuid: user.uuid
+    }
+
+    assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
+    assert_match 'Only administrators can take this action', flash[:error]
+  end
+
+  def test_delete_form
+    get :delete, params: { organization_slug: @organization.slug }
+
+    assert_response :success
+    assert_template :delete
+    assert_nil flash[:error]
+  end
+
+  def test_delete_form_non_admin
+    sign_in users(:test)
+    get :delete, params: { organization_slug: @organization.slug }
+
+    assert_response :bad_request
+    assert_match 'Only administrators can take this action', flash[:error]
+  end
+
+  def test_destroy
+    post :destroy, params: { organization_slug: @organization.slug, organization: { name: @organization.name } }
+
+    assert @organization.reload.archived
+  end
+
+  def test_destroy_name_mismatch
+    post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
+
+    assert_not @organization.reload.archived
+    assert_match "The name doesn't match", flash[:error]
+  end
+
+  def test_destroy_non_admin
+    sign_in users(:test)
+    post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
+
+    assert_not @organization.reload.archived
+    assert_match 'Only administrators can take this action', flash[:error]
   end
 end
