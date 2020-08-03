@@ -5,9 +5,6 @@
 = content_for :card_header do
   = i18n 'card_header'
 
-- if @organization.user_is_admin?(@current_user)
-  = content_for :header_button do
-    = link_to i18n('invite_button'), organization_add_members_path(@organization.slug), class: 'btn btn-light'
 = content_for :card_body do
   %ul.list-unstyled#organization_list
     - @organization.ordered_users.each do |user|
@@ -32,3 +29,8 @@
 
         .small.text-muted.d-inline-block
           = i18n("roles.#{@organization.user_role(user)}", date: @current_user.local_date(@organization.join_date(user)))
+
+- if @organization.user_is_admin?(@current_user)
+  = content_for :nav_card do
+    %li.nav-item
+      = link_to i18n('invite_button'), organization_add_members_path(@organization.slug)
