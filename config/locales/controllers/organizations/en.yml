@@ -4,6 +4,8 @@ en:
     organizations:
       errors:
         unauthorized: Only administrators can take this action
+        destroy:
+          name_mismatch: The name doesn't match
       create_members:
         no_usernames: Usernames can't be blank
       grant_admin:
@@ -13,3 +15,5 @@ en:
         same_user: You can't revoke your own administrator privileges
       remove_member:
         same_user: You cannot remove yourself
+      destroy:
+        success: Successfully archived organization %{name}

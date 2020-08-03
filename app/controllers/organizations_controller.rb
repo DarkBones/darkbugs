@@ -3,10 +3,10 @@ class OrganizationsController < ApplicationController
   before_action :build_organization,      only:   %i[new create]
   before_action :load_organization,       only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete]
   before_action :load_user_organization,  only:   %i[grant_admin revoke_admin remove_member]
-  before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete]
+  before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete destroy]
 
   def index
-    @organizations = @current_user.organizations.order(:slug)
+    @organizations = @current_user.organizations.published.order(:slug)
   end
 
   def create
@@ -73,6 +73,17 @@ class OrganizationsController < ApplicationController
 
   def delete; end
 
+  def destroy
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.destroy.name_mismatch') if params.dig(:organization, :name) != @organization.name
+
+    @organization.archive!
+
+    redirect_to(organizations_path, { :flash => { :notice => I18n.t('controllers.organizations.destroy.success', name: @organization.name) } })
+  rescue ActionController::BadRequest => e
+    flash[:error] = e.message
+    redirect_back(fallback_location: organizations_path)
+  end
+
   private def check_admin
     load_organization
 
@@ -102,7 +113,7 @@ class OrganizationsController < ApplicationController
 
   private def load_organization
     slug = params[:slug] || params[:organization_slug]
-    @organization ||= @current_user.organizations.find_by!(slug: slug)
+    @organization ||= @current_user.organizations.find_by!(slug: slug, archived: false)
   end
 
   private def load_user_organization
