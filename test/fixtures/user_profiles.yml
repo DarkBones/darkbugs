@@ -9,3 +9,15 @@ unconfirmed:
   first_name: un
   last_name: confirmed
   username: unconfirmed
+
+locked:
+  user: locked
+  first_name: locked
+  last_name: user
+  username: locked
+
+test:
+  user: test
+  first_name: test
+  last_name: user
+  username: test

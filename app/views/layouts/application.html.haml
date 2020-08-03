@@ -16,22 +16,12 @@
         %main
           = render partial: 'layouts/flash_message'
           - if content_for?(:title)
-            .page-header.pb-10.page-header-dark.bg-gradient-primary-to-secondary
-              .container-fluid
-                .page-header-content.col-12.col-lg-9
-                  %h1.page-header-title.d-inline-block
-                    - if content_for(:title_icon)
-                      .page-header-icon
-                        = yield :title_icon
-                    %span
-                      = yield :title
-                  -if content_for? :header_button
-                    .float-right
-                      = yield :header_button
-                  .page-header-subtitle.mt-3
-                    = yield :title_sub
+            = render partial: 'layouts/title'
           .container-fluid.mt-n10
-            - if content_for(:card_header)
-              = render partial: 'layouts/card_layout'
-            = yield
+            .row
+              - if content_for(:card_header)
+                = render partial: 'layouts/card_layout'
+              - if content_for?(:nav_card)
+                = render partial: 'layouts/nav_card'
+              = yield
         = render partial: 'layouts/footer'

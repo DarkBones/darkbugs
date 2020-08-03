@@ -1,6 +1,17 @@
+:ruby
+  items = [
+    [i18n('view_members'), organization_path(organization.slug)]
+  ]
+
+  if organization.user_is_admin?(@current_user)
+    items.push([i18n('delete'), organization_delete_path(organization.slug)])
+  end
+
 %li.mb-3
+  .float-right
+    = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
   .font-weight-bold
-    = link_to organization.name, organization_path(organization.slug)
+    = link_to organization.name, root_url(subdomain: organization.slug)
   .small.text-muted
     = i18n('members', count: organization.users.count)
   .small.text-muted

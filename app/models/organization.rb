@@ -14,6 +14,11 @@ class Organization < ApplicationRecord
   before_validation :create_slug, on: :create
   after_create :create_tenant
 
+  # -- Scopes --------------------------------------------------------
+  scope :published, -> {
+    where(archived: false)
+  }
+
   # -- Instance Methods --------------------------------------------------------
   def user_role(user)
     UserOrganization::ROLES.key(user_organizations.find_by(user_id: user).role).downcase
@@ -30,8 +35,23 @@ class Organization < ApplicationRecord
       )
   end
 
+  def admins
+    users
+      .includes(:user_organizations)
+      .where('user_organizations.role in (?)',
+             [
+               UserOrganization::ROLES[:CREATOR],
+               UserOrganization::ROLES[:ADMIN]
+             ]
+      )
+  end
+
   def ordered_users
     users.includes(:user_organizations).order('user_organizations.role')
+  end
+
+  def archive!
+    update!(archived: true)
   end
 
   private def create_slug

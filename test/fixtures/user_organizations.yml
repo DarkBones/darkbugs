@@ -3,6 +3,16 @@ default_default:
   organization: default
   role: <%= UserOrganization::ROLES[:CREATOR] %>
 
+test_default:
+  user: test
+  organization: default
+  role: <%= UserOrganization::ROLES[:MEMBER] %>
+
+locked_default:
+  user: locked
+  organization: default
+  role: <%= UserOrganization::ROLES[:MEMBER] %>
+
 locked_test:
   user: locked
   organization: test
