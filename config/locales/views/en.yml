@@ -27,6 +27,8 @@ en:
         new_button: New Organization
         members: *members
         roles: *roles
+        view_members: View Members
+        delete: Delete Organization
       show:
         members: *members
         card_header: Members

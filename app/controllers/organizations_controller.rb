@@ -1,7 +1,7 @@
 class OrganizationsController < ApplicationController
   before_action :switch_to_public
   before_action :build_organization,      only: %i[new create]
-  before_action :load_organization,       only: %i[show add_members create_members grant_admin revoke_admin remove_member]
+  before_action :load_organization,       only: %i[show add_members create_members grant_admin revoke_admin remove_member delete]
   before_action :load_user,               only: %i[grant_admin revoke_admin remove_member]
   before_action :load_user_organization,  only: %i[grant_admin revoke_admin remove_member]
 
@@ -73,6 +73,14 @@ class OrganizationsController < ApplicationController
   rescue ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :show, status: :bad_request
+  end
+
+  def delete
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.delete.unauthorized') unless @organization.user_is_admin?(@current_user)
+  rescue ActionController::BadRequest => e
+    flash.now[:error] = e.message
+    @organizations = @current_user.organizations.order(:slug)
+    redirect_to(organizations_path, { :flash => { :error => e.message } })
   end
 
   private def switch_to_public

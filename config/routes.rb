@@ -12,9 +12,10 @@ Rails.application.routes.draw do
   delete 'uploads/user_avatar' => 'uploads#delete_user_avatar'
 
   resources :users
-  resources :organizations, param: :slug, except: [:update, :delete] do
+  resources :organizations, param: :slug, except: [:update, :destroy] do
     post :create_members
     get :add_members
+    get :delete
   end
   put '/organizations/:slug/grant_admin/:user_uuid',    to: 'organizations#grant_admin',    as: 'organization_grant_admin'
   put '/organizations/:slug/revoke_admin/:user_uuid',   to: 'organizations#revoke_admin',   as: 'organization_revoke_admin'
