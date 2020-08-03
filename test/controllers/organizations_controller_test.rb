@@ -69,7 +69,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :bad_request
     assert_template :new
-    assert_includes response.body, 'Name is already taken'
+    assert_match 'Name is already taken', flash[:error]
   end
 
   def test_create_fail_empty_name
@@ -77,7 +77,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :bad_request
     assert_template :new
-    assert_includes response.body, "Name can't be blank"
+    assert_match "Name can't be blank", flash[:error]
   end
 
   def test_show
@@ -130,7 +130,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_response :bad_request
-    assert_includes response.body, 'Only administrators can add members'
+    assert_match 'Only administrators can take this action', flash[:error]
   end
 
   def test_create_duplicate_case_insensitive
@@ -148,7 +148,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :bad_request
     assert_template :new
-    assert_includes response.body, 'Name is already taken'
+    assert_match 'Name is already taken', flash[:error]
   end
 
   def test_grant_admin_privileges
@@ -188,13 +188,15 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_equal UserOrganization::ROLES[:MEMBER], user_organization.role
 
-    put :grant_admin, params: {
-      slug: @organization.slug,
-      user_uuid: user.uuid
-    }
+    assert_no_difference 'Organization.count' do
+      put :grant_admin, params: {
+        slug: @organization.slug,
+        user_uuid: user.uuid
+      }
 
-    assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
-    assert_includes response.body, "Only administrators can grant administrator privileges"
+      assert_equal UserOrganization::ROLES[:MEMBER], user_organization.reload.role
+      assert_match 'Only administrators can take this action', flash[:error]
+    end
   end
 
   def test_fail_revoke_as_non_admin
@@ -212,7 +214,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:ADMIN], user_organization.reload.role
-    assert_includes response.body, "Only administrators can revoke administrator privileges"
+    assert_match 'Only administrators can take this action', flash[:error]
   end
 
   def test_fail_grant_same_user
@@ -225,7 +227,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
-    assert_includes response.body, "You can't grant administrator privileges to yourself"
+    assert_match "You can't grant administrator privileges to yourself", flash[:error]
   end
 
   def test_fail_revoke_same_user
@@ -238,7 +240,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
-    assert_includes response.body, "You can't revoke your own administrator privileges"
+    assert_match "You can't revoke your own administrator privileges", flash[:error]
   end
 
   def test_fail_grant_creator
@@ -254,7 +256,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.reload.role
-    assert_includes response.body, "User is already an administrator"
+    assert_match 'User is already an administrator', flash[:error]
   end
 
   def test_remove_member
@@ -281,6 +283,6 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
-    assert_includes response.body, "Only administrators can remove members"
+    assert_match 'Only administrators can take this action', flash[:error]
   end
 end

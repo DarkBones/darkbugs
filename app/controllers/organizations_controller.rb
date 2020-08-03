@@ -1,9 +1,9 @@
 class OrganizationsController < ApplicationController
   before_action :switch_to_public
-  before_action :build_organization,      only: %i[new create]
-  before_action :load_organization,       only: %i[show add_members create_members grant_admin revoke_admin remove_member delete]
-  before_action :load_user,               only: %i[grant_admin revoke_admin remove_member]
-  before_action :load_user_organization,  only: %i[grant_admin revoke_admin remove_member]
+  before_action :build_organization,      only:   %i[new create]
+  before_action :load_organization,       only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete]
+  before_action :load_user_organization,  only:   %i[grant_admin revoke_admin remove_member]
+  before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete]
 
   def index
     @organizations = @current_user.organizations.order(:slug)
@@ -24,7 +24,6 @@ class OrganizationsController < ApplicationController
   def add_members; end
 
   def create_members
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.create_members.unauthorized') unless @organization.user_is_admin?(@current_user)
     raise ArgumentError, I18n.t('controllers.organizations.create_members.no_usernames') unless add_members_params[:usernames].present?
 
     @results = Organizations::AddUsersService.new(@organization, add_members_params[:usernames]).execute
@@ -42,7 +41,6 @@ class OrganizationsController < ApplicationController
   end
 
   def grant_admin
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
     raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.same_user') if @user == @current_user
     raise ActionController::BadRequest, I18n.t('controllers.organizations.grant_admin.already_admin') if @organization.user_is_admin?(@user)
 
@@ -54,7 +52,6 @@ class OrganizationsController < ApplicationController
   end
 
   def revoke_admin
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.revoke_admin.unauthorized') unless @organization.user_is_admin?(@current_user)
     raise ActionController::BadRequest, I18n.t('controllers.organizations.revoke_admin.same_user') if @user == @current_user
 
     @user_organization.update!(role: UserOrganization::ROLES[:MEMBER])
@@ -65,7 +62,6 @@ class OrganizationsController < ApplicationController
   end
 
   def remove_member
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.remove_member.unauthorized') unless @organization.user_is_admin?(@current_user)
     raise ActionController::BadRequest, I18n.t('controllers.organizations.remove_member.same_user') if @user == @current_user
 
     @user_organization.destroy!
@@ -75,12 +71,14 @@ class OrganizationsController < ApplicationController
     render action: :show, status: :bad_request
   end
 
-  def delete
-    raise ActionController::BadRequest, I18n.t('controllers.organizations.delete.unauthorized') unless @organization.user_is_admin?(@current_user)
+  def delete; end
+
+  private def check_admin
+    load_organization
+
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.unauthorized') unless @organization.user_is_admin?(@current_user)
   rescue ActionController::BadRequest => e
-    flash.now[:error] = e.message
-    @organizations = @current_user.organizations.order(:slug)
-    redirect_to(organizations_path, { :flash => { :error => e.message } })
+    redirect_to(organizations_path, { :flash => { :error => e.message }, :status => :bad_request })
   end
 
   private def switch_to_public
@@ -89,7 +87,7 @@ class OrganizationsController < ApplicationController
 
   private def email_new_members(users, organization)
     users.each do |user|
-      Devise.mailer.added_to_organization(user, @current_user, @organization).deliver_now
+      Devise.mailer.added_to_organization(user, @current_user, organization).deliver_now
     end
   end
 
@@ -104,10 +102,12 @@ class OrganizationsController < ApplicationController
 
   private def load_organization
     slug = params[:slug] || params[:organization_slug]
-    @organization = @current_user.organizations.find_by!(slug: slug)
+    @organization ||= @current_user.organizations.find_by!(slug: slug)
   end
 
   private def load_user_organization
+    load_organization
+    load_user
     @user_organization = @user.user_organizations.find_by!(organization: @organization)
   end
 
