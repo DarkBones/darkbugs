@@ -28,7 +28,7 @@
             end
 
           .float-right
-            = render partial: 'shared/ellipsis_dropdown', locals: {items: items}
+            = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
 
         .small.text-muted.d-inline-block
           = i18n("roles.#{@organization.user_role(user)}", date: @current_user.local_date(@organization.join_date(user)))
