@@ -1,24 +1,32 @@
-FROM ruby:2.7.1
+FROM ruby:2.7.1-alpine
 
-RUN curl https://deb.nodesource.com/setup_12.x | bash
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apk add --update --no-cache \
+    build-base \
+    postgresql-dev \
+    sqlite-dev \
+    git \
+    file \
+    imagemagick \
+    nodejs-current \
+    yarn \
+    tzdata
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
-RUN mkdir /app
+# Create project directory (workdir)
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock ./
-RUN gem install bundler
-RUN bundle install
+# Install gems
+COPY Gemfile* ./
+RUN bundle config --global frozen 1 \
+ && bundle install -j4 --retry 3
+
+# Add source code files to WORKDIR
 COPY . .
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# Install yarn packages (non-optimized version, remove if you are using optimized version above)
+RUN yarn install
 
+# Application port (optional)
 EXPOSE 3000
 
-# Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# Container start command
+CMD ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]

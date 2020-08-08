@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: postgres
+    image: postgres:10
     environment:
       POSTGRES_DB: darkbugs_dev
       POSTGRES_USER: postgres
@@ -19,6 +19,7 @@ services:
       LAUNCHY_DRY_RUN: 'true'
       BROWSER: /dev/null
       DEFAULT_TEST_PASS: 'L9<h/(6j5YYS/($jq'
+      RAILS_ENV: production
     command: bash -c "rm -f /app/tmp/pids/server.pid && bundle update && bundle install && yarn install --check-files && bundle exec rake db:create && foreman start -f Procfile.dev"
     volumes:
       - .:/app

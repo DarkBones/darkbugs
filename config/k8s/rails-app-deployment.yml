@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rails-app
+  name: rails-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rails-app
+  template:
+    metadata:
+      labels:
+        app: rails-app
+    spec:
+      containers:
+        - name: rails-app
+          image: darkbones/darkbugs:latest
+          env:
+            - name: APP_NAME
+              value: Darkbugs
+            - name: DB_HOST
+              value: db
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-db
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-db
+                  key: password
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secret-rails
+                  key: master_key
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: regcred-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rails-app
+spec:
+  selector:
+    app: rails-app
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+status:
+  loadBalancer: {}

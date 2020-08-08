@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: darkbugs-load-balancer
+  name: rails-load-balancer
 spec:
-  loadBalancerIP: 52.228.114.222
   type: LoadBalancer
   selector:
-    service: web
+    app: rails-app
   ports:
     - protocol: TCP
       port: 80
