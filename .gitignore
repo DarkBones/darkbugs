@@ -43,7 +43,3 @@ docker-compose.yml
 /app/views/layouts/_template.html.haml
 
 /app/views/email
-
-
-# Ignore DevSpace cache and log folder
-.devspace/
