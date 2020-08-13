@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: darkbones/darkbugs:latest
+          command: ['rails']
+          args: ['db:migrate']
+          env:
+            - name: DB_HOST
+              value: db
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-db
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-db
+                  key: password
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-rails
+                  key: master_key
