@@ -7,6 +7,7 @@ metadata:
 spec:
   ports:
     - port: 5432
+      name: db
   selector:
     app: db
     tier: database
