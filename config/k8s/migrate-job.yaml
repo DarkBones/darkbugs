@@ -9,8 +9,8 @@ spec:
       containers:
         - name: migrate
           image: darkbones/darkbugs:latest
-          command: ['rails']
-          args: ['db:migrate']
+          command: ['/bin/sh', '-c']
+          args: ['echo CREATING DATABASE && rails db:prepare && echo DONE CREATING DATABASE']
           env:
             - name: DB_HOST
               value: db
