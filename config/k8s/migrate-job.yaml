@@ -9,11 +9,14 @@ spec:
       containers:
         - name: migrate
           image: darkbones/darkbugs:latest
-          command: ['/bin/sh', '-c']
-          args: ['echo CREATING DATABASE && rails db:prepare && echo DONE CREATING DATABASE']
+          imagePullPolicy: "Always"
+          command: ['rails']
+          args: ['db:prepare']
           env:
             - name: DB_HOST
               value: db
+            - name: APP_NAME
+              value: Darkbugs
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
