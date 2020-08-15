@@ -4,12 +4,16 @@ postgresql:
     registry: docker.io
     repository: bitnami/postgresql
     tag: 11.7.0-debian-10-r9
+  persistence:
+    enabled: false
 
 rails-app:
   replicaCount: 1
+  appName: Darkbugs
   image:
     repository: darkbones/darkbugs
-    tag: latest
+    tag: dev
+    pullPolicy: IfNotPresent
   rails:
     masterKey: topsecret
   autoscaling:
@@ -23,4 +27,4 @@ global:
   postgresql:
     postgresqlUsername: username
     postgresqlPassword: secret
-    host: tcp-postgresql
+    host: postgresql
