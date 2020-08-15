@@ -61,3 +61,47 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "rails-app.secretName" -}}
+{{- printf "%s" (include "rails-app.fullname" .) -}}
+{{- end -}}
+
+{{- define "rails-app.db.password" -}}
+{{- if .Values.global.postgresql.postgresqlPassword }}
+{{- .Values.global.postgresql.postgresqlPassword -}}
+{{- else if .Values.postgresqlPassword -}}
+{{- .Values.postgresqlPassword -}}
+{{- else -}}
+{{- randAlphaNum 10 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "rails-app.db.username" -}}
+{{- if .Values.global.postgresql.postgresqlUsername }}
+{{- .Values.global.postgresql.postgresqlUsername -}}
+{{- else if .Values.postgresqlUsername -}}
+{{- .Values.postgresqlUsername -}}
+{{- else -}}
+postgres
+{{- end -}}
+{{- end -}}
+
+{{- define "rails-app.db.host" -}}
+{{- if .Values.global.postgresql.host }}
+{{- .Values.global.postgresql.host -}}
+{{- else -}}
+postgres
+{{- end -}}
+{{- end -}}
+
+{{- define "rails-app.master-key" -}}
+{{- if .Values.rails.masterKey -}}
+{{- .Values.rails.masterKey -}}
+{{- else -}}
+{{- randAlphaNum 32 -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "rails-app.secrets" -}}
+- secret: true
+{{- end -}}
