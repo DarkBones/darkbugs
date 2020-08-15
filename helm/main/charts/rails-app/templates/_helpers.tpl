@@ -88,7 +88,8 @@ postgres
 
 {{- define "rails-app.db.host" -}}
 {{- if .Values.global.postgresql.host }}
-{{- .Values.global.postgresql.host -}}
+{{- $hostname := default "tcp-postgresql" .Values.global.postgresql.host -}}
+{{ printf "%s-%s" .Release.Name $hostname | trunc 14 | trimSuffix "-" }}
 {{- else -}}
 postgres
 {{- end -}}
@@ -104,4 +105,8 @@ postgres
 
 {{- define "rails-app.secrets" -}}
 - secret: true
+{{- end -}}
+
+{{- define "rails-app.app-name" -}}
+{{ default "rails-app" .Values.appName }}
 {{- end -}}

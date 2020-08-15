@@ -154,7 +154,8 @@ Return PostgreSQL port
 Return PostgreSQL host name
 */}}
 {{- define "postgresql.host" -}}
-{{ default "tcp-postgresql" .Values.global.postgresql.host }}
+{{- $hostname := default "tcp-postgresql" .Values.global.postgresql.host -}}
+{{ printf "%s-%s" .Release.Name $hostname | trunc 14 | trimSuffix "-" }}
 {{- end -}}
 
 {{/*
