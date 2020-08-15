@@ -1,0 +1,5 @@
+global:
+  postgresql:
+    postgresqlUsername: username
+    postgresqlPassword: secret
+    host: tcp-postgresql
