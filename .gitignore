@@ -43,3 +43,5 @@ docker-compose.yml
 /app/views/layouts/_template.html.haml
 
 /app/views/email
+/helm/main/templates/secret*
+/helm/Makefile
