@@ -195,7 +195,10 @@ spec:
             {{- end }}
             {{- end }}
             - name: POSTGRES_USER
-              value: {{ include "postgresql.username" . | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "postgresql.secretName" . }}
+                  key: postgresql-postgres-username
             {{- if .Values.usePasswordFile }}
             - name: POSTGRES_PASSWORD_FILE
               value: "/opt/bitnami/postgresql/secrets/postgresql-password"

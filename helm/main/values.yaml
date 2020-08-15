@@ -1,3 +1,24 @@
+postgresql:
+  replicaCount: 1
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 11.7.0-debian-10-r9
+
+rails-app:
+  replicaCount: 1
+  image:
+    repository: darkbones/darkbugs
+    tag: latest
+  rails:
+    masterKey: topsecret
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
 global:
   postgresql:
     postgresqlUsername: username
