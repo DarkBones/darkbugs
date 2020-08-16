@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DOCKER_NAME=darkbones/darkbugs
-RELEASE_NAME_HELM="cautious-power"
 
 MASTER_KEY_FILE="config/master.key"
 SECRETS_FILE="deploy/secrets.yaml"
@@ -11,6 +10,8 @@ DB_PASSWORD=""
 KUBE_CONTEXT=""
 RAILS_MASTER_KEY=""
 UPDATE_YAML=false
+GENERATE_HELM_NAME=false
+CURRENT_HELM_NAME=""
 
 ############# SECURITY CHECKS #############
 
@@ -21,8 +22,27 @@ fi
 
 if [ ! $(git rev-parse --abbrev-ref HEAD) = "main" ]; then
   echo "ERROR: You must be in main branch to run this script"
-#  exit 1
+  exit 1
 fi
+
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      echo "options:"
+      echo "-h, --help                show help"
+      echo "-n, --generate-helm-name  generate a new helm name"
+      shift
+      ;;
+    -n|--generate-helm-name)
+      GENERATE_HELM_NAME=true
+      UPDATE_YAML=true
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
 
 ############# SET UP SECRETS #############
 echo "Setting up secrets..."
@@ -39,6 +59,9 @@ while read line; do
   elif [ $id = "k8s_context" ] && [ -n $string ]; then
     KUBE_CONTEXT=$string
     echo "  Found k8s context in deploy/secrets.yaml"
+  elif [ $id = "current_helm_release" ] && [ -n $string ]; then
+    CURRENT_HELM_NAME=$string
+    echo "  Found current helm release name in deploy/secrets.yaml"
   fi
 done < $SECRETS_FILE
 
@@ -79,9 +102,9 @@ if [ -z $RAILS_MASTER_KEY ]; then
   echo "  created config/master.key"
 fi
 
-if [ $UPDATE_YAML = true ]; then
-  printf "db_username: $DB_USERNAME\ndb_password: $DB_PASSWORD\nk8s_context: $KUBE_CONTEXT\n" > $SECRETS_FILE
-  echo "  updating config/secrets.yaml"
+if [ -z $CURRENT_HELM_NAME ]; then
+  UPDATE_YAML=true
+  GENERATE_HELM_NAME=true
 fi
 
 ############# GENERATE RELEASE NAME #############
@@ -91,7 +114,11 @@ do
   adj=`echo $(shuf -n 1 "deploy/words_adjectives.txt")`
   noun=`echo $(shuf -n 1 "deploy/words_nouns.txt")`
   RELEASE_NAME_DOCKER="$adj$noun"
-#  RELEASE_NAME_HELM="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
+
+  RELEASE_NAME_HELM=$CURRENT_HELM_NAME
+  if [ $GENERATE_HELM_NAME = true ]; then
+    RELEASE_NAME_HELM="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
+  fi
 
   IN_FILE=false
   while read line; do
@@ -120,6 +147,15 @@ fi
 
 echo "Releasing $RELEASE_NAME_DOCKER"
 
+if [ $UPDATE_YAML = true ]; then
+  printf "db_username: $DB_USERNAME\ndb_password: $DB_PASSWORD\nk8s_context: $KUBE_CONTEXT\n" > $SECRETS_FILE
+
+  if [ -n $CURRENT_HELM_NAME ]; then
+    printf "current_helm_release: $RELEASE_NAME_HELM\n" >> $SECRETS_FILE
+  fi
+  echo "  updated config/secrets.yaml"
+fi
+
 ############# BUILD DOCKER IMAGE #############
 
 echo "building docker image..."
@@ -146,4 +182,10 @@ helm upgrade --install \
   --set global.postgresql.postgresqlPassword="$DB_PASSWORD"
 
 git tag $RELEASE_NAME_HELM
+git push --tags
 echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
+
+if [ $GENERATE_HELM_NAME = true ] && [ -n $CURRENT_HELM_NAME ]; then
+  helm uninstall $CURRENT_HELM_NAME
+  echo "uninstalled $CURRENT_HELM_NAME"
+fi
