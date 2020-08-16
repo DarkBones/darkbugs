@@ -33,7 +33,7 @@ while test $# -gt 0; do
       echo "-h, --help                show help"
       echo "-n, --generate-helm-name  generate a new helm name"
       echo "-l, --local               run on minikube"
-      shift
+      exit 0
       ;;
     -n|--generate-helm-name)
       GENERATE_HELM_NAME=true
