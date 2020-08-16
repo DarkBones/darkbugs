@@ -42,7 +42,7 @@ while read line; do
 done < $SECRETS_FILE
 
 if [ -f $MASTER_KEY_FILE ]; then
-  string=`cat /app/config/master.key`
+  string=`cat config/master.key`
   if [ -n $string ]; then
     RAILS_MASTER_KEY=$string
     echo "  Found rails master key in config/master.key"
@@ -70,7 +70,7 @@ if [ -z $KUBE_CONTEXT ]; then
   KUBE_CONTEXT=$kubecontext
 fi
 
-if [ -z $MASTER_KEY_FILE ]; then
+if [ -z $RAILS_MASTER_KEY ]; then
   printf "\n  rails master key not found. Enter it here:\n"
   read -s masterkey
   RAILS_MASTER_KEY=$masterkey
