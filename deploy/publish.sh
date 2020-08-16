@@ -114,10 +114,11 @@ do
   adj=`echo $(shuf -n 1 "deploy/words_adjectives.txt")`
   noun=`echo $(shuf -n 1 "deploy/words_nouns.txt")`
   RELEASE_NAME_DOCKER="$adj$noun"
+  GIT_TAG="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
 
   RELEASE_NAME_HELM=$CURRENT_HELM_NAME
   if [ $GENERATE_HELM_NAME = true ]; then
-    RELEASE_NAME_HELM="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
+    RELEASE_NAME_HELM=$GIT_TAG
   fi
 
   IN_FILE=false
