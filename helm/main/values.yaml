@@ -28,3 +28,6 @@ global:
     postgresqlUsername: username
     postgresqlPassword: secret
     host: postgresql
+  release:
+    helm: helm-release-name
+    git: git-tag

@@ -3,7 +3,8 @@ module ApplicationHelper
     data = {
       hostname: 'unknown',
       source: VERSION_NAME,
-      sha: VERSION_SHA
+      sha: VERSION_SHA,
+      tag: ENV['RELEASE_TAG']
     }
 
     if Socket.gethostname.present?

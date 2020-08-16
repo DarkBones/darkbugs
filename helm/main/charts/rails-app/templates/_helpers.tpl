@@ -110,3 +110,8 @@ postgres
 {{- define "rails-app.app-name" -}}
 {{ default "rails-app" .Values.appName }}
 {{- end -}}
+
+{{- define "rails-app.release-tag" -}}
+{{- $gitTag := default "git-tag" .Values.global.release.git -}}
+{{ printf "%s // %s" .Release.Name $gitTag }}
+{{- end -}}

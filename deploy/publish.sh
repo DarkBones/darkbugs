@@ -12,6 +12,7 @@ RAILS_MASTER_KEY=""
 UPDATE_YAML=false
 GENERATE_HELM_NAME=false
 CURRENT_HELM_NAME=""
+RUN_LOCAL=false
 
 ############# SECURITY CHECKS #############
 
@@ -31,11 +32,16 @@ while test $# -gt 0; do
       echo "options:"
       echo "-h, --help                show help"
       echo "-n, --generate-helm-name  generate a new helm name"
+      echo "-l, --local               run on minikube"
       shift
       ;;
     -n|--generate-helm-name)
       GENERATE_HELM_NAME=true
       UPDATE_YAML=true
+      shift
+      ;;
+    -l|--local)
+      RUN_LOCAL=true
       shift
       ;;
     *)
@@ -173,19 +179,28 @@ docker push $DOCKER_NAME
 
 ############# INSTALL HELM CHART #############
 
-kubectl config use-context $KUBE_CONTEXT
+if [ $RUN_LOCAL = true ]; then
+  kubectl config use-context minikube
+else
+  kubectl config use-context $KUBE_CONTEXT
+fi
 
 helm upgrade --install \
   $RELEASE_NAME_HELM helm/main \
   --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
   --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
   --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
-  --set global.postgresql.postgresqlPassword="$DB_PASSWORD"
+  --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
+  --set global.release.helm=$RELEASE_NAME_HELM \
+  --set global.release.git=$GIT_TAG
 
-git tag $RELEASE_NAME_DOCKER
-git push --tags
-echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
+if [ $RUN_LOCAL = false ]; then
+  git tag $RELEASE_NAME_DOCKER
+  git push --tags
+  echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
+fi
 
+# TODO: Wait until new pod is up and running
 if [ $GENERATE_HELM_NAME = true ] && [ -n $CURRENT_HELM_NAME ]; then
   helm uninstall $CURRENT_HELM_NAME
   echo "uninstalled $CURRENT_HELM_NAME"

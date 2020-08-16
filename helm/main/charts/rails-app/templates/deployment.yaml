@@ -52,6 +52,8 @@ spec:
               value: {{ template "rails-app.db.host" . }}
             - name: APP_NAME
               value: {{ template "rails-app.app-name" . }}
+            - name: RELEASE_TAG
+              value: {{ template "rails-app.release-tag" . }}
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
