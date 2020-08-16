@@ -15,8 +15,8 @@ class User < ApplicationRecord
 
   # -- Validations --------------------------------------------------------
   validates_presence_of :email
-  validates_presence_of :password, on: create
-  validates_presence_of :password_confirmation, on: create
+  validates_presence_of :password, on: :create
+  validates_presence_of :password_confirmation, on: :create
   validates_presence_of :user_profile
 
   # -- Constants ---------------------------------------------------------------
