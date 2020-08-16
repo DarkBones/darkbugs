@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DOCKER_NAME=darkbones/darkbugs
+RELEASE_NAME_HELM="cautious-power"
 
 MASTER_KEY_FILE="config/master.key"
 SECRETS_FILE="deploy/secrets.yaml"
@@ -90,23 +91,23 @@ do
   adj=`echo $(shuf -n 1 "deploy/words_adjectives.txt")`
   noun=`echo $(shuf -n 1 "deploy/words_nouns.txt")`
   RELEASE_NAME_DOCKER="$adj$noun"
-  RELEASE_NAME_HELM="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
+#  RELEASE_NAME_HELM="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
 
   IN_FILE=false
   while read line; do
-    if [ $line = $RELEASE_NAME_HELM ]; then
+    if [ $line = $RELEASE_NAME_DOCKER ]; then
       IN_FILE=true
       break
     fi
   done < "deploy/versions.txt"
 
   if [ $IN_FILE = false ]; then
-    printf "\nNamed release: $RELEASE_NAME_HELM\n"
+    printf "\nNamed release: $RELEASE_NAME_DOCKER\n"
     break
   fi
 done
 
-echo "Release $RELEASE_NAME_HELM to production? Type 'ok'"
+echo "Release $RELEASE_NAME_DOCKER to production? Type 'ok'"
 read confirm
 if [ -z $confirm ]; then
   echo "Deploy cancelled"
@@ -139,10 +140,10 @@ kubectl config use-context $KUBE_CONTEXT
 
 helm upgrade --install \
   $RELEASE_NAME_HELM helm/main \
-  --set rails-app.rails.masterKey=$RAILS_MASTER_KEY \
-  --set rails-app.image.tag=$RELEASE_NAME_DOCKER \
-  --set global.postgresql.postgresqlUsername=$DB_USERNAME \
-  --set global.postgresql.postgresqlPassword=$DB_PASSWORD
+  --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
+  --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
+  --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
+  --set global.postgresql.postgresqlPassword="$DB_PASSWORD"
 
 git tag $RELEASE_NAME_HELM
-echo $RELEASE_NAME_HELM >> "deploy/versions.txt"
+echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
