@@ -1,3 +1,5 @@
 .git/*
 config/master.key
 config/k8s/secret*
+helm/*
+deploy/*
