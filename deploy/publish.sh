@@ -181,7 +181,7 @@ helm upgrade --install \
   --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
   --set global.postgresql.postgresqlPassword="$DB_PASSWORD"
 
-git tag $RELEASE_NAME_HELM
+git tag $RELEASE_NAME_DOCKER
 git push --tags
 echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
 
