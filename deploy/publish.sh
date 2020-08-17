@@ -15,6 +15,7 @@ CURRENT_HELM_NAME=""
 RUN_LOCAL=false
 SKIP_DOCKER=false
 FORCE_BRANCH=true
+DEBUG_MODE=false
 
 ############# SECURITY CHECKS #############
 
@@ -33,6 +34,7 @@ while test $# -gt 0; do
     -h|--help)
       echo "options:"
       echo "-h, --help                show help"
+      echo "-d, --debug               debug mode"
       echo "-f, --force               force install the current branch"
       echo "-n, --generate-helm-name  generate a new helm name"
       echo "-l, --local               run on minikube"
@@ -54,6 +56,10 @@ while test $# -gt 0; do
       ;;
     -f|--force)
       FORCE_BRANCH=true
+      shift
+      ;;
+    -d|--debug)
+      DEBUG_MODE=true
       shift
       ;;
     *)
@@ -160,15 +166,17 @@ do
   fi
 done
 
-echo "Release $RELEASE_NAME_DOCKER to production? Type 'ok'"
-read confirm
-if [ -z $confirm ]; then
-  echo "Deploy cancelled"
-  exit 0
-fi
-if [ ! $confirm = 'ok' ]; then
-  echo "Deploy cancelled"
-  exit 0
+if [ $DEBUG_MODE = false ]; then
+  echo "Release $RELEASE_NAME_DOCKER to production? Type 'ok'"
+  read confirm
+  if [ -z $confirm ]; then
+    echo "Deploy cancelled"
+    exit 0
+  fi
+  if [ ! $confirm = 'ok' ]; then
+    echo "Deploy cancelled"
+    exit 0
+  fi
 fi
 
 echo "Releasing $RELEASE_NAME_DOCKER"
@@ -206,25 +214,37 @@ else
   kubectl config use-context $KUBE_CONTEXT
 fi
 
-helm upgrade --install \
-  $RELEASE_NAME_HELM helm/main \
-  --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
-  --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
-  --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
-  --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
-  --set global.release.helm=$RELEASE_NAME_HELM \
-  --set global.release.git=$GIT_TAG
+if [ $DEBUG_MODE = true ]; then
+  helm upgrade --install \
+    $RELEASE_NAME_HELM helm/main \
+    --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
+    --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
+    --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
+    --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
+    --set global.release.helm=$RELEASE_NAME_HELM \
+    --set global.release.git=$GIT_TAG \
+    --dry-run --debug
+else
+  helm upgrade --install \
+    $RELEASE_NAME_HELM helm/main \
+    --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
+    --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
+    --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
+    --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
+    --set global.release.helm=$RELEASE_NAME_HELM \
+    --set global.release.git=$GIT_TAG
 
-if [ $RUN_LOCAL = false ] && [ $SKIP_DOCKER = false ]; then
-  git tag $RELEASE_NAME_DOCKER
-  git push --tags
-  echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
-  git commit -am "New version"
-  git push
-fi
+  if [ $RUN_LOCAL = false ] && [ $SKIP_DOCKER = false ]; then
+    git tag $RELEASE_NAME_DOCKER
+    git push --tags
+    echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
+    git commit -am "New version"
+    git push
+  fi
 
-# TODO: Wait until new pod is up and running
-if [ $GENERATE_HELM_NAME = true ] && [ -n $CURRENT_HELM_NAME ]; then
-  helm uninstall $CURRENT_HELM_NAME
-  echo "uninstalled $CURRENT_HELM_NAME"
+  # TODO: Wait until new pod is up and running
+  if [ $GENERATE_HELM_NAME = true ] && [ -n $CURRENT_HELM_NAME ]; then
+    helm uninstall $CURRENT_HELM_NAME
+    echo "uninstalled $CURRENT_HELM_NAME"
+  fi
 fi
