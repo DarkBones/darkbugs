@@ -14,6 +14,7 @@ GENERATE_HELM_NAME=false
 CURRENT_HELM_NAME=""
 RUN_LOCAL=false
 SKIP_DOCKER=false
+FORCE_BRANCH=true
 
 ############# SECURITY CHECKS #############
 
@@ -22,7 +23,7 @@ if [ ! $(basename "$PWD") = "darkbugs" ]; then
   exit 1
 fi
 
-if [ ! $(git rev-parse --abbrev-ref HEAD) = "main" ]; then
+if [ ! $(git rev-parse --abbrev-ref HEAD) = "main" ] && [ $FORCE_BRANCH = false ]; then
   echo "ERROR: You must be in main branch to run this script"
   exit 1
 fi
@@ -32,6 +33,7 @@ while test $# -gt 0; do
     -h|--help)
       echo "options:"
       echo "-h, --help                show help"
+      echo "-f, --force               force install the current branch"
       echo "-n, --generate-helm-name  generate a new helm name"
       echo "-l, --local               run on minikube"
       echo "-s, --skip-docker         skip building docker image"
@@ -48,6 +50,10 @@ while test $# -gt 0; do
       ;;
     -s|--skip-docker)
       SKIP_DOCKER=true
+      shift
+      ;;
+    -f|--force)
+      FORCE_BRANCH=true
       shift
       ;;
     *)
@@ -128,18 +134,25 @@ do
   RELEASE_NAME_DOCKER="$adj$noun"
   GIT_TAG="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
 
+  if [ $SKIP_DOCKER = true ]; then
+    RELEASE_NAME_DOCKER=$( tail -n 1 'deploy/versions.txt' )
+  fi
+
   RELEASE_NAME_HELM=$CURRENT_HELM_NAME
   if [ $GENERATE_HELM_NAME = true ]; then
     RELEASE_NAME_HELM=$GIT_TAG
   fi
 
   IN_FILE=false
-  while read line; do
-    if [ $line = $RELEASE_NAME_DOCKER ]; then
-      IN_FILE=true
-      break
-    fi
-  done < "deploy/versions.txt"
+
+  if [ $SKIP_DOCKER = false ]; then
+    while read line; do
+      if [ $line = $RELEASE_NAME_DOCKER ]; then
+        IN_FILE=true
+        break
+      fi
+    done < "deploy/versions.txt"
+  fi
 
   if [ $IN_FILE = false ]; then
     printf "\nNamed release: $RELEASE_NAME_DOCKER\n"
