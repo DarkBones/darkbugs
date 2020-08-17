@@ -25,6 +25,8 @@ module Darkbugs
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+
     config.middleware.use Apartment::Elevators::Subdomain
   end
 end
