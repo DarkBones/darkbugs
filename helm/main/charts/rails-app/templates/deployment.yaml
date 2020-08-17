@@ -73,7 +73,28 @@ spec:
             - bash
             - -c
             - rm -f tmp/pids/server.pid && bundle update && bundle install --without development test && RAILS_ENV=production rake db:prepare && RAILS_ENV=production rake assets:precompile && yarn install --check-files && RAILS_ENV=production bundle exec rails s -p 3000 -b '0.0.0.0'
+        - name: nginx
+          image: nginx:1.14-alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /assets
+              name: assets
+              readOnly: true
+            - mountPath: /etc/nginx/nginx.conf
+              name: nginx-conf
+              subPath: nginx.conf
+              readOnly: true
       {{- with .Values.nodeSelector }}
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: {{ .Release.Name }}-nginx-conf
+            items:
+                - key: nginx.conf
+                  path: nginx.conf
+        - name: assets
+          emptyDir: {}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
