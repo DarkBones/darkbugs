@@ -75,13 +75,14 @@ en:
           forgot_password: *forgot_password
           sign_up: *sign_up_prompt
       passwords:
-        new:
+        new: &users_passwords_new
           title: Password Recovery
           instructions: Enter your email address and we will send you a link to reset your password.
           return_to_login: *return_to_login
           submit: Reset Password
           no_confirmation: *no_confirmation
           sign_up: *sign_up_prompt
+        edit: *users_passwords_new
       registrations:
         new:
           title: Sign Up

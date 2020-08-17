@@ -8,7 +8,7 @@ class UserMailerLocal < Devise::Mailer
 
   def confirmation_instructions(record, token, _opts = {})
     @title = I18n.t('mailers.user_mailer.confirmation_instructions.title')
-    @name = record.email
+    @name = record.name
     @link = user_confirmation_url(confirmation_token: token)
     mail(to: record.email,
          subject: @title)
@@ -16,7 +16,7 @@ class UserMailerLocal < Devise::Mailer
 
   def reset_password_instructions(record, token, _opts = {})
     @title = I18n.t('mailers.user_mailer.reset_password_instructions.title')
-    @name = record.email
+    @name = record.name
     @link = edit_user_password_url(record, reset_password_token: token)
     mail(to: record.email,
          subject: @title)
@@ -24,7 +24,7 @@ class UserMailerLocal < Devise::Mailer
 
   def unlock_instructions(record, token, _opts = {})
     @title = I18n.t('mailers.user_mailer.unlock_instructions.title')
-    @name = record.email
+    @name = record.name
     @link = user_unlock_url(:unlock_token => token)
     mail(to: record.email,
          subject: @title)
