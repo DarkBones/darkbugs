@@ -11,6 +11,7 @@
     #layoutAuthentication
       #layoutAuthentication_content
         %main
+          = render partial: 'layouts/flash_message'
           .container
             .row.justify-content-center
               = yield
