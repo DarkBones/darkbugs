@@ -202,7 +202,7 @@ helm upgrade --install \
   --set global.release.helm=$RELEASE_NAME_HELM \
   --set global.release.git=$GIT_TAG
 
-if [ $RUN_LOCAL = false ]; then
+if [ $RUN_LOCAL = false ] && [ $SKIP_DOCKER = false ]; then
   git tag $RELEASE_NAME_DOCKER
   git push --tags
   echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
