@@ -7,17 +7,17 @@
         = i18n 'profile_card_header'
       .card-body
         .row
-          = f.simple_fields_for :user_profile, :user_profile do |up|
+          = f.simple_fields_for :user_profile, :user_profile do |user_profile|
             .col-12.col-sm-4.col-md-3
               .row
                 .col-12
                   = react_component('file_uploader/FileUploader', src: @current_user.avatar_path, buttonText: i18n('upload_image'), fileType: 'image/jpeg, image/png', id: 'avatar', placeholder: @current_user.avatar_placeholder_path)
             .col-12.col-sm-8.col-md-9
               .row
-                = up.input :username, autofocus: true, input_html: { autocomplete: 'username' }
-                = up.input :first_name, wrapper: :md6
-                = up.input :last_name, wrapper: :md6
-                = up.input :bio
+                = user_profile.input :username, autofocus: true, input_html: { autocomplete: 'username' }
+                = user_profile.input :first_name, wrapper: :md6
+                = user_profile.input :last_name, wrapper: :md6
+                = user_profile.input :bio
                 = f.input :email, autocomplete: 'email'
                 - if devise_mapping.confirmable? && resource.pending_reconfirmation?
                   .col-12.text-danger.small.mb-4
