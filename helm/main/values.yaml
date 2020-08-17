@@ -8,7 +8,7 @@ postgresql:
     enabled: false
 
 rails-app:
-  replicaCount: 1
+  replicaCount: 3
   appName: Darkbugs
   image:
     repository: darkbones/darkbugs
