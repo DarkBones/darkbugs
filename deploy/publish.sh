@@ -13,6 +13,7 @@ UPDATE_YAML=false
 GENERATE_HELM_NAME=false
 CURRENT_HELM_NAME=""
 RUN_LOCAL=false
+SKIP_DOCKER=false
 
 ############# SECURITY CHECKS #############
 
@@ -33,6 +34,7 @@ while test $# -gt 0; do
       echo "-h, --help                show help"
       echo "-n, --generate-helm-name  generate a new helm name"
       echo "-l, --local               run on minikube"
+      echo "-s, --skip-docker         skip building docker image"
       exit 0
       ;;
     -n|--generate-helm-name)
@@ -42,6 +44,10 @@ while test $# -gt 0; do
       ;;
     -l|--local)
       RUN_LOCAL=true
+      shift
+      ;;
+    -s|--skip-docker)
+      SKIP_DOCKER=true
       shift
       ;;
     *)
@@ -165,17 +171,19 @@ fi
 
 ############# BUILD DOCKER IMAGE #############
 
-echo "building docker image..."
+if [ $SKIP_DOCKER = false ]; then
+  echo "building docker image..."
 
-DOCKER_IMG=$DOCKER_NAME:$RELEASE_NAME_DOCKER
-DOCKER_LATEST=$DOCKER_NAME:latest
+  DOCKER_IMG=$DOCKER_NAME:$RELEASE_NAME_DOCKER
+  DOCKER_LATEST=$DOCKER_NAME:latest
 
-echo "  $DOCKER_IMG"
+  echo "  $DOCKER_IMG"
 
-docker build -t $DOCKER_IMG .
-docker tag $DOCKER_IMG $DOCKER_LATEST
+  docker build -t $DOCKER_IMG .
+  docker tag $DOCKER_IMG $DOCKER_LATEST
 
-docker push $DOCKER_NAME
+  docker push $DOCKER_NAME
+fi
 
 ############# INSTALL HELM CHART #############
 
