@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks'
   }
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+  mount LetsEncrypt::Engine => '/.well-known' if Rails.env.production?
 
   post 'uploads/user_avatar' => 'uploads#create_user_avatar'
   delete 'uploads/user_avatar' => 'uploads#delete_user_avatar'
