@@ -16,7 +16,11 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  backend:
-    serviceName: {{ $fullName }}
-    servicePort: {{ $svcPort }}
+  rules:
+    - host: darkbugs.com
+      http:
+        paths:
+        - backend:
+            serviceName: {{ $fullName }}
+            servicePort: {{ $svcPort }}
   {{- end }}
