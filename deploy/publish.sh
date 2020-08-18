@@ -7,6 +7,7 @@ SECRETS_FILE="deploy/secrets.yaml"
 
 DB_USERNAME=""
 DB_PASSWORD=""
+ADMIN_EMAIL=""
 KUBE_CONTEXT=""
 RAILS_MASTER_KEY=""
 UPDATE_YAML=false
@@ -86,6 +87,9 @@ while read line; do
   elif [ $id = "current_helm_release" ] && [ -n $string ]; then
     CURRENT_HELM_NAME=$string
     echo "  Found current helm release name in deploy/secrets.yaml"
+  elif [ $id = "admin_email" ] && [ -n $string ]; then
+    ADMIN_EMAIL=$string
+    echo "  Found admin email release name in deploy/secrets.yaml"
   fi
 done < $SECRETS_FILE
 
@@ -116,6 +120,13 @@ if [ -z $KUBE_CONTEXT ]; then
   printf "\n  k8s context not found. Enter it here:\n"
   read kubecontext
   KUBE_CONTEXT=$kubecontext
+fi
+
+if [ -z $ADMIN_EMAIL ]; then
+  UPDATE_YAML=true
+  printf "\n  admin email not found. Enter it here:\n"
+  read adminemail
+  ADMIN_EMAIL=$adminemail
 fi
 
 if [ -z $RAILS_MASTER_KEY ]; then
@@ -182,7 +193,7 @@ fi
 echo "Releasing $RELEASE_NAME_DOCKER"
 
 if [ $UPDATE_YAML = true ]; then
-  printf "db_username: $DB_USERNAME\ndb_password: $DB_PASSWORD\nk8s_context: $KUBE_CONTEXT\n" > $SECRETS_FILE
+  printf "db_username: $DB_USERNAME\ndb_password: $DB_PASSWORD\nk8s_context: $KUBE_CONTEXT\nadmin_email: $ADMIN_EMAIL\n" > $SECRETS_FILE
 
   if [ -n $CURRENT_HELM_NAME ]; then
     printf "current_helm_release: $RELEASE_NAME_HELM\n" >> $SECRETS_FILE
@@ -219,6 +230,7 @@ if [ $DEBUG_MODE = true ]; then
     $RELEASE_NAME_HELM helm/main \
     --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
     --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
+    --set rails-app.ingress.email="$ADMIN_EMAIL" \
     --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
     --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
     --set global.release.helm=$RELEASE_NAME_HELM \
@@ -229,6 +241,7 @@ else
     $RELEASE_NAME_HELM helm/main \
     --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
     --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
+    --set rails-app.ingress.email="$ADMIN_EMAIL" \
     --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
     --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
     --set global.release.helm=$RELEASE_NAME_HELM \
