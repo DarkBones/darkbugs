@@ -238,8 +238,8 @@ else
     git tag $RELEASE_NAME_DOCKER
     git push --tags
     echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
-    git commit -am "New version"
-    git push
+#    git commit -am "New version"
+#    git push
   fi
 
   # TODO: Wait until new pod is up and running
