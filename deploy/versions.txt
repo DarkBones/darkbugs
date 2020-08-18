@@ -12,3 +12,4 @@ annoyingNose
 delightfulDog
 inquisitiveProcedure
 horribleText
+wittyRent
