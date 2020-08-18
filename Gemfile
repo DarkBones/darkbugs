@@ -54,5 +54,4 @@ end
 
 group :production do
   gem 'postageapp', '>= 1.3.1'
-  gem 'rails-letsencrypt'
 end
