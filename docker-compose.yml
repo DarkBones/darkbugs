@@ -17,6 +17,7 @@ services:
       APP_NAME: Darkbugs
       DB_USERNAME: postgres
       DB_HOST: db
+      DOMAIN: lvh.me
       LAUNCHY_DRY_RUN: 'true'
       BROWSER: /dev/null
       DEFAULT_TEST_PASS: 'L9<h/(6j5YYS/($jq'

@@ -10,6 +10,7 @@ postgresql:
 rails-app:
   replicaCount: 1
   appName: Darkbugs
+  domain: darkbugs.com
   image:
     repository: darkbones/darkbugs
     tag: dev

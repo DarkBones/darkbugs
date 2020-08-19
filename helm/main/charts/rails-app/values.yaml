@@ -13,6 +13,8 @@ image:
 rails:
   masterKey:
 
+domain: example.com
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
