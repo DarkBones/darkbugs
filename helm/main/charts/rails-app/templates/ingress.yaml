@@ -13,17 +13,26 @@ metadata:
     {{- include "rails-app.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   tls:
   - hosts:
-    - darkbugs.com
+    - "darkbugs.com"
+    - "*.darkbugs.com"
     secretName: darkbugs-tls
   rules:
-  - host: darkbugs.com
+  - host: "darkbugs.com"
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
+          serviceName: {{ $fullName }}
+          servicePort: {{ $svcPort }}
+  - host: "*.darkbugs.com"
+    http:
+      paths:
+      - path: /
+        backend:
           serviceName: {{ $fullName }}
           servicePort: {{ $svcPort }}
   {{- end }}
