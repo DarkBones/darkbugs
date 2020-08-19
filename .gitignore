@@ -46,3 +46,4 @@ docker-compose.yml
 /helm/main/templates/secret*
 /helm/Makefile
 /deploy/secrets.yaml
+/deploy/git_hash*

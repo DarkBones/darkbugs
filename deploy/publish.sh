@@ -1,66 +1,51 @@
 #!/bin/bash
 
-DOCKER_NAME=darkbones/darkbugs
+############# INITIALIZE VALUES #############
+
+DOCKER_USER="darkbones"
+APP_NAME="darkbugs"
+MAIN_BRANCH="main"
+
+DOCKER_NAME=$DOCKER_USER/$APP_NAME
 
 MASTER_KEY_FILE="config/master.key"
 SECRETS_FILE="deploy/secrets.yaml"
 
-DB_USERNAME=""
-DB_PASSWORD=""
-ADMIN_EMAIL=""
-KUBE_CONTEXT=""
-RAILS_MASTER_KEY=""
-UPDATE_YAML=false
-GENERATE_HELM_NAME=false
-CURRENT_HELM_NAME=""
-RUN_LOCAL=false
-SKIP_DOCKER=false
-FORCE_BRANCH=true
+# EXCLUDED ROOTS FOR DETECTING CHANGES
+EXCLUDED_ROOTS=("deploy" "helm")
+
+############# INITIALIZE OPTIONS #############
+
 DEBUG_MODE=false
-
-############# SECURITY CHECKS #############
-
-if [ ! $(basename "$PWD") = "darkbugs" ]; then
-  echo "ERROR: You must be in the darkbugs directory to run this script"
-  exit 1
-fi
-
-if [ ! $(git rev-parse --abbrev-ref HEAD) = "main" ] && [ $FORCE_BRANCH = false ]; then
-  echo "ERROR: You must be in main branch to run this script"
-  exit 1
-fi
+FORCE=false
+LOCAL=false
+GENERATE_NAME=false
 
 while test $# -gt 0; do
   case "$1" in
     -h|--help)
-      echo "options:"
+      echo "options"
       echo "-h, --help                show help"
       echo "-d, --debug               debug mode"
       echo "-f, --force               force install the current branch"
-      echo "-n, --generate-helm-name  generate a new helm name"
-      echo "-l, --local               run on minikube"
-      echo "-s, --skip-docker         skip building docker image"
+      echo "-l, --local               install locally on minikube"
+      echo "-n, --generate-name       generate new helm name"
       exit 0
-      ;;
-    -n|--generate-helm-name)
-      GENERATE_HELM_NAME=true
-      UPDATE_YAML=true
-      shift
-      ;;
-    -l|--local)
-      RUN_LOCAL=true
-      shift
-      ;;
-    -s|--skip-docker)
-      SKIP_DOCKER=true
-      shift
-      ;;
-    -f|--force)
-      FORCE_BRANCH=true
-      shift
       ;;
     -d|--debug)
       DEBUG_MODE=true
+      shift
+      ;;
+    -f|--force)
+      FORCE=true
+      shift
+      ;;
+    -l|--local)
+      LOCAL=true
+      shift
+      ;;
+    -n|--generate-name)
+      GENERATE_NAME=true
       shift
       ;;
     *)
@@ -69,195 +54,317 @@ while test $# -gt 0; do
   esac
 done
 
-############# SET UP SECRETS #############
-echo "Setting up secrets..."
-while read line; do
-  id="$( cut -d ':' -f 1 <<< "$line" )"
-  string="$( cut -d ':' -f 2- <<< "$line"  | tr -d '[:space:]')"
+#TEST=""
+#if [ -n "$TEST" ]; then
+#  echo "YES"
+#fi
 
-  if [ $id = "db_username" ] && [ -n $string ]; then
-    DB_USERNAME=$string
-    echo "  Found db username in deploy/secrets.yaml"
-  elif [ $id = "db_password" ] && [ -n $string ]; then
-    DB_PASSWORD=$string
-    echo "  Found db password in deploy/secrets.yaml"
-  elif [ $id = "k8s_context" ] && [ -n $string ]; then
-    KUBE_CONTEXT=$string
-    echo "  Found k8s context in deploy/secrets.yaml"
-  elif [ $id = "current_helm_release" ] && [ -n $string ]; then
-    CURRENT_HELM_NAME=$string
-    echo "  Found current helm release name in deploy/secrets.yaml"
-  elif [ $id = "admin_email" ] && [ -n $string ]; then
-    ADMIN_EMAIL=$string
-    echo "  Found admin email release name in deploy/secrets.yaml"
-  fi
-done < $SECRETS_FILE
+############# SECURITY CHECKS #############
 
-if [ -f $MASTER_KEY_FILE ]; then
-  string=`cat config/master.key`
-  if [ -n $string ]; then
-    RAILS_MASTER_KEY=$string
-    echo "  Found rails master key in config/master.key"
+if [ ! $(basename "$PWD") = "$APP_NAME" ]; then
+  echo "ERROR: You must be in the $APP_NAME directory to run this script"
+  exit 1
+fi
+
+if [ ! $FORCE = true ]; then
+  if [ ! $(git rev-parse --abbrev-ref HEAD) = $MAIN_BRANCH ]; then
+   echo "ERROR: You must be in branch '$MAIN_BRANCH' to run this script or set --force"
+   exit 1
   fi
 fi
 
+############# SET UP SECRETS #############
+
+echo "Setting up secrets..."
+
+UPDATE_SECRETS_FILE=false
+
+DB_USERNAME=""
+DB_PASSWORD=""
+KUBE_CONTEXT=""
+ADMIN_EMAIL=""
+MASTER_KEY=""
+CURRENT_HELM_RELEASE=""
+
+# LOAD SECRETS FROM FILE
+if [ -f "$SECRETS_FILE" ]; then
+  while read line; do
+    id="$( cut -d ':' -f 1 <<< "$line" )"
+    string="$( cut -d ':' -f 2- <<< "$line"  | tr -d '[:space:]')"
+
+    if [ $id = "db_username" ] && [ -n "$string" ]; then
+      DB_USERNAME="$string"
+      echo "  Found db username in deploy/secrets.yaml"
+    elif [ $id = "db_password" ] && [ -n "$string" ]; then
+      DB_PASSWORD="$string"
+      echo "  Found db password in deploy/secrets.yaml"
+    elif [ $id = "k8s_context" ] && [ -n "$string" ]; then
+      KUBE_CONTEXT="$string"
+      echo "  Found k8s context in deploy/secrets.yaml"
+    elif [ $id = "current_helm_release" ] && [ -n "$string" ]; then
+      CURRENT_HELM_RELEASE="$string"
+      echo "  Found current helm release name in deploy/secrets.yaml"
+    elif [ $id = "admin_email" ] && [ -n "$string" ]; then
+      ADMIN_EMAIL="$string"
+      echo "  Found admin email release name in deploy/secrets.yaml"
+    fi
+  done < $SECRETS_FILE
+fi
+
+# LOAD RAILS MASTER KEY
+if [ -f "$MASTER_KEY_FILE" ]; then
+  if [ -n "$(cat $MASTER_KEY_FILE)" ]; then
+    MASTER_KEY=$(cat $MASTER_KEY_FILE)
+  fi
+fi
+
+# REQUEST MISSING SECRETS
 if [ -z $DB_USERNAME ]; then
-  UPDATE_YAML=true
-  printf "\n  db username not found. Enter it here:\n"
-  read dbusername
-  DB_USERNAME=$dbusername
+  UPDATE_SECRETS_FILE=true
+  printf "\ndb username not found. Enter it here:\n"
+  read input
+  DB_USERNAME=$(echo "$input" | base64)
 fi
 
 if [ -z $DB_PASSWORD ]; then
-  UPDATE_YAML=true
-  printf "\n  db password not found. Enter it here:\n"
-  read -s dbpassword
-  DB_PASSWORD=$dbpassword
+  UPDATE_SECRETS_FILE=true
+  printf "\ndb password not found. Enter it here:\n"
+  read -s input
+  DB_PASSWORD=$(echo "$input" | base64)
 fi
 
 if [ -z $KUBE_CONTEXT ]; then
-  UPDATE_YAML=true
-  printf "\n  k8s context not found. Enter it here:\n"
-  read kubecontext
-  KUBE_CONTEXT=$kubecontext
+  UPDATE_SECRETS_FILE=true
+  printf "\nk8s context not found. Find it by running 'kubectl config get-contexts' and enter it here:\n"
+  read input
+  KUBE_CONTEXT=$(echo "$input" | base64)
 fi
 
 if [ -z $ADMIN_EMAIL ]; then
-  UPDATE_YAML=true
-  printf "\n  admin email not found. Enter it here:\n"
-  read adminemail
-  ADMIN_EMAIL=$adminemail
+  UPDATE_SECRETS_FILE=true
+  printf "\nadmin email not found. Enter it here:\n"
+  read input
+  ADMIN_EMAIL=$(echo "$input" | base64)
 fi
 
-if [ -z $RAILS_MASTER_KEY ]; then
-  printf "\n  rails master key not found. Enter it here:\n"
-  read -s masterkey
-  RAILS_MASTER_KEY=$masterkey
-  echo $RAILS_MASTER_KEY > $MASTER_KEY_FILE
-  echo "  created config/master.key"
+if [ -z $MASTER_KEY ]; then
+  printf "\nrails master key not found. Enter it here:\n"
+  read -s input
+  RAILS_MASTER_KEY=$input
+  echo $MASTER_KEY > $MASTER_KEY_FILE
+  echo "created config/master.key"
 fi
 
-if [ -z $CURRENT_HELM_NAME ]; then
-  UPDATE_YAML=true
-  GENERATE_HELM_NAME=true
+if [ -z "$CURRENT_HELM_RELEASE" ] || [ $GENERATE_NAME = true ]; then
+  UPDATE_SECRETS_FILE=true
+  GENERATE_NAME=true
+
+  if [ $DEBUG_MODE = true ]; then
+    CURRENT_HELM_RELEASE="test-release"
+  fi
 fi
 
-############# GENERATE RELEASE NAME #############
+# CHECK FOR CHANGES TO DETERMINE IF DOCKER NEEDS TO BUILD
+BUILD_DOCKER=false
+DOCKER_TAG=""
+GIT_HASH_FILE="deploy/git_hash.txt"
 
-while [ 1 ]
-do
-  adj=`echo $(shuf -n 1 "deploy/words_adjectives.txt")`
-  noun=`echo $(shuf -n 1 "deploy/words_nouns.txt")`
-  RELEASE_NAME_DOCKER="$adj$noun"
-  GIT_TAG="$adj-$( echo $noun | tr '[:upper:]' '[:lower:]' )"
+if [ $DEBUG_MODE = false ];then
+  while read -r line ; do
+      root=$(echo "$line" | cut -d " " -f2- | xargs | cut -d "/" -f1)
+      if  [[ ! "${EXCLUDED_ROOTS[@]}" =~ "${root}" ]]; then
+        BUILD_DOCKER=true
+      fi
+  done <<< $(git status -s)
 
-  if [ $SKIP_DOCKER = true ]; then
-    RELEASE_NAME_DOCKER=$( tail -n 1 'deploy/versions.txt' )
+  # IF NO CHANGES WERE DETECTED, CHECK IF THERE IS A NEW GIT HASH
+  if [ $BUILD_DOCKER = false ]; then
+    LAST_GIT_HASH=""
+    if [ -f $GIT_HASH_FILE ]; then
+      LAST_GIT_HASH=$(cat $GIT_HASH_FILE)
+    fi
+
+    if [ ! $LAST_GIT_HASH = $(git rev-parse HEAD) ]; then
+      BUILD_DOCKER=true
+      echo $(git rev-parse HEAD) > $GIT_HASH_FILE
+    fi
   fi
 
-  RELEASE_NAME_HELM=$CURRENT_HELM_NAME
-  if [ $GENERATE_HELM_NAME = true ]; then
-    RELEASE_NAME_HELM=$GIT_TAG
+  # GET THE DOCKER TAG FROM THE LATEST GIT TAG
+  if [ $BUILD_DOCKER = false ]; then
+    LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
+
+    if [[ "$LATEST_GIT_TAG" =~ .*"-".* ]]; then
+      adj=$(echo $LATEST_GIT_TAG | cut -d "-" -f1)
+      noun=$(echo $LATEST_GIT_TAG | cut -d "-" -f2)
+      noun=$(echo "$(tr '[:lower:]' '[:upper:]' <<< ${noun:0:1})${noun:1}")
+      DOCKER_TAG="$adj$noun"
+    else
+      DOCKER_TAG=$LATEST_GIT_TAG
+    fi
+
+    # BUILD DOCKER IF NO NAME WAS FOUND
+    if [ -z "$DOCKER_TAG" ]; then
+      echo "No git tag found."
+      BUILD_DOCKER=true
+    fi
   fi
 
-  IN_FILE=false
+  if [ $BUILD_DOCKER = true ]; then
+    echo "Building new docker image..."
+  fi
 
-  if [ $SKIP_DOCKER = false ]; then
-    while read line; do
-      if [ $line = $RELEASE_NAME_DOCKER ]; then
-        IN_FILE=true
+  # GENERATE RELEASE NAME
+  if [ $BUILD_DOCKER = true ] || [ $GENERATE_NAME = true ]; then
+    echo "Generating release name..."
+    ATTEMPTS=0
+    while [ true ]
+    do
+      ATTEMPTS=$(($ATTEMPTS+1))
+
+      if [ $ATTEMPTS -ge 1000 ];then
+        printf "\nERROR: Failed to find a unique after 1000 attempts\n"
+        exit 1
+      fi
+
+      # GENERATE NAME
+      adj=$(echo $(shuf -n 1 "deploy/words_adjectives.txt"))
+      noun=$(echo $(shuf -n 1 "deploy/words_nouns.txt"))
+
+      # CHECK IF UNIQUE
+      UNIQUE=true
+      for tag in $(git tag -l)
+      do
+        if [ "$adj-$noun" = $tag ]; then
+          UNIQUE=false
+          break
+        fi
+      done
+
+      if [ $UNIQUE=true ]; then
+        ADJ=$(echo "$(tr '[:lower:]' '[:upper:]' <<< ${adj:0:1})${adj:1}")
+        NOUN=$(echo "$(tr '[:lower:]' '[:upper:]' <<< ${noun:0:1})${noun:1}")
+
+        if [ $BUILD_DOCKER = true ]; then
+          DOCKER_TAG=$adj$NOUN
+        fi
+
+        if [ $GENERATE_NAME = true ]; then
+          CURRENT_HELM_RELEASE=$adj-$noun
+        fi
+
+        RELEASE_NAME="$ADJ $NOUN"
+        GIT_TAG="$adj-$noun"
+
+        echo "Named release: $ADJ $NOUN"
+        echo "Type 'ok' to continue"
+        read input
+
+        if [ -z $input ]; then
+          echo "Deploy cancelled"
+          exit 0
+        fi
+        if [ ! $input = 'ok' ]; then
+          echo "Deploy cancelled"
+          exit 0
+        fi
+
         break
       fi
-    done < "deploy/versions.txt"
-  fi
 
-  if [ $IN_FILE = false ]; then
-    printf "\nNamed release: $RELEASE_NAME_DOCKER\n"
-    break
-  fi
-done
-
-if [ $DEBUG_MODE = false ]; then
-  echo "Release $RELEASE_NAME_DOCKER to production? Type 'ok'"
-  read confirm
-  if [ -z $confirm ]; then
-    echo "Deploy cancelled"
-    exit 0
-  fi
-  if [ ! $confirm = 'ok' ]; then
-    echo "Deploy cancelled"
-    exit 0
+      printf "."
+    done
   fi
 fi
 
-echo "Releasing $RELEASE_NAME_DOCKER"
-
-if [ $UPDATE_YAML = true ]; then
-  printf "db_username: $DB_USERNAME\ndb_password: $DB_PASSWORD\nk8s_context: $KUBE_CONTEXT\nadmin_email: $ADMIN_EMAIL\n" > $SECRETS_FILE
-
-  if [ -n $CURRENT_HELM_NAME ]; then
-    printf "current_helm_release: $RELEASE_NAME_HELM\n" >> $SECRETS_FILE
+if [ $UPDATE_SECRETS_FILE = true ]; then
+  echo $DB_USERNAME
+  echo $DB_PASSWORD
+  echo $KUBE_CONTEXT
+  echo $ADMIN_EMAIL
+  echo "db_username: $DB_USERNAME" > $SECRETS_FILE
+  echo "db_password: $DB_PASSWORD" >> $SECRETS_FILE
+  echo "k8s_context: $KUBE_CONTEXT" >> $SECRETS_FILE
+  echo "admin_email: $ADMIN_EMAIL" >> $SECRETS_FILE
+  if [ -n "$CURRENT_HELM_RELEASE" ]; then
+    echo "current_helm_release: $CURRENT_HELM_RELEASE" >> $SECRETS_FILE
   fi
-  echo "  updated config/secrets.yaml"
+
+  echo "udpated config/secrets.yaml"
 fi
 
 ############# BUILD DOCKER IMAGE #############
 
-if [ $SKIP_DOCKER = false ]; then
-  echo "building docker image..."
+if [ $DEBUG_MODE = false ]; then
+  if [ $BUILD_DOCKER = true ]; then
+    echo "Building Docker image..."
 
-  DOCKER_IMG=$DOCKER_NAME:$RELEASE_NAME_DOCKER
-  DOCKER_LATEST=$DOCKER_NAME:latest
+    DOCKER_IMG=$DOCKER_NAME:$DOCKER_TAG
+    DOCKER_LATEST=$DOCKER_NAME:latest
 
-  echo "  $DOCKER_IMG"
+    echo $DOCKER_IMG
+    echo $DOCKER_LATEST
 
-  docker build -t $DOCKER_IMG .
-  docker tag $DOCKER_IMG $DOCKER_LATEST
+    docker build -t $DOCKER_IMG .
+    docker tag $DOCKER_IMG $DOCKER_LATEST
 
-  docker push $DOCKER_NAME
+    docker push $DOCKER_IMG
+    docker push $DOCKER_LATEST
+  fi
 fi
 
 ############# INSTALL HELM CHART #############
 
-if [ $RUN_LOCAL = true ]; then
-  kubectl config use-context minikube
+if [ $LOCAL = true ] || [ $DEBUG_MODE = true ]; then
+  KUBE_CONTEXT="minikube"
 else
-  kubectl config use-context $KUBE_CONTEXT
+  KUBE_CONTEXT=$(echo $KUBE_CONTEXT | base64 --decode)
 fi
+
+kubectl config use-context $KUBE_CONTEXT
 
 if [ $DEBUG_MODE = true ]; then
   helm upgrade --install \
-    $RELEASE_NAME_HELM helm/main \
-    --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
-    --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
+    $CURRENT_HELM_RELEASE helm/main \
+    --set rails-app.rails.masterKey="$MASTER_KEY" \
+    --set rails-app.image.tag="$DOCKER_TAG" \
     --set rails-app.ingress.email="$ADMIN_EMAIL" \
     --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
     --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
-    --set global.release.helm=$RELEASE_NAME_HELM \
+    --set global.release.helm=$CURRENT_HELM_RELEASE \
     --set global.release.git=$GIT_TAG \
     --dry-run --debug
 else
-  helm upgrade --install \
-    $RELEASE_NAME_HELM helm/main \
-    --set rails-app.rails.masterKey="$RAILS_MASTER_KEY" \
-    --set rails-app.image.tag="$RELEASE_NAME_DOCKER" \
-    --set rails-app.ingress.email="$ADMIN_EMAIL" \
-    --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
-    --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
-    --set global.release.helm=$RELEASE_NAME_HELM \
-    --set global.release.git=$GIT_TAG
-
-  if [ $RUN_LOCAL = false ] && [ $SKIP_DOCKER = false ]; then
-    git tag $RELEASE_NAME_DOCKER
-    git push --tags
-    echo $RELEASE_NAME_DOCKER >> "deploy/versions.txt"
-#    git commit -am "New version"
-#    git push
+  echo "Debug mode is off. Are you sure you want to release? Type 'ok'"
+  read input
+  if [ "$input" = "ok" ]; then
+    echo "Releasing to $KUBE_CONTEXT..."
+    sleep 2
+    helm upgrade --install \
+      $CURRENT_HELM_RELEASE helm/main \
+      --set rails-app.rails.masterKey="$MASTER_KEY" \
+      --set rails-app.image.tag="$DOCKER_TAG" \
+      --set rails-app.ingress.email="$ADMIN_EMAIL" \
+      --set global.postgresql.postgresqlUsername="$DB_USERNAME" \
+      --set global.postgresql.postgresqlPassword="$DB_PASSWORD" \
+      --set global.release.helm=$CURRENT_HELM_RELEASE \
+      --set global.release.git=$GIT_TAG
+  else
+    echo "Release cancelled"
   fi
+fi
 
-  # TODO: Wait until new pod is up and running
-  if [ $GENERATE_HELM_NAME = true ] && [ -n $CURRENT_HELM_NAME ]; then
-    helm uninstall $CURRENT_HELM_NAME
-    echo "uninstalled $CURRENT_HELM_NAME"
+############# TAG GIT RELEASE #############
+
+if [ $DEBUG_MODE = false ]; then
+  if [ $(git rev-parse --abbrev-ref HEAD) = $MAIN_BRANCH ]; then
+    echo "Tag this release? [y/n]"
+    read input
+    if [ $input = 'y' ] || [ $input = 'Y' ]; then
+      echo "Tagging release..."
+      git tag "$GIT_TAG"
+      git push origin "$GIT_TAG"
+      sleep 2
+    fi
   fi
 fi
