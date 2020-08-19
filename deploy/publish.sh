@@ -179,7 +179,7 @@ if [ $DEBUG_MODE = false ];then
 
   # IF NO CHANGES WERE DETECTED, CHECK IF THERE IS A NEW GIT HASH
   if [ $BUILD_DOCKER = false ]; then
-    LAST_GIT_HASH=""
+    LAST_GIT_HASH="empty"
     if [ -f $GIT_HASH_FILE ]; then
       LAST_GIT_HASH=$(cat $GIT_HASH_FILE)
     fi
