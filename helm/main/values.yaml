@@ -26,6 +26,7 @@ rails-app:
   ingress:
     enabled: true
     email: email@server.com
+    cloud_secret_name: secret
 
 global:
   postgresql:
