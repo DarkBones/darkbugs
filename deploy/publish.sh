@@ -34,7 +34,17 @@ install_tls_resources() {
     exit 0
   fi
 
-  printf "INSTALL TLS RESOURCES"
+  echo "INSTALL TLS RESOURCES"
+
+  echo "wait 5 minutes..."
+  kubectl get pods
+  echo "is the pod running? [y/n]"
+  read input
+  if [ ! $input = 'y' ] && [ ! $input = 'Y' ]; then
+    echo "TLS install cancelled"
+    echo "To install them manually:"
+    echo "https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes"
+  fi
 
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/mandatory.yaml
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/provider/cloud-generic.yaml
