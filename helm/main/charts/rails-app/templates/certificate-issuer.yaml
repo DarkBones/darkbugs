@@ -7,7 +7,7 @@ metadata:
 spec:
   acme:
     # The ACME server URL
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     # Email address used for ACME registration
     email: {{ .Values.ingress.email }}
     # Name of a secret used to store the ACME account private key
@@ -15,8 +15,10 @@ spec:
       name: letsencrypt-staging
     # Enable the HTTP-01 challenge provider
     solvers:
-      - http01:
-          ingress:
-            class: nginx
-        selector: {}
+      - dns01:
+          clouddns:
+            project: darkbugs
+            serviceAccountSecretRef:
+              name: {{ .Values.ingress.cloud_secret_name | quote }}
+              key: service-account.json
 {{- end -}}

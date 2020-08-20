@@ -15,7 +15,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/ngin
 
 echo "Wait 2 minutes..."
 sleep 120
-kubectl get svc --namespace=ingress-nginx --watch
+kubectl get svc --namespace=ingress-nginx
 
 kubectl get pods
 echo "is the rails ingress service running? [y/n]"

@@ -45,5 +45,5 @@ docker-compose.yml
 /app/views/email
 /helm/main/templates/secret*
 /helm/Makefile
-/deploy/secrets.yaml
+/deploy/secret*
 /deploy/git_hash*

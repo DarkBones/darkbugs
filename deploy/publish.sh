@@ -23,10 +23,26 @@ main() {
   set_release_values
 
   set_kube_context
-  determine_tls
+#  determine_tls
+  set_dns_secret
   install_helm
 
   install_tls_resources
+}
+
+set_dns_secret() {
+  installed=false
+
+  for secret in $(kubectl get secrets); do
+    if [ $secret = $DNS_CLOUD_SECRET_NAME ]; then
+      installed=true
+    fi
+  done
+
+  if [ $installed = false ]; then
+    print_header
+    kubectl create secret generic $DNS_CLOUD_SECRET_NAME --from-file=deploy/secret-darkbugs-cloud-dns.json
+  fi
 }
 
 install_tls_resources() {
@@ -34,10 +50,8 @@ install_tls_resources() {
     exit 0
   fi
 
-  echo "INSTALL TLS RESOURCES"
+  print_header "INSTALL TLS RESOURCES"
 
-  echo "wait 5 minutes..."
-  sleep 300
   deploy/install_tls_resources.sh
 }
 
@@ -92,7 +106,8 @@ install_helm() {
     --set global.postgresql.postgresqlPassword=\"$DB_PASSWORD\" \
     --set global.release.helm=\"$CURRENT_HELM_RELEASE\" \
     --set global.release.git=\"$CURRENT_GIT_TAG\" \
-    --set rails-app.ingress.enabled=$TLS_CERTIFICATES
+    --set rails-app.ingress.enabled=$TLS_CERTIFICATES \
+    --set rails-app.ingress.cloud_secret_name=$DNS_CLOUD_SECRET_NAME
     "
 
   if [ $O_DEBUG_MODE = true ]; then
@@ -263,7 +278,6 @@ set_options() {
     -d | --debug)
       echo "debug mode = true"
       O_DEBUG_MODE=true
-      TLS_CERTIFICATES=false
       shift
       ;;
     -f | --force)
@@ -337,6 +351,7 @@ initialize_secrets() {
   DB_PASSWORD=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "db_password" | base64)
   KUBE_CONTEXT=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "k8s_context")
   ADMIN_EMAIL=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "admin_email")
+  DNS_CLOUD_SECRET_NAME=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "cloud_secret_name")
   MASTER_KEY=$(cat $MASTER_KEY_FILE)
 
   print_header SECRETS
@@ -369,6 +384,14 @@ initialize_secrets() {
   else
     echo ""
     echo "ERROR: admin_email not found in $SECRETS_FILE"
+    exit 1
+  fi
+
+  if [ -n "${DNS_CLOUD_SECRET_NAME}" ]; then
+    echo "found dns_cloud_secret_name"
+  else
+    echo ""
+    echo "ERROR: dns_cloud_secret_name not found in $SECRETS_FILE"
     exit 1
   fi
 
@@ -430,6 +453,7 @@ DB_PASSWORD=""
 KUBE_CONTEXT=""
 ADMIN_EMAIL=""
 MASTER_KEY=""
+DNS_CLOUD_SECRET_NAME=""
 
 # OPTIONS
 O_FORCE_BUILD_DOCKER=false
