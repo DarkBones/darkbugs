@@ -47,3 +47,4 @@ docker-compose.yml
 /helm/Makefile
 /deploy/secret*
 /deploy/git_hash*
+/deploy/release_values.yaml

@@ -79,8 +79,8 @@ build_docker() {
 
     docker build -t "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" .
     docker push "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER"
-    docker tag "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" "$DOCKER_USER:latest"
-    docker push "$DOCKER_USER:latest"
+#    docker tag "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" "$DOCKER_USER:latest"
+#    docker push "$DOCKER_USER:latest"
 
     echo ""
     echo "Tag this release? [y/n]"
