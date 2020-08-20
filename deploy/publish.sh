@@ -37,21 +37,8 @@ install_tls_resources() {
   echo "INSTALL TLS RESOURCES"
 
   echo "wait 5 minutes..."
-  kubectl get pods
-  echo "is the pod running? [y/n]"
-  read input
-  if [ ! $input = 'y' ] && [ ! $input = 'Y' ]; then
-    echo "TLS install cancelled"
-    echo "To install them manually:"
-    echo "https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes"
-  fi
-
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/mandatory.yaml
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.26.1/deploy/static/provider/cloud-generic.yaml
-
-  echo "Press CTRL+C to finish"
-  echo ""
-  kubectl get svc --namespace=ingress-nginx --watch
+  sleep 300
+  deploy/install_tls_resources.sh
 }
 
 determine_build_docker() {
@@ -96,7 +83,7 @@ build_docker() {
 install_helm() {
   print_header "INSTALL HELM CHART"
 
-  cmd="helm install \
+  cmd="helm upgrade --install \
     $CURRENT_HELM_RELEASE helm/main \
     --set rails-app.rails.masterKey=\"$MASTER_KEY\" \
     --set rails-app.image.tag=\"$CURRENT_DOCKER_TAG\" \
@@ -295,7 +282,7 @@ set_options() {
       O_GENERATE_NAME=true
       shift
       ;;
-    --s | --skip-docker)
+    -s | --skip-docker)
       echo "skip docker = true"
       O_SKIP_DOCKER_BUILD=true
       shift
