@@ -23,7 +23,7 @@ main() {
   set_release_values
 
   set_kube_context
-#  determine_tls
+  #  determine_tls
   set_dns_secret
   install_helm
 
@@ -77,10 +77,10 @@ build_docker() {
   if [ $BUILD_DOCKER = true ]; then
     print_header "BUILDING DOCKER IMAGE"
 
-    docker build -t "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" .
-    docker push "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER"
-#    docker tag "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" "$DOCKER_USER:latest"
-#    docker push "$DOCKER_USER:latest"
+    docker build -t "$DOCKER_USER/$APP_NAME:$NEW_RELEASE_NAME_DOCKER" .
+    docker push "$DOCKER_USER/$APP_NAME:$NEW_RELEASE_NAME_DOCKER"
+    docker tag "$DOCKER_USER/$APP_NAME:$NEW_RELEASE_NAME_DOCKER" "$DOCKER_USER:latest"
+    docker push "$DOCKER_USER/$APP_NAME:latest"
 
     echo ""
     echo "Tag this release? [y/n]"

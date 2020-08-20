@@ -1,4 +1,4 @@
 helm_name: better-currency
-docker_tag: bewilderedRed
-git_tag: bewildered-red
-git_hash: 812e36bc7619dd32f1aa0897592f0505ed162418
+docker_tag: happyBeer
+git_tag: happy-beer
+git_hash: 6ab862f7374e51264cfb8996417d9a140aacecd4
