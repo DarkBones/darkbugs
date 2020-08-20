@@ -106,7 +106,7 @@ install_helm() {
     --set global.postgresql.postgresqlPassword=\"$DB_PASSWORD\" \
     --set global.release.helm=\"$CURRENT_HELM_RELEASE\" \
     --set global.release.git=\"$CURRENT_GIT_TAG\" \
-    --set rails-app.ingress.enabled=$TLS_CERTIFICATES \
+    --set rails-app.ingress.enabled=false \
     --set rails-app.ingress.cloud_secret_name=$DNS_CLOUD_SECRET_NAME
     "
 
@@ -144,6 +144,8 @@ set_kube_context() {
   if [ $O_LOCAL_INSTALL = false ]; then
     USE_KUBE_CONTEXT=$KUBE_CONTEXT
   fi
+
+  kubectl config set-context $USE_KUBE_CONTEXT
 }
 
 get_release_values() {
