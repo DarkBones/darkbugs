@@ -106,7 +106,7 @@ install_helm() {
     --set global.postgresql.postgresqlPassword=\"$DB_PASSWORD\" \
     --set global.release.helm=\"$CURRENT_HELM_RELEASE\" \
     --set global.release.git=\"$CURRENT_GIT_TAG\" \
-    --set rails-app.ingress.enabled=false \
+    --set rails-app.ingress.enabled=true \
     --set rails-app.ingress.cloud_secret_name=$DNS_CLOUD_SECRET_NAME
     "
 
