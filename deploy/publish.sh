@@ -95,7 +95,7 @@ install_helm() {
     --set global.postgresql.postgresqlPassword=\"$DB_PASSWORD\" \
     --set global.release.helm=\"$CURRENT_HELM_RELEASE\" \
     --set global.release.git=\"$CURRENT_GIT_TAG\" \
-    --set rails-app.ingress.tls.enabled=$TLS_CERTIFICATES
+    --set rails-app.ingress.enabled=$TLS_CERTIFICATES
     "
 
   if [ $O_DEBUG_MODE = true ]; then
