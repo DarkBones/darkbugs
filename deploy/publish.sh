@@ -205,6 +205,7 @@ if [ $DEBUG_MODE = false ];then
   # GET THE DOCKER TAG FROM THE LATEST GIT TAG
   if [ $BUILD_DOCKER = false ]; then
     LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
+    
 
     if [[ "$LATEST_GIT_TAG" =~ .*"-".* ]]; then
       adj=$(echo $LATEST_GIT_TAG | cut -d "-" -f1)
