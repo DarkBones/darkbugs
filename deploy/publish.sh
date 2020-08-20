@@ -349,12 +349,12 @@ security_checks() {
 }
 
 initialize_secrets() {
-  DB_USERNAME=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "db_username" | base64)
-  DB_PASSWORD=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "db_password" | base64)
+  DB_USERNAME=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "db_username")
+  DB_PASSWORD=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "db_password")
   KUBE_CONTEXT=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "k8s_context")
   ADMIN_EMAIL=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "admin_email")
   DNS_CLOUD_SECRET_NAME=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "cloud_secret_name")
-  MASTER_KEY=$(cat $MASTER_KEY_FILE | base64)
+  MASTER_KEY=$(cat $MASTER_KEY_FILE)
 
   print_header SECRETS
   if [ -n "${DB_USERNAME}" ]; then
