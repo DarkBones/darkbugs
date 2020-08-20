@@ -1,4 +1,4 @@
 helm_name: better-currency
-docker_tag: realCommittee
-git_tag: real-committee
-git_hash: 8f05c2bda2f6e5a91b376311b1ac9e577a35579b
+docker_tag: easyComputer
+git_tag: easy-computer
+git_hash: 34702081e4c97626aca5bec15ffbc9797e2315a5

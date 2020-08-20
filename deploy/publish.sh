@@ -67,8 +67,8 @@ build_docker() {
     print_header "BUILDING DOCKER IMAGE"
 
     docker build -t "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" .
-    docker tag "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" "$DOCKER_USER:latest"
     docker push "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER"
+    docker tag "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" "$DOCKER_USER:latest"
     docker push "$DOCKER_USER:latest"
 
     echo ""
