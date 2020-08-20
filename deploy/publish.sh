@@ -20,6 +20,7 @@ DEBUG_MODE=false
 FORCE=false
 LOCAL=false
 GENERATE_NAME=false
+SKIP_DOCKER_BUILD=false
 
 while test $# -gt 0; do
   case "$1" in
@@ -30,6 +31,7 @@ while test $# -gt 0; do
       echo "-f, --force               force install the current branch"
       echo "-l, --local               install locally on minikube"
       echo "-n, --generate-name       generate new helm name"
+      echo "-s, --skip-docker         skip docker build"
       exit 0
       ;;
     -d|--debug)
@@ -46,6 +48,10 @@ while test $# -gt 0; do
       ;;
     -n|--generate-name)
       GENERATE_NAME=true
+      shift
+      ;;
+    --s|--skip-docker)
+      SKIP_DOCKER_BUILD=true
       shift
       ;;
     *)
@@ -170,23 +176,26 @@ DOCKER_TAG=""
 GIT_HASH_FILE="deploy/git_hash.txt"
 
 if [ $DEBUG_MODE = false ];then
-  while read -r line ; do
-      root=$(echo "$line" | cut -d " " -f2- | xargs | cut -d "/" -f1)
-      if  [[ ! "${EXCLUDED_ROOTS[@]}" =~ "${root}" ]]; then
-        BUILD_DOCKER=true
+  if [ $SKIP_DOCKER_BUILD = false ]; then
+    while read -r line ; do
+        root=$(echo "$line" | cut -d " " -f2- | xargs | cut -d "/" -f1)
+        if  [[ ! "${EXCLUDED_ROOTS[@]}" =~ "${root}" ]]; then
+          BUILD_DOCKER=true
+        fi
+    done <<< $(git status -s)
+
+    # IF NO CHANGES WERE DETECTED, CHECK IF THERE IS A NEW GIT HASH
+    if [ $BUILD_DOCKER = false ]; then
+      echo "No git changes detected"
+      LAST_GIT_HASH="empty"
+      if [ -f $GIT_HASH_FILE ]; then
+        LAST_GIT_HASH=$(cat $GIT_HASH_FILE)
       fi
-  done <<< $(git status -s)
 
-  # IF NO CHANGES WERE DETECTED, CHECK IF THERE IS A NEW GIT HASH
-  if [ $BUILD_DOCKER = false ]; then
-    LAST_GIT_HASH="empty"
-    if [ -f $GIT_HASH_FILE ]; then
-      LAST_GIT_HASH=$(cat $GIT_HASH_FILE)
-    fi
-
-    if [ ! $LAST_GIT_HASH = $(git rev-parse HEAD) ]; then
-      BUILD_DOCKER=true
-      echo $(git rev-parse HEAD) > $GIT_HASH_FILE
+      if [ ! $LAST_GIT_HASH = $(git rev-parse HEAD) ]; then
+        BUILD_DOCKER=true
+        echo $(git rev-parse HEAD) > $GIT_HASH_FILE
+      fi
     fi
   fi
 
@@ -208,6 +217,10 @@ if [ $DEBUG_MODE = false ];then
       echo "No git tag found."
       BUILD_DOCKER=true
     fi
+  fi
+
+  if [ $SKIP_DOCKER_BUILD = false ]; then
+    BUILD_DOCKER=false
   fi
 
   if [ $BUILD_DOCKER = true ]; then

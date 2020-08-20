@@ -1,4 +1,4 @@
-FROM ruby:2.7.1-alpine
+ FROM ruby:2.7.1-alpine
 
 ENV BUNDLE_PATH /bundle
 ENV APP_HOME=/app
