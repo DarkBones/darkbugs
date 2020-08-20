@@ -63,7 +63,7 @@ determine_build_docker() {
 }
 
 build_docker() {
-  if [ $BUILD_DOCKER = true]; then
+  if [ $BUILD_DOCKER = true ]; then
     print_header "BUILDING DOCKER IMAGE"
 
     docker build -t "$DOCKER_USER:$NEW_RELEASE_NAME_DOCKER" .
