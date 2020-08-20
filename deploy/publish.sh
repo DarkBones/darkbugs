@@ -354,7 +354,7 @@ initialize_secrets() {
   KUBE_CONTEXT=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "k8s_context")
   ADMIN_EMAIL=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "admin_email")
   DNS_CLOUD_SECRET_NAME=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "cloud_secret_name")
-  MASTER_KEY=$(cat $MASTER_KEY_FILE)
+  MASTER_KEY=$(cat $MASTER_KEY_FILE | base64)
 
   print_header SECRETS
   if [ -n "${DB_USERNAME}" ]; then
