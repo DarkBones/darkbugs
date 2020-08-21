@@ -4,6 +4,7 @@ module ApplicationHelper
       source: VERSION_SOURCE,
       hostname: 'unknown',
       sha: VERSION_SHA,
+      branch: VERSION_BRANCH.gsub('## ', '')
     }
 
     if Socket.gethostname.present?
