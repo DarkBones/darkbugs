@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-production
+  name: letsencrypt-prod
   namespace: cert-manager
 spec:
   acme:
@@ -12,7 +12,7 @@ spec:
     email: {{ .Values.ingress.email }}
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: letsencrypt-production
+      name: letsencrypt-prod
     # Enable the HTTP-01 challenge provider
     solvers:
       - dns01:
