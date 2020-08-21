@@ -4,7 +4,7 @@ module ApplicationHelper
       hostname: 'unknown',
       source: VERSION_NAME,
       sha: VERSION_SHA,
-      tag: ENV['RELEASE_TAG']
+      tag: ENV['RELEASE_TAG'] || 'non-helm-release'
     }
 
     if Socket.gethostname.present?
