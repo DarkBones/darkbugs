@@ -6,6 +6,12 @@ class User < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Identifiable
 
+  # -- Constants --------------------------------------------------------
+  ALL_ROLES = [
+    USER_ROLE = 0,
+    ADMIN_ROLE = 1
+  ].freeze
+
   # -- Relationships --------------------------------------------------------
   has_one :user_profile, dependent: :destroy
   has_many :user_organizations, dependent: :destroy
@@ -56,6 +62,10 @@ class User < ApplicationRecord
   def local_datetime(time)
     # TODO: convert to user's timezone
     time
+  end
+
+  def is_admin?
+    role == ADMIN_ROLE
   end
 
   # -- Class Methods --------------------------------------------------------

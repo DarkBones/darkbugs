@@ -1,10 +1,10 @@
 module ApplicationHelper
   def app_info
     data = {
+      source: VERSION_SOURCE,
       hostname: 'unknown',
-      source: VERSION_NAME,
       sha: VERSION_SHA,
-      tag: ENV['RELEASE_TAG']
+      branch: VERSION_BRANCH.gsub('## ', '')
     }
 
     if Socket.gethostname.present?
