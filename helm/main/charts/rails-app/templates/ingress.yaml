@@ -17,8 +17,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - "darkbugs.com"
-    - "*.darkbugs.com"
+  {{- range .Values.ingress.hosts }}
+    - {{ .host | quote }}
+  {{- end }}
     secretName: darkbugs-tls
   rules:
   - host: "darkbugs.com"

@@ -54,8 +54,10 @@ ingress:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: darkbugs.com
-      paths: ['/']
+  - host: darkbugs.com
+    paths: ['/']
+  - host: '*.darkbugs.com'
+    paths: ['/']
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
