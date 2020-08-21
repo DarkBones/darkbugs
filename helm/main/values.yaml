@@ -5,7 +5,7 @@ postgresql:
     repository: bitnami/postgresql
     tag: 11.7.0-debian-10-r9
   persistence:
-    enabled: false
+    enabled: true
 
 rails-app:
   replicaCount: 1

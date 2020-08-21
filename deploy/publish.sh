@@ -27,7 +27,7 @@ main() {
   set_dns_secret
   install_helm
 
-  install_tls_resources
+#  install_tls_resources
 }
 
 set_dns_secret() {
@@ -108,7 +108,7 @@ install_helm() {
     --set global.postgresql.postgresqlPassword=\"$DB_PASSWORD\" \
     --set global.release.helm=\"$CURRENT_HELM_RELEASE\" \
     --set global.release.git=\"$CURRENT_GIT_TAG\" \
-    --set rails-app.ingress.enabled=true \
+    --set rails-app.ingress.enabled=$TLS_CERTIFICATES \
     --set rails-app.ingress.cloud_secret_name=$DNS_CLOUD_SECRET_NAME
     "
 
