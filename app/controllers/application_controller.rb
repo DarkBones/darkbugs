@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   protect_from_forgery prepend: true
-  skip_before_action :verify_authenticity_token
   before_action :set_user
   after_action :clear_flash
   before_action :set_tenant
