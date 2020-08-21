@@ -41,3 +41,4 @@ global:
   release:
     helm: helm-release-name
     git: git-tag
+    hash: git-hash

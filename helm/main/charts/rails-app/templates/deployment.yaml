@@ -54,6 +54,8 @@ spec:
               value: {{ template "rails-app.app-name" . }}
             - name: RELEASE_TAG
               value: {{ template "rails-app.release-tag" . }}
+            - name: RELEASE_HASH
+              value: {{ default "" .Values.global.release.hash }}
             - name: DOMAIN
               value: {{ .Values.domain }}
             - name: DB_USERNAME
