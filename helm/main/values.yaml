@@ -22,12 +22,16 @@ rails-app:
     minReplicas: 1
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
   ingress:
     enabled: true
     email: email@server.com
     cloud_secret_name: secret
     clouddns_project: darkbugs
+    hosts:
+    - host: darkbugs.com
+      paths: ['/']
+    - host: '*.darkbugs.com'
+      paths: ['/']
 
 global:
   postgresql:
