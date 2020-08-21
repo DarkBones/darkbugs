@@ -87,14 +87,14 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_template :show
   end
 
-  def test_add_members
+  def test_invite_members
     get :add_members, params: { organization_slug: @organization.slug }
 
     assert_response :success
     assert_template :add_members
   end
 
-  def test_create_members_empty
+  def test_invite_members_empty
     post :create_members, params: {
       organization_slug: @organization.slug,
       organization: {
@@ -106,7 +106,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_includes response.body, "Usernames can't be blank"
   end
 
-  def test_create_members
+  def test_invite_members
     post :create_members, params: {
       organization_slug: @organization.slug,
       organization: {
@@ -121,7 +121,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_includes response.body, 'User successfully invited'
   end
 
-  def test_create_members_non_admin
+  def test_invite_members_non_admin
     post :create_members, params: {
       organization_slug: organizations(:test).slug,
       organization: {
@@ -133,7 +133,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_match 'Only administrators can take this action', flash[:error]
   end
 
-  def test_create_duplicate_case_insensitive
+  def test_invite_duplicate_case_insensitive
     post :create, params: {
       organization: {
         name: 'test duplicate name'
