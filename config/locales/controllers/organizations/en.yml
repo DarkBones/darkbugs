@@ -16,4 +16,4 @@ en:
       remove_member:
         same_user: You cannot remove yourself
       destroy:
-        success: Successfully archived organization %{name}
+        success: Successfully deleted organization %{name}

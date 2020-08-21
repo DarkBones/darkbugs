@@ -76,7 +76,7 @@ class OrganizationsController < ApplicationController
   def destroy
     raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.destroy.name_mismatch') if params.dig(:organization, :name) != @organization.name
 
-    @organization.archive!
+    @organization.destroy!
 
     redirect_to(organizations_path, { :flash => { :notice => I18n.t('controllers.organizations.destroy.success', name: @organization.name) } })
   rescue ActionController::BadRequest => e
