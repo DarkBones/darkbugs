@@ -15,9 +15,6 @@ class Organization < ApplicationRecord
   after_create :create_tenant
 
   # -- Scopes --------------------------------------------------------
-  scope :published, -> {
-    where(archived: false)
-  }
 
   # -- Instance Methods --------------------------------------------------------
   def user_role(user)

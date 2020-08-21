@@ -6,7 +6,7 @@ class OrganizationsController < ApplicationController
   before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete destroy]
 
   def index
-    @organizations = @current_user.organizations.published.order(:slug)
+    @organizations = @current_user.organizations.order(:slug)
   end
 
   def create

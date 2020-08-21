@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
   before_action :set_user
   after_action :clear_flash
-  before_action :set_tenant
+  before_action :set_organization
 
   private def set_user
     @current_user = current_user
@@ -13,11 +13,13 @@ class ApplicationController < ActionController::Base
     flash.discard if request.xhr?
   end
 
-  private def set_tenant
+  private def set_organization
     if request.subdomain.present?
       Apartment::Tenant.switch!(request.subdomain)
+      @current_organization = Organization.find_by!(slug: request.subdomain)
     else
       Apartment::Tenant.switch!
+      @current_organization = nil
     end
   end
 end
