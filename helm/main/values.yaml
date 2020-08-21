@@ -27,6 +27,7 @@ rails-app:
     enabled: true
     email: email@server.com
     cloud_secret_name: secret
+    clouddns_project: darkbugs
 
 global:
   postgresql:

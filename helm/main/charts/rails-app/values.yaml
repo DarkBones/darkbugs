@@ -49,6 +49,7 @@ ingress:
   enabled: true
   email: email@server.com
   cloud_secret_name: secret
+  clouddns_project: project
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
