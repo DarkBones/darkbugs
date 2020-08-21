@@ -29,6 +29,8 @@ en:
         roles: *roles
         view_members: View Members
         delete: Delete Organization
+        own_organization: Your own space
+        user_created_at: Created on %{date}
       show:
         members: *members
         card_header: Members
