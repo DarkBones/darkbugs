@@ -33,7 +33,9 @@ main() {
 set_dns_secret() {
   installed=false
 
-  for secret in $(kubectl get secrets); do
+  kubectl create namespace cert-manager
+
+  for secret in $(kubectl get secrets --namespace="cert-manager"); do
     if [ $secret = $DNS_CLOUD_SECRET_NAME ]; then
       installed=true
     fi
@@ -145,7 +147,7 @@ set_kube_context() {
     USE_KUBE_CONTEXT=$KUBE_CONTEXT
   fi
 
-  kubectl config set-context $USE_KUBE_CONTEXT
+  kubectl config use-context $USE_KUBE_CONTEXT
 }
 
 get_release_values() {
