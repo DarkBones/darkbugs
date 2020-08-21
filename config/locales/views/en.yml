@@ -56,10 +56,10 @@ en:
         username: Username
         status: Status
         statuses:
-          user_not_found: User doesn't exist
+          user_not_found: User not found
           already_in_organization: User is already a member
-          failed: Failed to add user
-          success: User successfully added
+          failed: Failed to invite user
+          success: User successfully invited
       delete:
         title: Delete %{name}
         title_sub: Are you sure you want to delete %{name}?
