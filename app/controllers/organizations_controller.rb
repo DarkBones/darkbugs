@@ -113,7 +113,7 @@ class OrganizationsController < ApplicationController
 
   private def load_organization
     slug = params[:slug] || params[:organization_slug]
-    @organization ||= @current_user.organizations.find_by!(slug: slug, archived: false)
+    @organization ||= @current_user.organizations.find_by!(slug: slug)
   end
 
   private def load_user_organization

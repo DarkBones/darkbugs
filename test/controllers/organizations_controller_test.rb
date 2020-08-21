@@ -13,8 +13,8 @@ class OrganizationsControllerTest < ActionController::TestCase
   def test_index
     get :index
 
-    names = ['0000 first', 'default', 'test']
-    messages = ['Created on', 'Created on', 'Member since']
+    names = ['Your own space' ,'0000 first', 'default', 'test']
+    messages = ['Created on', 'Created on', 'Created on', 'Member since']
 
     assert_select "ul#organization_list" do |elements|
       elements.each do |element|
@@ -305,13 +305,13 @@ class OrganizationsControllerTest < ActionController::TestCase
   def test_destroy
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: @organization.name } }
 
-    assert @organization.reload.archived
+    assert Organization.where(id: @organization.id).take.nil?
   end
 
   def test_destroy_name_mismatch
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
 
-    assert_not @organization.reload.archived
+    assert_not @organization.reload.nil?
     assert_match "The name doesn't match", flash[:error]
   end
 
@@ -319,7 +319,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     sign_in users(:test)
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
 
-    assert_not @organization.reload.archived
+    assert_not @organization.reload.nil?
     assert_match 'Only administrators can take this action', flash[:error]
   end
 end
