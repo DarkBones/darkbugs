@@ -56,8 +56,6 @@ spec:
               value: {{ template "rails-app.release-tag" . }}
             - name: DOMAIN
               value: {{ .Values.domain }}
-            - name: RELEASE_NAME
-              value: {{ .Release.Name }}
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
