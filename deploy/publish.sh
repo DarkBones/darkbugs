@@ -41,7 +41,7 @@ set_dns_secret() {
 
   if [ $installed = false ]; then
     print_header
-    kubectl create secret generic $DNS_CLOUD_SECRET_NAME --from-file=deploy/secret-darkbugs-cloud-dns.json
+    kubectl create secret generic $DNS_CLOUD_SECRET_NAME --from-file=deploy/service-account.json --namespace="cert-manager"
   fi
 }
 
