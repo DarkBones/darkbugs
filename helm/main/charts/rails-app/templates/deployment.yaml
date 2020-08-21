@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
 #          livenessProbe:
 #            httpGet:
@@ -54,6 +54,8 @@ spec:
               value: {{ template "rails-app.app-name" . }}
             - name: RELEASE_TAG
               value: {{ template "rails-app.release-tag" . }}
+            - name: DOMAIN
+              value: {{ .Values.domain }}
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:

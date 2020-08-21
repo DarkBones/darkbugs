@@ -1,0 +1,7 @@
+docker_user: darkbones
+app_name: darkbugs
+main_branch: main
+master_key_file: config/master.key
+secrets_file: deploy/secrets.yaml
+release_values_file: deploy/release_values.yaml
+excluded_roots: deploy helm

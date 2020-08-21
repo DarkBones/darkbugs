@@ -10,9 +10,6 @@ vastInternational
 badEssay
 annoyingNose
 delightfulDog
-<<<<<<< HEAD
 inquisitiveProcedure
 horribleText
-=======
->>>>>>> parent of 052b156... New version
 annoyingState

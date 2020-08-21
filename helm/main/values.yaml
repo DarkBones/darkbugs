@@ -5,11 +5,12 @@ postgresql:
     repository: bitnami/postgresql
     tag: 11.7.0-debian-10-r9
   persistence:
-    enabled: false
+    enabled: true
 
 rails-app:
   replicaCount: 1
   appName: Darkbugs
+  domain: darkbugs.com
   image:
     repository: darkbones/darkbugs
     tag: dev
@@ -21,7 +22,16 @@ rails-app:
     minReplicas: 1
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
+  ingress:
+    enabled: true
+    email: email@server.com
+    cloud_secret_name: secret
+    clouddns_project: darkbugs
+    hosts:
+    - host: darkbugs.com
+      paths: ['/']
+    - host: '*.darkbugs.com'
+      paths: ['/']
 
 global:
   postgresql:
