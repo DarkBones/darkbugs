@@ -13,8 +13,8 @@ class BaseService
 
   protected def error(message, http_status = nil)
     result = {
-        message: message,
-        status: :error
+      message: message,
+      status: :error
     }
 
     result[:http_status] = http_status if http_status

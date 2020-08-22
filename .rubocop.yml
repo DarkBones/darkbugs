@@ -38,7 +38,7 @@ Lint/FloatComparison:
   Enabled: true
 
 Lint/MissingSuper:
-  Enabled: true
+  Enabled: false
 
 Lint/MixedRegexpCaptureTypes:
   Enabled: true
@@ -61,6 +61,13 @@ Lint/TopLevelReturnWithArgument:
 Lint/UnreachableLoop:
   Enabled: true
 
+Metrics/MethodLength:
+  Enabled: true
+  Max: 20
+
+Style/AccessModifierDeclarations:
+  Enabled: false
+
 Style/AccessorGrouping:
   Enabled: true
 
@@ -73,11 +80,17 @@ Style/BisectedAttrAccessor:
 Style/CaseLikeIf:
   Enabled: true
 
+Style/Documentation:
+  Enabled: false
+
 Style/ExplicitBlockArgument:
   Enabled: true
 
 Style/ExponentialNotation:
   Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
 
 Style/GlobalStdStream:
   Enabled: true
@@ -126,6 +139,9 @@ Style/StringConcatenation:
 
 Rails/ActiveRecordCallbacksOrder:
   Enabled: true
+
+Rails/DynamicFindBy:
+  Enabled: false
 
 Rails/FindById:
   Enabled: true
