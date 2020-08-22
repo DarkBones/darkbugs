@@ -5,12 +5,10 @@ AllCops:
     - 'app/**/*.rb'
     - 'lib/**/*.rb'
   Exclude:
-    - 'config/**/*'
     - 'bin/**/*'
-    - 'script/**/*'
+    - 'config/**/*'
     - 'db/**/*'
-    - 'test/test_helper.rb'
-    - 'app/models/campaign.rb'
+    - 'test/**/*'
   TargetRubyVersion: 2.7
 
 Layout/EmptyLinesAroundAttributeAccessor:
