@@ -6,6 +6,8 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   def test_accepted_scope
+    @user.user_organizations.first.update!(accepted_at: nil)
+
     accepted = @user.organizations.accepted_by_user(@user)
 
     assert_not_equal @user.organizations.count, accepted.count

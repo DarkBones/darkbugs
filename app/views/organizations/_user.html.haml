@@ -2,7 +2,7 @@
   = image_tag user.avatar, class: 'avatar mr-2'
   = user.name
 
-  - if is_admin && @current_user != user || 1 == 1
+  - if is_admin && @current_user != user
     :ruby
       items = [
         [i18n('delete'), organization_remove_member_path(@organization.slug, user.uuid), :delete]

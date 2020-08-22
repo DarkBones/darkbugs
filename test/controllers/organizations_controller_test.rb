@@ -26,8 +26,6 @@ class OrganizationsControllerTest < ActionController::TestCase
         end
       end
     end
-
-    assert_select ""
   end
 
   def test_create
@@ -142,6 +140,24 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_not_nil user_org.reload.accepted_at
+  end
+
+  def test_accept_invitation_wrong_token
+    @user = users(:test)
+    sign_in @user
+
+    token = 'invalid_token'
+    user_org = user_organizations(:test_default)
+    user_org.update!(accepted_at: nil)
+
+    assert_nil user_org.accepted_at
+
+    get :accept_invitation, params: {
+      slug: @organization.slug,
+      confirmation_token: token
+    }
+
+    assert_nil user_org.reload.accepted_at
   end
 
   def test_invite_members_non_admin
