@@ -17,7 +17,7 @@ class UserOrganization < ApplicationRecord
   private def create_confirmation_token
     token = SecureRandom.urlsafe_base64(32, false)
 
-    while Organization.where(confirmation_token: token).exists?
+    while UserOrganization.where(confirmation_token: token).exists?
       token = SecureRandom.urlsafe_base64(32, false)
     end
 
