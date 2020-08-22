@@ -68,7 +68,25 @@ class Organization < ApplicationRecord
       )
   end
 
-  def ordered_users
+  def accepted_users
+    ordered_users(
+      users
+        .includes(:user_organizations)
+        .where('user_organizations.accepted_at is not null'
+        )
+    )
+  end
+
+  def pending_users
+    ordered_users(
+      users
+        .includes(:user_organizations)
+        .where('user_organizations.accepted_at is null'
+      )
+    )
+  end
+
+  def ordered_users(users)
     users.includes(:user_organizations).order('user_organizations.role')
   end
 

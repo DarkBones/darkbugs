@@ -44,6 +44,7 @@ en:
         delete: Remove
         make_admin: Grant admin privileges
         remove_admin: Revoke admin privileges
+        pending_invitations: Pending Invited Users
       new:
         title: New Organization
         title_sub: Create your own team

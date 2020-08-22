@@ -1,7 +1,7 @@
 class OrganizationsController < ApplicationController
   before_action :switch_to_public
   before_action :build_organization,      only:   %i[new create]
-  before_action :load_organization,       only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete accept_invitation]
+  before_action :load_organization,       only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete]
   before_action :load_user_organization,  only:   %i[grant_admin revoke_admin remove_member]
   before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete destroy]
 
@@ -54,7 +54,8 @@ class OrganizationsController < ApplicationController
 
     user_organization = @current_user.user_organizations.find_by!(confirmation_token: params[:confirmation_token])
     user_organization.update!(accepted_at: Time.now)
-    render :welcome
+
+    redirect_to(organizations_path, { :flash => { :notice => I18n.t('controllers.organizations.accept_invitation.success', name: @organization.name) } })
   rescue ActiveRecord::RecordNotFound
     redirect_to(root_path, { :flash => { :error => I18n.t('controllers.organizations.accept_invitation.invalid_token') } })
   end
