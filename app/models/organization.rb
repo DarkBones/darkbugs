@@ -12,6 +12,8 @@ class Organization < ApplicationRecord
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_slug, on: :create
+  before_validation :create_confirmation_token, on: :create
+  before_validation :set_invited_at, on: :create
   after_create :create_tenant
 
   # -- Scopes --------------------------------------------------------
