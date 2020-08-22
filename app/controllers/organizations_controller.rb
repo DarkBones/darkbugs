@@ -50,14 +50,27 @@ class OrganizationsController < ApplicationController
 
   def accept_invitation
     slug = params[:slug] || params[:organization_slug]
-    @organization = @current_user.organizations.pending_for_user(@current_user).find_by!(slug: slug)
+    @organization = @current_user
+                      .organizations
+                      .pending_for_user(@current_user)
+                      .find_by!(slug: slug)
 
-    user_organization = @current_user.user_organizations.find_by!(confirmation_token: params[:confirmation_token])
+    user_organization = @current_user
+                          .user_organizations
+                          .find_by!(confirmation_token: params[:confirmation_token])
     user_organization.update!(accepted_at: Time.now)
 
-    redirect_to(organizations_path, { :flash => { :notice => I18n.t('controllers.organizations.accept_invitation.success', name: @organization.name) } })
+    redirect_to(organizations_path, {
+      :flash => {
+        :notice => I18n.t('controllers.organizations.accept_invitation.success', name: @organization.name)
+      }
+    })
   rescue ActiveRecord::RecordNotFound
-    redirect_to(root_path, { :flash => { :error => I18n.t('controllers.organizations.accept_invitation.invalid_token') } })
+    redirect_to(root_path, {
+      :flash => {
+        :error => I18n.t('controllers.organizations.accept_invitation.invalid_token')
+      }
+    })
   end
 
   def grant_admin
