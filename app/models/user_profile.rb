@@ -5,6 +5,6 @@ class UserProfile < ApplicationRecord
 
   # -- Validations --------------------------------------------------------
   validates_presence_of :username
-  validates_format_of :username, with: /\A[a-z0-9\-_]+\z/i, allow_blank: true
-  validates_uniqueness_of :username, case_sensitive: false
+  validates :username, format: /\A[a-z0-9\-_]+\z/i, allow_blank: true
+  validates :username, uniqueness: { case_sensitive: false }
 end
