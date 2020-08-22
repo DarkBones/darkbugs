@@ -6,6 +6,8 @@ en:
         unauthorized: Only administrators can take this action
         destroy:
           name_mismatch: The name doesn't match
+        leave:
+          orphan: Can't leave %{name} because you are its only administrator.
       create_members:
         no_usernames: Usernames can't be blank
       grant_admin:
@@ -16,4 +18,7 @@ en:
       remove_member:
         same_user: You cannot remove yourself
       destroy:
-        success: Successfully archived organization %{name}
+        success: Successfully deleted organization %{name}
+      accept_invitation:
+        invalid_token: We were unable to verify your confirmation token
+        success: You were successfully added to %{name}

@@ -13,8 +13,8 @@ class OrganizationsControllerTest < ActionController::TestCase
   def test_index
     get :index
 
-    names = ['0000 first', 'default', 'test']
-    messages = ['Created on', 'Created on', 'Member since']
+    names = ['Your own space' ,'0000 first', 'default', 'test']
+    messages = ['Created on', 'Created on', 'Created on', 'Member since']
 
     assert_select "ul#organization_list" do |elements|
       elements.each do |element|
@@ -44,6 +44,9 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal user_organization_count + 1, @user.organizations.count
     assert_equal 1, organization.users.count
     assert_equal UserOrganization::ROLES[:CREATOR], @user.user_organizations.last.role
+    assert_not_nil @user.user_organizations.last.invited_at
+    assert_not_nil @user.user_organizations.last.accepted_at
+    assert_not_nil @user.user_organizations.last.confirmation_token
   end
 
   def test_slug
@@ -87,14 +90,14 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_template :show
   end
 
-  def test_add_members
+  def test_create_members
     get :add_members, params: { organization_slug: @organization.slug }
 
     assert_response :success
     assert_template :add_members
   end
 
-  def test_create_members_empty
+  def test_invite_members_empty
     post :create_members, params: {
       organization_slug: @organization.slug,
       organization: {
@@ -106,7 +109,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_includes response.body, "Usernames can't be blank"
   end
 
-  def test_create_members
+  def test_invite_members
     post :create_members, params: {
       organization_slug: @organization.slug,
       organization: {
@@ -116,12 +119,48 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template :add_members_results
-    assert_includes response.body, 'User doesn&#39;t exist'
+    assert_includes response.body, 'User not found'
     assert_includes response.body, 'User is already a member'
-    assert_includes response.body, 'User successfully added'
+    assert_includes response.body, 'User successfully invited'
   end
 
-  def test_create_members_non_admin
+  def test_accept_invitation
+    @user = users(:test)
+    sign_in @user
+
+    token = 'invitation_token'
+    user_org = user_organizations(:test_default)
+    user_org.update!(accepted_at: nil)
+
+    assert_nil user_org.accepted_at
+
+    get :accept_invitation, params: {
+      slug: @organization.slug,
+      confirmation_token: token
+    }
+
+    assert_not_nil user_org.reload.accepted_at
+  end
+
+  def test_accept_invitation_wrong_token
+    @user = users(:test)
+    sign_in @user
+
+    token = 'invalid_token'
+    user_org = user_organizations(:test_default)
+    user_org.update!(accepted_at: nil)
+
+    assert_nil user_org.accepted_at
+
+    get :accept_invitation, params: {
+      slug: @organization.slug,
+      confirmation_token: token
+    }
+
+    assert_nil user_org.reload.accepted_at
+  end
+
+  def test_invite_members_non_admin
     post :create_members, params: {
       organization_slug: organizations(:test).slug,
       organization: {
@@ -133,7 +172,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_match 'Only administrators can take this action', flash[:error]
   end
 
-  def test_create_duplicate_case_insensitive
+  def test_invite_duplicate_case_insensitive
     post :create, params: {
       organization: {
         name: 'test duplicate name'
@@ -305,13 +344,13 @@ class OrganizationsControllerTest < ActionController::TestCase
   def test_destroy
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: @organization.name } }
 
-    assert @organization.reload.archived
+    assert Organization.where(id: @organization.id).take.nil?
   end
 
   def test_destroy_name_mismatch
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
 
-    assert_not @organization.reload.archived
+    assert_not @organization.reload.nil?
     assert_match "The name doesn't match", flash[:error]
   end
 
@@ -319,7 +358,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     sign_in users(:test)
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
 
-    assert_not @organization.reload.archived
+    assert_not @organization.reload.nil?
     assert_match 'Only administrators can take this action', flash[:error]
   end
 end

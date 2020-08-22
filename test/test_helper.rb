@@ -3,9 +3,15 @@ require_relative '../config/environment'
 require 'rails/test_help'
 
 class ActiveSupport::TestCase
-  include Devise::Test::ControllerHelpers
+  if @request.present?
+    include Devise::Test::ControllerHelpers
+  else
+    include Devise::Test::IntegrationHelpers
+  end
+
   include Warden::Test::Helpers
   Warden.test_mode!
+
 
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
@@ -16,7 +22,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   setup do
-    @request.env['HTTP_HOST'] = 'host'
+    @request.env['HTTP_HOST'] = 'host' if @request.present?
   end
 
   def login

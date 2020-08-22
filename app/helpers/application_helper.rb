@@ -29,6 +29,14 @@ module ApplicationHelper
     class_names.join(' ')
   end
 
+  def page_title
+    if content_for?(:page_title)
+      "#{content_for(:page_title)} - #{default_page_title}"
+    else
+      default_page_title
+    end
+  end
+
   def i18n(path, *options)
     I18n.t "#{i18n_path_prefix}.#{path}", options[0]
   end
@@ -45,5 +53,13 @@ module ApplicationHelper
     action ||= params[:action]
 
     "views.#{controller}.#{action}"
+  end
+
+  private def default_page_title
+    if @current_organization.present?
+      @current_organization.name
+    else
+      ENV['APP_NAME']
+    end
   end
 end

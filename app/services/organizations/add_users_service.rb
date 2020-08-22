@@ -47,6 +47,7 @@ module Organizations
         end
 
         r[:status] = SUCCESS
+        r[:token] = user_organization.confirmation_token
       end
 
       results
@@ -57,7 +58,8 @@ module Organizations
         {
           username: un,
           user: nil,
-          status: NOT_STARTED
+          status: NOT_STARTED,
+          token: nil
         }
       end
     end

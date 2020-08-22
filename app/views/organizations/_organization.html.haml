@@ -1,18 +1,39 @@
 :ruby
-  items = [
-    [i18n('view_members'), organization_path(organization.slug)]
-  ]
+  items = []
 
-  if organization.user_is_admin?(@current_user)
-    items.push([i18n('delete'), organization_delete_path(organization.slug)])
+  user_accepted = organization.user_accepted?(@current_user)
+
+  user_role = 'invited'
+  if user_accepted
+    user_role = organization.user_role(@current_user)
+
+    items.push([i18n('view_members'), organization_path(organization.slug)])
+    if organization.user_is_admin?(@current_user)
+      items.push([i18n('delete'), organization_delete_path(organization.slug)])
+    end
+
+    items.push([i18n('leave'), organization_leave_path(organization.slug), :delete])
+  else
+    items.push([
+      i18n('accept'),
+      organization_accept_invitation_path(
+        slug: organization.slug,
+        confirmation_token: organization.token_for_user(@current_user)
+      )
+    ])
+
+    items.push([i18n('reject'), organization_leave_path(organization.slug), :delete])
   end
 
 %li.mb-3
   .float-right
     = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
   .font-weight-bold
-    = link_to organization.name, root_url(subdomain: organization.slug)
+    - if user_accepted
+      = link_to organization.name, root_url(subdomain: organization.slug)
+    - else
+      = organization.name
   .small.text-muted
-    = i18n('members', count: organization.users.count)
+    = i18n('members', count: organization.accepted_users.count)
   .small.text-muted
-    = i18n("roles.#{organization.user_role(@current_user)}", date: @current_user.local_date(organization.join_date(@current_user)))
+    = i18n("roles.#{user_role}", date: @current_user.local_date(organization.join_date(@current_user)))

@@ -4,7 +4,21 @@
   = i18n 'card_header'
 = content_for :card_body do
   %ul.list-unstyled#organization_list
+    %li.mb-3
+      .font-weight-bold
+        = link_to @current_user.name, root_url(subdomain: '')
+      .small.text-muted
+        = i18n('own_organization')
+      .small.text-muted
+        = i18n('user_created_at', date: @current_user.local_date(@current_user.created_at))
     = render @organizations
+
+  - if @pending_organizations.present?
+    %hr
+    %h3
+      = i18n('pending_invitations')
+    %ul.list-unstyled#organization_list.mt-3
+      = render @pending_organizations
 
 = content_for :nav_card do
   %li.nav-item

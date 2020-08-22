@@ -2,33 +2,41 @@ default_default:
   user: default
   organization: default
   role: <%= UserOrganization::ROLES[:CREATOR] %>
+  accepted_at: <%= 1.day.ago %>
 
 test_default:
   user: test
   organization: default
   role: <%= UserOrganization::ROLES[:MEMBER] %>
+  confirmation_token: invitation_token
+  accepted_at: <%= 1.day.ago %>
 
 locked_default:
   user: locked
   organization: default
   role: <%= UserOrganization::ROLES[:MEMBER] %>
+  accepted_at: <%= 1.day.ago %>
 
 locked_test:
   user: locked
   organization: test
   role: <%= UserOrganization::ROLES[:CREATOR] %>
+  accepted_at: <%= 1.day.ago %>
 
 default_test:
   user: default
   organization: test
   role: <%= UserOrganization::ROLES[:MEMBER] %>
+  accepted_at: <%= 1.day.ago %>
 
 default_first:
   user: default
   organization: first
   role: <%= UserOrganization::ROLES[:CREATOR] %>
+  accepted_at: <%= 1.day.ago %>
 
 locked_first:
   user: locked
   organization: first
   role: <%= UserOrganization::ROLES[:MEMBER] %>
+  accepted_at: <%= 1.day.ago %>

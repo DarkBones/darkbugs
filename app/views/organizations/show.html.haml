@@ -7,28 +7,16 @@
 
 = content_for :card_body do
   %ul.list-unstyled#organization_list
-    - @organization.ordered_users.each do |user|
-      %li.mb-4
-        = image_tag user.avatar, class: 'avatar mr-2'
-        = user.name
+    - @organization.accepted_users.each do |user|
+      = render partial: 'organizations/user', locals: { user: user, is_admin: is_admin }
 
-        - if is_admin && @current_user != user
-          :ruby
-            items = [
-              [i18n('delete'), organization_remove_member_path(@organization.slug, user.uuid), :delete]
-            ]
-
-            if @organization.user_is_admin?(user)
-              items.push([i18n('remove_admin'), organization_revoke_admin_path(@organization.slug, user.uuid), :put])
-            else
-              items.push([i18n('make_admin'), organization_grant_admin_path(@organization.slug, user.uuid), :put])
-            end
-
-          .float-right
-            = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
-
-        .small.text-muted.d-inline-block
-          = i18n("roles.#{@organization.user_role(user)}", date: @current_user.local_date(@organization.join_date(user)))
+    - if @organization.pending_users.count > 0
+      %hr
+      %h3
+        = i18n('pending_invitations')
+      .mt-4
+      - @organization.pending_users.each do |user|
+        = render partial: 'organizations/user', locals: { user: user, is_admin: is_admin }
 
 - if @organization.user_is_admin?(@current_user)
   = content_for :nav_card do

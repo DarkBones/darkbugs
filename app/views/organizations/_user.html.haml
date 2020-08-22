@@ -1,0 +1,25 @@
+%li.mb-4
+  = image_tag user.avatar, class: 'avatar mr-2'
+  = user.name
+
+  - if is_admin && @current_user != user
+    :ruby
+      items = [
+        [i18n('delete'), organization_remove_member_path(@organization.slug, user.uuid), :delete]
+      ]
+
+      role = 'invited'
+      if @organization.user_accepted?(user)
+        role = @organization.user_role(user)
+        if @organization.user_is_admin?(user)
+          items.push([i18n('remove_admin'), organization_revoke_admin_path(@organization.slug, user.uuid), :put])
+        else
+          items.push([i18n('make_admin'), organization_grant_admin_path(@organization.slug, user.uuid), :put])
+        end
+      end
+
+    .float-right
+      = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
+
+  .small.text-muted.d-inline-block
+    = i18n("roles.#{role}", date: @current_user.local_date(@organization.join_date(user)))
