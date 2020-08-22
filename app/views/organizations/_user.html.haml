@@ -8,7 +8,9 @@
         [i18n('delete'), organization_remove_member_path(@organization.slug, user.uuid), :delete]
       ]
 
+      role = 'invited'
       if @organization.user_accepted?(user)
+        role = @organization.user_role(user)
         if @organization.user_is_admin?(user)
           items.push([i18n('remove_admin'), organization_revoke_admin_path(@organization.slug, user.uuid), :put])
         else
@@ -20,4 +22,4 @@
       = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
 
   .small.text-muted.d-inline-block
-    = i18n("roles.#{@organization.user_role(user)}", date: @current_user.local_date(@organization.join_date(user)))
+    = i18n("roles.#{role}", date: @current_user.local_date(@organization.join_date(user)))
