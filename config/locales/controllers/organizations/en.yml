@@ -20,5 +20,5 @@ en:
       destroy:
         success: Successfully deleted organization %{name}
       accept_invitation:
-        invalid_token: We were unable to verify your confirmation token. Make sure you are logged in as the correct user.
+        invalid_token: We were unable to verify your confirmation token
         success: You were successfully added to %{name}
