@@ -15,8 +15,12 @@ class ApplicationController < ActionController::Base
 
   private def set_organization
     if request.subdomain.present?
-      Apartment::Tenant.switch!(request.subdomain)
-      @current_organization = Organization.find_by!(slug: request.subdomain)
+      Apartment::Tenant.switch!
+      @current_organization = @current_user
+                                .organizations
+                                .accepted_by_user(@current_user)
+                                .find_by!(slug: request.subdomain)
+      Apartment::Tenant.switch!(@current_organization.slug)
     else
       Apartment::Tenant.switch!
       @current_organization = nil

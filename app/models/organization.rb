@@ -38,8 +38,12 @@ class Organization < ApplicationRecord
     UserOrganization::ROLES.key(user_organizations.find_by(user_id: user).role).downcase
   end
 
+  def token_for_user(user)
+    user_organizations.find_by(user: user).confirmation_token
+  end
+
   def join_date(user)
-    user_organizations.find_by(user: user).created_at
+    user_organizations.find_by(user: user).updated_at
   end
 
   def user_is_admin?(user)
@@ -47,6 +51,10 @@ class Organization < ApplicationRecord
       .include?(
         user_organizations.find_by(user_id: user).role
       )
+  end
+
+  def user_accepted?(user)
+    user_organizations.find_by(user_id: user).accepted_at.present?
   end
 
   def admins

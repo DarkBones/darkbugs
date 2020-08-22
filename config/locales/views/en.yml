@@ -12,6 +12,7 @@ en:
         creator: "Created on %{date}"
         admin: "Admin since %{date}"
         member: "Member since %{date}"
+        invited: "Invited on %{date}"
   views:
     shared:
       warning: 'Are you sure? This action cannot be reversed.'
@@ -23,12 +24,15 @@ en:
       index:
         title: Organizations
         title_sub: Your organizations
+        pending_invitations: Pending Invitations
         card_header: Organizations
         new_button: New Organization
         members: *members
         roles: *roles
         view_members: View Members
         delete: Delete Organization
+        accept: Accept Invitation
+        reject: Reject Invitation
         own_organization: Your own space
         user_created_at: Created on %{date}
       show:

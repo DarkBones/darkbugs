@@ -26,6 +26,8 @@ class OrganizationsControllerTest < ActionController::TestCase
         end
       end
     end
+
+    assert_select ""
   end
 
   def test_create
@@ -130,6 +132,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     token = 'invitation_token'
     user_org = user_organizations(:test_default)
+    user_org.update!(accepted_at: nil)
 
     assert_nil user_org.accepted_at
 

@@ -6,7 +6,15 @@ class OrganizationsController < ApplicationController
   before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete destroy]
 
   def index
-    @organizations = @current_user.organizations.order(:slug)
+    @organizations = @current_user
+                       .organizations
+                       .accepted_by_user(@current_user)
+                       .order(:slug)
+
+    @pending_organizations = @current_user
+                               .organizations
+                               .pending_for_user(@current_user)
+                               .order(:slug)
   end
 
   def create
@@ -121,7 +129,7 @@ class OrganizationsController < ApplicationController
 
   private def load_organization
     slug = params[:slug] || params[:organization_slug]
-    @organization ||= @current_user.organizations.find_by!(slug: slug)
+    @organization ||= @current_user.organizations.accepted_by_user(@current_user).find_by!(slug: slug)
   end
 
   private def load_user_organization

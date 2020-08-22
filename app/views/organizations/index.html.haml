@@ -13,6 +13,13 @@
         = i18n('user_created_at', date: @current_user.local_date(@current_user.created_at))
     = render @organizations
 
+  - if @pending_organizations.present?
+    %hr
+    %h3
+      = i18n('pending_invitations')
+    %ul.list-unstyled#organization_list.mt-3
+      = render @pending_organizations
+
 = content_for :nav_card do
   %li.nav-item
     = link_to i18n('new_button'), new_organization_path
