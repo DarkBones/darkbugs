@@ -110,7 +110,6 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_invite_members
-    initial_count = UserOrganization.count
     post :create_members, params: {
       organization_slug: @organization.slug,
       organization: {
@@ -125,8 +124,6 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_includes response.body, 'User not found'
     assert_includes response.body, 'User is already a member'
     assert_includes response.body, 'User successfully invited'
-
-    puts user_org.confirmation_token
   end
 
   def test_invite_members_non_admin
