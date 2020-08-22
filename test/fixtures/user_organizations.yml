@@ -2,6 +2,7 @@ default_default:
   user: default
   organization: default
   role: <%= UserOrganization::ROLES[:CREATOR] %>
+  accepted_at: <%= 1.day.ago %>
 
 test_default:
   user: test

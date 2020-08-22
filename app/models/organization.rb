@@ -15,9 +15,23 @@ class Organization < ApplicationRecord
   after_create :create_tenant
 
   # -- Scopes --------------------------------------------------------
-  # scope :accepted, -> {
-  #   where('groups.path is not null')
-  # }
+  scope :accepted_by_user, -> (user) {
+    where(
+        id: user
+              .user_organizations
+              .where.not(accepted_at: nil)
+              .pluck(:organization_id)
+      )
+  }
+
+  scope :pending_for_user, -> (user) {
+    where(
+        id: user
+              .user_organizations
+              .where(accepted_at: nil)
+              .pluck(:organization_id)
+      )
+  }
 
   # -- Instance Methods --------------------------------------------------------
   def user_role(user)
