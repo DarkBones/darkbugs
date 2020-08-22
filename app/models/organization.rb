@@ -12,11 +12,12 @@ class Organization < ApplicationRecord
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_slug, on: :create
-  before_validation :create_confirmation_token, on: :create
-  before_validation :set_invited_at, on: :create
   after_create :create_tenant
 
   # -- Scopes --------------------------------------------------------
+  # scope :accepted, -> {
+  #   where('groups.path is not null')
+  # }
 
   # -- Instance Methods --------------------------------------------------------
   def user_role(user)
@@ -47,10 +48,6 @@ class Organization < ApplicationRecord
 
   def ordered_users
     users.includes(:user_organizations).order('user_organizations.role')
-  end
-
-  def archive!
-    update!(archived: true)
   end
 
   private def create_slug

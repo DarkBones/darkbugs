@@ -44,6 +44,9 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal user_organization_count + 1, @user.organizations.count
     assert_equal 1, organization.users.count
     assert_equal UserOrganization::ROLES[:CREATOR], @user.user_organizations.last.role
+    assert_not_nil @user.user_organizations.last.invited_at
+    assert_not_nil @user.user_organizations.last.accepted_at
+    assert_not_nil @user.user_organizations.last.confirmation_token
   end
 
   def test_slug

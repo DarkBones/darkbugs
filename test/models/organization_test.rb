@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def test_accepted_scope
+    
+  end
 end

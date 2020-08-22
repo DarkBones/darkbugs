@@ -26,5 +26,6 @@ class UserOrganization < ApplicationRecord
 
   private def set_invited_at
     self.invited_at = Time.now
+    self.accepted_at = Time.now if role == ROLES[:CREATOR]
   end
 end
