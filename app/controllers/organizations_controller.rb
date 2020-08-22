@@ -49,6 +49,9 @@ class OrganizationsController < ApplicationController
   end
 
   def accept_invitation
+    slug = params[:slug] || params[:organization_slug]
+    @organization = @current_user.organizations.pending_for_user(@current_user).find_by!(slug: slug)
+
     user_organization = @current_user.user_organizations.find_by!(confirmation_token: params[:confirmation_token])
     user_organization.update!(accepted_at: Time.now)
     render :welcome
@@ -95,6 +98,23 @@ class OrganizationsController < ApplicationController
     @organization.destroy!
 
     redirect_to(organizations_path, { :flash => { :notice => I18n.t('controllers.organizations.destroy.success', name: @organization.name) } })
+  rescue ActionController::BadRequest => e
+    flash[:error] = e.message
+    redirect_back(fallback_location: organizations_path)
+  end
+
+  def leave
+    slug = params[:slug] || params[:organization_slug]
+    @organization = @current_user.organizations.find_by!(slug: slug)
+
+    if @organization.user_is_admin?(@current_user) && @organization.admins.count <= 1
+      raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.leave.orphan', name: @organization.name)
+    end
+
+    user_organization = @current_user.user_organizations.find_by!(organization: @organization)
+    user_organization.destroy!
+
+    redirect_back(fallback_location: organizations_path)
   rescue ActionController::BadRequest => e
     flash[:error] = e.message
     redirect_back(fallback_location: organizations_path)

@@ -33,6 +33,7 @@ en:
         delete: Delete Organization
         accept: Accept Invitation
         reject: Reject Invitation
+        leave: Leave Organization
         own_organization: Your own space
         user_created_at: Created on %{date}
       show:

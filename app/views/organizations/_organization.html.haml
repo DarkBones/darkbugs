@@ -11,6 +11,8 @@
     if organization.user_is_admin?(@current_user)
       items.push([i18n('delete'), organization_delete_path(organization.slug)])
     end
+
+    items.push([i18n('leave'), organization_leave_path(organization.slug), :delete])
   else
     items.push([
       i18n('accept'),

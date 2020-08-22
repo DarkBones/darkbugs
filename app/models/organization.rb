@@ -60,7 +60,7 @@ class Organization < ApplicationRecord
   def admins
     users
       .includes(:user_organizations)
-      .where('user_organizations.role in (?)',
+      .where('user_organizations.role in (?) and user_organizations.accepted_at is not null',
              [
                UserOrganization::ROLES[:CREATOR],
                UserOrganization::ROLES[:ADMIN]
