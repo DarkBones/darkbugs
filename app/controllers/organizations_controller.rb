@@ -1,7 +1,7 @@
 class OrganizationsController < ApplicationController
   before_action :switch_to_public
   before_action :build_organization,      only:   %i[new create]
-  before_action :load_organization,       only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete]
+  before_action :load_organization,       only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete accept_invitation]
   before_action :load_user_organization,  only:   %i[grant_admin revoke_admin remove_member]
   before_action :check_admin,             only:   %i[create_members grant_admin revoke_admin remove_member delete destroy]
 
@@ -30,7 +30,7 @@ class OrganizationsController < ApplicationController
 
     successful_users = @results[:results]
                              .reject { |v| v[:status] != Organizations::AddUsersService::SUCCESS }
-                             .map { |v| v[:user] }
+                             .map { |v| { user: v[:user], token: v[:token] } }
 
     email_new_members(successful_users, @organization)
 
@@ -38,6 +38,14 @@ class OrganizationsController < ApplicationController
   rescue ArgumentError, ActionController::BadRequest => e
     flash.now[:error] = e.message
     render action: :add_members, status: :bad_request
+  end
+
+  def accept_invitation
+    user_organization = @current_user.user_organizations.find_by!(confirmation_token: params[:confirmation_token])
+    user_organization.update!(accepted_at: Time.now)
+    render :welcome
+  rescue ActiveRecord::RecordNotFound
+    redirect_to(root_path, { :flash => { :error => I18n.t('controllers.organizations.accept_invitation.invalid_token') } })
   end
 
   def grant_admin
@@ -96,9 +104,9 @@ class OrganizationsController < ApplicationController
     Apartment::Tenant.switch!
   end
 
-  private def email_new_members(users, organization)
-    users.each do |user|
-      Devise.mailer.added_to_organization(user, @current_user, organization).deliver_now
+  private def email_new_members(user_tokens, organization)
+    user_tokens.each do |user_token|
+      Devise.mailer.added_to_organization(user_token[:user], @current_user, organization, user_token[:token]).deliver_now
     end
   end
 

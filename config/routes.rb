@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     post :destroy
     get :add_members
     get :delete
+    get :confirm_invitation, params: :token
   end
+  get '/organizations/:slug/accept_invitation/:confirmation_token', to: 'organizations#accept_invitation', as: 'organization_accept_invitation'
   put '/organizations/:slug/grant_admin/:user_uuid',    to: 'organizations#grant_admin',    as: 'organization_grant_admin'
   put '/organizations/:slug/revoke_admin/:user_uuid',   to: 'organizations#revoke_admin',   as: 'organization_revoke_admin'
   delete '/organizations/:slug/remove_member/:user_uuid',  to: 'organizations#remove_member',  as: 'organization_remove_member'

@@ -34,12 +34,12 @@ class UserMailer < PostageApp::Mailer
          subject: @title)
   end
 
-  def added_to_organization(added_user, added_by, organization, _opts = {})
+  def added_to_organization(added_user, added_by, organization, token, _opts = {})
     @title = I18n.t('mailers.user_mailer.added_to_organization.title', organization: organization.name)
     @added_by = added_by.name
     @name = added_user.name
     @organization = organization.name
-    @link = organizations_path
+    @link = organization_accept_invitation_path(slug: organization.slug, confirmation_token: token)
     mail(to: added_user.email,
          subject: I18n.t('mailers.user_mailer.added_to_organization.subject'))
   end

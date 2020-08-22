@@ -22,9 +22,9 @@ en:
         p2: Click the link below to unlock your account.
         link_text: Unlock my account
       added_to_organization:
-        title: Welcome to %{organization}!
-        subject: You have been added to an organization
+        title: Invitation to %{organization}!
+        subject: You have been invited to an organization
         greet: Hi %{name},
-        p1: "%{adder} has added you to %{organization}!"
-        p2: You can now view the organization's projects and tickets.
-        link_text: View your Organizations
+        p1: "%{adder} has invited you to %{organization}!"
+        p2: Click on the link below to accept the invitation.
+        link_text: Accept Invitation

@@ -17,3 +17,5 @@ en:
         same_user: You cannot remove yourself
       destroy:
         success: Successfully deleted organization %{name}
+      accept_invitation:
+        invalid_token: We were unable to verify your confirmation token. Make sure you are logged in as the correct user.

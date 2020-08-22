@@ -117,13 +117,28 @@ class OrganizationsControllerTest < ActionController::TestCase
       }
     }
 
-    user_org = UserOrganization.last
-
     assert_response :success
     assert_template :add_members_results
     assert_includes response.body, 'User not found'
     assert_includes response.body, 'User is already a member'
     assert_includes response.body, 'User successfully invited'
+  end
+
+  def test_accept_invitation
+    @user = users(:test)
+    sign_in @user
+
+    token = 'invitation_token'
+    user_org = user_organizations(:test_default)
+
+    assert_nil user_org.accepted_at
+
+    get :accept_invitation, params: {
+      slug: @organization.slug,
+      confirmation_token: token
+    }
+
+    assert_not_nil user_org.reload.accepted_at
   end
 
   def test_invite_members_non_admin
