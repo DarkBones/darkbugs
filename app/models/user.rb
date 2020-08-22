@@ -64,7 +64,7 @@ class User < ApplicationRecord
     time
   end
 
-  def is_admin?
+  def admin?
     role == ADMIN_ROLE
   end
 
@@ -76,7 +76,7 @@ class User < ApplicationRecord
   private def create_uuid
     uuid = SecureRandom.urlsafe_base64(8, false)
 
-    while User.where(uuid: uuid).exists?
+    while User.exists?(uuid: uuid)
       uuid = SecureRandom.urlsafe_base64(8, false)
     end
 
