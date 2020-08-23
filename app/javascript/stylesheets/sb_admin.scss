@@ -8364,11 +8364,14 @@ a.badge-danger-soft:focus, a.badge-danger-soft.focus {
 }
 
 .alert {
-  position: relative;
-  padding: 1.25rem 1.25rem;
+  position: fixed;
+  right: 50px;
+  top: 100px;
+  padding: 0.6rem 0.6rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: 0.35rem;
+  max-width: 400px;
 }
 
 .alert-heading {
