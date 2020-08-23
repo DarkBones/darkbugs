@@ -64,15 +64,4 @@ Rails.application.configure do
 
   # To enable subdomains on dev
   config.hosts << /([a-z0-9\-_]+\.)*lvh\.me/i
-
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.alert = true
-    Bullet.sentry = false
-    Bullet.bullet_logger = true
-    Bullet.console = true
-    Bullet.rails_logger = true
-    Bullet.add_footer = true
-    Bullet.skip_html_injection = false
-  end
 end

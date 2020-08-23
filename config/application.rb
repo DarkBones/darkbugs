@@ -28,9 +28,5 @@ module Darkbugs
     config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
     config.middleware.use Apartment::Elevators::Subdomain
-
-    Raven.configure do |config|
-      config.dsn = 'https://52482a25aa0f47ab9ef981fc53a561f5:bdedeb2b35774e7a992dde9d356170ee@o437911.ingest.sentry.io/5401011'
-    end
   end
 end
