@@ -111,4 +111,15 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.hosts << /([a-z0-9\-_]+\.)*darkbugs\.com/i
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = false
+    Bullet.sentry = true
+    Bullet.bullet_logger = false
+    Bullet.console = false
+    Bullet.rails_logger = false
+    Bullet.add_footer = false
+    Bullet.skip_html_injection = true
+  end
 end

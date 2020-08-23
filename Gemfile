@@ -9,6 +9,7 @@ gem 'azure-storage', '~> 0.15.0.preview', require: false
 gem 'azure-storage-blob'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
+gem 'bullet'
 gem 'devise', '>= 4.7.1'
 gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'
@@ -29,7 +30,6 @@ gem 'webpacker', '~> 4.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'bullet'
   gem 'foreman'
   gem 'guard', '~>2.14.2', require: false
   gem 'guard-livereload', '~>2.5.2', require: false
@@ -55,4 +55,5 @@ end
 
 group :production do
   gem 'postageapp', '>= 1.3.1'
+  gem 'sentry-raven'
 end
