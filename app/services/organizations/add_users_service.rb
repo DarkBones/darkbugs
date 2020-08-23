@@ -17,29 +17,17 @@ module Organizations
       results = initialize_results
       results = process_results(results)
 
-      success({results: results})
+      success({ results: results })
     end
 
     private def process_results(results)
       results.each do |r|
-        user = User.find_by_username(r[:username])
-        r[:user] = user
+        r[:user] = User.find_by_username(r[:username])
 
-        if user.nil?
-          r[:status] = USER_NOT_FOUND
-          next
-        end
+        r[:status] = status(r[:user])
+        next if r[:status] != NOT_STARTED
 
-        if organization.users.include? user
-          r[:status] = ALREADY_PRESENT
-          next
-        end
-
-        user_organization = UserOrganization.create(
-          user: user,
-          organization: organization,
-          role: UserOrganization::ROLES[:MEMBER]
-        )
+        user_organization = create_user_organization(r[:user])
 
         if user_organization.nil?
           r[:status] = FAILED
@@ -51,6 +39,22 @@ module Organizations
       end
 
       results
+    end
+
+    private def status(user)
+      return USER_NOT_FOUND if user.nil?
+
+      return ALREADY_PRESENT if organization.users.include? user
+
+      NOT_STARTED
+    end
+
+    private def create_user_organization(user)
+      UserOrganization.create(
+        user: user,
+        organization: organization,
+        role: UserOrganization::ROLES[:MEMBER]
+      )
     end
 
     private def initialize_results

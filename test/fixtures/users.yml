@@ -20,7 +20,7 @@ locked:
   confirmed_at: <%= 1.week.ago %>
   confirmation_sent_at: <%= 1.week.ago %>
   unlock_token: locked@test.test
-  locked_at: <%= Time.now %>
+  locked_at: <%= Time.now.utc %>
   uuid: locked
 
 test:

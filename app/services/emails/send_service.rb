@@ -16,6 +16,7 @@ module Emails
 
         @response = request.send
         raise InvalidRequestError unless @response.status == 'ok'
+
         success
       end
     end

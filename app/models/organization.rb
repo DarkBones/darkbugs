@@ -1,35 +1,35 @@
 class Organization < ApplicationRecord
   # -- Relationships --------------------------------------------------------
-  has_many :user_organizations
+  has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
   accepts_nested_attributes_for :user_organizations
 
   attr_reader :usernames
 
   # -- Validations ------------------------------------------------------------
-  validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false
+  validates :name, presence: true
+  validates :name, uniqueness: { case_sensitive: false }
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_slug, on: :create
   after_create :create_tenant
 
   # -- Scopes --------------------------------------------------------
-  scope :accepted_by_user, -> (user) {
+  scope :accepted_by_user, ->(user) {
     where(
-        id: user
-              .user_organizations
-              .where.not(accepted_at: nil)
-              .pluck(:organization_id)
+      id: user
+        .user_organizations
+        .where.not(accepted_at: nil)
+        .pluck(:organization_id)
       )
   }
 
-  scope :pending_for_user, -> (user) {
+  scope :pending_for_user, ->(user) {
     where(
-        id: user
-              .user_organizations
-              .where(accepted_at: nil)
-              .pluck(:organization_id)
+      id: user
+        .user_organizations
+        .where(accepted_at: nil)
+        .pluck(:organization_id)
       )
   }
 
@@ -94,7 +94,7 @@ class Organization < ApplicationRecord
     slug = name&.parameterize
     full_slug = slug
 
-    while Organization.where(slug: full_slug).exists?
+    while Organization.exists?(slug: full_slug)
       rand = SecureRandom.urlsafe_base64(8, false)
       full_slug = "#{slug}-#{rand}"
     end

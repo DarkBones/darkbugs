@@ -4,10 +4,10 @@
   .container-fluid
     .row
       .col-md-6.small
-        = "Copyright &copy; #{ENV['APP_NAME']} #{Time.now.year}".html_safe
+        = "Copyright &copy; #{ENV['APP_NAME']} #{Time.now.utc.year}".html_safe
     .row
       .col-12.small
-        - if @current_user&.is_admin?
+        - if @current_user&.admin?
           %div
             - app_info_data = app_info
             = app_info_data[:source]

@@ -17,15 +17,13 @@ class UserOrganization < ApplicationRecord
   private def create_confirmation_token
     token = SecureRandom.urlsafe_base64(32, false)
 
-    while UserOrganization.where(confirmation_token: token).exists?
-      token = SecureRandom.urlsafe_base64(32, false)
-    end
+    token = SecureRandom.urlsafe_base64(32, false) while UserOrganization.exists?(confirmation_token: token)
 
     self.confirmation_token = token
   end
 
   private def set_invited_at
-    self.invited_at = Time.now
-    self.accepted_at = Time.now if role == ROLES[:CREATOR]
+    self.invited_at = Time.now.utc
+    self.accepted_at = Time.now.utc if role == ROLES[:CREATOR]
   end
 end
