@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   private def clear_flash
-    # flash.discard if request.xhr?
+    flash.discard if request.xhr?
   end
 
   private def set_organization
