@@ -1,0 +1,25 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-user', title: @user.name }
+
+.col-12.col-lg-9
+  .card.mb-4
+    .card-header
+      = @user.name
+    .card-body
+      .row
+        .col-12.col-md-6.col-lg-4
+          .box.avatar-box
+            .media.rounded
+              = image_tag @user.avatar
+        .col-12.col-md-6.col-lg-8
+          -# TODO: i18n, styling, etc
+          Username:
+          = @user.name
+          %hr
+          First Name:
+          = @user.user_profile.first_name
+          %hr
+          Last Name:
+          = @user.user_profile.last_name
+          %hr
+          Bio:
+          = @user.user_profile.bio

@@ -1,3 +1,28 @@
 abbr {
   text-decoration: none !important;
 }
+
+.avatar-box {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+
+  .media {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    img {
+      object-fit: cover;
+      min-width: 100%;
+      min-height: 100%;
+      width: 100%;
+      height: auto;
+    }
+  }
+}

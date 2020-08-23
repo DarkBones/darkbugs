@@ -119,3 +119,6 @@ en:
           return_to_login: *return_to_login
           submit: Send Instructions
           forgot_password: *forgot_password
+    user_profiles:
+      show:
+        title_sub: 'User profile'
