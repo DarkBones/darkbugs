@@ -53,5 +53,6 @@ group :test do
 end
 
 group :production do
+  gem 'sentry-raven'
   gem 'postageapp', '>= 1.3.1'
 end

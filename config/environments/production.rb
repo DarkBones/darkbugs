@@ -111,4 +111,8 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.hosts << /([a-z0-9\-_]+\.)*darkbugs\.com/i
+
+  Raven.configure do |config|
+    config.dsn = Rails.application.credentials.sentry_url
+  end
 end
