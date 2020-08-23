@@ -16,5 +16,5 @@
   - icon_class = icon_classes.key?(type.to_sym) ? icon_classes[type.to_sym] : icon_classes[:default]
 
   .alert.alert-flash-message{ class: type_class }
-    %i.fa{ class: icon_class }
-    = simple_format(message, {}, wrapper_tag: 'div')
+    %i.mr-2.fa{ class: icon_class }
+    = message
