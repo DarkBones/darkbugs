@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :set_user
   after_action :clear_flash
   before_action :set_organization
+  before_action :set_raven_context if Rails.env.production?
 
   private def set_user
     @current_user = current_user
@@ -25,5 +26,10 @@ class ApplicationController < ActionController::Base
       Apartment::Tenant.switch!
       @current_organization = nil
     end
+  end
+
+  def set_raven_context
+    Raven.user_context(id: @current_user&.id)
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 end

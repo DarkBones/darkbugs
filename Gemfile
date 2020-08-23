@@ -53,7 +53,7 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'sentry-raven'
 group :production do
+  gem 'sentry-raven'
   gem 'postageapp', '>= 1.3.1'
 end
