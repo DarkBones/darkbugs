@@ -29,7 +29,7 @@ class UserMailer < PostageApp::Mailer
   def unlock_instructions(record, token, _opts = {})
     @title = I18n.t('mailers.user_mailer.unlock_instructions.title')
     @name = record.name
-    @link = user_unlock_url(:unlock_token => token)
+    @link = user_unlock_url(unlock_token: token)
     mail(to: record.email,
          subject: @title)
   end

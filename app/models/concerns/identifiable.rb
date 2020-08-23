@@ -3,7 +3,7 @@ module Identifiable
 
   included do
     def self.identify(uuid)
-      self.find_by!(uuid: uuid)
+      find_by!(uuid: uuid)
     end
   end
 end

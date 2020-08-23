@@ -7,20 +7,16 @@ module ApplicationHelper
       branch: VERSION_BRANCH.gsub('## ', '')
     }
 
-    if Socket.gethostname.present?
-      data[:hostname] = Socket.gethostname
-    end
+    data[:hostname] = Socket.gethostname if Socket.gethostname.present?
 
-    if defined?(VERSION_LINK)
-      data[:sha] = link_to(VERSION_SHA, VERSION_LINK)
-    end
+    data[:sha] = link_to(VERSION_SHA, VERSION_LINK) if defined?(VERSION_LINK)
 
     data
   end
 
   def css_page_class
-    controller_name = 'controller-' + params[:controller].tr('/', '-').tr('_', '-')
-    page_name = 'page-' + params[:action].tr('/', '-').tr('_', '-')
+    controller_name = "controller-#{params[:controller].tr('/', '-').tr('_', '-')}"
+    page_name = "page-#{params[:action].tr('/', '-').tr('_', '-')}"
 
     class_names = []
     class_names << controller_name
