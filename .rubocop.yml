@@ -11,8 +11,14 @@ AllCops:
     - 'test/**/*'
   TargetRubyVersion: 2.7
 
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
+
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: false
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
@@ -108,6 +114,9 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
+Style/Lambda:
+  Enabled: false
+
 Style/OptionalBooleanParameter:
   Enabled: true
 
@@ -160,7 +169,7 @@ Rails/Pluck:
   Enabled: true
 
 Rails/PluckInWhere:
-  Enabled: true
+  Enabled: false
 
 Rails/RenderInline:
   Enabled: true

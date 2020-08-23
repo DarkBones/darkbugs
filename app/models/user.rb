@@ -15,15 +15,15 @@ class User < ApplicationRecord
   # -- Relationships --------------------------------------------------------
   has_one :user_profile, dependent: :destroy
   has_many :user_organizations, dependent: :destroy
-  has_many  :organizations, through: :user_organizations
+  has_many :organizations, through: :user_organizations
   accepts_nested_attributes_for :user_profile
   accepts_nested_attributes_for :organizations
 
   # -- Validations --------------------------------------------------------
-  validates_presence_of :email
-  validates_presence_of :password, on: :create
-  validates_presence_of :password_confirmation, on: :create
-  validates_presence_of :user_profile
+  validates :email,                 presence: true
+  validates :password,              presence: true, on: :create
+  validates :password_confirmation, presence: true, on: :create
+  validates :user_profile,          presence: true
 
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
@@ -76,9 +76,7 @@ class User < ApplicationRecord
   private def create_uuid
     uuid = SecureRandom.urlsafe_base64(8, false)
 
-    while User.exists?(uuid: uuid)
-      uuid = SecureRandom.urlsafe_base64(8, false)
-    end
+    uuid = SecureRandom.urlsafe_base64(8, false) while User.exists?(uuid: uuid)
 
     self.uuid = uuid
   end
