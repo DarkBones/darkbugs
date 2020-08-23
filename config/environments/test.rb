@@ -53,4 +53,10 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_dispatch.tld_length = 0
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.skip_html_injection = false
+  end
 end
