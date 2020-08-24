@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   private def set_organization
     Apartment::Tenant.switch!
-    if request.subdomain.present? && @current_user.present?
+    if valid_subdomain?(request.subdomain) && @current_user.present?
       @current_organization = @current_user
                                 .organizations
                                 .accepted_by_user(@current_user)
@@ -33,5 +33,9 @@ class ApplicationController < ActionController::Base
 
     Raven.user_context(id: @current_user&.id)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
+
+  private def valid_subdomain?(subdomain)
+    subdomain.present? && Organization::RESERVED_NAMES.exclude?(subdomain.downcase)
   end
 end

@@ -109,4 +109,4 @@ end
 # Rails.application.config.middleware.use Apartment::Elevators::Host
 Rails.application.config.middleware.insert_before Warden::Manager, Apartment::Elevators::Subdomain
 Rails.application.config.session_store :cookie_store, key: '_application_devise_session', domain: ENV['DOMAIN']
-
+Apartment::Elevators::Subdomain.excluded_subdomains = Organization::RESERVED_NAMES

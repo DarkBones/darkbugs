@@ -16,6 +16,7 @@ en:
             name:
               blank: *cant_be_blank
               taken: *already_taken
+              reserved: is reserved
         user:
           attributes:
             email:
