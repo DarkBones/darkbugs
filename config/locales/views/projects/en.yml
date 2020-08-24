@@ -7,3 +7,8 @@ en:
         title_sub: Projects belonging to %{name}
         card_header: Projects
         new_button: New Project
+      new:
+        title: New Project
+        title_sub: New project for %{name}
+        card_header: New Project
+        submit: Create Project

@@ -24,6 +24,9 @@ en:
       organization:
         name: Name
         usernames: Usernames (one per line)
+      project:
+        name: Name
+        key: Key
     placeholders:
       defaults:
         email: Enter email address
@@ -36,3 +39,6 @@ en:
       organization:
         name: Name your organization / team
         usernames: "UserOne\r\nUserTwo\r\nUserThree"
+      project:
+        name: Name your project
+        key: Short reference key

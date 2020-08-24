@@ -1,0 +1,14 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-lightbulb', title_sub: i18n('title_sub', name: @owner.name) }
+- content_for :page_title do
+  = i18n('title')
+
+= content_for :card_header do
+  = i18n 'card_header'
+= content_for :card_body do
+  = simple_form_for(@project, html: { method: :post }) do |f|
+    .col-12
+      .row
+        = f.input :name, wrapper: :md8
+        = f.input :key, wrapper: :md4
+      .text-right
+        = f.submit i18n('submit'), class: 'btn btn-primary'

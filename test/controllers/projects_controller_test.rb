@@ -8,7 +8,7 @@ class ProjectsControllerTest < ActionController::TestCase
     sign_in @user
   end
 
-  def test_index_user
+  def test_index
     get :index
 
     names = ['default', 'user', 'user_second']
@@ -22,5 +22,12 @@ class ProjectsControllerTest < ActionController::TestCase
         end
       end
     end
+  end
+
+  def test_new
+    get :new
+
+    assert_response :success
+    assert_template :new
   end
 end
