@@ -1,4 +1,7 @@
 class Organization < ApplicationRecord
+  # -- Constants --------------------------------------------------------
+  RESERVED_NAMES = ['www'].freeze
+
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
@@ -9,6 +12,7 @@ class Organization < ApplicationRecord
   # -- Validations ------------------------------------------------------------
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false }
+  validate :name_not_reserved
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_slug, on: :create
@@ -104,5 +108,9 @@ class Organization < ApplicationRecord
 
   private def create_tenant
     Apartment::Tenant.create(slug)
+  end
+
+  private def name_not_reserved
+    errors.add(:name, I18n.t('activerecord.errors.models.organization.attributes.name.reserved')) if RESERVED_NAMES.include? name.downcase
   end
 end
