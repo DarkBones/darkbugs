@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_one :user_profile, dependent: :destroy
   has_many :user_organizations, dependent: :destroy
   has_many :organizations, through: :user_organizations
+  has_many :projects
   accepts_nested_attributes_for :user_profile
   accepts_nested_attributes_for :organizations
 

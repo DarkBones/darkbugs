@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class ProjectTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def test_owners
+    assert projects(:default).owner.is_a? User
+    assert projects(:organization).owner.is_a? Organization
+  end
 end
