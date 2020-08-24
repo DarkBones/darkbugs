@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ProjectControllerTest < ActionController::TestCase
+class ProjectsControllerTest < ActionController::TestCase
   def setup
     @user = users(:default)
     sign_in @user
