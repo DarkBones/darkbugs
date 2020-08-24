@@ -10,7 +10,7 @@ class Organization < ApplicationRecord
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
-  has_many :projects
+  has_many :projects, as: 'owner'
   accepts_nested_attributes_for :user_organizations
 
   attr_reader :usernames

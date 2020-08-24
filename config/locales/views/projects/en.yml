@@ -1,0 +1,9 @@
+---
+en:
+  views:
+    projects:
+      index:
+        title: Projects
+        title_sub: Projects belonging to %{name}
+        card_header: Projects
+        new_button: New Project

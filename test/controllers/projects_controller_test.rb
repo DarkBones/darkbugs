@@ -13,12 +13,11 @@ class ProjectsControllerTest < ActionController::TestCase
 
     names = ['default', 'user', 'user_second']
 
-    assert_select "ul#projects_list" do |elements|
+    assert_select "ul#project_list" do |elements|
       elements.each do |element|
         assert_select element, "li" do |lis|
           lis.each_with_index do |li, idx|
             assert_includes li.text, names[idx]
-            assert_includes li.text, messages[idx]
           end
         end
       end

@@ -1,0 +1,5 @@
+%li.mb-3
+  .float-right
+    = render partial: 'shared/ellipsis_dropdown', locals: { items: [] }
+  .font-weight-bold
+    = link_to project.name, projects_path(project)
