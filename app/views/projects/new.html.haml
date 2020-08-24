@@ -8,39 +8,41 @@
   = render partial: 'form'
 
 :javascript
-  const $nameInput = $('#project_name')
-  const $keyInput = $('#project_key')
+  (function() {
+    const $nameInput = $('#project_name')
+    const $keyInput = $('#project_key')
 
-  let keyInputChanged = false
+    let keyInputChanged = false
 
-  $nameInput.keyup(function() {
-    if(!keyInputChanged) {
-      $keyInput.val(generateKey())
-    }
-  })
+    $nameInput.keyup(function() {
+      if(!keyInputChanged) {
+        $keyInput.val(generateKey())
+      }
+    })
 
-  $keyInput.keyup(function() {
-    keyInputChanged = true
-    $keyInput.val(capitalizeKey())
-  })
+    $keyInput.keyup(function() {
+      keyInputChanged = true
+      $keyInput.val(capitalizeKey())
+    })
 
-  function capitalizeKey() {
-    $keyInput.val(
-      $keyInput.val().toUpperCase()
-    )
-  }
-
-  function generateKey() {
-    let name = $nameInput.val().toUpperCase().replace(/[\s\d]/g, '')
-    let consonants
-    if (name.length <= 3) {
-      return name
+    function capitalizeKey() {
+      $keyInput.val(
+        $keyInput.val().toUpperCase()
+      )
     }
 
-    consonants = name.replace(/[AEIOU]/g, "")
-    if (consonants.length <= 3) {
-      return `${name.substring(0, 3 - consonants.length)}${consonants}`
-    }
+    function generateKey() {
+      let name = $nameInput.val().toUpperCase().replace(/[\s\d]/g, '')
+      let consonants
+      if (name.length <= 3) {
+        return name
+      }
 
-    return consonants.substring(0, 3)
-  }
+      consonants = name.replace(/[AEIOU]/g, "")
+      if (consonants.length <= 3) {
+        return `${name.substring(0, 3 - consonants.length)}${consonants}`
+      }
+
+      return consonants.substring(0, 3)
+    }
+  })()

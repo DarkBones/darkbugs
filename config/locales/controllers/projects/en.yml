@@ -1,0 +1,6 @@
+---
+en:
+  controllers:
+    projects:
+      errors:
+        unauthorized: Only administrators can take this action

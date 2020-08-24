@@ -53,9 +53,12 @@ class Organization < ApplicationRecord
   end
 
   def user_is_admin?(user)
+    role = user_organizations.find_by(user_id: user).role
+    return false if role.nil?
+
     [UserOrganization::ROLES[:CREATOR], UserOrganization::ROLES[:ADMIN]]
       .include?(
-        user_organizations.find_by(user_id: user).role
+        role
       )
   end
 
