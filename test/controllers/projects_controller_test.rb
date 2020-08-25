@@ -42,6 +42,7 @@ class ProjectsControllerTest < ActionController::TestCase
     project = Project.last
     assert_equal 'Test Name', project.name
     assert_equal 'TST', project.key
+    assert_not_nil project.uuid
   end
 
   def test_create_fail_duplicate_name
