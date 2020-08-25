@@ -1,6 +1,4 @@
 class Project < ApplicationRecord
-  include Identifiable
-
   # -- Relationships ------------------------------------------------------------
   belongs_to :owner, polymorphic: true
 

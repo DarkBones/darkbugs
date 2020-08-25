@@ -73,12 +73,10 @@ ActiveRecord::Schema.define(version: 2020_08_26_183643) do
     t.string "key", null: false
     t.string "owner_type"
     t.bigint "owner_id"
-    t.string "uuid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["key"], name: "index_projects_on_key"
     t.index ["owner_type", "owner_id"], name: "index_projects_on_owner_type_and_owner_id"
-    t.index ["uuid"], name: "index_projects_on_uuid"
   end
 
   create_table "user_organizations", force: :cascade do |t|
