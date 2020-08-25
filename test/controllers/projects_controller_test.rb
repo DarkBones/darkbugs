@@ -90,4 +90,15 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_match 'TST', project.key
   end
+
+  def test_create_fail_special_characters
+    post :create, params: {
+      project: {
+        name: 'Test special characters',
+        key: '!@#$%^&*()_+'
+      }
+    }
+
+    assert_match 'Key is invalid', flash[:error]
+  end
 end

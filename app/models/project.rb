@@ -12,6 +12,7 @@ class Project < ApplicationRecord
   validates :key, presence: true
   validates :name, uniqueness: { case_sensitive: false }
   validates :key, uniqueness: { case_sensitive: false }
+  validates :key, format: /\A[A-Z0-9\-_]+\z/i, allow_blank: false
 
   private def capitalize_key
     self.key = key&.upcase
