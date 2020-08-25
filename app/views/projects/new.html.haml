@@ -22,7 +22,7 @@
 
     $keyInput.keyup(function() {
       keyInputChanged = true
-      $keyInput.val(capitalizeKey())
+      $keyInput.val($keyInput.val().toUpperCase())
     })
 
     function capitalizeKey() {
