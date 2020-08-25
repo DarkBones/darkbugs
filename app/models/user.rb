@@ -74,12 +74,4 @@ class User < ApplicationRecord
   def self.find_by_username(username)
     UserProfile.find_by(username: username)&.user
   end
-
-  private def create_uuid
-    uuid = SecureRandom.urlsafe_base64(8, false)
-
-    uuid = SecureRandom.urlsafe_base64(8, false) while User.exists?(uuid: uuid)
-
-    self.uuid = uuid
-  end
 end

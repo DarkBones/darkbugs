@@ -47,6 +47,8 @@ class ApplicationController < ActionController::Base
   end
 
   private def set_projects
+    return if @current_user.nil?
+
     @user_projects = @current_user&.projects.where.not(id: nil)
     @organization_projects = @current_organization&.projects
   end
