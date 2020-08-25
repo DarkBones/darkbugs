@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   protect_from_forgery prepend: true
   before_action :set_user
+  before_action :set_projects
   after_action :clear_flash
   before_action :set_tenant
   before_action :set_raven_context if Rails.env.production?
@@ -43,5 +44,10 @@ class ApplicationController < ActionController::Base
 
   private def valid_subdomain?(subdomain)
     subdomain.present? && Organization::RESERVED_NAMES.exclude?(subdomain.downcase)
+  end
+
+  private def set_projects
+    @user_projects = @current_user&.projects.where.not(id: nil)
+    @organization_projects = @current_organization&.projects
   end
 end

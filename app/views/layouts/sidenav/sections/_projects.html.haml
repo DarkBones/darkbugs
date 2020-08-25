@@ -1,0 +1,13 @@
+.sidenav-menu-heading
+  = t('views.sidenav.sections.projects.title')
+%a.nav-link.collapsed{'aria-controls' => 'collapsePersonalProjects', 'aria-expanded' => 'false', 'data-target' => '#collapsePersonalProjects', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
+  - if @user_projects.present?
+    .nav-link-icon
+      %i.fa.fa-user
+    = t('views.sidenav.sections.projects.personal')
+    .sidenav-collapse-arrow
+      %i.fas.fa-angle-down
+#collapsePersonalProjects.collapse{'data-parent' => '#accordionSidenav'}
+  %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
+    - @user_projects.each do |user_project|
+      = link_to user_project.name, projects_path(user_project)

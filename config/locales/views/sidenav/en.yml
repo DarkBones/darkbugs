@@ -1,0 +1,8 @@
+---
+en:
+  views:
+    sidenav:
+      sections:
+        projects:
+          title: Projects
+          personal: Personal
