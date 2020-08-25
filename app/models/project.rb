@@ -2,7 +2,7 @@ class Project < ApplicationRecord
   # -- Relationships ------------------------------------------------------------
   belongs_to :owner, polymorphic: true
 
-  # -- Validations ------------------------------------------------------------
+  # -- Callbacks ------------------------------------------------------------
   before_validation :capitalize_key
 
   # -- Validations ------------------------------------------------------------
