@@ -106,7 +106,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     }
 
     assert_response :bad_request
-    assert_includes response.body, "Usernames can't be blank"
+    assert_includes response.body, "Usernames can&#39;t be blank"
   end
 
   def test_invite_members
