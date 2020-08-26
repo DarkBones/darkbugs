@@ -1,4 +1,4 @@
-= render partial: 'layouts/header', locals: { icon_class: 'fas fa-lightbulb', title_sub: i18n('title_sub', name: @owner.name) }
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-lightbulb', title_sub: i18n('title_sub', name: @tenant.name) }
 - content_for :page_title do
   = i18n('title')
 

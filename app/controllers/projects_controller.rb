@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
   def new; end
 
   def create
-    @owner.projects.create!(create_params)
+    @tenant.projects.create!(create_params)
     redirect_to action: :index
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:error] = e.message
@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   private def check_is_admin!
     return if @tenant.is_a? User
 
-    raise ActionController::BadRequest, I18n.t('controllers.projects.errors.unauthorized') unless @owner.user_is_admin?(@current_user)
+    raise ActionController::BadRequest, I18n.t('controllers.projects.errors.unauthorized') unless @tenant.user_is_admin?(@current_user)
   rescue ActionController::BadRequest => e
     redirect_to(projects_path, { :flash => { :error => e.message } })
   end

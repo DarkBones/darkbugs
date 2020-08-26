@@ -48,7 +48,10 @@ class ApplicationController < ActionController::Base
   end
 
   private def set_projects
-    @projects = @tenant&.projects&.where.not(id: nil)
+    @projects = nil
+    return if @tenant.nil?
+
+    @projects = @tenant.projects.where.not(id: nil)
   end
 
   private def set_organizations

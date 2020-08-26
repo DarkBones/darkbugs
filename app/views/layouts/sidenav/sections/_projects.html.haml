@@ -1,13 +1,15 @@
 - icon = @tenant == @current_user ? 'fa-user' : 'fa-lightbulb'
 
-- if @projects.present?
-  %a.nav-link{'aria-controls' => 'collapseProjects', 'aria-expanded' => 'true', 'data-target' => '#collapseProjects', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
-    .nav-link-icon
-      %i.fa{ :class => icon }
-    = t('views.sidenav.sections.projects.title')
-    .sidenav-collapse-arrow
-      %i.fas.fa-angle-down
-  #collapseProjects.show{'data-parent' => '#accordionSidenav'}
-    %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
+%a.nav-link{'aria-controls' => 'collapseProjects', 'aria-expanded' => 'true', 'data-target' => '#collapseProjects', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
+  .nav-link-icon
+    %i.fa{ :class => icon }
+  = t('views.sidenav.sections.projects.title')
+  .sidenav-collapse-arrow
+    %i.fas.fa-angle-down
+#collapseProjects.show{'data-parent' => '#accordionSidenav'}
+  %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
+    - if @projects.present?
       - @projects.each do |project|
         = link_to project.name, project_path(key: project.key), class: 'nav-link'
+    - else
+      = link_to t('views.sidenav.sections.projects.empty'), new_project_path, class: 'nav-link'

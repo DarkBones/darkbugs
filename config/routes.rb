@@ -28,5 +28,5 @@ Rails.application.routes.draw do
 
   get '/user/:username', to: 'user_profiles#show', as: 'user_profile'
 
-  root 'home#index'
+  root 'projects#index'
 end

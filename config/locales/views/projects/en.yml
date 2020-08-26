@@ -7,6 +7,7 @@ en:
         title_sub: Projects belonging to %{name}
         card_header: Projects
         new_button: New Project
+        no_projects: No projects found. Create one here!
       new:
         title: New Project
         title_sub: New project for %{name}
