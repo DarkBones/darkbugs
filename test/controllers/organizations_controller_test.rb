@@ -7,7 +7,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     @user = users(:default)
     @request.env['HTTP_HOST'] = 'host'
     @organization = organizations(:default)
-    sign_in @user
+    login_user(@user)
   end
 
   def test_index
@@ -126,7 +126,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   def test_accept_invitation
     @user = users(:test)
-    sign_in @user
+    login_user(@user)
 
     token = 'invitation_token'
     user_org = user_organizations(:test_default)
@@ -144,7 +144,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   def test_accept_invitation_wrong_token
     @user = users(:test)
-    sign_in @user
+    login_user(@user)
 
     token = 'invalid_token'
     user_org = user_organizations(:test_default)
@@ -220,7 +220,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_fail_grant_as_non_admin
-    sign_in users(:test)
+    login_user(users(:test))
 
     user = users(:locked)
     user_organization = UserOrganization.find_by!(user: user, organization: @organization)
@@ -239,7 +239,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_fail_revoke_as_non_admin
-    sign_in users(:test)
+    login_user(users(:test))
 
     user = users(:locked)
     user_organization = UserOrganization.find_by!(user: user, organization: @organization)
@@ -312,7 +312,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_remove_member_fail_non_admin
-    sign_in users(:test)
+    login_user(users(:test))
 
     user = users(:locked)
 
@@ -334,7 +334,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_delete_form_non_admin
-    sign_in users(:test)
+    login_user(users(:test))
     get :delete, params: { organization_slug: @organization.slug }
 
     assert_response :bad_request
@@ -355,7 +355,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_non_admin
-    sign_in users(:test)
+    login_user(users(:test))
     post :destroy, params: { organization_slug: @organization.slug, organization: { name: 'mismatching_name' } }
 
     assert_not @organization.reload.nil?

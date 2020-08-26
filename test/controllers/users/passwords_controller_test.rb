@@ -6,6 +6,7 @@ module Users
 
     def setup
       @user = users(:default)
+      Apartment::Tenant.create(@user.uuid)
       @request.env['devise.mapping'] = Devise.mappings[:user]
     end
 

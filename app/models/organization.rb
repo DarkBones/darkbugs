@@ -112,6 +112,6 @@ class Organization < ApplicationRecord
   end
 
   private def name_not_reserved
-    errors.add(:name, I18n.t('activerecord.errors.models.organization.attributes.name.reserved')) if RESERVED_NAMES.include? name.downcase
+    errors.add(:name, I18n.t('activerecord.errors.models.organization.attributes.name.reserved')) if RESERVED_NAMES.include? name&.downcase
   end
 end
