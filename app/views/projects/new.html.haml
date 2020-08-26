@@ -22,7 +22,7 @@
 
     $keyInput.keyup(function() {
       keyInputChanged = true
-      $keyInput.val($keyInput.val().toUpperCase())
+      $keyInput.val($keyInput.val().toUpperCase().replace(/[^a-zA-Z0-9]/g,''))
     })
 
     function capitalizeKey() {
