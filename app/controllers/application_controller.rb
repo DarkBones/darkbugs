@@ -16,17 +16,22 @@ class ApplicationController < ActionController::Base
 
   private def set_tenant
     Apartment::Tenant.switch!
+    return if @current_user.nil?
+
+    @tenant = @current_user
+
     if valid_subdomain?(request.subdomain) && @current_user.present?
       @current_organization = @current_user
                                 .organizations
                                 .accepted_by_user(@current_user)
                                 .find_by!(slug: request.subdomain)
-      Apartment::Tenant.switch!(@current_organization.slug)
+      @tenant = @current_organization
     else
       redirect_to root_url(subdomain: '') if request.subdomain.present?
       @current_organization = nil
-      Apartment::Tenant.switch!(@current_user.uuid)
     end
+
+    Apartment::Tenant.switch!(@tenant.tenant_key)
   end
 
   def set_raven_context

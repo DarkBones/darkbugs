@@ -1,11 +1,11 @@
 class Organization < ApplicationRecord
+  include Tenantable
+
   # -- Constants --------------------------------------------------------
   RESERVED_NAMES = ['www'].freeze
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_slug, on: :create
-  after_create :create_tenant
-  before_destroy :delete_tenant
 
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
@@ -91,6 +91,10 @@ class Organization < ApplicationRecord
     )
   end
 
+  def tenant_key
+    slug
+  end
+
   def ordered_users(users)
     users.includes(:user_organizations).order('user_organizations.role')
   end
@@ -105,14 +109,6 @@ class Organization < ApplicationRecord
     end
 
     self.slug = full_slug
-  end
-
-  private def create_tenant
-    Apartment::Tenant.create(slug)
-  end
-
-  private def delete_tenant
-    Apartment::Tenant.drop(slug)
   end
 
   private def name_not_reserved

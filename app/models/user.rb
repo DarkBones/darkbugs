@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   include Rails.application.routes.url_helpers
   include Identifiable
+  include Tenantable
 
   # -- Constants --------------------------------------------------------
   ALL_ROLES = [
@@ -21,8 +22,6 @@ class User < ApplicationRecord
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :create_uuid, on: :create
-  after_create :create_tenant
-  before_destroy :delete_tenant
 
   # -- Validations --------------------------------------------------------
   validates :email,                 presence: true
@@ -81,13 +80,5 @@ class User < ApplicationRecord
     uuid = SecureRandom.urlsafe_base64(8, false) while User.exists?(uuid: uuid)
 
     self.uuid = uuid
-  end
-
-  private def create_tenant
-    Apartment::Tenant.create(uuid)
-  end
-
-  private def delete_tenant
-    Apartment::Tenant.drop(uuid)
   end
 end
