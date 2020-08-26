@@ -2,4 +2,4 @@
   .float-right
     = render partial: 'shared/ellipsis_dropdown', locals: { items: [] }
   .font-weight-bold
-    = link_to project.name, projects_path(project)
+    = link_to project.name, project_path(key: project.key)
