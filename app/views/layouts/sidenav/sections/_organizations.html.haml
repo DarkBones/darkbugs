@@ -1,0 +1,12 @@
+%a.nav-link{'aria-controls' => 'collapseOrganizations', 'aria-expanded' => 'false', 'data-target' => '#collapseOrganizations', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
+  .nav-link-icon
+    %i.fas.fa-users
+  = t('views.sidenav.sections.organizations.title')
+  .sidenav-collapse-arrow
+    %i.fas.fa-angle-down
+#collapseOrganizations.collapse{'data-parent' => '#accordionSidenav'}
+  %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
+    .nav-link
+      = link_to @current_user.name, root_url(subdomain: '')
+    - @organizations&.each do |organization|
+      = link_to organization.name, root_url(subdomain: organization.slug), class: 'nav-link'

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   after_action :clear_flash
   before_action :set_tenant
   before_action :set_projects
+  before_action :set_organizations
   before_action :set_raven_context if Rails.env.production?
 
   private def set_user
@@ -48,5 +49,14 @@ class ApplicationController < ActionController::Base
 
   private def set_projects
     @projects = @tenant&.projects&.where.not(id: nil)
+  end
+
+  private def set_organizations
+    @organizations = nil
+    return if @current_user.nil?
+
+    @organizations = @current_user.organizations
+                       .accepted_by_user(@current_user)
+                       .order(:slug)
   end
 end

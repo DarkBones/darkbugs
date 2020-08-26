@@ -5,6 +5,8 @@ en:
       sections:
         core:
           title: Core
+        organizations:
+          title: Organizations
         projects:
           title: Projects
           personal: Personal
