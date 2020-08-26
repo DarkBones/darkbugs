@@ -1,13 +1,15 @@
-.sidenav-menu-heading
-  = t('views.sidenav.sections.projects.title')
-%a.nav-link.collapsed{'aria-controls' => 'collapsePersonalProjects', 'aria-expanded' => 'false', 'data-target' => '#collapsePersonalProjects', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
-  - if @user_projects.present?
+- icon = @tenant == @current_user ? 'fa-user' : 'fa-lightbulb'
+
+- if @projects.present?
+  .sidenav-menu-heading
+    = t('views.sidenav.sections.projects.title')
+  %a.nav-link{'aria-controls' => 'collapsePersonalProjects', 'aria-expanded' => 'true', 'data-target' => '#collapsePersonalProjects', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
     .nav-link-icon
-      %i.fa.fa-user
-    = t('views.sidenav.sections.projects.personal')
+      %i.fa{ :class => icon }
+    = @tenant.name
     .sidenav-collapse-arrow
       %i.fas.fa-angle-down
-#collapsePersonalProjects.collapse{'data-parent' => '#accordionSidenav'}
-  %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
-    - @user_projects.each do |user_project|
-      = link_to user_project.name, projects_path(user_project)
+  #collapsePersonalProjects.show{'data-parent' => '#accordionSidenav'}
+    %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
+      - @projects.each do |project|
+        = link_to project.name, project_path(key: project.key), class: 'nav-link'

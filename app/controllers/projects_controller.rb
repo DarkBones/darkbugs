@@ -7,6 +7,8 @@ class ProjectsController < ApplicationController
     @projects = @owner.projects
   end
 
+  def show; end
+
   def new; end
 
   def create

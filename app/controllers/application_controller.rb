@@ -2,9 +2,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   protect_from_forgery prepend: true
   before_action :set_user
-  before_action :set_projects
   after_action :clear_flash
   before_action :set_tenant
+  before_action :set_projects
   before_action :set_raven_context if Rails.env.production?
 
   private def set_user
@@ -47,9 +47,6 @@ class ApplicationController < ActionController::Base
   end
 
   private def set_projects
-    return if @current_user.nil?
-
-    @user_projects = @current_user&.projects.where.not(id: nil)
-    @organization_projects = @current_organization&.projects
+    @projects = @tenant&.projects&.where.not(id: nil)
   end
 end

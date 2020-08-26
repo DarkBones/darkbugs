@@ -36,6 +36,21 @@ ActiveRecord::Schema.define(version: 2020_08_26_183643) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "letsencrypt_certificates", force: :cascade do |t|
+    t.string "domain"
+    t.text "certificate"
+    t.text "intermediaries"
+    t.text "key"
+    t.datetime "expires_at"
+    t.datetime "renew_after"
+    t.string "verification_path"
+    t.string "verification_string"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["domain"], name: "index_letsencrypt_certificates_on_domain"
+    t.index ["renew_after"], name: "index_letsencrypt_certificates_on_renew_after"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -44,14 +59,6 @@ ActiveRecord::Schema.define(version: 2020_08_26_183643) do
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["slug"], name: "index_organizations_on_slug", unique: true
   end
-
-  create_table "tenants", force: :cascade do |t|
-    t.string "model_type"
-    t.bigint "model_id"
-    t.string "key"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["model_type", "model_id"], name: "index_tenants_on_model_type_and_model_id"
 
   create_table "projects", force: :cascade do |t|
     t.string "name", null: false
@@ -64,6 +71,15 @@ ActiveRecord::Schema.define(version: 2020_08_26_183643) do
     t.index ["key"], name: "index_projects_on_key"
     t.index ["owner_type", "owner_id"], name: "index_projects_on_owner_type_and_owner_id"
     t.index ["uuid"], name: "index_projects_on_uuid"
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.string "model_type"
+    t.bigint "model_id"
+    t.string "key"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["model_type", "model_id"], name: "index_tenants_on_model_type_and_model_id"
   end
 
   create_table "user_organizations", force: :cascade do |t|
