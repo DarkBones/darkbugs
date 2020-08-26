@@ -12,4 +12,11 @@ namespace :oneoff do
       user.save!
     end
   end
+
+  desc 'Create tenant for users'
+  task create_tenant_for_users: [:environment] do
+    User.all.each do |user|
+      Apartment::Tenant.create(user.uuid)
+    end
+  end
 end

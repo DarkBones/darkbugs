@@ -19,6 +19,11 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :user_profile
   accepts_nested_attributes_for :organizations
 
+  # -- Callbacks ------------------------------------------------------------
+  before_validation :create_uuid, on: :create
+  after_create :create_tenant
+  before_destroy :delete_tenant
+
   # -- Validations --------------------------------------------------------
   validates :email,                 presence: true
   validates :password,              presence: true, on: :create
@@ -27,9 +32,6 @@ class User < ApplicationRecord
 
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
-
-  # -- Callbacks ------------------------------------------------------------
-  before_validation :create_uuid, on: :create
 
   # -- Instance Methods --------------------------------------------------------
   def name
@@ -79,5 +81,13 @@ class User < ApplicationRecord
     uuid = SecureRandom.urlsafe_base64(8, false) while User.exists?(uuid: uuid)
 
     self.uuid = uuid
+  end
+
+  private def create_tenant
+    Apartment::Tenant.create(uuid)
+  end
+
+  private def delete_tenant
+    Apartment::Tenant.drop(uuid)
   end
 end

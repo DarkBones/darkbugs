@@ -2,6 +2,11 @@ class Organization < ApplicationRecord
   # -- Constants --------------------------------------------------------
   RESERVED_NAMES = ['www'].freeze
 
+  # -- Callbacks ------------------------------------------------------------
+  before_validation :create_slug, on: :create
+  after_create :create_tenant
+  before_destroy :delete_tenant
+
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
@@ -13,10 +18,6 @@ class Organization < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false }
   validate :name_not_reserved
-
-  # -- Callbacks ------------------------------------------------------------
-  before_validation :create_slug, on: :create
-  after_create :create_tenant
 
   # -- Scopes --------------------------------------------------------
   scope :accepted_by_user, ->(user) {
@@ -108,6 +109,10 @@ class Organization < ApplicationRecord
 
   private def create_tenant
     Apartment::Tenant.create(slug)
+  end
+
+  private def delete_tenant
+    Apartment::Tenant.drop(slug)
   end
 
   private def name_not_reserved
