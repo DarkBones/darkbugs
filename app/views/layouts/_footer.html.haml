@@ -10,6 +10,8 @@
         - if @current_user&.admin?
           %div
             - app_info_data = app_info
+            = @tenant&.tenant_key || 'public'
+            = '//'
             = app_info_data[:source]
             = '//'
             = app_info_data[:hostname]

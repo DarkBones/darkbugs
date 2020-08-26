@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
   before_action :set_user
   after_action :clear_flash
-  before_action :set_organization
+  before_action :set_tenant
   before_action :set_raven_context if Rails.env.production?
 
   private def set_user
@@ -14,18 +14,24 @@ class ApplicationController < ActionController::Base
     flash.discard if request.xhr?
   end
 
-  private def set_organization
+  private def set_tenant
     Apartment::Tenant.switch!
+    return if @current_user.nil?
+
+    @tenant = @current_user
+
     if valid_subdomain?(request.subdomain) && @current_user.present?
       @current_organization = @current_user
                                 .organizations
                                 .accepted_by_user(@current_user)
                                 .find_by!(slug: request.subdomain)
-      Apartment::Tenant.switch!(@current_organization.slug)
+      @tenant = @current_organization
     else
       redirect_to root_url(subdomain: '') if request.subdomain.present?
       @current_organization = nil
     end
+
+    Apartment::Tenant.switch!(@tenant.tenant_key)
   end
 
   def set_raven_context

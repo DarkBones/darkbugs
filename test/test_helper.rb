@@ -27,7 +27,13 @@ class ActiveSupport::TestCase
 
   def login
     @user = users(:default)
+    Apartment::Tenant.create(@user.uuid)
     sign_in @user
+  end
+
+  def login_user(user)
+    Apartment::Tenant.create(user.uuid)
+    sign_in user
   end
 
   def teardown

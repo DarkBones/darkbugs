@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   include Rails.application.routes.url_helpers
   include Identifiable
+  include Tenantable
 
   # -- Constants --------------------------------------------------------
   ALL_ROLES = [
@@ -19,6 +20,9 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :user_profile
   accepts_nested_attributes_for :organizations
 
+  # -- Callbacks ------------------------------------------------------------
+  before_validation :create_uuid, on: :create
+
   # -- Validations --------------------------------------------------------
   validates :email,                 presence: true
   validates :password,              presence: true, on: :create
@@ -27,9 +31,6 @@ class User < ApplicationRecord
 
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
-
-  # -- Callbacks ------------------------------------------------------------
-  before_validation :create_uuid, on: :create
 
   # -- Instance Methods --------------------------------------------------------
   def name
