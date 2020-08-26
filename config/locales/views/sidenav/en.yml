@@ -3,6 +3,8 @@ en:
   views:
     sidenav:
       sections:
+        core:
+          title: Core
         projects:
           title: Projects
           personal: Personal

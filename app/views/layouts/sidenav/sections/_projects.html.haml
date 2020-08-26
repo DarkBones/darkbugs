@@ -1,12 +1,10 @@
 - icon = @tenant == @current_user ? 'fa-user' : 'fa-lightbulb'
 
 - if @projects.present?
-  .sidenav-menu-heading
-    = t('views.sidenav.sections.projects.title')
   %a.nav-link{'aria-controls' => 'collapsePersonalProjects', 'aria-expanded' => 'true', 'data-target' => '#collapsePersonalProjects', 'data-toggle' => 'collapse', :href => 'javascript:void(0);'}
     .nav-link-icon
       %i.fa{ :class => icon }
-    = @tenant.name
+    = t('views.sidenav.sections.projects.title')
     .sidenav-collapse-arrow
       %i.fas.fa-angle-down
   #collapsePersonalProjects.show{'data-parent' => '#accordionSidenav'}
