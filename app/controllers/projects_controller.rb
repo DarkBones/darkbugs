@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[show]
   before_action :set_project, only: %i[new create]
-  before_action :load_project, only: %i[delete destroy]
+  before_action :load_project, only: %i[delete destroy show]
   before_action :check_is_admin!, only: %i[new delete destroy]
 
   def index; end

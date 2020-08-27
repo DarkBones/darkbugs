@@ -1,0 +1,8 @@
+-# = render partial: 'layouts/header', locals: { icon_class: 'fas fa-lightbulb', title: @project.name, title_sub: i18n('title_sub', name: @project.name) }
+- content_for :page_title do
+  = @project.name
+
+.mt-5
+  t
+  .mt-5
+    = react_component('projects/ProjectItemsApp', @props, { prerender: false })
