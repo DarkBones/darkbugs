@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'nested_form'
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'postageapp', '>= 1.3.1'
 gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.0.3'
 gem 'rack-cors'
@@ -55,5 +56,4 @@ end
 
 group :production do
   gem 'sentry-raven'
-  gem 'postageapp', '>= 1.3.1'
 end
