@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[new create]
+  before_action :load_project, only: %i[delete]
   before_action :check_is_admin!, only: %i[new]
 
   def index; end
@@ -8,12 +9,19 @@ class ProjectsController < ApplicationController
 
   def new; end
 
+  def delete; end
+
   def create
     @tenant.projects.create!(create_params)
     redirect_to action: :index
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:error] = e.message
     render action: :new, status: :bad_request
+  end
+
+  private def load_project
+    key = params[:key] || params[:project_key]
+    @project = @tenant.projects.find_by!(key: key)
   end
 
   private def create_params

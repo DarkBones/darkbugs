@@ -5,9 +5,12 @@
   end
 
   items = []
+  if is_admin
+    items.push([i18n('delete'), project_delete_path(project_key: project.key)])
+  end
 
 %li.mb-3
   .float-right
-    = render partial: 'shared/ellipsis_dropdown', locals: { items: [] }
+    = render partial: 'shared/ellipsis_dropdown', locals: { items: items }
   .font-weight-bold
     = link_to project.name, project_path(key: project.key)

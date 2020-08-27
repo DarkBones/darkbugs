@@ -3,7 +3,7 @@
 = content_for :card_header do
   = i18n 'card_header', name: @organization.name
 = content_for :card_body do
-  .alert.alert-warning.alert-solid
+  .rounded.p-2.alert-warning.alert-solid.mb-4
     = i18n 'warning', name: @organization.name
   = simple_form_for(@organization, url: organization_destroy_path(@organization.slug), html: { method: :post }) do |f|
     .col-12

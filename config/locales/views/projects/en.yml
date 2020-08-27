@@ -8,6 +8,14 @@ en:
         card_header: Projects
         new_button: New Project
         no_projects: No projects found. Create one here!
+        delete: Delete Project
+      delete:
+        title: Delete %{name}
+        title_sub: Are you sure you want to delete %{name}?
+        card_header: Delete %{name}
+        warning: Deleting %{name} will also delete all its components. This cannot be undone.
+        confirm: Type "%{name}" below to confirm you want to delete it.
+        submit: Delete Project
       new:
         title: New Project
         title_sub: New project for %{name}
