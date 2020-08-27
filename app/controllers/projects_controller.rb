@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[new create]
-  before_action :load_project, only: %i[delete]
-  before_action :check_is_admin!, only: %i[new]
+  before_action :load_project, only: %i[delete destroy]
+  before_action :check_is_admin!, only: %i[new delete destroy]
 
   def index; end
 
@@ -10,6 +10,17 @@ class ProjectsController < ApplicationController
   def new; end
 
   def delete; end
+
+  def destroy
+    raise ActionController::BadRequest, I18n.t('controllers.projects.errors.destroy.name_mismatch') if params.dig(:project, :name) != @project.name
+
+    @project.destroy!
+
+    redirect_to(projects_path, { :flash => { :notice => I18n.t('controllers.projects.destroy.success', name: @project.name) } })
+  rescue ActionController::BadRequest => e
+    flash[:error] = e.message
+    redirect_back(fallback_location: projects_path)
+  end
 
   def create
     @tenant.projects.create!(create_params)
