@@ -10,6 +10,7 @@ class Organization < ApplicationRecord
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
+  has_many :projects, as: 'owner'
   accepts_nested_attributes_for :user_organizations
 
   attr_reader :usernames
@@ -52,9 +53,12 @@ class Organization < ApplicationRecord
   end
 
   def user_is_admin?(user)
+    role = user_organizations.find_by(user_id: user).role
+    return false if role.nil?
+
     [UserOrganization::ROLES[:CREATOR], UserOrganization::ROLES[:ADMIN]]
       .include?(
-        user_organizations.find_by(user_id: user).role
+        role
       )
   end
 

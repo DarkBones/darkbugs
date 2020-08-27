@@ -1,0 +1,13 @@
+---
+en:
+  views:
+    sidenav:
+      sections:
+        core:
+          title: Core
+        organizations:
+          title: Organizations
+        projects:
+          title: Projects
+          personal: Personal
+          empty: Create a Project!

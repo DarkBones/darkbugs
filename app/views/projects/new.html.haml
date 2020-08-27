@@ -1,0 +1,48 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-lightbulb', title_sub: i18n('title_sub', name: @tenant.name) }
+- content_for :page_title do
+  = i18n('title')
+
+= content_for :card_header do
+  = i18n 'card_header'
+= content_for :card_body do
+  = render partial: 'form'
+
+:javascript
+  (function() {
+    const $nameInput = $('#project_name')
+    const $keyInput = $('#project_key')
+
+    let keyInputChanged = false
+
+    $nameInput.keyup(function() {
+      if(!keyInputChanged) {
+        $keyInput.val(generateKey())
+      }
+    })
+
+    $keyInput.keyup(function() {
+      keyInputChanged = true
+      $keyInput.val($keyInput.val().toUpperCase().replace(/[^a-zA-Z0-9]/g, ''))
+    })
+
+    function capitalizeKey() {
+      $keyInput.val(
+        $keyInput.val().toUpperCase()
+      )
+    }
+
+    function generateKey() {
+      let name = $nameInput.val().toUpperCase().replace(/[\s\d]/g, '')
+      let consonants
+      if (name.length <= 3) {
+        return name
+      }
+
+      consonants = name.replace(/[AEIOU]/g, "")
+      if (consonants.length <= 3) {
+        return `${name.substring(0, 3 - consonants.length)}${consonants}`
+      }
+
+      return consonants.substring(0, 3)
+    }
+  })()

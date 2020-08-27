@@ -1,0 +1,23 @@
+default:
+  name: default
+  uuid: default
+  key: DFLT
+  owner: default (User)
+
+user:
+  name: user
+  uuid: user
+  key: USR
+  owner: default (User)
+
+user_second:
+  name: user_second
+  uuid: user_second
+  key: USRSCND
+  owner: default (User)
+
+organization:
+  name: organization
+  uuid: organization
+  key: OGNTN
+  owner: first (Organization)

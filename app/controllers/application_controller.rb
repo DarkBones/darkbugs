@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :set_user
   after_action :clear_flash
   before_action :set_tenant
+  before_action :set_projects
+  before_action :set_organizations
   before_action :set_raven_context if Rails.env.production?
 
   private def set_user
@@ -43,5 +45,21 @@ class ApplicationController < ActionController::Base
 
   private def valid_subdomain?(subdomain)
     subdomain.present? && Organization::RESERVED_NAMES.exclude?(subdomain.downcase)
+  end
+
+  private def set_projects
+    @projects = nil
+    return if @tenant.nil?
+
+    @projects = @tenant.projects.where.not(id: nil)
+  end
+
+  private def set_organizations
+    @organizations = nil
+    return if @current_user.nil?
+
+    @organizations = @current_user.organizations
+                       .accepted_by_user(@current_user)
+                       .order(:slug)
   end
 end

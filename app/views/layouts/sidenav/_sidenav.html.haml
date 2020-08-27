@@ -2,4 +2,8 @@
   %nav.sidenav.shadow-right.sidenav-light
     .sidenav-menu
       #accordionSidenav.nav.accordion
-        .sidenav-menu-heading Core
+        - if @tenant.present?
+          .sidenav-menu-heading
+            = t('views.sidenav.sections.core.title')
+          = render 'layouts/sidenav/sections/organizations'
+          = render 'layouts/sidenav/sections/projects'

@@ -1,0 +1,10 @@
+---
+en:
+  controllers:
+    projects:
+      errors:
+        unauthorized: Only administrators can take this action
+        destroy:
+          name_mismatch: The name doesn't match
+      destroy:
+        success: Successfully deleted organization %{name}

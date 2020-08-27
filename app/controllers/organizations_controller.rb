@@ -7,11 +7,6 @@ class OrganizationsController < ApplicationController
   before_action :check_admin,                 only:   %i[create_members grant_admin revoke_admin remove_member delete destroy]
 
   def index
-    @organizations = @current_user
-                       .organizations
-                       .accepted_by_user(@current_user)
-                       .order(:slug)
-
     @pending_organizations = @current_user
                                .organizations
                                .pending_for_user(@current_user)
@@ -132,16 +127,17 @@ class OrganizationsController < ApplicationController
     redirect_back(fallback_location: organizations_path)
   end
 
+  private def switch_to_public
+    # TODO: Unhack this
+    Apartment::Tenant.switch! if Rails.env.test?
+  end
+
   private def check_admin
     load_accepted_organization
 
     raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.unauthorized') unless @organization.user_is_admin?(@current_user)
   rescue ActionController::BadRequest => e
     redirect_to(organizations_path, { :flash => { :error => e.message }, :status => :bad_request })
-  end
-
-  private def switch_to_public
-    Apartment::Tenant.switch!
   end
 
   private def email_new_members(user_tokens, organization)

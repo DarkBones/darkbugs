@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_one :user_profile, dependent: :destroy
   has_many :user_organizations, dependent: :destroy
   has_many :organizations, through: :user_organizations
+  has_many :projects, as: 'owner'
   accepts_nested_attributes_for :user_profile
   accepts_nested_attributes_for :organizations
 
@@ -72,13 +73,5 @@ class User < ApplicationRecord
   # -- Class Methods --------------------------------------------------------
   def self.find_by_username(username)
     UserProfile.find_by(username: username)&.user
-  end
-
-  private def create_uuid
-    uuid = SecureRandom.urlsafe_base64(8, false)
-
-    uuid = SecureRandom.urlsafe_base64(8, false) while User.exists?(uuid: uuid)
-
-    self.uuid = uuid
   end
 end
