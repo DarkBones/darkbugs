@@ -1,3 +1,11 @@
+:ruby
+  is_admin = true
+  if @tenant != @current_user
+    is_admin = @current_organization.user_is_admin?(@current_user)
+  end
+
+  items = []
+
 %li.mb-3
   .float-right
     = render partial: 'shared/ellipsis_dropdown', locals: { items: [] }

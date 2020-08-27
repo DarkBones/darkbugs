@@ -8,6 +8,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     @request.env['HTTP_HOST'] = 'host'
     @organization = organizations(:default)
     login_user(@user)
+    Apartment::Tenant.switch!
   end
 
   def test_index

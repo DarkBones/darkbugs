@@ -128,7 +128,8 @@ class OrganizationsController < ApplicationController
   end
 
   private def switch_to_public
-    Apartment::Tenant.switch!
+    # TODO: Unhack this
+    Apartment::Tenant.switch! if Rails.env.test?
   end
 
   private def check_admin
