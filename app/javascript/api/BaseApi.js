@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const BASE_URL = '/api/internal/v1'
+export const BASE_URL = '/api/v1'
 
 export function get(path, params = {}) {
   const endpoint = `${BASE_URL}${path}`

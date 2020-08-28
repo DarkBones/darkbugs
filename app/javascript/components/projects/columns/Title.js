@@ -1,5 +1,6 @@
 import React from 'react'
 import ApiInput from '../../shared/input/ApiInput'
+import { ColumnApi } from '../../../api/InternalApi'
 
 export default class Title extends React.Component {
   constructor(props) {
@@ -25,6 +26,11 @@ export default class Title extends React.Component {
     })
   }
 
+  submit = (e) => {
+    ColumnApi.updateColumn(this.props.column_uuid, { name: e.target.value })
+    this.disableIsEditing()
+  }
+
   disableIsEditing = () => {
     this.setState({
       isEditing: false
@@ -43,7 +49,7 @@ export default class Title extends React.Component {
     )
 
     const titleElement = this.state.isEditing
-      ? <ApiInput value={this.state.title} afterSubmit={this.disableIsEditing} />
+      ? <ApiInput value={this.state.title} submit={this.submit} />
       : title
 
 

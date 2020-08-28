@@ -16,6 +16,7 @@ module Boards
     private def columns
       board.columns.order(:position).map do |column|
         {
+          uuid: column.uuid,
           title: column.name
         }
       end

@@ -3,8 +3,7 @@ import React from 'react'
 export default function ApiInput(props) {
   const handleKeyDown = (e) => {
     if (event.key === 'Enter') {
-      console.log('submit to api')
-      props.afterSubmit()
+      props.submit(e)
     }
   }
 
