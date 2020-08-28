@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_raven_context
-    return unless if Rails.env.production?
+    return unless Rails.env.production?
     return unless defined? Raven
 
     Raven.user_context(id: @current_user&.id)
