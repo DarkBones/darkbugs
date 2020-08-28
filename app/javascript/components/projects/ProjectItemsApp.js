@@ -1,4 +1,5 @@
 import React from 'react'
+import Columns from './columns/Columns';
 
 export default class ProjectItemsApp extends React.Component {
   constructor(props) {
@@ -15,20 +16,7 @@ export default class ProjectItemsApp extends React.Component {
         <h1>
           {this.props.title}
         </h1>
-        <div id='columns'>
-          {this.state.columns.map((column) =>
-            <div className='column rounded p-2 pb-5'>
-              <h4 className='column-title'>
-                {column.title}
-              </h4>
-            </div>
-          )}
-          <div className='add-column-btn-container'>
-            <div className='add-column-btn clickable'>
-              <i className='fa fa-plus-circle fa-3x'/>
-            </div>
-          </div>
-        </div>
+        <Columns columns={this.props.columns} />
       </div>
     )
   }
