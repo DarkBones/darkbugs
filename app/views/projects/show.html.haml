@@ -8,6 +8,11 @@
   %h1
     Issues
   #columns
-    - ['Open', 'In Progress', 'Done', 'Archived', 'Released'].each do |name|
-      .column.rounded
-        = name
+    - ['Open', 'In Progress', 'Done', 'Released', 'Archived'].each do |name|
+      .column.rounded.p-2.pb-5
+        %h4.column-title
+          = name
+        - ['one', 'two', 'three', 'four', 'five', 'six'].each do |card|
+          .item-card.mb-3.p-2.rounded
+            .font-weight-bold
+              = card
