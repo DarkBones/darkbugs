@@ -1,4 +1,5 @@
 import React from 'react'
+import ApiInput from '../../shared/input/ApiInput'
 
 export default class Title extends React.Component {
   constructor(props) {
@@ -24,6 +25,16 @@ export default class Title extends React.Component {
     })
   }
 
+  disableIsEditing = () => {
+    this.setState({
+      isEditing: false
+    })
+  }
+
+  handleChange = (e) => {
+    alert(e.target.value)
+  }
+
   render() {
     const title = (
       <h4 className='column-title' onClick={this.handleClick}>
@@ -32,7 +43,7 @@ export default class Title extends React.Component {
     )
 
     const titleElement = this.state.isEditing
-      ? <input className='form-control' value={this.state.title} />
+      ? <ApiInput value={this.state.title} afterSubmit={this.disableIsEditing} />
       : title
 
 
