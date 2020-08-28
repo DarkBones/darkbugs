@@ -2,4 +2,12 @@
 - content_for :page_title do
   = @project.name
 
-= react_component('projects/ProjectItemsApp', @props, { prerender: false })
+-# = react_component('projects/ProjectItemsApp', @props, { prerender: false })
+
+#project-items-app
+  %h1
+    Issues
+  #columns
+    - ['Open', 'In Progress', 'Done', 'Archived', 'Released'].each do |name|
+      .column.rounded
+        = name
