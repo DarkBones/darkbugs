@@ -28,11 +28,8 @@ export default class Title extends React.Component {
 
   submit = (e) => {
     ColumnApi.updateColumn(this.props.column_uuid, { name: e.target.value })
-    this.disableIsEditing()
-  }
-
-  disableIsEditing = () => {
     this.setState({
+      title: e.target.value,
       isEditing: false
     })
   }
