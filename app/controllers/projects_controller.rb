@@ -6,7 +6,10 @@ class ProjectsController < ApplicationController
 
   def index; end
 
-  def show; end
+  def show
+    board = @project.boards.first
+    @props = Boards::BoardPresenter.new(board).to_h
+  end
 
   def new; end
 
