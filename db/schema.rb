@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_211527) do
+ActiveRecord::Schema.define(version: 2020_08_28_153442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,25 @@ ActiveRecord::Schema.define(version: 2020_08_27_211527) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["component_type", "component_id"], name: "index_boards_on_component_type_and_component_id"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.string "name"
+    t.bigint "reporter_id"
+    t.bigint "assignee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["assignee_id"], name: "index_cards_on_assignee_id"
+    t.index ["reporter_id"], name: "index_cards_on_reporter_id"
+  end
+
+  create_table "columns", force: :cascade do |t|
+    t.string "name"
+    t.bigint "board_id"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_columns_on_board_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -131,4 +150,6 @@ ActiveRecord::Schema.define(version: 2020_08_27_211527) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cards", "users", column: "assignee_id"
+  add_foreign_key "cards", "users", column: "reporter_id"
 end

@@ -3,6 +3,7 @@ class Project < ApplicationRecord
 
   # -- Relationships ------------------------------------------------------------
   belongs_to :owner, polymorphic: true
+  has_many :boards, as: 'component'
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :capitalize_key
