@@ -1,4 +1,6 @@
 import React from 'react'
+import Column from './Column';
+import AddColumnButton from './AddColumnButton';
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -13,17 +15,9 @@ export default class Columns extends React.Component {
     return (
       <div id='columns'>
         {this.state.columns.map((column) =>
-          <div className='column rounded p-2 pb-5'>
-            <h4 className='column-title'>
-              {column.title}
-            </h4>
-          </div>
+          <Column title={column.title} />
         )}
-        <div className='add-column-btn-container'>
-          <div className='add-column-btn clickable'>
-            <i className='fa fa-plus-circle fa-3x' />
-          </div>
-        </div>
+        <AddColumnButton />
       </div>
     )
   }
