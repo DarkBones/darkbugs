@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :set_tenant
   before_action :set_projects
   before_action :set_organizations
-  before_action :set_raven_context if Rails.env.production?
+  before_action :set_raven_context
   before_action :switch_to_public
 
   private def set_user
@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_raven_context
+    return unless if Rails.env.production?
     return unless defined? Raven
 
     Raven.user_context(id: @current_user&.id)
