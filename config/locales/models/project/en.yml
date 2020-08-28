@@ -1,0 +1,12 @@
+---
+en:
+  models:
+    project:
+      default_board:
+        title: Features
+        columns:
+          open: Open
+          in_progress: In Progress
+          done: Done
+          released: Released
+          archived: Archived
