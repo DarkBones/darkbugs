@@ -57,12 +57,14 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
   end
 
   create_table "columns", force: :cascade do |t|
+    t.string "uuid", null: false
     t.string "name"
     t.bigint "board_id"
     t.integer "position", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["board_id"], name: "index_columns_on_board_id"
+    t.index ["uuid"], name: "index_columns_on_uuid"
   end
 
   create_table "organizations", force: :cascade do |t|

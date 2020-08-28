@@ -32,4 +32,10 @@ Rails.application.routes.draw do
   get '/user/:username', to: 'user_profiles#show', as: 'user_profile'
 
   root 'projects#index'
+
+  namespace :api do
+    namespace :internal do
+      resources :columns, param: :uuid
+    end
+  end
 end

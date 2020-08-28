@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_projects
   before_action :set_organizations
   before_action :set_raven_context if Rails.env.production?
+  before_action :switch_to_public
 
   private def set_user
     @current_user = current_user
@@ -41,6 +42,11 @@ class ApplicationController < ActionController::Base
 
     Raven.user_context(id: @current_user&.id)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
+
+  private def switch_to_public
+    # TODO: Unhack this
+    Apartment::Tenant.switch! if Rails.env.test?
   end
 
   private def valid_subdomain?(subdomain)
