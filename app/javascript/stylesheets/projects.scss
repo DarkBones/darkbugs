@@ -40,7 +40,8 @@
   height: calc(100vh - 60px);
 
   #project-items-container {
-    width: 100%;
+    width: calc(100% + 40px);
+    margin-left: -15px;
     height: 100%;
     white-space: nowrap;
     overflow-x: scroll;
@@ -52,6 +53,7 @@
 
     #project-items-app {
       margin-top: 20px;
+      margin-left: 20px;
       width: 100%;
       height: calc(100% - 60px);
 
