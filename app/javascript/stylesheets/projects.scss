@@ -1,9 +1,23 @@
-#project-items-app {
-  height: 100%;
-
-  .column {
-    width: 240px;
+.controller-projects.page-show {
+  #project-items-app {
+    background-color: green;
     height: 100%;
-    background-color: blue;
+    width: 500px;
+    margin-top: 150px;
+    position: relative;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    white-space: nowrap;
+
+    #columns {
+      width: 100%;
+      height: 100%;
+      background-color: blue;
+      display: inline-block;
+    }
+  }
+
+  main, .container-fluid, .row {
+    height: 100%;
   }
 }

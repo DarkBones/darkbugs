@@ -2,7 +2,4 @@
 - content_for :page_title do
   = @project.name
 
-.mt-5
-  t
-  .mt-5
-    = react_component('projects/ProjectItemsApp', @props, { prerender: false })
+= react_component('projects/ProjectItemsApp', @props, { prerender: false })
