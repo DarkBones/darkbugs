@@ -12,6 +12,7 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert_not_nil board
     assert_equal 'Features', board.name
+    assert_equal 'features', board.slug
 
     expected_columns = [
       [0, 'Open'],
