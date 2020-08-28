@@ -11,13 +11,17 @@ export default class Columns extends React.Component {
     }
   }
 
+  addColumn = () => {
+    alert('ADD COLUMN')
+  }
+
   render() {
     return (
       <div id='columns'>
         {this.state.columns.map((column) =>
           <Column title={column.title} />
         )}
-        <AddColumnButton />
+        <AddColumnButton handleClick={this.addColumn} />
       </div>
     )
   }

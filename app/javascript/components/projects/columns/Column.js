@@ -1,20 +1,15 @@
 import React from 'react'
+import Title from './Title'
 
 export default class Column extends React.Component {
   constructor(props) {
-    super(props);
-
-    this.state = {
-      title: props.title
-    }
+    super(props)
   }
 
   render() {
     return (
       <div className='column rounded p-2 pb-5'>
-        <h4 className='column-title'>
-          {this.state.title}
-        </h4>
+        <Title title={this.props.title} />
       </div>
     )
   }
