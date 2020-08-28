@@ -6,35 +6,17 @@ export default class ProjectItemsApp extends React.Component {
   }
 
   render() {
-    const json = {
-      title: 'Issues',
-      columns: [
-        {
-          title: 'Open'
-        },
-        {
-          title: 'In Progress'
-        },
-        {
-          title: 'Done'
-        },
-        {
-          title: 'Archived'
-        }
-      ]
-    }
-
     return (
       <div id='project-items-app'>
-        <div>
-          <h1>
-            {json.title}
-          </h1>
-        </div>
+        <h1>
+          {this.props.title}
+        </h1>
         <div id='columns'>
-          {json.columns.map((column) =>
-            <div className='column rounded mr-5'>
-              {column.title}
+          {this.props.columns.map((column) =>
+            <div className='column rounded p-2 pb-5'>
+              <h4 className='column-title'>
+                {column.title}
+              </h4>
             </div>
           )}
         </div>

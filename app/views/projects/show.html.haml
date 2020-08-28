@@ -2,7 +2,9 @@
 - content_for :page_title do
   = @project.name
 
-= react_component('projects/ProjectItemsApp', @props, { prerender: false })
+#project-items-field
+  #project-items-container
+    = react_component('projects/ProjectItemsApp', @props, { prerender: false })
 
 -##project-items-app
 -#  %h1
