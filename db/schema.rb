@@ -37,13 +37,13 @@ ActiveRecord::Schema.define(version: 2020_08_27_211527) do
   end
 
   create_table "boards", force: :cascade do |t|
-    t.bigint "project_id"
+    t.string "component_type"
+    t.bigint "component_id"
     t.string "name"
     t.string "slug"
-    t.string "props"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_boards_on_project_id"
+    t.index ["component_type", "component_id"], name: "index_boards_on_component_type_and_component_id"
   end
 
   create_table "organizations", force: :cascade do |t|
