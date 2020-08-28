@@ -12,6 +12,7 @@ class Api::Internal::ColumnsControllerTest < ActionController::TestCase
 
   def test_update_column
     put :update, params: {
+      api_version: 1,
       uuid: @column.uuid,
       column: {
         name: 'New Name',

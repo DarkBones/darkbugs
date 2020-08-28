@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   root 'projects#index'
 
-  namespace :api do
+  namespace :api, path: 'api/v:api_version', defaults: { format: :json } do
     namespace :internal do
       resources :columns, param: :uuid
     end
