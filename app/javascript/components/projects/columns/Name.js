@@ -8,7 +8,8 @@ export default class Name extends React.Component {
 
     this.state = {
       name: props.name,
-      isEditing: false
+      isEditing: props.isNew,
+      isNew: props.isNew
     }
   }
 
@@ -21,10 +22,15 @@ export default class Name extends React.Component {
   }
 
   handleClick = (e) => {
+    const clickedInside = this.node.contains(e.target)
     if (this.props.userIsAdmin) {
       this.setState({
-        isEditing: this.node.contains(e.target)
+        isEditing: clickedInside
       })
+    }
+
+    if (!clickedInside && this.state.isNew) {
+      this.props.cancelNewColumns()
     }
   }
 
@@ -65,6 +71,7 @@ export default class Name extends React.Component {
       ? (<ApiInput
           value={this.state.name}
           submit={this.submit}
+          focus={true}
         />)
       : name
 

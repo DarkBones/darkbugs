@@ -12,8 +12,34 @@ export default class Columns extends React.Component {
   }
 
   addColumn = () => {
-    alert('ADD COLUMN')
+    let newColumns = {
+      name: '',
+      uuid: ''
+    }
+
+    if (JSON.stringify(this.state.columns) !== '{}') {
+      newColumns = this.state.columns.concat(newColumns)
+    }
+
+    this.setState({
+      columns: newColumns
+    })
   }
+
+  cancelNewColumns = () => {
+    let persistedColumns = []
+
+    this.state.columns.forEach(function (column) {
+      if (column.uuid !== '') {
+        persistedColumns.push(column)
+      }
+    })
+
+    this.setState({
+      columns: persistedColumns
+    })
+  }
+
 
   render() {
     return (
@@ -26,10 +52,12 @@ export default class Columns extends React.Component {
             uuid={column.uuid}
             userIdAdmin={this.props.userIsAdmin}
             key={column.uuid}
+            cancelNewColumns={this.cancelNewColumns}
           />
         )}
         <AddColumnButton
           handleClick={this.addColumn}
+          userIsAdmin={this.props.userIsAdmin}
         />
       </div>
     )

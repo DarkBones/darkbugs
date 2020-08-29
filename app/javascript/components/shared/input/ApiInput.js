@@ -1,17 +1,34 @@
 import React from 'react'
 
-export default function ApiInput(props) {
-  const handleKeyDown = (e) => {
+export default class ApiInput extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  handleKeyDown = (e) => {
     if (event.key === 'Enter') {
-      props.submit(e)
+      this.props.submit(e)
     }
   }
 
-  return (
-    <input
-      className='form-control'
-      defaultValue={props.value}
-      onKeyDown={handleKeyDown}
-    />
-  )
+  componentDidMount(){
+    if (this.props.focus) {
+      setTimeout(() => {
+        this.inputRef.focus()
+      }, 1)
+    }
+  }
+
+  render() {
+    return (
+      <input
+        className='form-control'
+        defaultValue={this.props.value}
+        onKeyDown={this.handleKeyDown}
+        ref={(input) => {
+          this.inputRef = input
+        }}
+      />
+    )
+  }
 }
