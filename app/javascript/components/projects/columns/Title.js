@@ -5,7 +5,7 @@ import DeleteColumnButton from "./DeleteColumnButton";
 export default function Title(props) {
   return (
     <div className='row'>
-      <div className='col-10'>
+      <div className='col-10 title-name'>
         <Name
           name={props.name}
           column_uuid={props.uuid}

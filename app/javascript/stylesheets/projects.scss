@@ -75,9 +75,14 @@
 
           .column-title {
             padding: .3em .3em .1em .3em;
+            overflow: hidden;
 
             &:hover .delete-column-btn {
               opacity: 0.5;
+            }
+
+            .title-name:hover {
+              cursor: cell;
             }
 
             .delete-column-btn {
