@@ -21,4 +21,10 @@ export class ColumnApi {
 
     return post(path, params)
   }
+
+  static deleteColumn(uuid) {
+    const path = `${COLUMN_PATH}/${uuid}`
+
+    return del(path)
+  }
 }

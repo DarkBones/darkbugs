@@ -57,6 +57,20 @@ export default class Columns extends React.Component {
     })
   }
 
+  deleteColumn = (uuid) => {
+    let columns = []
+
+    this.state.columns.forEach(function (column) {
+      if (column.uuid != uuid) {
+        columns.push(column)
+      }
+    })
+
+    this.setState({
+      columns: columns
+    })
+  }
+
 
   render() {
     return (
@@ -72,6 +86,7 @@ export default class Columns extends React.Component {
             cancelNewColumns={this.cancelNewColumns}
             saveNewColumn={this.saveNewColumn}
             boardSlug={this.props.boardSlug}
+            deleteColumn={this.deleteColumn}
           />
         )}
         <AddColumnButton

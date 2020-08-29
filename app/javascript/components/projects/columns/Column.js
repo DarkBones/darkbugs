@@ -1,5 +1,7 @@
 import React from 'react'
 import Name from './Name'
+import DeleteColumnButton from './DeleteColumnButton'
+import {ColumnApi} from '../../../api/InternalApi'
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -7,6 +9,21 @@ export default class Column extends React.Component {
 
     this.state = {
       isNew: props.uuid === ''
+    }
+  }
+
+  deleteColumn = async () => {
+    let r = confirm("Deleting a column will also delete all its cards. Continue?")
+
+    if (!r) {
+      return
+    }
+
+    let response = ColumnApi
+      .deleteColumn(this.props.uuid)
+
+    if (typeof (response) !== 'undefined') {
+      this.props.deleteColumn(this.props.uuid)
     }
   }
 
@@ -23,6 +40,10 @@ export default class Column extends React.Component {
           cancelNewColumns={this.props.cancelNewColumns}
           saveNewColumn={this.props.saveNewColumn}
           boardSlug={this.props.boardSlug}
+        />
+        <DeleteColumnButton
+          handleClick={this.deleteColumn}
+          userIsAdmin={this.props.userIdAdmin}
         />
       </div>
     )
