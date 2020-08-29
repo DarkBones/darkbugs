@@ -8,7 +8,7 @@ module Boards
 
     def to_h
       {
-        title: board.name,
+        name: board.name,
         columns: columns
       }
     end
@@ -17,7 +17,7 @@ module Boards
       board.columns.order(:position).map do |column|
         {
           uuid: column.uuid,
-          title: column.name
+          name: column.name
         }
       end
     end

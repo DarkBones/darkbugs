@@ -14,7 +14,7 @@ export default class ProjectItemsApp extends React.Component {
     return (
       <div id='project-items-app'>
         <h1>
-          {this.props.title}
+          {this.props.name}
         </h1>
         <Columns columns={this.props.columns} />
       </div>

@@ -2,12 +2,12 @@ import React from 'react'
 import ApiInput from '../../shared/input/ApiInput'
 import { ColumnApi } from '../../../api/InternalApi'
 
-export default class Title extends React.Component {
+export default class Name extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      title: props.title,
+      name: props.name,
       isEditing: false
     }
   }
@@ -39,7 +39,7 @@ export default class Title extends React.Component {
 
     if (typeof(response) !== 'undefined') {
       this.setState({
-        title: response.data.name,
+        name: response.data.name,
         isEditing: false
       })
     }
@@ -50,20 +50,20 @@ export default class Title extends React.Component {
   }
 
   render() {
-    const title = (
-      <h4 className='column-title' onClick={this.handleClick}>
-        {this.state.title}
+    const name = (
+      <h4 className='column-name' onClick={this.handleClick}>
+        {this.state.name}
       </h4>
     )
 
-    const titleElement = this.state.isEditing
-      ? <ApiInput value={this.state.title} submit={this.submit} />
-      : title
+    const nameElement = this.state.isEditing
+      ? <ApiInput value={this.state.name} submit={this.submit} />
+      : name
 
 
     return (
       <div ref={node => this.node = node}>
-        {titleElement}
+        {nameElement}
       </div>
     )
   }

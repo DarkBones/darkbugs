@@ -19,7 +19,7 @@ export default class Columns extends React.Component {
     return (
       <div id='columns'>
         {this.state.columns.map((column) =>
-          <Column title={column.title} uuid={column.uuid} />
+          <Column name={column.name} uuid={column.uuid} />
         )}
         <AddColumnButton handleClick={this.addColumn} />
       </div>
