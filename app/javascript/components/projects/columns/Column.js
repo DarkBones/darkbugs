@@ -35,7 +35,6 @@ export default class Column extends React.Component {
           <Title
             name={this.props.name}
             uuid={this.props.uuid}
-            userIsAdmin={this.props.userIsAdmin}
             cancelNewColumns={this.props.cancelNewColumns}
             saveNewColumn={this.props.saveNewColumn}
             boardSlug={this.props.boardSlug}

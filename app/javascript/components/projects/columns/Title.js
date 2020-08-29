@@ -8,7 +8,6 @@ export default function Title(props) {
       <Name
         name={props.name}
         column_uuid={props.uuid}
-        userIsAdmin={props.userIsAdmin}
         isNew={props.uuid === ''}
         cancelNewColumns={props.cancelNewColumns}
         saveNewColumn={props.saveNewColumn}
@@ -16,7 +15,6 @@ export default function Title(props) {
       />
       <DeleteColumnButton
         handleClick={props.handleDeleteClick}
-        userIsAdmin={props.userIsAdmin}
       />
     </React.Fragment>
   )

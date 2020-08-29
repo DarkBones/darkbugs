@@ -81,7 +81,6 @@ export default class Columns extends React.Component {
           <Column
             name={column.name}
             uuid={column.uuid}
-            userIsAdmin={this.props.userIsAdmin}
             key={column.uuid}
             cancelNewColumns={this.cancelNewColumns}
             saveNewColumn={this.saveNewColumn}
@@ -91,7 +90,6 @@ export default class Columns extends React.Component {
         )}
         <AddColumnButton
           handleClick={this.addColumn}
-          userIsAdmin={this.props.userIsAdmin}
         />
       </div>
     )
