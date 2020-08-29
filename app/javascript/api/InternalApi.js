@@ -10,4 +10,15 @@ export class ColumnApi {
 
     return put(path, params)
   }
+
+  static createColumn(boardSlug, params) {
+    const path = COLUMN_PATH
+
+    params = {
+      board_slug: boardSlug,
+      column: params
+    }
+
+    return post(path, params)
+  }
 }

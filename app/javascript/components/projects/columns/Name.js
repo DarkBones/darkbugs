@@ -34,7 +34,7 @@ export default class Name extends React.Component {
     }
   }
 
-  handleSubmit = async (e) => {
+  handleSubmitUpdate = async (e) => {
     let response = await ColumnApi
       .updateColumn(
         this.props.column_uuid,
@@ -50,6 +50,28 @@ export default class Name extends React.Component {
         name: response.data.name,
         isEditing: false
       })
+    }
+  }
+
+  handleSubmitCreate = async (e) => {
+    let response = await ColumnApi
+      .createColumn(
+        this.props.boardSlug,
+        { name: e.target.value }
+      ).catch(() => {
+        this.props.cancelNewColumns()
+      })
+
+    if (typeof(response) !== 'undefined') {
+      this.props.saveNewColumn(response.data.uuid, response.data.name)
+    }
+  }
+
+  handleSubmit = (e) => {
+    if (this.state.isNew) {
+      this.handleSubmitCreate(e)
+    } else {
+      this.handleSubmitUpdate(e)
     }
   }
 

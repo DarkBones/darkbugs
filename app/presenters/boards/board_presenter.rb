@@ -10,6 +10,7 @@ module Boards
     def to_h
       {
         name: board.name,
+        board_slug: board.slug,
         columns: columns,
         user_is_admin: user_is_admin?
       }

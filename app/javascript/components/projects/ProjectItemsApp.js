@@ -21,6 +21,7 @@ export default class ProjectItemsApp extends React.Component {
         <Columns
           columns={this.props.columns}
           userIsAdmin={this.props.user_is_admin}
+          boardSlug={this.props.board_slug}
         />
       </div>
     )

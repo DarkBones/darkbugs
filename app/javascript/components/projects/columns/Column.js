@@ -21,6 +21,8 @@ export default class Column extends React.Component {
           userIsAdmin={this.props.userIdAdmin}
           isNew={this.props.uuid === ''}
           cancelNewColumns={this.props.cancelNewColumns}
+          saveNewColumn={this.props.saveNewColumn}
+          boardSlug={this.props.boardSlug}
         />
       </div>
     )

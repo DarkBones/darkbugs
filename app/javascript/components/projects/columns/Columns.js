@@ -40,6 +40,23 @@ export default class Columns extends React.Component {
     })
   }
 
+  saveNewColumn = (uuid, name) => {
+    let persistedColumns = []
+
+    this.state.columns.forEach(function (column) {
+      if (column.uuid === '') {
+        column.uuid = uuid
+        column.name = name
+      }
+
+      persistedColumns.push(column)
+    })
+
+    this.setState({
+      columns: persistedColumns
+    })
+  }
+
 
   render() {
     return (
@@ -53,6 +70,8 @@ export default class Columns extends React.Component {
             userIdAdmin={this.props.userIsAdmin}
             key={column.uuid}
             cancelNewColumns={this.cancelNewColumns}
+            saveNewColumn={this.saveNewColumn}
+            boardSlug={this.props.boardSlug}
           />
         )}
         <AddColumnButton
