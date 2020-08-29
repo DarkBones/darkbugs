@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ApiInput from '../../shared/input/ApiInput'
 import { ColumnApi } from '../../../api/InternalApi'
+import UserContext from '../contexts/UserContext';
 
 export default class Name extends React.Component {
-  constructor(props) {
+  static contextType = UserContext
+
+  constructor(props, context) {
     super(props)
 
     this.state = {
@@ -11,6 +14,8 @@ export default class Name extends React.Component {
       isEditing: props.isNew,
       isNew: props.isNew
     }
+
+    this.context = context
   }
 
   componentDidMount() {
@@ -23,7 +28,7 @@ export default class Name extends React.Component {
 
   handleClick = (e) => {
     const clickedInside = this.node.contains(e.target)
-    if (this.props.userIsAdmin) {
+    if (this.context.isAdmin) {
       this.setState({
         isEditing: clickedInside
       })
