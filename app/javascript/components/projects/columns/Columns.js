@@ -81,7 +81,7 @@ export default class Columns extends React.Component {
           <Column
             name={column.name}
             uuid={column.uuid}
-            userIdAdmin={this.props.userIsAdmin}
+            userIsAdmin={this.props.userIsAdmin}
             key={column.uuid}
             cancelNewColumns={this.cancelNewColumns}
             saveNewColumn={this.saveNewColumn}

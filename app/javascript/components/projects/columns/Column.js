@@ -1,7 +1,6 @@
 import React from 'react'
-import Name from './Name'
-import DeleteColumnButton from './DeleteColumnButton'
 import {ColumnApi} from '../../../api/InternalApi'
+import Title from './Title';
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -30,21 +29,19 @@ export default class Column extends React.Component {
   render() {
     return (
       <div
-        className='column rounded p-2 pb-5'
+        className='column rounded'
       >
-        <Name
-          name={this.props.name}
-          column_uuid={this.props.uuid}
-          userIsAdmin={this.props.userIdAdmin}
-          isNew={this.props.uuid === ''}
-          cancelNewColumns={this.props.cancelNewColumns}
-          saveNewColumn={this.props.saveNewColumn}
-          boardSlug={this.props.boardSlug}
-        />
-        <DeleteColumnButton
-          handleClick={this.deleteColumn}
-          userIsAdmin={this.props.userIdAdmin}
-        />
+        <div className='column-title'>
+          <Title
+            name={this.props.name}
+            uuid={this.props.uuid}
+            userIsAdmin={this.props.userIsAdmin}
+            cancelNewColumns={this.props.cancelNewColumns}
+            saveNewColumn={this.props.saveNewColumn}
+            boardSlug={this.props.boardSlug}
+            handleDeleteClick={this.deleteColumn}
+          />
+        </div>
       </div>
     )
   }
