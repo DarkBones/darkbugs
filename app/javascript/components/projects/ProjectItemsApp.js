@@ -20,6 +20,7 @@ export default class ProjectItemsApp extends React.Component {
         </h1>
         <Columns
           columns={this.props.columns}
+          userIsAdmin={this.props.user_is_admin}
         />
       </div>
     )

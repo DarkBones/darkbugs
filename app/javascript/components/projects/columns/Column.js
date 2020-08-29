@@ -14,6 +14,7 @@ export default class Column extends React.Component {
         <Name
           name={this.props.name}
           column_uuid={this.props.uuid}
+          userIsAdmin={this.props.userIdAdmin}
         />
       </div>
     )

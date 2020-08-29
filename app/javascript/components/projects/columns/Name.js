@@ -21,9 +21,11 @@ export default class Name extends React.Component {
   }
 
   handleClick = (e) => {
-    this.setState({
-      isEditing: this.node.contains(e.target)
-    })
+    if (this.props.userIsAdmin) {
+      this.setState({
+        isEditing: this.node.contains(e.target)
+      })
+    }
   }
 
   submit = async (e) => {

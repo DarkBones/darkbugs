@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
 
   def show
     board = @project.boards.first
-    @props = Boards::BoardPresenter.new(board).to_h
+    @props = Boards::BoardPresenter.new(board, @current_user).to_h
   end
 
   def new; end
