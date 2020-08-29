@@ -5,4 +5,10 @@ class Column < ApplicationRecord
 
   validates :name, presence: true
   validates :position, presence: true, on: :create
+
+  before_create :set_position
+
+  private def set_position
+    self.position = board.columns.pluck(:position).max + 1
+  end
 end

@@ -47,4 +47,36 @@ class Api::Internal::ColumnsControllerTest < ActionController::TestCase
     assert_equal 'Open', column.name
     assert_equal 0, column.position
   end
+
+  def test_create_column
+    post :create, params: {
+      api_version: Api::VERSION,
+      board_slug: @column.board.slug,
+      column: {
+        name: 'New Column'
+      }
+    }
+
+    column = Column.last
+    assert_equal 'New Column', column.name
+    assert_not_nil column.uuid
+    assert_equal 5, column.position
+  end
+
+  def test_create_column_fail_non_admin
+    @user.user_organizations.update_all(role: UserOrganization::ROLES[:MEMBER])
+    board = boards(:organization_project)
+    column = board.columns.order(:position).last
+
+    post :create, params: {
+      api_version: Api::VERSION,
+      board_slug: column.board.slug,
+      column: {
+        name: 'New Column'
+      }
+    }
+
+    assert_equal column, board.columns.order(:position).last
+    assert_equal 'unauthorized', response.body
+  end
 end
