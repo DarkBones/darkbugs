@@ -9,6 +9,6 @@ class Column < ApplicationRecord
   before_create :set_position
 
   private def set_position
-    self.position = board.columns.pluck(:position).max + 1
+    self.position = board.columns.count
   end
 end
