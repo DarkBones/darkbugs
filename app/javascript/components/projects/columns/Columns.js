@@ -86,6 +86,7 @@ export default class Columns extends React.Component {
             saveNewColumn={this.saveNewColumn}
             boardSlug={this.props.boardSlug}
             deleteColumn={this.deleteColumn}
+            showCardModal={this.props.showCardModal}
           />
         )}
         <AddColumnButton

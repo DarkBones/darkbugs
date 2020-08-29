@@ -30,6 +30,8 @@ export default class Column extends React.Component {
     if (this.title.contains(e.target)) {
       return
     }
+
+    this.props.showCardModal(this.props.uuid)
   }
 
   render() {
