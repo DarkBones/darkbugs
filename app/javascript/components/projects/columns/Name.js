@@ -51,18 +51,26 @@ export default class Name extends React.Component {
 
   render() {
     const name = (
-      <h4 className='column-name' onClick={this.handleClick}>
+      <h4
+        className='column-name'
+        onClick={this.handleClick}
+      >
         {this.state.name}
       </h4>
     )
 
     const nameElement = this.state.isEditing
-      ? <ApiInput value={this.state.name} submit={this.submit} />
+      ? (<ApiInput
+          value={this.state.name}
+          submit={this.submit}
+        />)
       : name
 
 
     return (
-      <div ref={node => this.node = node}>
+      <div
+        ref={node => this.node = node}
+      >
         {nameElement}
       </div>
     )

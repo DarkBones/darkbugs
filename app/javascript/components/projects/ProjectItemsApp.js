@@ -12,11 +12,15 @@ export default class ProjectItemsApp extends React.Component {
 
   render() {
     return (
-      <div id='project-items-app'>
+      <div
+        id='project-items-app'
+      >
         <h1>
           {this.props.name}
         </h1>
-        <Columns columns={this.props.columns} />
+        <Columns
+          columns={this.props.columns}
+        />
       </div>
     )
   }
