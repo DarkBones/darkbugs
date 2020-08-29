@@ -39,11 +39,13 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
   create_table "boards", force: :cascade do |t|
     t.string "component_type"
     t.bigint "component_id"
+    t.bigint "root_project_id"
     t.string "name"
     t.string "slug"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["component_type", "component_id"], name: "index_boards_on_component_type_and_component_id"
+    t.index ["root_project_id"], name: "index_boards_on_root_project_id"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -152,6 +154,7 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "boards", "projects", column: "root_project_id"
   add_foreign_key "cards", "users", column: "assignee_id"
   add_foreign_key "cards", "users", column: "reporter_id"
 end

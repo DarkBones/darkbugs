@@ -1,9 +1,13 @@
 default:
-  component: default (Project)
+  component_type: Project
+  component_id: 1
+  root_project_id: 1
   name: default board
   slug: default-board
 
 organization_project:
-  component: organization (Project)
+  component_type: Project
+  component_id: 2
+  root_project_id: 2
   name: organization project
   slug: organization-project

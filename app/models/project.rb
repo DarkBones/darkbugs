@@ -21,7 +21,7 @@ class Project < ApplicationRecord
   end
 
   private def create_default_board
-    board = boards.create!(name: I18n.t('models.project.default_board.title'))
+    board = boards.create!(name: I18n.t('models.project.default_board.title'), root_project_id: id)
 
     columns = []
     columns.push(I18n.t('models.project.default_board.columns.open'))
