@@ -11,6 +11,22 @@
           }
         }
       }
+    },
+    "projects": {
+      "cards": {
+        "CardModal": {
+          "title": "New Card",
+          "buttons": {
+            "close": "Close",
+            "submit": "Create Card"
+          }
+        }
+      },
+      "columns": {
+        "Column": {
+          "delete_warning": "Deleting a column will also delete all its cards. Continue?"
+        }
+      }
     }
   }
 }

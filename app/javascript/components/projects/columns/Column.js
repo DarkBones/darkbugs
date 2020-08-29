@@ -1,6 +1,7 @@
 import React from 'react'
 import {ColumnApi} from '../../../api/InternalApi'
 import Title from './Title';
+import i18n from '../../../i18n'
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class Column extends React.Component {
   }
 
   deleteColumn = async () => {
-    let r = confirm("Deleting a column will also delete all its cards. Continue?")
+    let r = confirm(i18n.t('components.projects.columns.Column.delete_warning'))
 
     if (!r) {
       return

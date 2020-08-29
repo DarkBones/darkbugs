@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap'
+import i18n from '../../../i18n'
 
 export default class CardModal extends React.Component {
   constructor(props) {
@@ -18,15 +19,19 @@ export default class CardModal extends React.Component {
         {modal.show &&
           <Modal show={modal.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>New Card</Modal.Title>
+              <Modal.Title>
+                {i18n.t('components.projects.cards.CardModal.title')}
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>New card form for column {modal.column}</Modal.Body>
+            <Modal.Body>
+              New card form for column {modal.column}
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>
-                Close
+                {i18n.t('components.projects.cards.CardModal.buttons.close')}
               </Button>
               <Button variant="primary" onClick={this.handleClose}>
-                Create Card
+                {i18n.t('components.projects.cards.CardModal.buttons.submit')}
               </Button>
             </Modal.Footer>
           </Modal>
