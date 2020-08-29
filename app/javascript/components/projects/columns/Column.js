@@ -26,12 +26,22 @@ export default class Column extends React.Component {
     }
   }
 
+  handleClick = (e) => {
+    if (this.title.contains(e.target)) {
+      return
+    }
+  }
+
   render() {
     return (
       <div
         className='column rounded'
+        onClick={this.handleClick}
       >
-        <div className='column-title'>
+        <div
+          className='column-title'
+          ref={title => this.title = title}
+        >
           <Title
             name={this.props.name}
             uuid={this.props.uuid}
@@ -40,6 +50,9 @@ export default class Column extends React.Component {
             boardSlug={this.props.boardSlug}
             handleDeleteClick={this.deleteColumn}
           />
+        </div>
+        <div className='column-body'>
+
         </div>
       </div>
     )
