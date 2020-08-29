@@ -24,5 +24,7 @@ class Api::Internal::ColumnsControllerTest < ActionController::TestCase
 
     assert_equal 'New Name', @column.name
     assert_equal 999, @column.position
+
+    assert_equal '{"name":"New Name","position":999,"uuid":"default_open"}', response.body
   end
 end

@@ -26,12 +26,23 @@ export default class Title extends React.Component {
     })
   }
 
-  submit = (e) => {
-    ColumnApi.updateColumn(this.props.column_uuid, { name: e.target.value })
-    this.setState({
-      title: e.target.value,
-      isEditing: false
-    })
+  submit = async (e) => {
+    let response = await ColumnApi
+      .updateColumn(
+        this.props.column_uuid,
+        { name: e.target.value }
+      ).catch(() => {
+        this.setState({
+          isEditing: false
+        })
+      })
+
+    if (typeof(response) !== 'undefined') {
+      this.setState({
+        title: response.data.name,
+        isEditing: false
+      })
+    }
   }
 
   handleChange = (e) => {
