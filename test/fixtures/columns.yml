@@ -27,3 +27,33 @@ default_archived:
   board: default
   position: 4
   uuid: default_archived
+
+organization_project_open:
+  name: Open
+  board: organization_project
+  position: 0
+  uuid: organization_project_open
+
+organization_project_progress:
+  name: In Progress
+  board: organization_project
+  position: 1
+  uuid: organization_project_progress
+
+organization_project_done:
+  name: Done
+  board: organization_project
+  position: 2
+  uuid: organization_project_done
+
+organization_project_released:
+  name: Released
+  board: organization_project
+  position: 3
+  uuid: organization_project_released
+
+organization_project_archived:
+  name: Archived
+  board: organization_project
+  position: 4
+  uuid: organization_project_archived

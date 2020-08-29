@@ -2,3 +2,8 @@ default:
   component: default (Project)
   name: default board
   slug: default-board
+
+organization_project:
+  component: organization (Project)
+  name: organization project
+  slug: organization-project
