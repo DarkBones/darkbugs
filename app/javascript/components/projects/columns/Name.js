@@ -34,7 +34,7 @@ export default class Name extends React.Component {
     }
   }
 
-  submit = async (e) => {
+  handleSubmit = async (e) => {
     let response = await ColumnApi
       .updateColumn(
         this.props.column_uuid,
@@ -70,7 +70,7 @@ export default class Name extends React.Component {
     const nameElement = this.state.isEditing
       ? (<ApiInput
           value={this.state.name}
-          submit={this.submit}
+          submit={this.handleSubmit}
           focus={true}
         />)
       : name
