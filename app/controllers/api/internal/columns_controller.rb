@@ -1,9 +1,9 @@
 module Api
   module Internal
     class ColumnsController < Api::Internal::BaseApiInternalController
-      before_action :load_column, only: %i[update]
+      before_action :load_column, only: %i[update destroy]
       before_action :load_board, only: %i[create]
-      before_action :check_is_admin!, only: %i[create update]
+      before_action :check_is_admin!, only: %i[create update destroy]
 
       def create
         @column = @board.columns.create!(column_params)
@@ -13,6 +13,12 @@ module Api
         @column.update!(column_params)
 
         render :create
+      end
+
+      def destroy
+        @uuid = @column.uuid
+
+        @column.destroy!
       end
 
       private def load_column

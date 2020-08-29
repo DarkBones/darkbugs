@@ -79,4 +79,28 @@ class Api::Internal::ColumnsControllerTest < ActionController::TestCase
     assert_equal column, board.columns.order(:position).last
     assert_equal 'unauthorized', response.body
   end
+
+  def test_delete_column
+    delete :destroy, params: {
+      api_version: Api::VERSION,
+      uuid: @column.uuid
+    }
+
+    assert_nil Column.find_by(id: @column.id)
+    assert_equal '{"uuid":"default_open"}', response.body
+  end
+
+  def test_delete_column_fail_non_admin
+    @user.user_organizations.update_all(role: UserOrganization::ROLES[:MEMBER])
+    board = boards(:organization_project)
+    column = board.columns.order(:position).last
+
+    delete :destroy, params: {
+      api_version: Api::VERSION,
+      uuid: column.uuid
+    }
+
+    assert_not_nil Column.find_by(id: column.id)
+    assert_equal 'unauthorized', response.body
+  end
 end
