@@ -1,14 +1,16 @@
 import React from 'react'
-// import { Modal, Button } from 'react-bootstrap'
 import i18n from '../../../i18n'
 import Modal from '../../shared/modal/Modal'
+import CreateCardForm from './CreateCardForm'
 
 export default class CardModal extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      name: ''
+      form: {
+        name: ''
+      }
     }
   }
 
@@ -16,31 +18,33 @@ export default class CardModal extends React.Component {
     this.props.hideModal()
   }
 
-  componentDidUpdate() {
-    if (this.props.modal.show) {
-      setTimeout(() => {
-        this.inputRef.focus()
-      }, 1)
-    }
+  handleSubmit = () => {
+    console.log("submit card")
+    this.props.hideModal()
+    this.setState({
+      form: {
+        name: ''
+      }
+    })
+  }
+
+  handleFormChange = (e) => {
+    this.setState({
+      form: {
+        [event.target.name]: event.target.value
+      }
+    });
   }
 
   render() {
     const modal = this.props.modal
 
     const form = (
-      <React.Fragment>
-        <label>
-          {i18n.t('components.projects.cards.CardModal.form.name.label')}
-          <abbr title={i18n.t('components.shared.form.required.title')}> *</abbr>
-        </label>
-        <input
-          className='form-control'
-          placeholder={i18n.t('components.projects.cards.CardModal.form.name.placeholder')}
-          ref={(input) => {
-            this.inputRef = input
-          }}
-        />
-      </React.Fragment>
+      <CreateCardForm
+        handleChange={this.handleFormChange}
+        form={this.state.form}
+        handleSubmit={this.handleSubmit}
+      />
     )
 
     return(
@@ -50,6 +54,7 @@ export default class CardModal extends React.Component {
         body={form}
         close={this.props.hideModal}
         submit={i18n.t('components.projects.cards.CardModal.buttons.submit')}
+        handleSubmit={this.handleSubmit}
       />
     )
   }

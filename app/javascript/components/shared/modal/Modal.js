@@ -19,7 +19,7 @@ export default function Modal (props) {
             <Button variant="secondary" onClick={props.close}>
               {i18n.t('components.shared.modal.Modal.buttons.close')}
             </Button>
-            <Button variant="primary" onClick={props.close}>
+            <Button variant="primary" onClick={props.handleSubmit}>
               {props.submit}
             </Button>
           </Mod.Footer>
