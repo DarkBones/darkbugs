@@ -47,12 +47,9 @@ export default class Column extends React.Component {
 
   render() {
     return (
-      <Droppable droppableId={this.props.uuid} type={this.props.name}>
+      <Droppable droppableId={this.props.uuid}>
         {(provided, snapshot) => (
           <div
-            ref={provided.innerRef}
-            style={{backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey'}}
-            {...provided.droppableProps}
             className='column rounded'
             onClick={this.handleClick}
           >
@@ -69,7 +66,11 @@ export default class Column extends React.Component {
                 handleDeleteClick={this.deleteColumn}
               />
             </div>
-            <div className='column-body'>
+            <div
+              className='column-body'
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
               <Cards
                 cards={this.props.cards}
               />
