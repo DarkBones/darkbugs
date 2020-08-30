@@ -19,7 +19,15 @@ export default class CardModal extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log("submit card")
+    const params = {
+      column: this.props.column,
+      card: {
+        name: this.state.form.name
+      }
+    }
+
+    // submit
+
     this.props.hideModal()
     this.setState({
       form: {
@@ -44,6 +52,7 @@ export default class CardModal extends React.Component {
         handleChange={this.handleFormChange}
         form={this.state.form}
         handleSubmit={this.handleSubmit}
+        column={this.props.column}
       />
     )
 

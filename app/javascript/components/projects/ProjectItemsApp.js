@@ -9,27 +9,27 @@ export default class ProjectItemsApp extends React.Component {
 
     this.state = {
       columns: props.columns,
+      currentColumn: '',
       cardModal: {
-        show: false,
-        column: ''
+        show: false
       }
     }
   }
 
   showCardModal = (column) => {
     this.setState({
+      currentColumn: column,
       cardModal: {
-        show: true,
-        column: column
+        show: true
       }
     })
   }
 
   hideModal = () => {
     this.setState({
+      currentColumn: '',
       cardModal: {
-        show: false,
-        column: ''
+        show: false
       }
     })
   }
@@ -45,6 +45,7 @@ export default class ProjectItemsApp extends React.Component {
       >
         <UserProvider value={userProviderValues}>
           <CardModal
+            column={this.state.currentColumn}
             modal={this.state.cardModal}
             hideModal={this.hideModal}
           />

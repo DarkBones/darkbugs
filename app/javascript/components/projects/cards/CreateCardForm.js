@@ -22,10 +22,6 @@ export default class CreateCardForm extends React.Component {
     }
   }
 
-  handleSubmit = () => {
-    console.log("submit forms")
-  }
-
   render() {
     return(
       <React.Fragment>
