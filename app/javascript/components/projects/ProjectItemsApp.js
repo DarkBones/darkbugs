@@ -16,6 +16,13 @@ export default class ProjectItemsApp extends React.Component {
     }
   }
 
+  updateColumns = (columns) => {
+    console.log(JSON.stringify(columns))
+    this.setState({
+      columns: columns
+    })
+  }
+
   updateCards = (uuid, cards) => {
     let columns = []
 
@@ -73,6 +80,7 @@ export default class ProjectItemsApp extends React.Component {
             columns={this.props.columns}
             boardSlug={this.props.board_slug}
             showCardModal={this.showCardModal}
+            updateColumns={this.updateColumns}
           />
         </UserProvider>
       </div>

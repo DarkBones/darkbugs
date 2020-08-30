@@ -14,7 +14,8 @@ export default class Columns extends React.Component {
   addColumn = () => {
     let newColumns = {
       name: '',
-      uuid: ''
+      uuid: '',
+      cards: []
     }
 
     if (JSON.stringify(this.state.columns) !== '{}') {
@@ -47,6 +48,7 @@ export default class Columns extends React.Component {
       if (column.uuid === '') {
         column.uuid = uuid
         column.name = name
+        column.cards = []
       }
 
       persistedColumns.push(column)
@@ -55,6 +57,8 @@ export default class Columns extends React.Component {
     this.setState({
       columns: persistedColumns
     })
+
+    this.props.updateColumns(persistedColumns)
   }
 
   deleteColumn = (uuid) => {
