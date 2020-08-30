@@ -5,10 +5,22 @@ import i18n from '../../../i18n'
 export default class CardModal extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      name: ''
+    }
   }
 
   handleClose = () => {
     this.props.hideModal()
+  }
+
+  componentDidUpdate() {
+    if (this.props.modal.show) {
+      setTimeout(() => {
+        this.inputRef.focus()
+      }, 1)
+    }
   }
 
   render() {
@@ -24,7 +36,17 @@ export default class CardModal extends React.Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              New card form for column {modal.column}
+              <label>
+                {i18n.t('components.projects.cards.CardModal.form.name.label')}
+                <abbr title={i18n.t('components.shared.form.required.title')}> *</abbr>
+              </label>
+              <input
+                className='form-control'
+                placeholder={i18n.t('components.projects.cards.CardModal.form.name.placeholder')}
+                ref={(input) => {
+                  this.inputRef = input
+                }}
+              />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={this.handleClose}>

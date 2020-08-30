@@ -19,12 +19,25 @@
           "buttons": {
             "close": "Close",
             "submit": "Create Card"
+          },
+          "form": {
+            "name": {
+              "label": "Name",
+              "placeholder": "Name the card"
+            }
           }
         }
       },
       "columns": {
         "Column": {
           "delete_warning": "Deleting a column will also delete all its cards. Continue?"
+        }
+      }
+    },
+    "shared": {
+      "form": {
+        "required": {
+          "title": "required"
         }
       }
     }
