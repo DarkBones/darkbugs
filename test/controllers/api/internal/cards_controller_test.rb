@@ -26,8 +26,6 @@ module Api
         assert_equal 'New Card', card.name
         assert_not_nil card.uuid
         assert_equal @column, card.column
-
-        puts response.body
       end
     end
   end

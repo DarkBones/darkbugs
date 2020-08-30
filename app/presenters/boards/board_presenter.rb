@@ -29,6 +29,12 @@ module Boards
 
     private def columns
       board.columns.order(:position).map do |column|
+        Columns::ColumnPresenter.new(column).to_h
+      end
+    end
+
+    private def columns_OLD
+      board.columns.order(:position).map do |column|
         {
           uuid: column.uuid,
           name: column.name

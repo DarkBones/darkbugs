@@ -6,7 +6,7 @@ module Api
       def create
         @card = @column.cards.create!(card_params)
 
-        @column_hash =
+        render json: @column_hash = Columns::ColumnPresenter.new(@column).to_h
       end
 
       private def card_params
