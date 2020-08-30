@@ -1,6 +1,7 @@
 import React from 'react'
 import {ColumnApi} from '../../../api/InternalApi'
-import Title from './Title';
+import Title from './Title'
+import Cards from '../cards/Cards'
 import i18n from '../../../i18n'
 
 export default class Column extends React.Component {
@@ -55,7 +56,9 @@ export default class Column extends React.Component {
           />
         </div>
         <div className='column-body'>
-
+          <Cards
+            cards={this.props.cards}
+          />
         </div>
       </div>
     )

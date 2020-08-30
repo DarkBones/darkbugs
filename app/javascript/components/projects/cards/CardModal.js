@@ -21,6 +21,7 @@ export default class CardModal extends React.Component {
 
   handleSubmit = async () => {
     const params = {
+      column_uuid: this.props.column,
       card: {
         name: this.state.form.name
       }
@@ -28,7 +29,6 @@ export default class CardModal extends React.Component {
 
     let response = await CardApi
       .createCard(
-        this.props.column,
         params
       )
 

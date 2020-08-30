@@ -6,7 +6,7 @@ const CARD_PATH   = `${BASE_URL}/cards`
 const COLUMN_PATH = `${BASE_URL}/columns`
 
 export class CardApi {
-  static createCard(column_uuid, params) {
+  static createCard(params) {
     const path = CARD_PATH
 
     return post(path, params)
