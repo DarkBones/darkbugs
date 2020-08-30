@@ -60,6 +60,10 @@ class Organization < ApplicationRecord
       )
   end
 
+  def user_is_member?(user)
+    user_organizations.find_by(user_id: user).role.present?
+  end
+
   def user_accepted?(user)
     user_organizations.find_by(user_id: user).accepted_at.present?
   end

@@ -53,7 +53,6 @@ module Api
       end
 
       private def owner_is_admin?
-
         return true if owner == @current_user
 
         return false if owner.class == User
