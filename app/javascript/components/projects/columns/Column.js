@@ -47,7 +47,7 @@ export default class Column extends React.Component {
 
   render() {
     return (
-      <Droppable droppableId="droppable-1" type="PERSON">
+      <Droppable droppableId={this.props.uuid} type={this.props.name}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -73,8 +73,8 @@ export default class Column extends React.Component {
               <Cards
                 cards={this.props.cards}
               />
+              {provided.placeholder}
             </div>
-            {provided.placeholder}
           </div>
         )}
       </Droppable>
