@@ -16,6 +16,22 @@ export default class ProjectItemsApp extends React.Component {
     }
   }
 
+  updateCards = (uuid, cards) => {
+    let columns = []
+
+    this.state.columns.forEach(function (column) {
+      if (column.uuid === uuid) {
+        column.cards = cards
+      }
+
+      columns.push(column)
+    })
+
+    this.setState({
+      columns: columns
+    })
+  }
+
   showCardModal = (column) => {
     this.setState({
       currentColumn: column,
@@ -48,6 +64,7 @@ export default class ProjectItemsApp extends React.Component {
             column={this.state.currentColumn}
             modal={this.state.cardModal}
             hideModal={this.hideModal}
+            updateCards={this.updateCards}
           />
           <h1>
             {this.props.name}

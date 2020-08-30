@@ -32,6 +32,10 @@ export default class CardModal extends React.Component {
         params
       )
 
+    if (typeof(response) !== 'undefined') {
+      this.props.updateCards(response.data.uuid, response.data.cards)
+    }
+
     this.props.hideModal()
     this.setState({
       form: {

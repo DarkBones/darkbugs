@@ -71,7 +71,6 @@ export default class Columns extends React.Component {
     })
   }
 
-
   render() {
     return (
       <div
