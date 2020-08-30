@@ -3,6 +3,7 @@ import {ColumnApi} from '../../../api/InternalApi'
 import Title from './Title'
 import Cards from '../cards/Cards'
 import i18n from '../../../i18n'
+import {Droppable} from 'react-beautiful-dnd'
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -41,6 +42,42 @@ export default class Column extends React.Component {
   }
 
   render() {
+    return (
+      <Droppable droppableId="droppable-1" type="PERSON">
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            style={{backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey'}}
+            {...provided.droppableProps}
+            className='column rounded'
+            onClick={this.handleClick}
+          >
+            <div
+              className='column-title'
+              ref={title => this.title = title}
+            >
+              <Title
+                name={this.props.name}
+                uuid={this.props.uuid}
+                cancelNewColumns={this.props.cancelNewColumns}
+                saveNewColumn={this.props.saveNewColumn}
+                boardSlug={this.props.boardSlug}
+                handleDeleteClick={this.deleteColumn}
+              />
+            </div>
+            <div className='column-body'>
+              <Cards
+                cards={this.props.cards}
+              />
+            </div>
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    )
+  }
+
+  renderOLD() {
     return (
       <div
         className='column rounded'

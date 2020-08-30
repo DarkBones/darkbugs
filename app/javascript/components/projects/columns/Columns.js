@@ -1,6 +1,7 @@
 import React from 'react'
 import Column from './Column';
 import AddColumnButton from './AddColumnButton';
+import { DragDropContext } from 'react-beautiful-dnd'
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -9,6 +10,24 @@ export default class Columns extends React.Component {
     this.state = {
       columns: props.columns
     }
+  }
+
+  onBeforeCapture = () => {
+    console.log('onBeforeCapture')
+  }
+
+  onBeforeDragStart = () => {
+    console.log('onBeforeDragStart')
+  }
+
+  onDragStart = () => {
+    console.log('onDragStart')
+  }
+  onDragUpdate = () => {
+    console.log('onDragUpdate')
+  }
+  onDragEnd = () => {
+    console.log('onDragEnd')
   }
 
   addColumn = () => {
@@ -77,26 +96,34 @@ export default class Columns extends React.Component {
 
   render() {
     return (
-      <div
-        id='columns'
+      <DragDropContext
+        onBeforeCapture={this.onBeforeCapture}
+        onBeforeDragStart={this.onBeforeDragStart}
+        onDragStart={this.onDragStart}
+        onDragUpdate={this.onDragUpdate}
+        onDragEnd={this.onDragEnd}
       >
-        {this.state.columns.map((column) =>
-          <Column
-            name={column.name}
-            uuid={column.uuid}
-            key={column.uuid}
-            cancelNewColumns={this.cancelNewColumns}
-            saveNewColumn={this.saveNewColumn}
-            boardSlug={this.props.boardSlug}
-            deleteColumn={this.deleteColumn}
-            showCardModal={this.props.showCardModal}
-            cards={column.cards}
+        <div
+          id='columns'
+        >
+          {this.state.columns.map((column) =>
+            <Column
+              name={column.name}
+              uuid={column.uuid}
+              key={column.uuid}
+              cancelNewColumns={this.cancelNewColumns}
+              saveNewColumn={this.saveNewColumn}
+              boardSlug={this.props.boardSlug}
+              deleteColumn={this.deleteColumn}
+              showCardModal={this.props.showCardModal}
+              cards={column.cards}
+            />
+          )}
+          <AddColumnButton
+            handleClick={this.addColumn}
           />
-        )}
-        <AddColumnButton
-          handleClick={this.addColumn}
-        />
-      </div>
+        </div>
+      </DragDropContext>
     )
   }
 }

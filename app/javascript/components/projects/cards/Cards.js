@@ -14,6 +14,7 @@ export default class Cards extends React.Component {
             name={card.name}
             key={card.uuid}
             id={`card_${card.uuid}`}
+            index={0}
           />
         )}
       </div>
