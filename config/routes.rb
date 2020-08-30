@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   namespace :api, path: 'api/v:api_version', defaults: { format: :json } do
     namespace :internal do
       resources :columns, param: :uuid
+      resources :cards, param: :uuid
     end
   end
 end

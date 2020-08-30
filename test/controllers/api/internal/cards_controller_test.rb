@@ -14,6 +14,7 @@ module Api
 
       def test_create
         post :create, params: {
+          api_version: Api::VERSION,
           column_uuid: @column.uuid,
           card: {
             name: 'New Card'
@@ -23,7 +24,10 @@ module Api
         card = Card.last
 
         assert_equal 'New Card', card.name
+        assert_not_nil card.uuid
+        assert_equal @column, card.column
 
+        puts response.body
       end
     end
   end

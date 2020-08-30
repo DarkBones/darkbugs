@@ -2,6 +2,7 @@ class Column < ApplicationRecord
   include Identifiable
 
   belongs_to :board
+  has_many :cards
 
   validates :name, presence: true
   validates :position, presence: true, on: :create
