@@ -2,6 +2,7 @@ import React from 'react'
 import i18n from '../../../i18n'
 import Modal from '../../shared/modal/Modal'
 import CreateCardForm from './CreateCardForm'
+import { CardApi } from '../../../api/InternalApi'
 
 export default class CardModal extends React.Component {
   constructor(props) {
@@ -20,13 +21,16 @@ export default class CardModal extends React.Component {
 
   handleSubmit = () => {
     const params = {
-      column: this.props.column,
       card: {
         name: this.state.form.name
       }
     }
 
-    // submit
+    let response = await CardApi
+      .createCard(
+        this.props.column,
+        params
+      )
 
     this.props.hideModal()
     this.setState({
