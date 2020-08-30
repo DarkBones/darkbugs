@@ -35,19 +35,4 @@ export default class Card extends React.Component {
       </Draggable>
     )
   }
-
-  renderOld() {
-    return(
-      <div
-        className='item-card mb-3 p-2 rounded'
-        id={this.props.id}
-      >
-        <div
-          className='font-weight-bold'
-        >
-          {this.props.name}
-        </div>
-      </div>
-    )
-  }
 }
