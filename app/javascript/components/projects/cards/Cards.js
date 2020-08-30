@@ -12,6 +12,7 @@ export default class Cards extends React.Component {
         {this.props.cards.map((card) =>
           <Card
             name={card.name}
+            key={card.uuid}
           />
         )}
       </div>
