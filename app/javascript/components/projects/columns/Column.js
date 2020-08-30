@@ -80,32 +80,4 @@ export default class Column extends React.Component {
       </Droppable>
     )
   }
-
-  renderOLD() {
-    return (
-      <div
-        className='column rounded'
-        onClick={this.handleClick}
-      >
-        <div
-          className='column-title'
-          ref={title => this.title = title}
-        >
-          <Title
-            name={this.props.name}
-            uuid={this.props.uuid}
-            cancelNewColumns={this.props.cancelNewColumns}
-            saveNewColumn={this.props.saveNewColumn}
-            boardSlug={this.props.boardSlug}
-            handleDeleteClick={this.deleteColumn}
-          />
-        </div>
-        <div className='column-body'>
-          <Cards
-            cards={this.props.cards}
-          />
-        </div>
-      </div>
-    )
-  }
 }
