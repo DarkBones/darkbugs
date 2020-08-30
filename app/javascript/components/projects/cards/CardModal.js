@@ -19,7 +19,7 @@ export default class CardModal extends React.Component {
     this.props.hideModal()
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const params = {
       card: {
         name: this.state.form.name
