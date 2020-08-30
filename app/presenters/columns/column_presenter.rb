@@ -15,10 +15,11 @@ module Columns
     end
 
     private def cards
-      column.cards.map do |card|
+      column.cards.order(:position).map do |card|
         {
           uuid: card.uuid,
-          name: card.name
+          name: card.name,
+          position: card.position
         }
       end
     end

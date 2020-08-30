@@ -11,6 +11,7 @@ export default class ProjectItemsApp extends React.Component {
       columns: props.columns,
       currentColumn: '',
       cardModal: {
+        aboveCardId: '',
         show: false
       }
     }
@@ -39,10 +40,11 @@ export default class ProjectItemsApp extends React.Component {
     })
   }
 
-  showCardModal = (column) => {
+  showCardModal = (column, aboveCardId) => {
     this.setState({
       currentColumn: column,
       cardModal: {
+        aboveCardId: aboveCardId,
         show: true
       }
     })
@@ -52,6 +54,7 @@ export default class ProjectItemsApp extends React.Component {
     this.setState({
       currentColumn: '',
       cardModal: {
+        aboveCardId: '',
         show: false
       }
     })

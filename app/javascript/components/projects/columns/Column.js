@@ -34,11 +34,15 @@ export default class Column extends React.Component {
       return
     }
 
-    if (e.target.getAttribute('class') !== null && !e.target.classList.contains('column')) {
+    let aboveCardId = ''
+
+    if (!e.target.classList.contains('item-card-divider') && !e.target.classList.contains('column')) {
       return
+    } else if (e.target.classList.contains('item-card-divider')) {
+      aboveCardId = e.target.getAttribute('id')
     }
 
-    this.props.showCardModal(this.props.uuid)
+    this.props.showCardModal(this.props.uuid, aboveCardId)
   }
 
   render() {

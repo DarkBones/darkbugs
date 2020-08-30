@@ -2,10 +2,11 @@ module Api
   module Internal
     class CardsController < Api::Internal::BaseApiInternalController
       before_action :load_column, only: %i[create]
+      before_action :load_above_card, only: %i[create]
       before_action :check_is_member!, only: %i[create]
 
       def create
-        @card = @column.cards.create!(card_params)
+        @card = Cards::CreateCardService.new(card_params, @column, @above_card).execute
 
         render json: @column_hash = Columns::ColumnPresenter.new(@column).to_h
       end
@@ -18,6 +19,10 @@ module Api
 
       private def load_column
         @column = Column.find_by!(uuid: params[:column_uuid])
+      end
+
+      private def load_above_card
+        @above_card = @column.cards.find_by(uuid: params[:above_card_uuid])
       end
 
       private def check_is_member!

@@ -8,19 +8,27 @@ export default class Card extends React.Component {
 
   render() {
     return(
-      <Draggable draggableId={this.props.id} index={this.props.index}>
+      <Draggable draggableId={this.props.id} index={this.props.position}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className='item-card mb-3 p-2 rounded'
-            id={this.props.id}
           >
             <div
-              className='font-weight-bold'
+              className='item-card p-2 rounded'
+              id={this.props.id}
             >
-              {this.props.name}
+              <div
+                className='font-weight-bold'
+              >
+                {this.props.name}
+              </div>
+            </div>
+            <div
+              className='item-card-divider'
+              id={this.props.uuid}
+            >
             </div>
           </div>
         )}

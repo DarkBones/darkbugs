@@ -22,6 +22,7 @@ export default class CardModal extends React.Component {
   handleSubmit = async () => {
     const params = {
       column_uuid: this.props.column,
+      above_card_uuid: this.props.modal.aboveCardId,
       card: {
         name: this.state.form.name
       }
