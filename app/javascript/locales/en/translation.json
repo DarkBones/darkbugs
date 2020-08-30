@@ -39,6 +39,13 @@
         "required": {
           "title": "required"
         }
+      },
+      "modal": {
+        "Modal": {
+          "buttons": {
+            "close": "Close"
+          }
+        }
       }
     }
   }

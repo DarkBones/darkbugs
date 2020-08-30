@@ -1,6 +1,7 @@
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+// import { Modal, Button } from 'react-bootstrap'
 import i18n from '../../../i18n'
+import Modal from '../../shared/modal/Modal'
 
 export default class CardModal extends React.Component {
   constructor(props) {
@@ -26,39 +27,30 @@ export default class CardModal extends React.Component {
   render() {
     const modal = this.props.modal
 
-    return (
-      <div>
-        {modal.show &&
-          <Modal show={modal.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>
-                {i18n.t('components.projects.cards.CardModal.title')}
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <label>
-                {i18n.t('components.projects.cards.CardModal.form.name.label')}
-                <abbr title={i18n.t('components.shared.form.required.title')}> *</abbr>
-              </label>
-              <input
-                className='form-control'
-                placeholder={i18n.t('components.projects.cards.CardModal.form.name.placeholder')}
-                ref={(input) => {
-                  this.inputRef = input
-                }}
-              />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.handleClose}>
-                {i18n.t('components.projects.cards.CardModal.buttons.close')}
-              </Button>
-              <Button variant="primary" onClick={this.handleClose}>
-                {i18n.t('components.projects.cards.CardModal.buttons.submit')}
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        }
-      </div>
+    const form = (
+      <React.Fragment>
+        <label>
+          {i18n.t('components.projects.cards.CardModal.form.name.label')}
+          <abbr title={i18n.t('components.shared.form.required.title')}> *</abbr>
+        </label>
+        <input
+          className='form-control'
+          placeholder={i18n.t('components.projects.cards.CardModal.form.name.placeholder')}
+          ref={(input) => {
+            this.inputRef = input
+          }}
+        />
+      </React.Fragment>
+    )
+
+    return(
+      <Modal
+        show={modal.show}
+        title={i18n.t('components.projects.cards.CardModal.title')}
+        body={form}
+        close={this.props.hideModal}
+        submit={i18n.t('components.projects.cards.CardModal.buttons.submit')}
+      />
     )
   }
 }
