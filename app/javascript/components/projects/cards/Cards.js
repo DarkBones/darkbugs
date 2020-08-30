@@ -13,6 +13,7 @@ export default class Cards extends React.Component {
           <Card
             name={card.name}
             key={card.uuid}
+            id={`card_${card.uuid}`}
           />
         )}
       </div>

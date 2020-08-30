@@ -33,6 +33,10 @@ export default class Column extends React.Component {
       return
     }
 
+    if (e.target.getAttribute('class') !== null && !e.target.classList.contains('column')) {
+      return
+    }
+
     this.props.showCardModal(this.props.uuid)
   }
 
