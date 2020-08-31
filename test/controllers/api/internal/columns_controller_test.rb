@@ -105,6 +105,11 @@ module Api
         assert_not_nil Column.find_by(id: column.id)
         assert_equal 'unauthorized', response.body
       end
+
+      def test_column_presenter
+        column = columns(:default_open)
+        puts Boards::BoardPresenter.new(boards(:default), users(:default)).to_h
+      end
     end
   end
 end

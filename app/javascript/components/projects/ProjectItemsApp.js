@@ -5,16 +5,21 @@ import CardModal from './cards/CardModal'
 
 export default class ProjectItemsApp extends React.Component {
   constructor(props) {
+    console.log(JSON.stringify(props))
     super(props)
 
     this.state = {
+      cards: props.cards,
       columns: props.columns,
+      columnOrder: props.column_order,
       currentColumn: '',
       cardModal: {
         aboveCardId: '',
         show: false
       }
     }
+
+    console.log(JSON.stringify(this.state.columns))
   }
 
   updateColumns = (columns) => {
@@ -80,7 +85,9 @@ export default class ProjectItemsApp extends React.Component {
             {this.props.name}
           </h1>
           <Columns
-            columns={this.props.columns}
+            columns={this.state.columns}
+            columnOrder={this.state.columnOrder}
+            cards={this.state.cards}
             boardSlug={this.props.board_slug}
             showCardModal={this.showCardModal}
             updateColumns={this.updateColumns}

@@ -4,6 +4,7 @@ import Title from './Title'
 import Cards from '../cards/Cards'
 import i18n from '../../../i18n'
 import {Droppable} from 'react-beautiful-dnd'
+import Card from '../cards/Card'
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -71,9 +72,20 @@ export default class Column extends React.Component {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              <Cards
-                cards={this.props.cards}
-              />
+              {/*{JSON.stringify(this.props.cardOrder)}*/}
+              {/*<Cards*/}
+              {/*  cards={this.props.cards}*/}
+              {/*/>*/}
+              {this.props.cardOrder.map((card) =>
+                <Card
+                  name={this.props.cards[card].name}
+                  key={this.props.cards[card].uuid}
+                  id={this.props.cards[card].uuid}
+                  uuid={this.props.cards[card].uuid}
+                  position={this.props.cards[card].position}
+                  index={this.props.cards[card].position}
+                />
+              )}
               {provided.placeholder}
             </div>
           </div>

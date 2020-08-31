@@ -10,18 +10,8 @@ module Columns
       {
         uuid: column.uuid,
         name: column.name,
-        cards: cards
+        card_uuids: column.cards.order(:position).pluck(:uuid)
       }
-    end
-
-    private def cards
-      column.cards.order(:position).map do |card|
-        {
-          uuid: card.uuid,
-          name: card.name,
-          position: card.position
-        }
-      end
     end
   end
 end

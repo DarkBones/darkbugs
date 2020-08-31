@@ -11,7 +11,9 @@ module Boards
       {
         name: board.name,
         board_slug: board.slug,
+        cards: cards,
         columns: columns,
+        column_order: board.columns.pluck(:uuid),
         user_is_admin: user_is_admin?
       }
     end
@@ -27,10 +29,16 @@ module Boards
       false
     end
 
+    private def cards
+      Cards::CardsPresenter.new(board).to_h
+    end
+
     private def columns
+      cols = {}
       board.columns.order(:position).map do |column|
-        Columns::ColumnPresenter.new(column).to_h
+        cols[column.uuid.to_sym] = Columns::ColumnPresenter.new(column).to_h
       end
+      cols.to_h
     end
 
     private def columns_OLD

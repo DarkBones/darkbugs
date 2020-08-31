@@ -8,7 +8,8 @@ export default class Columns extends React.Component {
     super(props)
 
     this.state = {
-      columns: props.columns
+      columns: props.columns,
+      columnOrder: props.columnOrder
     }
   }
 
@@ -106,17 +107,19 @@ export default class Columns extends React.Component {
         <div
           id='columns'
         >
-          {this.state.columns.map((column) =>
+          {this.state.columnOrder.map((columnUuid) =>
             <Column
-              name={column.name}
-              uuid={column.uuid}
-              key={column.uuid}
+              name={this.state.columns[columnUuid].name}
+              uuid={this.state.columns[columnUuid].uuid}
+              key={this.state.columns[columnUuid].uuid}
               cancelNewColumns={this.cancelNewColumns}
               saveNewColumn={this.saveNewColumn}
               boardSlug={this.props.boardSlug}
               deleteColumn={this.deleteColumn}
               showCardModal={this.props.showCardModal}
-              cards={column.cards}
+              cardOrder={this.state.columns[columnUuid].card_uuids}
+              cards={this.props.cards}
+              // cards={columns[columnUuid].cards}
             />
           )}
           <AddColumnButton
