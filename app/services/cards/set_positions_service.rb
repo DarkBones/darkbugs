@@ -18,7 +18,7 @@ module Cards
       # one is created (this assumes old cards don't get moved much)
       position = 100_000
 
-      board.columns.order(:position).reverse.each do |col|
+      board.ordered_columns.reverse.each do |col|
         col.cards.order(:position, :created_at).reverse.each do |c|
           c.update!(position: position) if c.position != position
 
