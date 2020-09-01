@@ -12,8 +12,10 @@ module Boards
         name: board.name,
         board_slug: board.slug,
         cards: cards,
-        columns: columns,
-        column_order: board.columns.pluck(:uuid),
+        columns: {
+          columns: columns,
+          order: board.columns.pluck(:uuid)
+        },
         user_is_admin: user_is_admin?
       }
     end

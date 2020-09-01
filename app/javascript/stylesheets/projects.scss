@@ -26,6 +26,7 @@
       #columns {
         width: 100%;
         height: 100%;
+        display: flex;
 
         .column, .add-column-btn-container {
           margin-right: 30px;

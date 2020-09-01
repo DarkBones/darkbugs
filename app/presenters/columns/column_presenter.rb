@@ -10,6 +10,7 @@ module Columns
       {
         uuid: column.uuid,
         name: column.name,
+        position: column.position,
         card_uuids: column.cards.order(:position).pluck(:uuid)
       }
     end
