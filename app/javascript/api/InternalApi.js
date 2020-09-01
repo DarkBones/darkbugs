@@ -2,8 +2,17 @@ import {get, put, post, del} from './BaseApi'
 
 const BASE_URL = '/internal'
 
+const BOARD_PATH  = `${BASE_URL}/boards`
 const CARD_PATH   = `${BASE_URL}/cards`
 const COLUMN_PATH = `${BASE_URL}/columns`
+
+export class BoardApi {
+  static reorderColumns(slug, params) {
+    const path = `${BOARD_PATH}/${slug}/reorder_columns`
+
+    return put(path, params)
+  }
+}
 
 export class CardApi {
   static createCard(params) {

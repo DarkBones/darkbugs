@@ -14,7 +14,7 @@ module Boards
         cards: cards,
         columns: {
           columns: columns,
-          order: board.columns.pluck(:uuid)
+          order: board.columns.order(:position).pluck(:uuid)
         },
         user_is_admin: user_is_admin?
       }
