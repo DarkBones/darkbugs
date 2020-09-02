@@ -29,31 +29,33 @@ export default class ProjectItemsApp extends React.Component {
       return
     }
 
-    const oldColumnIds = this.state.columns.order
-    const newColumnIds = Array.from(this.state.columns.order)
-    newColumnIds.splice(source.index, 1)
-    newColumnIds.splice(destination.index, 0, draggableId)
+    if (type === 'column') {
+      const oldColumnIds = this.state.columns.order
+      const newColumnIds = Array.from(this.state.columns.order)
+      newColumnIds.splice(source.index, 1)
+      newColumnIds.splice(destination.index, 0, draggableId)
 
-    this.setState({
-      columns: {
-        columns: this.state.columns.columns,
-        order: newColumnIds
-      }
-    })
-
-    let response = await BoardApi.reorderColumns(this.props.board_slug, {
-      columns: newColumnIds
-    })
-
-    console.log(response)
-
-    if (typeof(response) === 'undefined' || response.data !== 'success'){
       this.setState({
         columns: {
-          columns: this.state.columns.columns,
-          order: oldColumnIds
+          ...this.state.columns,
+          order: newColumnIds
         }
       })
+
+      let response = await BoardApi.reorderColumns(this.props.board_slug, {
+        columns: newColumnIds
+      })
+
+      console.log(response)
+
+      if (typeof (response) === 'undefined' || response.data !== 'success') {
+        this.setState({
+          columns: {
+            ...this.state.columns,
+            order: oldColumnIds
+          }
+        })
+      }
     }
   }
 
