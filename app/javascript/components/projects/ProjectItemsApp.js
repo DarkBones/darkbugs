@@ -13,6 +13,10 @@ export default class ProjectItemsApp extends React.Component {
     }
   }
 
+  updateCards = (columnUuid, cards) => {
+
+  }
+
   onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result
 

@@ -63,6 +63,7 @@ export default class Columns extends React.Component {
                 <Column
                   key={this.props.columns.columns[column].uuid}
                   column={this.props.columns.columns[column]}
+                  cards={this.props.cards}
                   index={index}
                   showCardModal={this.showCardModal}
                 />

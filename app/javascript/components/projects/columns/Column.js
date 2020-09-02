@@ -1,5 +1,6 @@
 import React from 'react'
-import { Draggable  } from 'react-beautiful-dnd'
+import {Draggable, Droppable} from 'react-beautiful-dnd'
+import Card from './Card'
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -45,12 +46,22 @@ export default class Column extends React.Component {
                   {this.props.column.name}
                 </h1>
               </div>
-              <div
-                className='column-body'
-                onClick={this.handleClick}
-                style={{height: '100%', width: '100%', backgroundColor: 'red'}}
-              >
-              </div>
+              <Droppable droppableId={this.props.column.uuid} type='card'>
+                {(provided, snapshot) => (
+                  <div
+                    className='column-body'
+                    onClick={this.handleClick}
+                    style={{height: '100%', width: '100%'}}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {this.props.column.card_uuids.map((cardUuid) =>
+                      <Card card={this.props.cards[cardUuid]} key={cardUuid}/>
+                    )}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
             </div>
           </div>
         )}
