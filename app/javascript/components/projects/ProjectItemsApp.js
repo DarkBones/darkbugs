@@ -13,8 +13,20 @@ export default class ProjectItemsApp extends React.Component {
     }
   }
 
-  updateCards = (columnUuid, cards) => {
-
+  updateCards = (data) => {
+    this.setState({
+      columns: {
+        ...this.state.columns,
+        columns: {
+          ...this.state.columns.columns,
+          [data.column.uuid]: {
+            ...this.state.columns.columns[data.column.uuid],
+            card_uuids: data.column.card_uuids
+          }
+        }
+      },
+      cards: data.cards
+    })
   }
 
   onDragEnd = (result) => {
@@ -71,6 +83,7 @@ export default class ProjectItemsApp extends React.Component {
           <Columns
             columns={this.state.columns}
             cards={this.state.cards}
+            updateCards={this.updateCards}
           />
         </DragDropContext>
       </div>

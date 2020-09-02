@@ -8,7 +8,10 @@ module Api
       def create
         @card = Cards::CreateCardService.new(card_params, @column, @above_card).execute
 
-        render json: @column_hash = Columns::ColumnPresenter.new(@column).to_h
+        render json: @column_hash = {
+          column: Columns::ColumnPresenter.new(@column).to_h,
+          cards: Cards::CardsPresenter.new(@column.board).to_h
+        }
       end
 
       private def card_params

@@ -36,17 +36,13 @@ export default class Columns extends React.Component {
     })
   }
 
-  updateCards = (columnId, cards) => {
-    console.log('update cards')
-  }
-
   render() {
     return (
       <React.Fragment>
         <CardModal
           modal={this.state.cardModal}
           hideModal={this.hideCardModal}
-          updateCards={this.updateCards}
+          updateCards={this.props.updateCards}
         />
         <Droppable
           droppableId='dropable_columns'
