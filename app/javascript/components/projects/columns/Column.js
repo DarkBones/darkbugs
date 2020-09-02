@@ -6,6 +6,22 @@ export default class Column extends React.Component {
     super(props)
   }
 
+  handleClick = (e) => {
+    if (this.title.contains(e.target)) {
+      return
+    }
+
+    let aboveCardId = ''
+
+    if (!e.target.classList.contains('item-card-divider') && !e.target.classList.contains('column-body')) {
+      return
+    } else if (e.target.classList.contains('item-card-divider')) {
+      aboveCardId = e.target.getAttribute('id')
+    }
+
+    this.props.showCardModal(this.props.column.uuid, aboveCardId)
+  }
+
   render() {
     const column = this.props.column
     return (
@@ -21,9 +37,20 @@ export default class Column extends React.Component {
             <div
               className='column rounded'
             >
-              <h1 {...provided.dragHandleProps}>
-                {this.props.column.name}
-              </h1>
+              <div
+                className='column-title'
+                ref={title => this.title = title}
+              >
+                <h1 {...provided.dragHandleProps}>
+                  {this.props.column.name}
+                </h1>
+              </div>
+              <div
+                className='column-body'
+                onClick={this.handleClick}
+                style={{height: '100%', width: '100%', backgroundColor: 'red'}}
+              >
+              </div>
             </div>
           </div>
         )}
