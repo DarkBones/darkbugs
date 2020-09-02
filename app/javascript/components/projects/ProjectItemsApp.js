@@ -11,11 +11,9 @@ export default class ProjectItemsApp extends React.Component {
       columns: props.columns,
       cards: props.cards
     }
-
-    console.log(JSON.stringify(props))
   }
 
-  onDragEnd = async (result) => {
+  onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result
 
     if (!destination) {
@@ -30,32 +28,35 @@ export default class ProjectItemsApp extends React.Component {
     }
 
     if (type === 'column') {
-      const oldColumnIds = this.state.columns.order
-      const newColumnIds = Array.from(this.state.columns.order)
-      newColumnIds.splice(source.index, 1)
-      newColumnIds.splice(destination.index, 0, draggableId)
+      this.updateColumnOrder(source, destination, draggableId)
+    }
+  }
 
+  updateColumnOrder = async (source, destination, draggableId) => {
+    const oldColumnIds = this.state.columns.order
+    const newColumnIds = Array.from(this.state.columns.order)
+
+    newColumnIds.splice(source.index, 1)
+    newColumnIds.splice(destination.index, 0, draggableId)
+
+    this.setState({
+      columns: {
+        ...this.state.columns,
+        order: newColumnIds
+      }
+    })
+
+    let response = await BoardApi.reorderColumns(this.props.board_slug, {
+      columns: newColumnIds
+    })
+
+    if (typeof (response) === 'undefined' || response.data !== 'success') {
       this.setState({
         columns: {
           ...this.state.columns,
-          order: newColumnIds
+          order: oldColumnIds
         }
       })
-
-      let response = await BoardApi.reorderColumns(this.props.board_slug, {
-        columns: newColumnIds
-      })
-
-      console.log(response)
-
-      if (typeof (response) === 'undefined' || response.data !== 'success') {
-        this.setState({
-          columns: {
-            ...this.state.columns,
-            order: oldColumnIds
-          }
-        })
-      }
     }
   }
 
