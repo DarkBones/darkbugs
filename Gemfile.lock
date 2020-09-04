@@ -1,7 +1,5 @@
-GIT
-  remote: https://github.com/influitive/apartment.git
-  revision: f266f73e58835f94e4ec7c16f28443fe5eada1ac
-  branch: development
+PATH
+  remote: vendor/git/apartment
   specs:
     apartment (2.2.1)
       activerecord (>= 3.1.2, < 6.1)
