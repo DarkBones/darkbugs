@@ -3,7 +3,7 @@ module Api
     class ColumnsController < Api::Internal::BaseApiInternalController
       before_action :load_column, only: %i[update destroy]
       before_action :load_board, only: %i[create]
-      before_action :check_is_admin!, only: %i[create update destroy]
+      before_action :check_is_assignee!, only: %i[create update destroy]
 
       def create
         @column = @board.columns.create!(column_params)
@@ -36,30 +36,14 @@ module Api
         )
       end
 
-      private def check_is_admin!
-        return if owner_is_admin?
+      private def check_is_assignee!
+        board = @column&.board || @board
+
+        return if board.user_is_assigned?(@current_user)
 
         raise ActionController::BadRequest
       rescue ActionController::BadRequest
         render json: 'unauthorized'
-      end
-
-      private def owner
-        if defined?(@column)
-          @column.board.root_project.owner
-        else
-          @board.root_project.owner
-        end
-      end
-
-      private def owner_is_admin?
-        return true if owner == @current_user
-
-        return false if owner.class == User
-
-        return owner.user_is_admin?(@current_user) if owner.class == Organization
-
-        false
       end
     end
   end
