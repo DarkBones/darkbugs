@@ -43,6 +43,11 @@
             padding: .3em .3em .1em .3em;
             overflow: hidden;
 
+            .column-name {
+              cursor: text;
+              display: inline-block;
+            }
+
             &:hover .delete-column-btn {
               opacity: 0.5;
             }

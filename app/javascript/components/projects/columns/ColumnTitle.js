@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ColumnTitleName from './ColumnTitleName'
+import ColumnDeleteButton from './ColumnDeleteButton'
 
 export default class ColumnTitle extends React.Component {
   constructor(props) {
@@ -8,9 +9,9 @@ export default class ColumnTitle extends React.Component {
   }
 
   render () {
-    const { columnName, columnUuid, updateColumnName } = this.props
+    const { columnName, columnUuid, updateColumnName, deleteColumn } = this.props
     return (
-      <React.Fragment>
+      <div className='column-title'>
         <div className='row'>
           <div className='col-10'>
             <ColumnTitleName
@@ -19,8 +20,14 @@ export default class ColumnTitle extends React.Component {
               handleAfterSubmit={updateColumnName}
             />
           </div>
+          <div className='col-2'>
+            <ColumnDeleteButton
+              handleClick={deleteColumn}
+              columnUuid={columnUuid}
+            />
+          </div>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 }
@@ -29,5 +36,6 @@ ColumnTitle.propTypes = {
   columnName: PropTypes.string.isRequired,
   columnUuid: PropTypes.string.isRequired,
   updateColumnName: PropTypes.string.isRequired,
-  updateColumnName: PropTypes.func.isRequired
+  updateColumnName: PropTypes.func.isRequired,
+  deleteColumn: PropTypes.func.isRequired
 }

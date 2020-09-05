@@ -80,9 +80,9 @@ export default class ColumnTitleName extends React.Component {
     const { name } = this.props
 
     const header = (
-      <h1 onClick={this.startEditing}>
+      <h3 onClick={this.startEditing} className='column-name'>
         {name}
-      </h1>
+      </h3>
     )
 
     const input = (

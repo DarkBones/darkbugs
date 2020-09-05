@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Column from './Column'
+import i18n from '../../../i18n'
+import {ColumnApi} from "../../../api/InternalApi";
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -17,7 +19,7 @@ export default class Columns extends React.Component {
     console.log(result)
   }
 
-  updateColumnName = (data) => {
+  updateColumnName = data => {
     const newState = {
       ... this.state,
       columns: {
@@ -32,6 +34,39 @@ export default class Columns extends React.Component {
     this.setState(newState)
 
     this.handleColumnsUpdate()
+  }
+
+  deleteColumn = async (columnUuid) => {
+    let r = confirm(i18n.t('components.projects.columns.Column.delete_warning'))
+
+    if (!r) {
+      return
+    }
+
+    let columnOrder = this.state.columnOrder
+    const columnOrderIndex = columnOrder.indexOf(columnUuid)
+
+    if (columnOrderIndex === -1) {
+      return
+    }
+
+    columnOrder.splice(columnOrderIndex, 1)
+    let columns = this.state.columns
+    delete columns[columnUuid]
+
+    const newState = {
+      ... this.state,
+      columns: columns,
+      columnOrder: columnOrder
+    }
+
+    let response = await ColumnApi
+      .deleteColumn(columnUuid)
+
+    if (typeof (response) !== 'undefined') {
+      this.setState(newState)
+      this.handleColumnsUpdate()
+    }
   }
 
   handleColumnsUpdate = () => {
@@ -64,6 +99,7 @@ export default class Columns extends React.Component {
                   column={columns[columnUuid]}
                   index={index}
                   updateColumnName={this.updateColumnName}
+                  deleteColumn={this.deleteColumn}
                 />
               )}
               {provided.placeholder}

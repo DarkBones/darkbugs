@@ -9,7 +9,7 @@ export default class Column extends React.Component {
   }
 
   render() {
-    const { index, uuid, column, updateColumnName } = this.props
+    const { index, uuid, column, updateColumnName, deleteColumn } = this.props
     return (
       <Draggable
         draggableId={uuid}
@@ -29,6 +29,7 @@ export default class Column extends React.Component {
                 columnName={column.name}
                 columnUuid={uuid}
                 updateColumnName={updateColumnName}
+                deleteColumn={deleteColumn}
               />
             </div>
           </div>
@@ -42,5 +43,6 @@ Column.propTypes = {
   index: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   column: PropTypes.object.isRequired,
-  updateColumnName: PropTypes.func.isRequired
+  updateColumnName: PropTypes.func.isRequired,
+  deleteColumn: PropTypes.func.isRequired
 }
