@@ -7,9 +7,13 @@ export default function ColumnDeleteButton(props) {
   }
 
   return (
-    <div className='delete-column-btn clickable float-right'>
-      <i className='fa fa-times-circle' onClick={handleClick}/>
-    </div>
+    <React.Fragment>
+      {props.userIsAssigned &&
+        <div className='delete-column-btn clickable float-right'>
+          <i className='fa fa-times-circle' onClick={handleClick}/>
+        </div>
+      }
+    </React.Fragment>
   )
 }
 
