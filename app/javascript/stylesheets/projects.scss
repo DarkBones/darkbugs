@@ -10,7 +10,7 @@
     margin-left: -15px;
     height: 100%;
     white-space: nowrap;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: hidden;
 
     div[data-react-class] {
@@ -19,23 +19,27 @@
 
     #project-items-app {
       margin-top: 20px;
-      margin-left: 40px;
       width: 100%;
       height: calc(100% - 60px);
 
       #columns {
+        padding-left: 40px;
         width: 100%;
         height: 100%;
         display: flex;
+        overflow-x: scroll;
 
-        .column, .add-column-btn-container {
+        .add-column-btn-container {
+          margin-right: 30px;
+          padding-right: 20px;
+          display: inline-block;
+        }
+
+        .column {
           margin-right: 30px;
           display: inline-block;
           height: 100%;
           overflow-y: scroll;
-        }
-
-        .column {
           width: 240px;
           background-color: rgba(0, 0, 0, .05);
 
