@@ -14,6 +14,7 @@ export default class Column extends React.Component {
       <Draggable
         draggableId={uuid}
         index={index}
+        isDragDisabled={!this.props.userIsAssigned}
       >
         {(provided) => (
           <div
