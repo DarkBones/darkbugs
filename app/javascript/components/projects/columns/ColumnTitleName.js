@@ -30,9 +30,11 @@ export default class ColumnTitleName extends React.Component {
   }
 
   startEditing = () => {
-    this.setState({
-      isEditing: true
-    })
+    if (this.props.userIsAssigned){
+      this.setState({
+        isEditing: true
+      })
+    }
   }
 
   stopEditing = () => {
@@ -49,6 +51,10 @@ export default class ColumnTitleName extends React.Component {
   }
 
   handleSubmit = async () => {
+    if (!this.props.userIsAssigned){
+      return
+    }
+
     const { columnUuid, handleAfterSubmit } = this.props
 
     let response = await ColumnApi
@@ -78,9 +84,10 @@ export default class ColumnTitleName extends React.Component {
 
   render() {
     const { name } = this.props
+    const headerClassName = this.props.userIsAssigned ? 'editable' : ''
 
     const header = (
-      <h3 onClick={this.startEditing} className='column-name'>
+      <h3 onClick={this.startEditing} className={`column-name ${headerClassName}`}>
         {name}
       </h3>
     )
@@ -112,5 +119,6 @@ export default class ColumnTitleName extends React.Component {
 ColumnTitleName.propTypes = {
   name: PropTypes.string.isRequired,
   handleAfterSubmit: PropTypes.func.isRequired,
-  columnUuid: PropTypes.string.isRequired
+  columnUuid: PropTypes.string.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }

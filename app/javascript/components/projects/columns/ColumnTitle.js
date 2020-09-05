@@ -9,7 +9,7 @@ export default class ColumnTitle extends React.Component {
   }
 
   render () {
-    const { columnName, columnUuid, updateColumnName, deleteColumn } = this.props
+    const { columnName, columnUuid, updateColumnName, deleteColumn, userIsAssigned } = this.props
     return (
       <div className='column-title'>
         <div className='row'>
@@ -18,12 +18,14 @@ export default class ColumnTitle extends React.Component {
               name={columnName}
               columnUuid={columnUuid}
               handleAfterSubmit={updateColumnName}
+              userIsAssigned={userIsAssigned}
             />
           </div>
           <div className='col-2'>
             <ColumnDeleteButton
               handleClick={deleteColumn}
               columnUuid={columnUuid}
+              userIsAssigned={userIsAssigned}
             />
           </div>
         </div>
@@ -37,5 +39,6 @@ ColumnTitle.propTypes = {
   columnUuid: PropTypes.string.isRequired,
   updateColumnName: PropTypes.string.isRequired,
   updateColumnName: PropTypes.func.isRequired,
-  deleteColumn: PropTypes.func.isRequired
+  deleteColumn: PropTypes.func.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }

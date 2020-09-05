@@ -100,6 +100,7 @@ export default class Columns extends React.Component {
                   index={index}
                   updateColumnName={this.updateColumnName}
                   deleteColumn={this.deleteColumn}
+                  userIsAssigned={this.props.userIsAssigned}
                 />
               )}
               {provided.placeholder}
@@ -114,5 +115,6 @@ export default class Columns extends React.Component {
 Columns.propTypes = {
   columns: PropTypes.object.isRequired,
   columnOrder: PropTypes.array.isRequired,
-  setColumns: PropTypes.func.isRequired
+  setColumns: PropTypes.func.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }

@@ -15,5 +15,6 @@ export default function ColumnDeleteButton(props) {
 
 ColumnDeleteButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  columnUuid: PropTypes.string.isRequired
+  columnUuid: PropTypes.string.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }
