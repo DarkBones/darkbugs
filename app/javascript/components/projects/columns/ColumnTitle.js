@@ -9,7 +9,7 @@ export default class ColumnTitle extends React.Component {
   }
 
   render () {
-    const { columnName, columnUuid, updateColumnName, deleteColumn, userIsAssigned } = this.props
+    const { columnName, columnUuid, updateColumnName, deleteColumn, cancelNewColumn, userIsAssigned, boardSlug, saveNewColumn } = this.props
     return (
       <div className='column-title'>
         <div className='row'>
@@ -19,6 +19,9 @@ export default class ColumnTitle extends React.Component {
               columnUuid={columnUuid}
               handleAfterSubmit={updateColumnName}
               userIsAssigned={userIsAssigned}
+              cancelNewColumn={cancelNewColumn}
+              boardSlug={boardSlug}
+              saveNewColumn={saveNewColumn}
             />
           </div>
           <div className='col-2'>
@@ -37,8 +40,10 @@ export default class ColumnTitle extends React.Component {
 ColumnTitle.propTypes = {
   columnName: PropTypes.string.isRequired,
   columnUuid: PropTypes.string.isRequired,
-  updateColumnName: PropTypes.string.isRequired,
+  boardSlug: PropTypes.string.isRequired,
   updateColumnName: PropTypes.func.isRequired,
   deleteColumn: PropTypes.func.isRequired,
+  cancelNewColumn: PropTypes.func.isRequired,
+  saveNewColumn: PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

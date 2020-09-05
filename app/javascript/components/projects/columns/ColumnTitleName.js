@@ -7,8 +7,11 @@ export default class ColumnTitleName extends React.Component {
   constructor(props) {
     super(props)
 
+    const isNew = props.columnUuid === 'new'
+
     this.state = {
-      isEditing: false,
+      isNew: isNew,
+      isEditing: isNew,
       name: props.name
     }
   }
@@ -48,14 +51,41 @@ export default class ColumnTitleName extends React.Component {
     this.setState({
       name: this.props.name
     })
+
+    if (this.state.isNew) {
+      this.props.cancelNewColumn()
+    }
   }
 
-  handleSubmit = async () => {
+  handleSubmit = () => {
     if (!this.props.userIsAssigned){
       return
     }
 
-    const { columnUuid, handleAfterSubmit } = this.props
+    if (this.state.isNew) {
+      this.saveNewColumn()
+    } else {
+      this.updateName()
+    }
+
+  }
+
+  saveNewColumn = async () => {
+    let response = await ColumnApi
+      .createColumn(this.props.boardSlug, { name: this.state.name })
+
+    if (typeof (response) !== 'undefined') {
+      if (response.status === 200) {
+        this.props.saveNewColumn(response.data.uuid, response.data.name)
+        return
+      }
+    }
+
+    this.handleCancel()
+  }
+
+  updateName = async () => {
+    const {columnUuid, handleAfterSubmit} = this.props
 
     let response = await ColumnApi
       .updateColumn(
@@ -65,7 +95,7 @@ export default class ColumnTitleName extends React.Component {
         }
       )
 
-    if (typeof(response) !== 'undefined') {
+    if (typeof (response) !== 'undefined') {
       if (response.status === 200) {
         handleAfterSubmit(response.data)
         this.stopEditing()
@@ -120,5 +150,8 @@ ColumnTitleName.propTypes = {
   name: PropTypes.string.isRequired,
   handleAfterSubmit: PropTypes.func.isRequired,
   columnUuid: PropTypes.string.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired
+  boardSlug: PropTypes.string.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired,
+  cancelNewColumn: PropTypes.func.isRequired,
+  saveNewColumn: PropTypes.func.isRequired
 }
