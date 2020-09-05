@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   include Identifiable
+  include Assignable
 
   # -- Relationships ------------------------------------------------------------
   belongs_to :owner, polymorphic: true
@@ -15,6 +16,12 @@ class Project < ApplicationRecord
   validates :name, uniqueness: { case_sensitive: false }
   validates :key, uniqueness: { case_sensitive: false }
   validates :key, format: /\A[A-Z0-9\-_]+\z/i, allow_blank: false
+
+  def user_is_assigned?(user)
+    return owner == user if owner.is_a? User
+
+    owner.user_is_admin?
+  end
 
   private def capitalize_key
     self.key = key&.upcase
