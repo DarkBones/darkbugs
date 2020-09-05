@@ -6,7 +6,7 @@ module Api
       before_action :check_is_member!, only: %i[create]
 
       def create
-        @card = Cards::CreateCardService.new(card_params, @column, @above_card).execute
+        @card = Cards::CreateCardService.new(card_params, @column, @above_card, @current_user).execute
 
         render json: @column_hash = {
           column: Columns::ColumnPresenter.new(@column).to_h,

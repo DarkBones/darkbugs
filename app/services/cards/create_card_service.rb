@@ -1,11 +1,12 @@
 module Cards
   class CreateCardService < BaseService
-    attr_reader :params, :column, :above_card
+    attr_reader :params, :column, :above_card, :current_user
 
-    def initialize(params, column, above_card)
+    def initialize(params, column, above_card, current_user)
       @params = params
       @column = column
       @above_card = above_card
+      @current_user = current_user
     end
 
     def execute
@@ -35,7 +36,8 @@ module Cards
     private def card_attributes
       {
         name: params[:name],
-        position: new_position
+        position: new_position,
+        reporter: current_user
       }
     end
   end
