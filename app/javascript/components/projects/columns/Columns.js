@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Column from './Column'
 import i18n from '../../../i18n'
-import {ColumnApi} from "../../../api/InternalApi";
+import { ColumnApi, BoardApi } from "../../../api/InternalApi";
 import ColumnCreateButton from "./ColumnCreateButton";
 
 export default class Columns extends React.Component {
@@ -47,13 +47,22 @@ export default class Columns extends React.Component {
       columnOrder: newColumnOrder
     }
 
+    this.setState(newState)
+
     let response = await BoardApi
       .reorderColumns(
         this.props.boardSlug,
         {
           columns: newColumnOrder
         }
-        )
+      ).catch(() => {
+        this.setState({
+          ...this.state,
+          columnOrder: oldColumnOrder
+        })
+      })
+
+    this.handleColumnsUpdate()
   }
 
   updateColumnName = data => {
