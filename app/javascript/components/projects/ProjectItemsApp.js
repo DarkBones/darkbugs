@@ -40,5 +40,5 @@ ProjectItemsApp.propTypes = {
   board_slug: PropTypes.string.isRequired,
   cards: PropTypes.object.isRequired,
   columns: PropTypes.object.isRequired,
-  user_is_admin: PropTypes.bool.isRequired
+  user_is_assigned: PropTypes.bool.isRequired
 }

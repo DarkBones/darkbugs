@@ -1,5 +1,6 @@
 class Board < ApplicationRecord
   include Slugable
+  include Assignable
 
   has_many :columns
   has_many :cards, through: :columns
@@ -8,6 +9,10 @@ class Board < ApplicationRecord
 
   def ordered_columns
     columns.order(:position)
+  end
+
+  def user_is_assigned?(user)
+    component.user_is_assigned?(user)
   end
 
 end

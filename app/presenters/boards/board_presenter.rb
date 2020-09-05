@@ -16,19 +16,8 @@ module Boards
           columns: columns,
           order: board.ordered_columns.pluck(:uuid)
         },
-        user_is_admin: user_is_admin?
+        user_is_assigned: board.user_is_assigned?(current_user)
       }
-    end
-
-    private def user_is_admin?
-      owner = board.root_project.owner
-      return true if owner == current_user
-
-      return false if owner.class == User
-
-      return owner.user_is_admin?(current_user) if owner.class == Organization
-
-      false
     end
 
     private def cards
