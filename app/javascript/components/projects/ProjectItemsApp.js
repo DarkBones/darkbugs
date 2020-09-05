@@ -30,6 +30,7 @@ export default class ProjectItemsApp extends React.Component {
           columnOrder={this.state.columns.order}
           setColumns={this.setColumns}
           userIsAssigned={this.props.user_is_assigned}
+          boardSlug={this.props.board_slug}
         />
       </div>
     )

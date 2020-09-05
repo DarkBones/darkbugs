@@ -16,7 +16,43 @@ export default class Columns extends React.Component {
   }
 
   onDragEnd = result => {
-    console.log(result)
+    const {destination, source, draggableId, type} = result
+
+    if (!destination) {
+      return
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return
+    }
+
+    if (type === 'column') {
+      this.updateColumnOrder(source, destination, draggableId)
+    }
+  }
+
+  updateColumnOrder = async (source, destination, draggableId) => {
+    const oldColumnOrder = this.state.columnOrder
+    const newColumnOrder = Array.from(this.state.columnOrder)
+
+    newColumnOrder.splice(source.index, 1)
+    newColumnOrder.splice(destination.index, 0, draggableId)
+
+    const newState = {
+      ... this.state,
+      columnOrder: newColumnOrder
+    }
+
+    let response = await BoardApi
+      .reorderColumns(
+        this.props.boardSlug,
+        {
+          columns: newColumnOrder
+        }
+        )
   }
 
   updateColumnName = data => {
@@ -116,5 +152,6 @@ Columns.propTypes = {
   columns: PropTypes.object.isRequired,
   columnOrder: PropTypes.array.isRequired,
   setColumns: PropTypes.func.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired
+  userIsAssigned: PropTypes.bool.isRequired,
+  boardSlug: PropTypes.string.isRequired
 }
