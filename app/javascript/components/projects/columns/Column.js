@@ -20,22 +20,23 @@ export default class Column extends React.Component {
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}
-            className='column rounded'
           >
-            <div
-              className='column-title'
-              {...provided.dragHandleProps}
-            >
-              <ColumnTitle
-                columnName={column.name}
-                columnUuid={uuid}
-                updateColumnName={updateColumnName}
-                deleteColumn={deleteColumn}
-                cancelNewColumn={cancelNewColumn}
-                userIsAssigned={userIsAssigned}
-                boardSlug={boardSlug}
-                saveNewColumn={saveNewColumn}
-              />
+            <div className='column rounded'>
+              <div
+                className='column-title'
+                {...provided.dragHandleProps}
+              >
+                <ColumnTitle
+                  columnName={column.name}
+                  columnUuid={uuid}
+                  updateColumnName={updateColumnName}
+                  deleteColumn={deleteColumn}
+                  cancelNewColumn={cancelNewColumn}
+                  userIsAssigned={userIsAssigned}
+                  boardSlug={boardSlug}
+                  saveNewColumn={saveNewColumn}
+                />
+              </div>
             </div>
           </div>
         )}
