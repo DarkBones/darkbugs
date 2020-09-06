@@ -85,6 +85,11 @@ export default class ColumnTitleName extends React.Component {
   }
 
   updateName = async () => {
+    if (this.state.name === '') {
+      this.stopEditing()
+      return
+    }
+
     const { columnUuid, handleAfterSubmit } = this.props
 
     let response = await ColumnApi
