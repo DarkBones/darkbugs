@@ -12,6 +12,12 @@ export class BoardApi {
 
     return put(path, params)
   }
+
+  static reorderCards(slug, params) {
+    const path = `${BOARD_PATH}/${slug}/reorder_cards`
+
+    return put(path, params)
+  }
 }
 
 export class CardApi {

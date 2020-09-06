@@ -19,7 +19,8 @@ module Cards
       {
         uuid: card.uuid,
         name: card.name,
-        position: idx
+        position: card.position,
+        index: idx
       }
     end
   end

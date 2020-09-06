@@ -19,7 +19,7 @@ export default class Card extends React.Component {
       // </div>
       <Draggable
         draggableId={card.uuid}
-        index={card.position}
+        index={card.index}
         isDragDisabled={!userIsAssigned}
       >
         {(provided) => (

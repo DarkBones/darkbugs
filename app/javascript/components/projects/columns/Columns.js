@@ -52,10 +52,25 @@ export default class Columns extends React.Component {
     }
   }
 
-  updateCardOrder = (source, destination, draggableId) => {
+  updateCardOrder = async (source, destination, draggableId) => {
     const newState = updateCardOrderState(this.state, source, destination, draggableId)
 
     this.setState(newState)
+
+    const params = {
+      columns: this.state.columns,
+      column_order: this.state.columnOrder
+    }
+
+    console.log(params)
+
+    let response = await BoardApi
+      .reorderCards(
+        this.props.boardSlug,
+        params
+      )
+
+    console.log(response)
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {

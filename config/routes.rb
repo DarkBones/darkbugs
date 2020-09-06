@@ -37,8 +37,10 @@ Rails.application.routes.draw do
     namespace :internal do
       resources :columns, param: :uuid
       resources :cards, param: :uuid
+
       resources :boards, param: :slug do
         put :reorder_columns
+        put :reorder_cards
       end
     end
   end

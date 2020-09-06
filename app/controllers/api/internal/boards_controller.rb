@@ -1,7 +1,7 @@
 module Api
   module Internal
     class BoardsController < Api::Internal::BaseApiInternalController
-      before_action :load_board, only: %i[reorder_columns]
+      before_action :load_board, only: %i[reorder_columns reorder_cards]
       before_action :check_is_assignee!, only: %i[create update destroy]
 
       def reorder_columns
@@ -13,6 +13,13 @@ module Api
         Cards::SetPositionsService.new(@board).execute
 
         render json: 'success'
+      end
+
+      def reorder_cards
+        params[:column_order].each_with_index do |column_uuid|
+          column = @board.columns.find_by!(uuid: column_uuid)
+          puts column.uuid
+        end
       end
 
       private def load_board
