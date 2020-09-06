@@ -5,7 +5,7 @@ import Column from './Column'
 import i18n from '../../../i18n'
 import { ColumnApi, BoardApi } from '../../../api/InternalApi'
 import ColumnCreateButton from './ColumnCreateButton'
-import { updateColumnOrderState } from '../utils/columns'
+import { updateColumnOrderState, updateColumnNameState } from '../utils/columns'
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -60,16 +60,7 @@ export default class Columns extends React.Component {
   }
 
   updateColumnName = data => {
-    const newState = {
-      ... this.state,
-      columns: {
-        ... this.state.columns,
-        [data.uuid]: {
-          ... this.state.columns[data.uuid],
-          name: data.name
-        }
-      }
-    }
+    const newState = updateColumnNameState(this.state, data.uuid, data.name)
 
     this.setState(newState)
 

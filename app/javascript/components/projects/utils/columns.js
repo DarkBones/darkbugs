@@ -9,3 +9,16 @@ export function updateColumnOrderState (state, source, destination, draggableId)
     columnOrder: newColumnOrder
   }
 }
+
+export function updateColumnNameState (state, columnUuid, newName) {
+  return {
+    ... state,
+    columns: {
+      ... state.columns,
+      [columnUuid]: {
+        ... state.columns[columnUuid],
+        name: newName
+      }
+    }
+  }
+}
