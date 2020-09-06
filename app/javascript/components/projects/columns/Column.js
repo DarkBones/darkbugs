@@ -1,6 +1,7 @@
 import React        from 'react'
 import PropTypes    from 'prop-types'
 import ColumnTitle  from './ColumnTitle'
+import Cards        from './cards/Cards'
 
 import {
   Draggable,
@@ -22,7 +23,8 @@ export default class Column extends React.Component {
       cancelNewColumn,
       userIsAssigned,
       boardSlug,
-      saveNewColumn
+      saveNewColumn,
+      cards
     } = this.props
 
     return (
@@ -52,6 +54,12 @@ export default class Column extends React.Component {
                   saveNewColumn={saveNewColumn}
                 />
               </div>
+              <div className='column-body'>
+                <Cards
+                  cards={cards}
+                  cardUuids={column.card_uuids}
+                />
+              </div>
             </div>
           </div>
         )}
@@ -63,6 +71,7 @@ export default class Column extends React.Component {
 Column.propTypes = {
   index:            PropTypes.number.isRequired,
   uuid:             PropTypes.string.isRequired,
+  cards:            PropTypes.object.isRequired,
   column:           PropTypes.object.isRequired,
   boardSlug:        PropTypes.string.isRequired,
   updateColumnName: PropTypes.func.isRequired,

@@ -162,6 +162,7 @@ export default class Columns extends React.Component {
                   userIsAssigned={this.props.userIsAssigned}
                   boardSlug={this.props.boardSlug}
                   saveNewColumn={this.saveNewColumn}
+                  cards={this.props.cards}
                 />
               )}
               {provided.placeholder}
@@ -178,6 +179,7 @@ export default class Columns extends React.Component {
 }
 
 Columns.propTypes = {
+  cards:          PropTypes.object.isRequired,
   columns:        PropTypes.object.isRequired,
   columnOrder:    PropTypes.array.isRequired,
   setColumns:     PropTypes.func.isRequired,

@@ -31,6 +31,7 @@ export default class ProjectItemsApp extends React.Component {
           setColumns={this.setColumns}
           userIsAssigned={this.props.user_is_assigned}
           boardSlug={this.props.board_slug}
+          cards={this.props.cards}
         />
       </div>
     )
