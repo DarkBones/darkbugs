@@ -15,12 +15,20 @@ export function updateCardOrderState (state, source, destination, draggableId) {
   let sourceCards = Array.from(columns[source.droppableId].card_uuids)
   let destinationCards = Array.from(columns[destination.droppableId].card_uuids)
 
+  console.log(sourceCards)
+  console.log(source.index)
+  sourceCards.splice(source.index, 1)
+  console.log(sourceCards)
+
   if (source.droppableId === destination.droppableId) {
-    destinationCards = sourceCards
+    sourceCards.splice(destination.index, 0, draggableId)
+    destinationCards = Array.from(sourceCards)
+  } else {
+    destinationCards.splice(destination.index, 0, draggableId)
   }
 
-  sourceCards.splice(source.index, 1)
-  destinationCards.splice(destination.index, 0, draggableId)
+  console.log(destination.index)
+  console.log(destinationCards)
 
   return {
     ...state,
@@ -34,26 +42,6 @@ export function updateCardOrderState (state, source, destination, draggableId) {
         ...state.columns[destination.droppableId],
         card_uuids: destinationCards
       }
-    }
-  }
-}
-
-export function updateCardOrderStateOld (state, source, destination, draggableId) {
-  let columns = state.columns
-  let sourceCards = Array.from(columns[source.droppableId].card_uuids)
-  let destinationCards = Array.from(columns[destination.droppableId].card_uuids)
-
-  sourceCards.splice(source.index, 1)
-  destinationCards.splice(destination.index, 0, draggableId)
-
-  return {
-    ... state,
-    columns: {
-      ... state.columns,
-      [source.droppableId]: {
-        ... state.columns[source.droppableId],
-        card_uuids: sourceCards
-      },
     }
   }
 }

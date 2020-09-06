@@ -7,16 +7,26 @@ export default class ProjectItemsApp extends React.Component {
     super(props)
 
     this.state = {
-      columns: props.columns
+      columns: props.columns,
+      cards: props.cards
     }
 
     console.log(props)
   }
 
-  setColumns = (columns) => {
+  setColumns = columns => {
     const newState = {
       ...this.state,
       columns: columns
+    }
+
+    this.setState(newState)
+  }
+
+  setCards = cards => {
+    const newState = {
+      ...this.state,
+      cards: cards
     }
 
     this.setState(newState)
@@ -29,9 +39,10 @@ export default class ProjectItemsApp extends React.Component {
           columns={this.state.columns.columns}
           columnOrder={this.state.columns.order}
           setColumns={this.setColumns}
+          setCards={this.setCards}
           userIsAssigned={this.props.user_is_assigned}
           boardSlug={this.props.board_slug}
-          cards={this.props.cards}
+          cards={this.state.cards}
         />
       </div>
     )

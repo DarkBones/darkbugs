@@ -19,7 +19,7 @@ module Cards
       position = 100_000
 
       board.ordered_columns.reverse.each do |col|
-        col.cards.order(:position, :created_at).reverse.each do |c|
+        col.cards.order(:position).reverse.each do |c|
           c.update!(position: position) if c.position != position
 
           position -= 1

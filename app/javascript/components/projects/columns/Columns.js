@@ -27,7 +27,8 @@ export default class Columns extends React.Component {
 
     this.state = {
       columns: props.columns,
-      columnOrder: props.columnOrder
+      columnOrder: props.columnOrder,
+      cards: props.cards
     }
   }
 
@@ -58,8 +59,9 @@ export default class Columns extends React.Component {
     this.setState(newState)
 
     const params = {
-      columns: this.state.columns,
-      column_order: this.state.columnOrder
+      card_uuid: draggableId,
+      card_index: destination.index,
+      column: destination.droppableId
     }
 
     console.log(params)
@@ -70,7 +72,18 @@ export default class Columns extends React.Component {
         params
       )
 
-    console.log(response)
+    if (typeof(response) !== 'undefined') {
+      if (response.status === 200) {
+        console.log(response.data)
+        this.setState({
+          ...this.state,
+          cards: response.data
+        })
+      }
+    }
+
+    this.handleColumnsUpdate()
+    this.handleCardsUpdate()
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
@@ -158,6 +171,10 @@ export default class Columns extends React.Component {
     })
   }
 
+  handleCardsUpdate = () => {
+    this.props.setCards(this.state.cards)
+  }
+
   render() {
     const { columns, columnOrder } = this.state
 
@@ -207,6 +224,7 @@ Columns.propTypes = {
   columns:        PropTypes.object.isRequired,
   columnOrder:    PropTypes.array.isRequired,
   setColumns:     PropTypes.func.isRequired,
+  setCards:       PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
   boardSlug:      PropTypes.string.isRequired
 }
