@@ -5,7 +5,7 @@ import Column from './Column'
 import i18n from '../../../i18n'
 import { ColumnApi, BoardApi } from '../../../api/InternalApi'
 import ColumnCreateButton from './ColumnCreateButton'
-import { updateColumnOrderState, updateColumnNameState } from '../utils/columns'
+import { updateColumnOrderState, updateColumnNameState, addColumnState, cancelNewColumnState } from '../utils/columns'
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -70,46 +70,17 @@ export default class Columns extends React.Component {
   addColumn = (uuid = 'new', name= '') => {
     this.cancelNewColumn()
 
-    const newColumn = {
-      uuid: uuid,
-      name: name
-    }
-
-    let newColumnOrder = this.state.columnOrder
-    newColumnOrder.push(uuid)
-    const newState = {
-      ... this.state,
-      columns: {
-        ...this.state.columns,
-        [uuid]: newColumn
-      },
-      columnOrder: newColumnOrder
-    }
-
-    console.log(newState)
+    const newState = addColumnState(this.state, uuid, name)
 
     this.setState(newState)
+    this.handleColumnsUpdate()
   }
 
   cancelNewColumn = () => {
-    let columnOrder = this.state.columnOrder
-    const columnOrderIndex = columnOrder.indexOf('new')
-
-    if (columnOrderIndex === -1) {
-      return
-    }
-
-    columnOrder.splice(columnOrderIndex, 1)
-    let columns = this.state.columns
-    delete columns['new']
-
-    const newState = {
-      ...this.state,
-      columns: columns,
-      columnOrder: columnOrder
-    }
+    const newState = cancelNewColumnState(this.state)
 
     this.setState(newState)
+    this.handleColumnsUpdate()
   }
 
   saveNewColumn = (columnUuid, columnName) => {
