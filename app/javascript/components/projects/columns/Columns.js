@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Column from './Column'
 import i18n from '../../../i18n'
-import { ColumnApi, BoardApi } from "../../../api/InternalApi";
-import ColumnCreateButton from "./ColumnCreateButton";
+import { ColumnApi, BoardApi } from '../../../api/InternalApi'
+import ColumnCreateButton from './ColumnCreateButton'
+import { updateColumnOrderState } from '../utils/columns'
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -37,15 +38,8 @@ export default class Columns extends React.Component {
 
   updateColumnOrder = async (source, destination, draggableId) => {
     const oldColumnOrder = this.state.columnOrder
-    const newColumnOrder = Array.from(this.state.columnOrder)
 
-    newColumnOrder.splice(source.index, 1)
-    newColumnOrder.splice(destination.index, 0, draggableId)
-
-    const newState = {
-      ... this.state,
-      columnOrder: newColumnOrder
-    }
+    const newState = updateColumnOrderState(this.state, source, destination, draggableId)
 
     this.setState(newState)
 
@@ -53,7 +47,7 @@ export default class Columns extends React.Component {
       .reorderColumns(
         this.props.boardSlug,
         {
-          columns: newColumnOrder
+          columns: newState.columnOrder
         }
       ).catch(() => {
         this.setState({
