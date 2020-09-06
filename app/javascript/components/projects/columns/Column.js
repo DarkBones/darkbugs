@@ -4,8 +4,7 @@ import ColumnTitle  from './ColumnTitle'
 import Cards        from './cards/Cards'
 
 import {
-  Draggable,
-  Droppable
+  Draggable
 } from 'react-beautiful-dnd'
 
 export default class Column extends React.Component {
@@ -54,12 +53,12 @@ export default class Column extends React.Component {
                   saveNewColumn={saveNewColumn}
                 />
               </div>
-              <div className='column-body'>
-                <Cards
-                  cards={cards}
-                  cardUuids={column.card_uuids}
-                />
-              </div>
+              <Cards
+                cards={cards}
+                cardUuids={column.card_uuids}
+                columnUuid={uuid}
+                userIsAssigned={userIsAssigned}
+              />
             </div>
           </div>
         )}

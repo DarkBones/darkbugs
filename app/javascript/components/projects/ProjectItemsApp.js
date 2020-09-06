@@ -9,8 +9,6 @@ export default class ProjectItemsApp extends React.Component {
     this.state = {
       columns: props.columns
     }
-
-    console.log(props)
   }
 
   setColumns = (columns) => {
