@@ -8,18 +8,18 @@ module Cards
 
     def to_h
       cards = {}
-      board.cards.order(:position).map do |card|
-        cards[card.uuid.to_sym] = format_card(card)
+      board.cards.order(:position).map.with_index do |card, idx|
+        cards[card.uuid.to_sym] = format_card(card, idx)
       end
 
       cards.to_h
     end
 
-    def format_card(card)
+    def format_card(card, idx)
       {
         uuid: card.uuid,
         name: card.name,
-        position: card.position
+        position: idx
       }
     end
   end

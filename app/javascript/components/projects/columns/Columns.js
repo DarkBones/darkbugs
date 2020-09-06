@@ -13,6 +13,7 @@ import {
   Droppable
 } from 'react-beautiful-dnd'
 import {
+  updateCardOrderState,
   updateColumnOrderState,
   updateColumnNameState,
   addColumnState,
@@ -46,7 +47,15 @@ export default class Columns extends React.Component {
 
     if (type === 'column') {
       this.updateColumnOrder(source, destination, draggableId)
+    } else {
+      this.updateCardOrder(source, destination, draggableId)
     }
+  }
+
+  updateCardOrder = (source, destination, draggableId) => {
+    const newState = updateCardOrderState(this.state, source, destination, draggableId)
+
+    this.setState(newState)
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {

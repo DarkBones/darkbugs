@@ -10,6 +10,54 @@ export function updateColumnOrderState (state, source, destination, draggableId)
   }
 }
 
+export function updateCardOrderState (state, source, destination, draggableId) {
+  let columns = state.columns
+  let sourceCards = Array.from(columns[source.droppableId].card_uuids)
+  let destinationCards = Array.from(columns[destination.droppableId].card_uuids)
+
+  if (source.droppableId === destination.droppableId) {
+    destinationCards = sourceCards
+  }
+
+  sourceCards.splice(source.index, 1)
+  destinationCards.splice(destination.index, 0, draggableId)
+
+  return {
+    ...state,
+    columns: {
+      ...state.columns,
+      [source.droppableId]: {
+        ...state.columns[source.droppableId],
+        card_uuids: sourceCards
+      },
+      [destination.droppableId]: {
+        ...state.columns[destination.droppableId],
+        card_uuids: destinationCards
+      }
+    }
+  }
+}
+
+export function updateCardOrderStateOld (state, source, destination, draggableId) {
+  let columns = state.columns
+  let sourceCards = Array.from(columns[source.droppableId].card_uuids)
+  let destinationCards = Array.from(columns[destination.droppableId].card_uuids)
+
+  sourceCards.splice(source.index, 1)
+  destinationCards.splice(destination.index, 0, draggableId)
+
+  return {
+    ... state,
+    columns: {
+      ... state.columns,
+      [source.droppableId]: {
+        ... state.columns[source.droppableId],
+        card_uuids: sourceCards
+      },
+    }
+  }
+}
+
 export function updateColumnNameState (state, columnUuid, newName) {
   return {
     ... state,
