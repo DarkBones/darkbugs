@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ApiInput from '../../shared/input/ApiInput'
-import { ColumnApi } from '../../../api/InternalApi'
+import React          from 'react'
+import PropTypes      from 'prop-types'
+import ApiInput       from '../../shared/input/ApiInput'
+import { ColumnApi }  from '../../../api/InternalApi'
 
 export default class ColumnTitleName extends React.Component {
   constructor(props) {
@@ -85,7 +85,7 @@ export default class ColumnTitleName extends React.Component {
   }
 
   updateName = async () => {
-    const {columnUuid, handleAfterSubmit} = this.props
+    const { columnUuid, handleAfterSubmit } = this.props
 
     let response = await ColumnApi
       .updateColumn(
@@ -117,7 +117,10 @@ export default class ColumnTitleName extends React.Component {
     const headerClassName = this.props.userIsAssigned ? 'editable' : ''
 
     const header = (
-      <h3 onClick={this.startEditing} className={`column-name ${headerClassName}`}>
+      <h3
+        onClick={this.startEditing}
+        className={`column-name ${headerClassName}`}
+      >
         {name}
       </h3>
     )
@@ -147,11 +150,11 @@ export default class ColumnTitleName extends React.Component {
 }
 
 ColumnTitleName.propTypes = {
-  name: PropTypes.string.isRequired,
-  handleAfterSubmit: PropTypes.func.isRequired,
-  columnUuid: PropTypes.string.isRequired,
-  boardSlug: PropTypes.string.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired,
-  cancelNewColumn: PropTypes.func.isRequired,
-  saveNewColumn: PropTypes.func.isRequired
+  name:               PropTypes.string.isRequired,
+  handleAfterSubmit:  PropTypes.func.isRequired,
+  columnUuid:         PropTypes.string.isRequired,
+  boardSlug:          PropTypes.string.isRequired,
+  userIsAssigned:     PropTypes.bool.isRequired,
+  cancelNewColumn:    PropTypes.func.isRequired,
+  saveNewColumn:      PropTypes.func.isRequired
 }

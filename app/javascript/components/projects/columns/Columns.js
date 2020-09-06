@@ -1,10 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import Column from './Column'
-import i18n from '../../../i18n'
-import { ColumnApi, BoardApi } from '../../../api/InternalApi'
+import React              from 'react'
+import PropTypes          from 'prop-types'
+import Column             from './Column'
+import i18n               from '../../../i18n'
 import ColumnCreateButton from './ColumnCreateButton'
+
+import {
+  ColumnApi,
+  BoardApi
+} from '../../../api/InternalApi'
+import {
+  DragDropContext,
+  Droppable
+} from 'react-beautiful-dnd'
 import {
   updateColumnOrderState,
   updateColumnNameState,
@@ -24,7 +31,7 @@ export default class Columns extends React.Component {
   }
 
   onDragEnd = result => {
-    const {destination, source, draggableId, type} = result
+    const { destination, source, draggableId, type } = result
 
     if (!destination) {
       return
@@ -45,7 +52,12 @@ export default class Columns extends React.Component {
   updateColumnOrder = async (source, destination, draggableId) => {
     const oldColumnOrder = this.state.columnOrder
 
-    const newState = updateColumnOrderState(this.state, source, destination, draggableId)
+    const newState = updateColumnOrderState(
+      this.state,
+      source,
+      destination,
+      draggableId
+    )
 
     this.setState(newState)
 
@@ -166,9 +178,9 @@ export default class Columns extends React.Component {
 }
 
 Columns.propTypes = {
-  columns: PropTypes.object.isRequired,
-  columnOrder: PropTypes.array.isRequired,
-  setColumns: PropTypes.func.isRequired,
+  columns:        PropTypes.object.isRequired,
+  columnOrder:    PropTypes.array.isRequired,
+  setColumns:     PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
-  boardSlug: PropTypes.string.isRequired
+  boardSlug:      PropTypes.string.isRequired
 }

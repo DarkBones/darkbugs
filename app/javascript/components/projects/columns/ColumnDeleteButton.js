@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React      from 'react'
+import PropTypes  from 'prop-types'
 
 export default function ColumnDeleteButton(props) {
   const handleClick = () => {
@@ -10,7 +10,10 @@ export default function ColumnDeleteButton(props) {
     <React.Fragment>
       {props.userIsAssigned &&
         <div className='delete-column-btn clickable float-right'>
-          <i className='fa fa-times-circle' onClick={handleClick}/>
+          <i
+            className='fa fa-times-circle'
+            onClick={handleClick}
+          />
         </div>
       }
     </React.Fragment>
@@ -18,7 +21,7 @@ export default function ColumnDeleteButton(props) {
 }
 
 ColumnDeleteButton.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  columnUuid: PropTypes.string.isRequired,
+  handleClick:    PropTypes.func.isRequired,
+  columnUuid:     PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

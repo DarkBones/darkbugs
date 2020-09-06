@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React      from 'react'
+import PropTypes  from 'prop-types'
 
 export default function ColumnCreateButton(props) {
   const handleClick = () => {
@@ -10,7 +10,10 @@ export default function ColumnCreateButton(props) {
     <React.Fragment>
       {props.userIsAssigned &&
         <div className='add-column-btn-container'>
-          <i className='fa fa-plus-circle fa-3x clickable' onClick={handleClick}/>
+          <i
+            className='fa fa-plus-circle fa-3x clickable'
+            onClick={handleClick}
+          />
         </div>
       }
     </React.Fragment>
@@ -19,5 +22,5 @@ export default function ColumnCreateButton(props) {
 
 ColumnCreateButton.propTypes = {
   userIsAssigned: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick:        PropTypes.func.isRequired
 }

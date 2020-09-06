@@ -1,7 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import ColumnTitle from './ColumnTitle'
+import React        from 'react'
+import PropTypes    from 'prop-types'
+import ColumnTitle  from './ColumnTitle'
+
+import {
+  Draggable,
+  Droppable
+} from 'react-beautiful-dnd'
 
 export default class Column extends React.Component {
   constructor(props) {
@@ -9,12 +13,23 @@ export default class Column extends React.Component {
   }
 
   render() {
-    const { index, uuid, column, updateColumnName, deleteColumn, cancelNewColumn, userIsAssigned, boardSlug, saveNewColumn } = this.props
+    const {
+      index,
+      uuid,
+      column,
+      updateColumnName,
+      deleteColumn,
+      cancelNewColumn,
+      userIsAssigned,
+      boardSlug,
+      saveNewColumn
+    } = this.props
+
     return (
       <Draggable
         draggableId={uuid}
         index={index}
-        isDragDisabled={!this.props.userIsAssigned}
+        isDragDisabled={!userIsAssigned}
       >
         {(provided) => (
           <div
@@ -46,13 +61,13 @@ export default class Column extends React.Component {
 }
 
 Column.propTypes = {
-  index: PropTypes.number.isRequired,
-  uuid: PropTypes.string.isRequired,
-  column: PropTypes.object.isRequired,
-  boardSlug: PropTypes.string.isRequired,
+  index:            PropTypes.number.isRequired,
+  uuid:             PropTypes.string.isRequired,
+  column:           PropTypes.object.isRequired,
+  boardSlug:        PropTypes.string.isRequired,
   updateColumnName: PropTypes.func.isRequired,
-  deleteColumn: PropTypes.func.isRequired,
-  cancelNewColumn: PropTypes.func.isRequired,
-  saveNewColumn: PropTypes.func.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired
+  deleteColumn:     PropTypes.func.isRequired,
+  cancelNewColumn:  PropTypes.func.isRequired,
+  saveNewColumn:    PropTypes.func.isRequired,
+  userIsAssigned:   PropTypes.bool.isRequired
 }

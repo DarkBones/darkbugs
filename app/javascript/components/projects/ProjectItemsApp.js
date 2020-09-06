@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Columns from './columns/Columns'
+import React      from 'react'
+import PropTypes  from 'prop-types'
+import Columns    from './columns/Columns'
 
 export default class ProjectItemsApp extends React.Component {
   constructor(props) {
@@ -38,9 +38,9 @@ export default class ProjectItemsApp extends React.Component {
 }
 
 ProjectItemsApp.propTypes = {
-  name: PropTypes.string.isRequired,
-  board_slug: PropTypes.string.isRequired,
-  cards: PropTypes.object.isRequired,
-  columns: PropTypes.object.isRequired,
+  name:             PropTypes.string.isRequired,
+  board_slug:       PropTypes.string.isRequired,
+  cards:            PropTypes.object.isRequired,
+  columns:          PropTypes.object.isRequired,
   user_is_assigned: PropTypes.bool.isRequired
 }
