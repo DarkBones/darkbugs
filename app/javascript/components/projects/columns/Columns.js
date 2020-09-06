@@ -62,7 +62,11 @@ export default class Columns extends React.Component {
         })
       })
 
-    this.handleColumnsUpdate()
+    if (typeof(response) !== 'undefined') {
+      if (response.status === 200) {
+        this.handleColumnsUpdate()
+      }
+    }
   }
 
   updateColumnName = data => {
