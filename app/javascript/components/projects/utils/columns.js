@@ -43,8 +43,16 @@ export function addColumnState (state, uuid, name) {
 }
 
 export function cancelNewColumnState (state) {
+  return deleteColumn(state, 'new')
+}
+
+export function deleteColumnState (state, columnUuid) {
+  return deleteColumn(state, columnUuid)
+}
+
+function deleteColumn (state, columnUuid) {
   let columnOrder = state.columnOrder
-  const columnOrderIndex = columnOrder.indexOf('new')
+  const columnOrderIndex = columnOrder.indexOf(columnUuid)
 
   if (columnOrderIndex === -1) {
     return state
@@ -52,10 +60,10 @@ export function cancelNewColumnState (state) {
 
   columnOrder.splice(columnOrderIndex, 1)
   let columns = state.columns
-  delete columns['new']
+  delete columns[columnUuid]
 
   return {
-    ... state,
+    ...state,
     columns: columns,
     columnOrder: columnOrder
   }

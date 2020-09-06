@@ -5,7 +5,13 @@ import Column from './Column'
 import i18n from '../../../i18n'
 import { ColumnApi, BoardApi } from '../../../api/InternalApi'
 import ColumnCreateButton from './ColumnCreateButton'
-import { updateColumnOrderState, updateColumnNameState, addColumnState, cancelNewColumnState } from '../utils/columns'
+import {
+  updateColumnOrderState,
+  updateColumnNameState,
+  addColumnState,
+  cancelNewColumnState,
+  deleteColumnState
+} from '../utils/columns'
 
 export default class Columns extends React.Component {
   constructor(props) {
@@ -94,22 +100,7 @@ export default class Columns extends React.Component {
       return
     }
 
-    let columnOrder = this.state.columnOrder
-    const columnOrderIndex = columnOrder.indexOf(columnUuid)
-
-    if (columnOrderIndex === -1) {
-      return
-    }
-
-    columnOrder.splice(columnOrderIndex, 1)
-    let columns = this.state.columns
-    delete columns[columnUuid]
-
-    const newState = {
-      ... this.state,
-      columns: columns,
-      columnOrder: columnOrder
-    }
+    const newState = deleteColumnState(this.state, columnUuid)
 
     let response = await ColumnApi
       .deleteColumn(columnUuid)
