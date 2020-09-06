@@ -10,6 +10,8 @@ module Api
           column.update!(position: idx)
         end
 
+        Cards::SetPositionsService.new(@board).execute
+
         render json: 'success'
       end
 
