@@ -6,8 +6,8 @@ class CreateCards < ActiveRecord::Migration[6.0]
       t.integer :next_id
       t.boolean :first
       t.references :column
-      t.references :reporter, index: true, foreign_key: { to_table: :users }
-      t.references :assignee, index: true, foreign_key: { to_table: :users }
+      t.integer :reporter_id, index: true
+      t.integer :assignee_id, index: true
       t.timestamps
     end
 

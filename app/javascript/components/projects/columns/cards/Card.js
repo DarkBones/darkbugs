@@ -40,9 +40,10 @@ export default class Card extends React.Component {
   }
 
   handleSubmit = async () => {
+    console.log(this.props)
     let response = CardApi
       .createCard({
-        above_card: this.props.above_card,
+        above_card: this.props.card.above_card,
         column_uuid: this.props.columnUuid,
         card: {
           name: this.state.name

@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
     t.integer "next_id"
     t.boolean "first"
     t.bigint "column_id"
-    t.bigint "reporter_id"
-    t.bigint "assignee_id"
+    t.integer "reporter_id"
+    t.integer "assignee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["assignee_id"], name: "index_cards_on_assignee_id"
@@ -163,6 +163,4 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "boards", "projects", column: "root_project_id"
-  add_foreign_key "cards", "users", column: "assignee_id"
-  add_foreign_key "cards", "users", column: "reporter_id"
 end

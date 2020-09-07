@@ -25,7 +25,7 @@ module Api
       end
 
       private def load_above_card
-        @above_card = @column.cards.find_by(uuid: params[:above_card_uuid])
+        @above_card = @column.cards.find_by(uuid: params[:above_card])
       end
 
       private def check_is_member!
