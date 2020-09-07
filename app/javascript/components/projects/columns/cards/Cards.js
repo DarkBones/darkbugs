@@ -16,55 +16,40 @@ export default class Cards extends React.Component {
     }
   }
 
-  handleClickOld = e => {
-    if (!e.target.classList.contains('column-body')) {
-      return
-    }
-
-    const aboveCard = this.getAboveCard(e)
-    let newCardUuids = Array.from(this.state.cardUuids)
-
-    if (typeof(aboveCard) === 'undefined') {
-      newCardUuids.push('new')
-      this.setState({
-        ...this.state,
-        cards: {
-          ...this.state.cards,
-          new: {
-            name: '',
-            uuid: 'new',
-            index: 0
-          }
-        },
-        cardUuids: newCardUuids
-      })
-
-      return
-    }
-
-    const idx = newCardUuids.indexOf(aboveCard)
-    newCardUuids.splice(idx)
-  }
-
   handleClick = e => {
     if (!e.target.classList.contains('column-body')) {
       return
     }
 
     const aboveCard = this.props.getAboveCard(e)
-    console.log(aboveCard)
-  }
+    let newCardUuids = Array.from(this.state.cardUuids)
+    const idx = newCardUuids.indexOf(aboveCard)
 
-  getAboveCard = e => {
-    const cardUuids = this.props.cardUuids
-    const y = e.clientY - e.target.getBoundingClientRect().top
-    let idx = Math.floor((y - 20) / 100)
-
-    if (idx > cardUuids.length - 1) {
-      idx = cardUuids.length - 1
+    if (
+      typeof(aboveCard) === 'undefined'
+      || idx === -1
+    ) {
+      newCardUuids.push('new')
+    } else {
+      newCardUuids.splice(idx + 1, 0, 'new')
     }
 
-    return cardUuids[idx]
+    const newState = ({
+      ...this.state,
+      cards: {
+        ...this.state.cards,
+        new: {
+          name: '',
+          uuid: 'new',
+          index: 0
+        }
+      },
+      cardUuids: newCardUuids
+    })
+
+    this.setState(newState)
+
+    this.props.updateCards(e.target.id, newCardUuids, newState.cards)
   }
 
   render() {
@@ -103,5 +88,6 @@ Cards.propTypes = {
   cardUuids:      PropTypes.array.isRequired,
   columnUuid:     PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
-  getAboveCard:   PropTypes.func.isRequired
+  getAboveCard:   PropTypes.func.isRequired,
+  updateCards:    PropTypes.func.isRequired
 }

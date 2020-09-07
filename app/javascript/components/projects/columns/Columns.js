@@ -175,6 +175,24 @@ export default class Columns extends React.Component {
     this.props.setCards(this.state.cards)
   }
 
+  updateCards = (columnUuid, cardUuids, cards) => {
+    console.log(cards)
+    this.setState({
+      ...this.state,
+      cards: cards,
+      columns: {
+        ...this.state.columns,
+        [columnUuid]: {
+          ...this.state.columns[columnUuid],
+          card_uuids: cardUuids
+        }
+      }
+    })
+
+    this.handleColumnsUpdate()
+    this.handleCardsUpdate()
+  }
+
   getAboveCard = clickEvent => {
     const { columns, columnOrder } = this.state
     const columnId = clickEvent.target.id
@@ -232,6 +250,7 @@ export default class Columns extends React.Component {
                   saveNewColumn={this.saveNewColumn}
                   cards={this.props.cards}
                   getAboveCard={this.getAboveCard}
+                  updateCards={this.updateCards}
                 />
               )}
               {provided.placeholder}
