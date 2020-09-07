@@ -176,10 +176,9 @@ export default class Columns extends React.Component {
   }
 
   getAboveCard = clickEvent => {
-    const columns = this.state.columns
-    const columnOrder = this.state.columnOrder
-    let columnId = clickEvent.target.id
-    let cardUuids = columns[columnId].card_uuids
+    const { columns, columnOrder } = this.state
+    const columnId = clickEvent.target.id
+    const cardUuids = columns[columnId].card_uuids
 
     const y = clickEvent.clientY - clickEvent.target.getBoundingClientRect().top
     let idx = Math.floor((y - 20) / 100)
@@ -187,7 +186,7 @@ export default class Columns extends React.Component {
       idx = cardUuids.length - 1
     }
 
-    if (typeof(cardUuids[idx]) !== 'undefined'){
+    if (typeof (cardUuids[idx]) !== 'undefined') {
       return cardUuids[idx]
     }
 
