@@ -62,7 +62,8 @@ export function updateColumnNameState (state, columnUuid, newName) {
 export function addColumnState (state, uuid, name) {
   const newColumn = {
     uuid: uuid,
-    name: name
+    name: name,
+    card_uuids: []
   }
 
   let newColumnOrder = state.columnOrder
