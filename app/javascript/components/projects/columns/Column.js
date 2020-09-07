@@ -25,7 +25,8 @@ export default class Column extends React.Component {
       saveNewColumn,
       cards,
       getAboveCard,
-      updateCards
+      updateCards,
+      isDragging
     } = this.props
 
     return (
@@ -62,6 +63,7 @@ export default class Column extends React.Component {
                 userIsAssigned={userIsAssigned}
                 getAboveCard={getAboveCard}
                 updateCards={updateCards}
+                isDragging={isDragging}
               />
             </div>
           </div>
@@ -83,5 +85,6 @@ Column.propTypes = {
   saveNewColumn:    PropTypes.func.isRequired,
   userIsAssigned:   PropTypes.bool.isRequired,
   getAboveCard:     PropTypes.func.isRequired,
-  updateCards:      PropTypes.func.isRequired
+  updateCards:      PropTypes.func.isRequired,
+  isDragging:       PropTypes.bool.isRequired
 }

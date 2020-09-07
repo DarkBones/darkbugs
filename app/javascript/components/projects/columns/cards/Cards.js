@@ -17,7 +17,8 @@ export default class Cards extends React.Component {
   }
 
   handleClick = e => {
-    if (!e.target.classList.contains('column-body')) {
+    console.log(this.props.isDragging)
+    if (!e.target.classList.contains('column-body') || this.props.isDragging) {
       return
     }
 
@@ -116,5 +117,6 @@ Cards.propTypes = {
   columnUuid:     PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
   getAboveCard:   PropTypes.func.isRequired,
-  updateCards:    PropTypes.func.isRequired
+  updateCards:    PropTypes.func.isRequired,
+  isDragging:     PropTypes.bool.isRequired
 }

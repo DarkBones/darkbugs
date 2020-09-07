@@ -28,8 +28,15 @@ export default class Columns extends React.Component {
     this.state = {
       columns: props.columns,
       columnOrder: props.columnOrder,
-      cards: props.cards
+      cards: props.cards,
+      isDragging: false
     }
+  }
+
+  onDragStart = () => {
+    this.setState({
+      isDragging: true
+    })
   }
 
   onDragEnd = result => {
@@ -51,6 +58,10 @@ export default class Columns extends React.Component {
     } else {
       this.updateCardOrder(source, destination, draggableId)
     }
+
+    this.setState({
+      isDragging: false
+    })
   }
 
   updateCardOrder = async (source, destination, draggableId) => {
@@ -220,7 +231,10 @@ export default class Columns extends React.Component {
     const { columns, columnOrder } = this.state
 
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <DragDropContext
+        onDragStart={this.onDragStart}
+        onDragEnd={this.onDragEnd}
+      >
         <Droppable
           droppableId='dropable_columns'
           direction='horizontal'
@@ -247,6 +261,7 @@ export default class Columns extends React.Component {
                   cards={this.props.cards}
                   getAboveCard={this.getAboveCard}
                   updateCards={this.updateCards}
+                  isDragging={this.state.isDragging}
                 />
               )}
               {provided.placeholder}
