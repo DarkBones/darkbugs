@@ -17,7 +17,6 @@ export default class Cards extends React.Component {
   }
 
   handleClick = e => {
-    console.log(this.props.isDragging)
     if (!e.target.classList.contains('column-body') || this.props.isDragging) {
       return
     }

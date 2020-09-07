@@ -42,10 +42,6 @@ export default class Card extends React.Component {
     console.log('submit')
   }
 
-  handleCancel = () => {
-    console.log('cancel')
-  }
-
   handleOnChange = e => {
     console.log(e.target.value)
     this.setState({
@@ -60,7 +56,7 @@ export default class Card extends React.Component {
       ? (
         <ApiInput
           handleSubmit={this.handleSubmit}
-          handleCancel={this.handleCancel}
+          handleCancel={this.props.cancelNewCard}
           handleOnChange={this.handleOnChange}
           name='name'
           focus={true}
