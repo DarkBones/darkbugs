@@ -175,6 +175,34 @@ export default class Columns extends React.Component {
     this.props.setCards(this.state.cards)
   }
 
+  getAboveCard = clickEvent => {
+    const columns = this.state.columns
+    const columnOrder = this.state.columnOrder
+    let columnId = clickEvent.target.id
+    let cardUuids = columns[columnId].card_uuids
+
+    const y = clickEvent.clientY - clickEvent.target.getBoundingClientRect().top
+    let idx = Math.floor((y - 20) / 100)
+    if (idx > cardUuids.length - 1) {
+      idx = cardUuids.length - 1
+    }
+
+    if (typeof(cardUuids[idx]) !== 'undefined'){
+      return cardUuids[idx]
+    }
+
+    let columnIndex = columnOrder.indexOf(columnId)
+    let columnCards = []
+    while (columnIndex > 0) {
+      columnIndex--
+
+      columnCards = columns[columnOrder[columnIndex]].card_uuids
+      if (columnCards.length > 0) {
+        return columnCards[columnCards.length - 1]
+      }
+    }
+  }
+
   render() {
     const { columns, columnOrder } = this.state
 
@@ -204,6 +232,7 @@ export default class Columns extends React.Component {
                   boardSlug={this.props.boardSlug}
                   saveNewColumn={this.saveNewColumn}
                   cards={this.props.cards}
+                  getAboveCard={this.getAboveCard}
                 />
               )}
               {provided.placeholder}

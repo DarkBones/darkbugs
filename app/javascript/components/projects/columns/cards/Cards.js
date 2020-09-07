@@ -16,7 +16,7 @@ export default class Cards extends React.Component {
     }
   }
 
-  handleClick = e => {
+  handleClickOld = e => {
     if (!e.target.classList.contains('column-body')) {
       return
     }
@@ -46,6 +46,15 @@ export default class Cards extends React.Component {
     newCardUuids.splice(idx)
   }
 
+  handleClick = e => {
+    if (!e.target.classList.contains('column-body')) {
+      return
+    }
+
+    const aboveCard = this.props.getAboveCard(e)
+    console.log(aboveCard)
+  }
+
   getAboveCard = e => {
     const cardUuids = this.props.cardUuids
     const y = e.clientY - e.target.getBoundingClientRect().top
@@ -69,6 +78,7 @@ export default class Cards extends React.Component {
         {(provided) => (
           <div
             className='column-body'
+            id={columnUuid}
             onClick={this.handleClick}
             ref={provided.innerRef}
             {...provided.droppableProps}
@@ -92,5 +102,6 @@ Cards.propTypes = {
   cards:          PropTypes.object.isRequired,
   cardUuids:      PropTypes.array.isRequired,
   columnUuid:     PropTypes.string.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired
+  userIsAssigned: PropTypes.bool.isRequired,
+  getAboveCard:   PropTypes.func.isRequired
 }

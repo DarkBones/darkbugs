@@ -23,7 +23,8 @@ export default class Column extends React.Component {
       userIsAssigned,
       boardSlug,
       saveNewColumn,
-      cards
+      cards,
+      getAboveCard
     } = this.props
 
     return (
@@ -58,6 +59,7 @@ export default class Column extends React.Component {
                 cardUuids={column.card_uuids}
                 columnUuid={uuid}
                 userIsAssigned={userIsAssigned}
+                getAboveCard={getAboveCard}
               />
             </div>
           </div>
@@ -77,5 +79,6 @@ Column.propTypes = {
   deleteColumn:     PropTypes.func.isRequired,
   cancelNewColumn:  PropTypes.func.isRequired,
   saveNewColumn:    PropTypes.func.isRequired,
-  userIsAssigned:   PropTypes.bool.isRequired
+  userIsAssigned:   PropTypes.bool.isRequired,
+  getAboveCard:     PropTypes.func.isRequired
 }
