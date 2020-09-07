@@ -11,7 +11,7 @@ module Columns
         uuid: column.uuid,
         name: column.name,
         position: column.position,
-        card_uuids: column.cards.order(:position).pluck(:uuid)
+        card_uuids: column.cards.ordered.pluck(:uuid)
       }
     end
   end
