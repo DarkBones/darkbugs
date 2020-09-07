@@ -29,7 +29,7 @@ export default class Cards extends React.Component {
       typeof(aboveCard) === 'undefined'
       || idx === -1
     ) {
-      newCardUuids.push('new')
+      newCardUuids.unshift('new')
     } else {
       newCardUuids.splice(idx + 1, 0, 'new')
     }
@@ -50,6 +50,32 @@ export default class Cards extends React.Component {
     this.setState(newState)
 
     this.props.updateCards(e.target.id, newCardUuids, newState.cards)
+  }
+
+  cancelNewCard = () => {
+    const cardUuids = this.state.cardUuids
+    let newCards = this.state.cards
+
+    let newCardUuids = Array.from(cardUuids)
+    const idx = newCardUuids.indexOf('new')
+
+    if (idx === -1) {
+      return
+    }
+
+    newCardUuids.splice(idx, 1)
+
+    delete newCards['new']
+
+    const newState = {
+      ...this.state,
+      cards: newCards,
+      cardUuids: newCardUuids
+    }
+
+    this.setState(newState)
+
+    this.props.updateCards(this.props.columnUuid, newCardUuids, newState.cards)
   }
 
   render() {
@@ -73,6 +99,7 @@ export default class Cards extends React.Component {
                 key={cardUuid}
                 card={this.state.cards[cardUuid]}
                 userIsAssigned={userIsAssigned}
+                cancelNewCard={this.cancelNewCard}
               />
             )}
             {provided.placeholder}

@@ -64,8 +64,6 @@ export default class Columns extends React.Component {
       column: destination.droppableId
     }
 
-    console.log(params)
-
     let response = await BoardApi
       .reorderCards(
         this.props.boardSlug,
@@ -74,7 +72,6 @@ export default class Columns extends React.Component {
 
     if (typeof(response) !== 'undefined') {
       if (response.status === 200) {
-        console.log(response.data)
         this.setState({
           ...this.state,
           cards: response.data
@@ -176,7 +173,6 @@ export default class Columns extends React.Component {
   }
 
   updateCards = (columnUuid, cardUuids, cards) => {
-    console.log(cards)
     this.setState({
       ...this.state,
       cards: cards,
