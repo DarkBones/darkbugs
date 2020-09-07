@@ -39,13 +39,14 @@
           margin-right: 30px;
           display: inline-block;
           height: 100%;
-          overflow-y: scroll;
           width: 240px;
           background-color: rgba(0, 0, 0, .05);
+          overflow-y: scroll;
 
           .column-title {
             padding: .3em .3em .1em .3em;
             overflow: hidden;
+            height: 60px;
 
             .column-name {
               display: inline-block;
@@ -70,12 +71,15 @@
 
           .column-body {
             padding: 0.5em;
+            margin-top: -10px;
+            min-height: calc(100% - 50px);
 
             .item-card {
               display: block;
               width: 100%;
-              height: 100px;
+              height: 80px;
               background-color: white;
+              margin-bottom: 15px;
             }
             .item-card-divider {
               height: 1em;

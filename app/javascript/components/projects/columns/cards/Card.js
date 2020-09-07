@@ -28,7 +28,7 @@ export default class Card extends React.Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <div className='card'>
+            <div className='card item-card'>
               {card.name}
             </div>
           </div>
