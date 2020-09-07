@@ -9,10 +9,57 @@ import {
 export default class Cards extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      cards: props.cards,
+      cardUuids: props.cardUuids
+    }
+  }
+
+  handleClick = e => {
+    if (!e.target.classList.contains('column-body')) {
+      return
+    }
+
+    const aboveCard = this.getAboveCard(e)
+    let newCardUuids = Array.from(this.state.cardUuids)
+
+    if (typeof(aboveCard) === 'undefined') {
+      newCardUuids.push('new')
+      this.setState({
+        ...this.state,
+        cards: {
+          ...this.state.cards,
+          new: {
+            name: '',
+            uuid: 'new',
+            index: 0
+          }
+        },
+        cardUuids: newCardUuids
+      })
+
+      return
+    }
+
+    const idx = newCardUuids.indexOf(aboveCard)
+    newCardUuids.splice(idx)
+  }
+
+  getAboveCard = e => {
+    const cardUuids = this.props.cardUuids
+    const y = e.clientY - e.target.getBoundingClientRect().top
+    let idx = Math.floor((y - 20) / 100)
+
+    if (idx > cardUuids.length - 1) {
+      idx = cardUuids.length - 1
+    }
+
+    return cardUuids[idx]
   }
 
   render() {
-    const {cards, cardUuids, columnUuid, userIsAssigned } = this.props
+    const {columnUuid, userIsAssigned } = this.props
 
     return (
       <Droppable
@@ -22,13 +69,14 @@ export default class Cards extends React.Component {
         {(provided) => (
           <div
             className='column-body'
+            onClick={this.handleClick}
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {cardUuids.map((cardUuid) =>
+            {this.state.cardUuids.map((cardUuid) =>
               <Card
                 key={cardUuid}
-                card={cards[cardUuid]}
+                card={this.state.cards[cardUuid]}
                 userIsAssigned={userIsAssigned}
               />
             )}
