@@ -7,6 +7,14 @@ PATH
       public_suffix (>= 2)
       rack (>= 1.3.6)
 
+PATH
+  remote: vendor/git/resort
+  specs:
+    resort (0.6.0)
+      activerecord (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      railties (>= 4.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -278,10 +286,6 @@ GEM
       railties (>= 3.2)
       tilt
     regexp_parser (1.7.1)
-    resort (0.6.0)
-      activerecord (>= 4.0.0)
-      activesupport (>= 4.0.0)
-      railties (>= 4.0.0)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -401,7 +405,7 @@ DEPENDENCIES
   rails (~> 6.0.3)
   rails-controller-testing
   react-rails
-  resort
+  resort!
   rubocop-rails
   sass-rails (>= 6)
   selenium-webdriver

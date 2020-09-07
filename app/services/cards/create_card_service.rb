@@ -11,8 +11,7 @@ module Cards
 
     def execute
       card = create_card
-
-      Cards::SetPositionsService.new(column.board).execute
+      card.append_to(above_card) if above_card.present?
 
       results = {
         card: card
@@ -22,22 +21,16 @@ module Cards
     end
 
     private def create_card
+      puts card_attributes
       column.cards.create!(
         card_attributes
       )
     end
 
-    private def new_position
-      return above_card.position if above_card.present?
-
-      column.cards.pluck(:position).max || 0
-    end
-
     private def card_attributes
       {
         name: params[:name],
-        position: new_position,
-        reporter: current_user
+        reporter_id: current_user.id
       }
     end
   end

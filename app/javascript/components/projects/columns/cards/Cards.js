@@ -41,6 +41,7 @@ export default class Cards extends React.Component {
         new: {
           name: '',
           uuid: 'new',
+          above_card: aboveCard,
           index: 0
         }
       },
@@ -98,6 +99,7 @@ export default class Cards extends React.Component {
               <Card
                 key={cardUuid}
                 card={this.state.cards[cardUuid]}
+                columnUuid={columnUuid}
                 userIsAssigned={userIsAssigned}
                 cancelNewCard={this.cancelNewCard}
               />

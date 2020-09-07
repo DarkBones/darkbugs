@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ApiInput from '../../../shared/input/ApiInput'
+import { CardApi } from '../../../../api/InternalApi'
 
 import {
   Draggable
@@ -38,12 +39,20 @@ export default class Card extends React.Component {
     }
   }
 
-  handleSubmit = () => {
-    console.log('submit')
+  handleSubmit = async () => {
+    let response = CardApi
+      .createCard({
+        above_card: this.props.above_card,
+        column_uuid: this.props.columnUuid,
+        card: {
+          name: this.state.name
+        }
+      })
+
+    console.log(response)
   }
 
   handleOnChange = e => {
-    console.log(e.target.value)
     this.setState({
       name: e.target.value
     })
@@ -97,6 +106,7 @@ export default class Card extends React.Component {
 
 Card.propTypes = {
   card:           PropTypes.object.isRequired,
+  columnUuid:     PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
   cancelNewCard:  PropTypes.func.isRequired
 }
