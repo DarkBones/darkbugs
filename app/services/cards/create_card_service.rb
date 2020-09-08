@@ -10,12 +10,6 @@ module Cards
     end
 
     def execute
-      puts above_card&.name
-      puts above_card&.name
-      puts above_card&.name
-      puts above_card&.name
-      puts above_card&.name
-      puts above_card&.name
       card = create_card
       card.append_to(above_card) if above_card.present?
 

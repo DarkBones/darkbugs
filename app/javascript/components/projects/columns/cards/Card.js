@@ -41,7 +41,7 @@ export default class Card extends React.Component {
 
   handleSubmit = async () => {
     console.log(this.props)
-    let response = CardApi
+    let response = await CardApi
       .createCard({
         above_card: this.props.card.above_card,
         column_uuid: this.props.columnUuid,
@@ -50,7 +50,11 @@ export default class Card extends React.Component {
         }
       })
 
-    console.log(response)
+    if (typeof(response) !== 'undefined') {
+      if (response.status === 200) {
+
+      }
+    }
   }
 
   handleOnChange = e => {

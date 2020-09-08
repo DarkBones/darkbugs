@@ -1,4 +1,2 @@
-json.name(@column.name)
-json.position(@column.position)
-json.uuid(@column.uuid)
-json.cards(@column.cards)
+json.name(@card.name)
+json.uuid(@card.uuid)
