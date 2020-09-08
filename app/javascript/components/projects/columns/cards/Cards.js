@@ -22,43 +22,15 @@ export default class Cards extends React.Component {
     }
 
     const aboveCard = this.props.getAboveCard(e)
-    let newCardUuids = Array.from(this.state.cardUuids)
-    const idx = newCardUuids.indexOf(aboveCard)
-
-    if (
-      typeof(aboveCard) === 'undefined'
-      || idx === -1
-    ) {
-      newCardUuids.unshift('new')
-    } else {
-      newCardUuids.splice(idx + 1, 0, 'new')
-    }
-
-    const newState = ({
-      ...this.state,
-      cards: {
-        ...this.state.cards,
-        new: {
-          name: '',
-          uuid: 'new',
-          above_card: aboveCard,
-          index: 0
-        }
-      },
-      cardUuids: newCardUuids
-    })
-
-    this.setState(newState)
-
-    this.props.updateCards(e.target.id, newCardUuids, newState.cards)
+    this.addCard('new', '', aboveCard)
   }
 
-  cancelNewCard = () => {
+  deleteCard = (uuid) => {
     const cardUuids = this.state.cardUuids
     let newCards = this.state.cards
 
     let newCardUuids = Array.from(cardUuids)
-    const idx = newCardUuids.indexOf('new')
+    const idx = newCardUuids.indexOf(uuid)
 
     if (idx === -1) {
       return
@@ -66,13 +38,52 @@ export default class Cards extends React.Component {
 
     newCardUuids.splice(idx, 1)
 
-    delete newCards['new']
+    delete newCards[uuid]
 
     const newState = {
       ...this.state,
       cards: newCards,
       cardUuids: newCardUuids
     }
+
+    this.setState(newState)
+
+    this.props.updateCards(this.props.columnUuid, newCardUuids, newState.cards)
+  }
+
+  saveCard = (uuid, name, aboveCard) => {
+    this.deleteCard('new')
+    this.addCard(uuid, name, aboveCard)
+  }
+
+  addCard = (uuid, name, aboveCard) => {
+    let newCardUuids = Array.from(this.state.cardUuids)
+    const idx = newCardUuids.indexOf(aboveCard)
+
+    if (
+      typeof (aboveCard) === 'undefined'
+      || idx === -1
+    ) {
+      newCardUuids.unshift(uuid)
+    } else {
+      newCardUuids.splice(idx + 1, 0, uuid)
+    }
+
+    const newState = ({
+      ...this.state,
+      cards: {
+        ...this.state.cards,
+        [uuid]: {
+          name: name,
+          uuid: uuid,
+          above_card: aboveCard,
+          index: 0
+        }
+      },
+      cardUuids: newCardUuids
+    })
+
+    console.log(newState)
 
     this.setState(newState)
 
@@ -101,7 +112,8 @@ export default class Cards extends React.Component {
                 card={this.state.cards[cardUuid]}
                 columnUuid={columnUuid}
                 userIsAssigned={userIsAssigned}
-                cancelNewCard={this.cancelNewCard}
+                deleteCard={this.deleteCard}
+                saveCard={this.saveCard}
               />
             )}
             {provided.placeholder}

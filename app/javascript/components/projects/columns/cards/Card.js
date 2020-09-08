@@ -35,7 +35,7 @@ export default class Card extends React.Component {
 
   handleClick = e => {
     if (!this.cardRef.contains(e.target)) {
-      this.props.cancelNewCard()
+      this.cancelNewCard()
     }
   }
 
@@ -52,7 +52,7 @@ export default class Card extends React.Component {
 
     if (typeof(response) !== 'undefined') {
       if (response.status === 200) {
-
+        this.props.saveCard(response.data.uuid, response.data.name, this.props.card.above_card)
       }
     }
   }
@@ -63,6 +63,10 @@ export default class Card extends React.Component {
     })
   }
 
+  cancelNewCard = () => {
+    this.props.deleteCard('new')
+  }
+
   render() {
     const { card, userIsAssigned } = this.props
 
@@ -70,7 +74,7 @@ export default class Card extends React.Component {
       ? (
         <ApiInput
           handleSubmit={this.handleSubmit}
-          handleCancel={this.props.cancelNewCard}
+          handleCancel={this.cancelNewCard}
           handleOnChange={this.handleOnChange}
           name='name'
           focus={true}
@@ -110,8 +114,9 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
+  saveCard:       PropTypes.func.isRequired,
   card:           PropTypes.object.isRequired,
   columnUuid:     PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
-  cancelNewCard:  PropTypes.func.isRequired
+  deleteCard:     PropTypes.func.isRequired
 }
