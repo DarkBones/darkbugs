@@ -26,7 +26,8 @@ export default class Column extends React.Component {
       cards,
       getAboveCard,
       updateCards,
-      isDragging
+      isDragging,
+      previousCardCount
     } = this.props
 
     return (
@@ -64,6 +65,7 @@ export default class Column extends React.Component {
                 getAboveCard={getAboveCard}
                 updateCards={updateCards}
                 isDragging={isDragging}
+                previousCardCount={this.props.previousCardCount}
               />
             </div>
           </div>
@@ -74,17 +76,18 @@ export default class Column extends React.Component {
 }
 
 Column.propTypes = {
-  index:            PropTypes.number.isRequired,
-  uuid:             PropTypes.string.isRequired,
-  cards:            PropTypes.object.isRequired,
-  column:           PropTypes.object.isRequired,
-  boardSlug:        PropTypes.string.isRequired,
-  updateColumnName: PropTypes.func.isRequired,
-  deleteColumn:     PropTypes.func.isRequired,
-  cancelNewColumn:  PropTypes.func.isRequired,
-  saveNewColumn:    PropTypes.func.isRequired,
-  userIsAssigned:   PropTypes.bool.isRequired,
-  getAboveCard:     PropTypes.func.isRequired,
-  updateCards:      PropTypes.func.isRequired,
-  isDragging:       PropTypes.bool.isRequired
+  index:              PropTypes.number.isRequired,
+  uuid:               PropTypes.string.isRequired,
+  cards:              PropTypes.object.isRequired,
+  column:             PropTypes.object.isRequired,
+  boardSlug:          PropTypes.string.isRequired,
+  updateColumnName:   PropTypes.func.isRequired,
+  deleteColumn:       PropTypes.func.isRequired,
+  cancelNewColumn:    PropTypes.func.isRequired,
+  saveNewColumn:      PropTypes.func.isRequired,
+  userIsAssigned:     PropTypes.bool.isRequired,
+  getAboveCard:       PropTypes.func.isRequired,
+  updateCards:        PropTypes.func.isRequired,
+  isDragging:         PropTypes.bool.isRequired,
+  previousCardCount:  PropTypes.func.isRequired
 }

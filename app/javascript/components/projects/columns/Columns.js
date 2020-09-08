@@ -227,6 +227,21 @@ export default class Columns extends React.Component {
     }
   }
 
+  previousCardCount = columnUuid => {
+    let count = 0
+    const columns = this.state.columns
+
+    this.state.columnOrder.forEach(function (uuid) {
+      if (uuid === columnUuid) {
+        return count
+      }
+
+      count += columns[uuid].card_uuids.length
+    })
+
+    return count
+  }
+
   render() {
     const { columns, columnOrder } = this.state
 
@@ -262,6 +277,7 @@ export default class Columns extends React.Component {
                   getAboveCard={this.getAboveCard}
                   updateCards={this.updateCards}
                   isDragging={this.state.isDragging}
+                  previousCardCount={this.previousCardCount}
                 />
               )}
               {provided.placeholder}

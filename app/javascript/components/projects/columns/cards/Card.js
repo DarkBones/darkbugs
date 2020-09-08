@@ -89,7 +89,7 @@ export default class Card extends React.Component {
       // </div>
       <Draggable
         draggableId={card.uuid}
-        index={card.index}
+        index={this.props.index}
         isDragDisabled={this.dragDisabled}
       >
         {(provided) => (
@@ -118,5 +118,6 @@ Card.propTypes = {
   card:           PropTypes.object.isRequired,
   columnUuid:     PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
-  deleteCard:     PropTypes.func.isRequired
+  deleteCard:     PropTypes.func.isRequired,
+  index:          PropTypes.number.isRequired
 }

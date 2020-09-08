@@ -11,8 +11,14 @@ module Columns
         uuid: column.uuid,
         name: column.name,
         position: column.position,
-        card_uuids: column.cards.ordered.pluck(:uuid)
+        card_uuids: card_uuids
       }
+    end
+
+    private def card_uuids
+      column.cards.ordered.pluck(:uuid)
+    rescue StandardError
+      []
     end
   end
 end

@@ -81,7 +81,7 @@ export default class Columns extends React.Component {
     this.props.updateColumns(persistedColumns)
   }
 
-  deleteColumn = (uuid) => {
+  deleteColumn = uuid => {
     let columns = []
 
     this.state.columns.forEach(function (column) {
@@ -95,7 +95,25 @@ export default class Columns extends React.Component {
     })
   }
 
+  previousCardCount = columnUuid => {
+    let count = 0
+
+    console.log('what')
+    this.state.columnOrder.forEach(function (uuid) {
+      if (uuid === columnUuid) {
+        return count
+      }
+
+      count += this.state.columns[uuid].cardUuids.length
+    })
+
+    return count
+  }
+
   render() {
+    console.log('one')
+    console.log(this.previousCardCount('ttt'))
+    console.log('two')
     return (
       <DragDropContext
         onBeforeCapture={this.onBeforeCapture}
@@ -118,8 +136,8 @@ export default class Columns extends React.Component {
               deleteColumn={this.deleteColumn}
               showCardModal={this.props.showCardModal}
               cardOrder={this.state.columns[columnUuid].card_uuids}
+              previousCardCount={this.previousCardCount}
               cards={this.props.cards}
-              // cards={columns[columnUuid].cards}
             />
           )}
           <AddColumnButton

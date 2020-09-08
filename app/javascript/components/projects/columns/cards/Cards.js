@@ -91,7 +91,8 @@ export default class Cards extends React.Component {
   }
 
   render() {
-    const {columnUuid, userIsAssigned } = this.props
+    const {columnUuid, userIsAssigned, previousCardCount } = this.props
+    const cardCount = previousCardCount(columnUuid)
 
     return (
       <Droppable
@@ -106,7 +107,7 @@ export default class Cards extends React.Component {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {this.state.cardUuids.map((cardUuid) =>
+            {this.state.cardUuids.map((cardUuid, index) =>
               <Card
                 key={cardUuid}
                 card={this.state.cards[cardUuid]}
@@ -114,6 +115,7 @@ export default class Cards extends React.Component {
                 userIsAssigned={userIsAssigned}
                 deleteCard={this.deleteCard}
                 saveCard={this.saveCard}
+                index={index + cardCount}
               />
             )}
             {provided.placeholder}
@@ -125,11 +127,12 @@ export default class Cards extends React.Component {
 }
 
 Cards.propTypes = {
-  cards:          PropTypes.object.isRequired,
-  cardUuids:      PropTypes.array.isRequired,
-  columnUuid:     PropTypes.string.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired,
-  getAboveCard:   PropTypes.func.isRequired,
-  updateCards:    PropTypes.func.isRequired,
-  isDragging:     PropTypes.bool.isRequired
+  cards:              PropTypes.object.isRequired,
+  cardUuids:          PropTypes.array.isRequired,
+  columnUuid:         PropTypes.string.isRequired,
+  userIsAssigned:     PropTypes.bool.isRequired,
+  getAboveCard:       PropTypes.func.isRequired,
+  updateCards:        PropTypes.func.isRequired,
+  isDragging:         PropTypes.bool.isRequired,
+  previousCardCount:  PropTypes.func.isRequired
 }
