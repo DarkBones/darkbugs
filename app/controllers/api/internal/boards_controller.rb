@@ -16,22 +16,19 @@ module Api
       end
 
       def reorder_cards
-        # card = @board.cards.find_by!(uuid: params[:card_uuid])
-        # column = @board.columns.find_by!(uuid: params[:columns][:destination])
-        #
-        # card_index = column.cards.order(:position)[params[:card_index]].position
-        # card.update!(
-        #   column_id: column.id,
-        #   position: card_index + 1
-        # )
-        #
-        # cards_below = column.cards.where.not(uuid: card.uuid).order(:position).offset(params[:card_index])
-        # position = cards_below.first&.position + 1
-        # cards_below.each do |c|
-        #   position += 1
-        #   c.update!(position: position)
-        # end
+        card = @board.cards.find_by!(uuid: params[:card_uuid])
+        column = @board.columns.find_by!(uuid: params[:column_uuid])
+        above_card = @board.cards.find_by(uuid: params[:above_card])
 
+        Cards::ReorderService.new(
+          board: @board,
+          column: column,
+          card: card,
+          above_card: above_card
+        ).execute
+      end
+
+      def reorder_cards_old
         card = @board.cards.find_by!(uuid: params[:card_uuid])
         column = @board.columns.find_by!(uuid: params[:column])
         card_index = params[:card_index]

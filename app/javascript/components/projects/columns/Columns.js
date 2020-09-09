@@ -29,6 +29,7 @@ export default class Columns extends React.Component {
       columns: props.columns,
       columnOrder: props.columnOrder,
       cards: props.cards,
+      cardOrder: props.cardOrder,
       isDragging: false
     }
   }
@@ -65,15 +66,42 @@ export default class Columns extends React.Component {
   }
 
   updateCardOrder = async (source, destination, draggableId) => {
-    const newState = updateCardOrderState(this.state, source, destination, draggableId)
+    const sourcePreviousCardCount = this.previousCardCount(source.droppableId)
+    const destinationPreviousCardCount = this.previousCardCount(destination.droppableId)
+
+    const newState = updateCardOrderState(this.state, source, destination, draggableId, sourcePreviousCardCount, destinationPreviousCardCount)
+    console.log(newState)
 
     this.setState(newState)
 
+    return
+
+    //////////////////////////////
+
+    const { cards, columns, cardOrder } = this.state
+
+    const sourceColumn = columns[source.droppableId]
+    const destinationColumn = columns[destination.droppableId]
+    const index = destination.index
+
+    // const aboveCard = index > 0
+    //   ? cards[destinationColumn.card_uuids[destination.index - 1]].uuid
+    //   : this.findLastCardInPreviousColumn(destination.droppableId)
+    const aboveCard = cardOrder[index - 1]
+    console.log(aboveCard)
+
     const params = {
       card_uuid: draggableId,
-      card_index: destination.index,
-      column: destination.droppableId
+      above_card: aboveCard,
+      column_uuid: destination.droppableId
     }
+
+
+    console.log(index)
+    console.log(params)
+    console.log(newState)
+
+    this.setState(newState)
 
     let response = await BoardApi
       .reorderCards(
@@ -81,17 +109,15 @@ export default class Columns extends React.Component {
         params
       )
 
-    if (typeof(response) !== 'undefined') {
-      if (response.status === 200) {
-        this.setState({
-          ...this.state,
-          cards: response.data
-        })
-      }
-    }
-
-    this.handleColumnsUpdate()
-    this.handleCardsUpdate()
+    // if (typeof (response) !== 'undefined') {
+    //   if (response.status === 200) {
+    //     this.handleColumnsUpdate()
+    //     this.handleCardsUpdate()
+    //   }
+    // }
+    //
+    // this.handleColumnsUpdate()
+    // this.handleCardsUpdate()
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
@@ -215,9 +241,15 @@ export default class Columns extends React.Component {
       return cardUuids[idx]
     }
 
+    return this.findLastCardInPreviousColumn(columnId)
+  }
+
+  findLastCardInPreviousColumn = (columnId) => {
+    const { columnOrder, columns } = this.state
     let columnIndex = columnOrder.indexOf(columnId)
     let columnCards = []
-    while (columnIndex > 0) {
+
+    while(columnIndex > 0) {
       columnIndex--
 
       columnCards = columns[columnOrder[columnIndex]].card_uuids
@@ -231,12 +263,16 @@ export default class Columns extends React.Component {
     let count = 0
     const columns = this.state.columns
 
+    let breakLoop = false
     this.state.columnOrder.forEach(function (uuid) {
+
       if (uuid === columnUuid) {
-        return count
+        breakLoop = true
       }
 
-      count += columns[uuid].card_uuids.length
+      if (!breakLoop) {
+        count += columns[uuid].card_uuids.length
+      }
     })
 
     return count
@@ -300,5 +336,6 @@ Columns.propTypes = {
   setColumns:     PropTypes.func.isRequired,
   setCards:       PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
-  boardSlug:      PropTypes.string.isRequired
+  boardSlug:      PropTypes.string.isRequired,
+  cardOrder:      PropTypes.array.isRequired
 }

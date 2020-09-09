@@ -107,7 +107,7 @@ export default class Cards extends React.Component {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {this.state.cardUuids.map((cardUuid, index) =>
+            {this.props.cardUuids.map((cardUuid, index) =>
               <Card
                 key={cardUuid}
                 card={this.state.cards[cardUuid]}

@@ -43,6 +43,7 @@ export default class ProjectItemsApp extends React.Component {
           userIsAssigned={this.props.user_is_assigned}
           boardSlug={this.props.board_slug}
           cards={this.state.cards}
+          cardOrder={this.props.card_order}
         />
       </div>
     )

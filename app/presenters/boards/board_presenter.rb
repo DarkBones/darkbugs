@@ -12,6 +12,7 @@ module Boards
         name: board.name,
         board_slug: board.slug,
         cards: cards,
+        card_order: board.cards.pluck(:uuid),
         columns: {
           columns: columns,
           order: board.ordered_columns.pluck(:uuid)
