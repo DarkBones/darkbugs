@@ -51,17 +51,17 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
   create_table "cards", force: :cascade do |t|
     t.string "uuid", null: false
     t.string "name"
-    t.integer "next_id"
-    t.boolean "first"
+    t.integer "position"
     t.bigint "column_id"
+    t.bigint "board_id"
     t.integer "reporter_id"
     t.integer "assignee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["assignee_id"], name: "index_cards_on_assignee_id"
+    t.index ["board_id"], name: "index_cards_on_board_id"
     t.index ["column_id"], name: "index_cards_on_column_id"
-    t.index ["first"], name: "index_cards_on_first"
-    t.index ["next_id"], name: "index_cards_on_next_id"
+    t.index ["position"], name: "index_cards_on_position"
     t.index ["reporter_id"], name: "index_cards_on_reporter_id"
     t.index ["uuid"], name: "index_cards_on_uuid"
   end

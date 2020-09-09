@@ -11,7 +11,12 @@ module Cards
 
     def execute
       card = create_card
-      card.append_to(above_card) if above_card.present?
+
+      if above_card.present?
+        card.insert_at(above_card.lower_item.position) if above_card.lower_item.present?
+      else
+        card.move_to_top
+      end
 
       results = {
         card: card
@@ -21,7 +26,6 @@ module Cards
     end
 
     private def create_card
-      puts card_attributes
       column.cards.create!(
         card_attributes
       )
@@ -30,7 +34,8 @@ module Cards
     private def card_attributes
       {
         name: params[:name],
-        reporter_id: current_user.id
+        reporter_id: current_user.id,
+        board: column.board
       }
     end
   end

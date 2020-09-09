@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 gem 'activestorage', '>= 6.0.3.1'
+gem 'acts_as_list'
 gem 'apartment', path: 'vendor/git/apartment'
 gem 'azure-storage', '~> 0.15.0.preview', require: false
 gem 'azure-storage-blob'
@@ -21,7 +22,6 @@ gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.0.3'
 gem 'rack-cors'
 gem 'react-rails'
-gem 'resort', path: 'vendor/git/resort'
 gem 'sass-rails', '>= 6'
 gem 'simple_form'
 gem 'sprockets-rails', '>= 2.3.2'

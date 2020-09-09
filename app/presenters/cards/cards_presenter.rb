@@ -8,7 +8,7 @@ module Cards
 
     def to_h
       cards = {}
-      board.cards.ordered.map.with_index do |card, idx|
+      board.cards.map.with_index do |card, idx|
         cards[card.uuid.to_sym] = format_card(card, idx)
       end
 
@@ -20,7 +20,7 @@ module Cards
         uuid: card.uuid,
         name: card.name,
         index: idx,
-        above_card: card.previous&.uuid
+        above_card: card.higher_item&.uuid
       }
     end
   end
