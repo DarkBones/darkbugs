@@ -21,6 +21,8 @@ RUN mkdir /$APP_HOME
 WORKDIR /$APP_HOME
 
 COPY Gemfile* ./
+COPY vendor ./vendor
+
 RUN gem install bundler \
     && gem install rake
 
