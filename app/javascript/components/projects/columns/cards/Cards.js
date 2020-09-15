@@ -112,8 +112,8 @@ export default class Cards extends React.Component {
             {this.props.cardUuids.map((cardUuid, index) =>
               <Card
                 key={cardUuid}
-                card={this.state.cards[cardUuid]}
-                aboveCard={this.state.cardUuids[index + cardCount - 1]}
+                card={this.props.cards[cardUuid]}
+                aboveCard={this.props.cardUuids[index + cardCount - 1]}
                 columnUuid={columnUuid}
                 userIsAssigned={userIsAssigned}
                 deleteCard={this.deleteCard}

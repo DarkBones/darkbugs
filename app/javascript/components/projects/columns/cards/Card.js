@@ -84,9 +84,6 @@ export default class Card extends React.Component {
       : card.name
 
     return (
-      // <div className='card'>
-      //   {card.name}
-      // </div>
       <Draggable
         draggableId={card.uuid}
         index={this.props.index}
