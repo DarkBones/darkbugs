@@ -71,11 +71,16 @@ export default class Columns extends React.Component {
 
     // console.log(this.state.cardOrder[destination.index])
     const newState = updateCardOrderState(this.state, source, destination, draggableId, sourcePreviousCardCount, destinationPreviousCardCount)
-    const aboveCard = newState.cardOrder[destination.index - 1]
+    const index = (destination.index > 0 ? destination.index : destinationPreviousCardCount) - 1
+    const aboveCard = newState.cardOrder[newState.cardOrder.indexOf(draggableId)-1]
+    console.log(aboveCard)
     console.log(newState.cardOrder)
-    console.log(destination.index - 1)
+    console.log('index', newState.cardOrder.indexOf(draggableId))
+    console.log('cardCount', destinationPreviousCardCount)
+    console.log('a index', newState.cardOrder.indexOf(draggableId)-1)
 
     this.setState(newState)
+    console.log(newState)
 
     const params = {
       card_uuid: draggableId,
@@ -90,8 +95,6 @@ export default class Columns extends React.Component {
             this.props.boardSlug,
             params
         )
-
-    // console.log(newState)
 
     if (response) {
       if (response.status === 200) {

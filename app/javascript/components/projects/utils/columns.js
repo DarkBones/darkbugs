@@ -17,13 +17,15 @@ export function updateCardOrderState (state, source, destination, draggableId, s
   let cardOrder = Array.from(state.cardOrder)
 
   sourceCards.splice(source.index - sourcePreviousCardCount, 1)
-  cardOrder.splice(source.index - sourcePreviousCardCount, 1)
+  cardOrder.splice(source.index, 1)
+
+  console.log('source.index - sourcePreviousCardCount =', `${source.index} - ${sourcePreviousCardCount} =`, source.index - sourcePreviousCardCount)
 
   if (source.droppableId === destination.droppableId) {
     destinationCards.splice(source.index - sourcePreviousCardCount, 1)
   }
   destinationCards.splice(destination.index - destinationPreviousCardCount, 0, draggableId)
-  cardOrder.splice(destination.index - destinationPreviousCardCount, 0, draggableId)
+  cardOrder.splice(destination.index + destinationPreviousCardCount, 0, draggableId)
 
   return {
     ...state,
