@@ -14,7 +14,7 @@ module Cards
 
       if above_card.present?
         if above_card.lower_item.present?
-          card.insert_at(above_card.lower_item.position)
+          card.insert_at(above_card.position)
         else
           card.move_to_bottom
         end

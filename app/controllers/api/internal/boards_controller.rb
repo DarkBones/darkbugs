@@ -26,21 +26,8 @@ module Api
           card: card,
           above_card: above_card
         ).execute
-      end
 
-      def reorder_cards_old
-        card = @board.cards.find_by!(uuid: params[:card_uuid])
-        column = @board.columns.find_by!(uuid: params[:column])
-        card_index = params[:card_index]
-
-        Cards::ReorderService.new(
-          board: @board,
-          column: column,
-          card: card,
-          card_index: card_index)
-          .execute
-
-        render json: Cards::CardsPresenter.new(@board).to_h
+        render json: 'success'
       end
 
       private def load_board

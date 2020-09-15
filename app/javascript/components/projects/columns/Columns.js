@@ -69,26 +69,13 @@ export default class Columns extends React.Component {
     const sourcePreviousCardCount = this.previousCardCount(source.droppableId)
     const destinationPreviousCardCount = this.previousCardCount(destination.droppableId)
 
+    // console.log(this.state.cardOrder[destination.index])
     const newState = updateCardOrderState(this.state, source, destination, draggableId, sourcePreviousCardCount, destinationPreviousCardCount)
-    console.log(newState)
+    const aboveCard = newState.cardOrder[destination.index - 1]
+    console.log(newState.cardOrder)
+    console.log(destination.index - 1)
 
     this.setState(newState)
-
-    return
-
-    //////////////////////////////
-
-    const { cards, columns, cardOrder } = this.state
-
-    const sourceColumn = columns[source.droppableId]
-    const destinationColumn = columns[destination.droppableId]
-    const index = destination.index
-
-    // const aboveCard = index > 0
-    //   ? cards[destinationColumn.card_uuids[destination.index - 1]].uuid
-    //   : this.findLastCardInPreviousColumn(destination.droppableId)
-    const aboveCard = cardOrder[index - 1]
-    console.log(aboveCard)
 
     const params = {
       card_uuid: draggableId,
@@ -96,28 +83,22 @@ export default class Columns extends React.Component {
       column_uuid: destination.droppableId
     }
 
-
-    console.log(index)
     console.log(params)
-    console.log(newState)
-
-    this.setState(newState)
 
     let response = await BoardApi
-      .reorderCards(
-        this.props.boardSlug,
-        params
-      )
+        .reorderCards(
+            this.props.boardSlug,
+            params
+        )
 
-    // if (typeof (response) !== 'undefined') {
-    //   if (response.status === 200) {
-    //     this.handleColumnsUpdate()
-    //     this.handleCardsUpdate()
-    //   }
-    // }
-    //
-    // this.handleColumnsUpdate()
-    // this.handleCardsUpdate()
+    // console.log(newState)
+
+    if (response) {
+      if (response.status === 200) {
+        this.handleColumnsUpdate()
+        this.handleCardsUpdate()
+      }
+    }
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
