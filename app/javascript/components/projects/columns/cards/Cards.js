@@ -46,9 +46,11 @@ export default class Cards extends React.Component {
       cardUuids: newCardUuids
     }
 
-    this.setState(newState)
+    console.log(newState)
 
+    this.setState(newState)
     this.props.updateCards(this.props.columnUuid, newCardUuids, newState.cards)
+    console.log(newState)
   }
 
   saveCard = (uuid, name, aboveCard) => {
@@ -57,7 +59,7 @@ export default class Cards extends React.Component {
   }
 
   addCard = (uuid, name, aboveCard) => {
-    let newCardUuids = Array.from(this.state.cardUuids)
+    let newCardUuids = Array.from(this.props.cardUuids)
     const idx = newCardUuids.indexOf(aboveCard)
 
     if (
@@ -111,7 +113,7 @@ export default class Cards extends React.Component {
               <Card
                 key={cardUuid}
                 card={this.state.cards[cardUuid]}
-                aboveCard={this.props.cardUuids[index + cardCount - 1]}
+                aboveCard={this.state.cardUuids[index + cardCount - 1]}
                 columnUuid={columnUuid}
                 userIsAssigned={userIsAssigned}
                 deleteCard={this.deleteCard}

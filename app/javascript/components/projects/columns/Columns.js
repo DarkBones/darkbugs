@@ -211,7 +211,7 @@ export default class Columns extends React.Component {
   }
 
   getAboveCard = clickEvent => {
-    const { columns, columnOrder } = this.state
+    const { columns } = this.state
     const columnId = clickEvent.target.id
     const cardUuids = columns[columnId].card_uuids
 
