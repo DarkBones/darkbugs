@@ -9,15 +9,13 @@ module Boards
 
     def to_h
       {
-        name: board.name,
-        board_slug: board.slug,
-        cards: cards,
-        card_order: board.cards.pluck(:uuid),
-        columns: {
+          name: board.name,
+          board_slug: board.slug,
+          cards: cards,
+          card_order: board.cards.pluck(:uuid),
           columns: columns,
-          order: board.ordered_columns.pluck(:uuid)
-        },
-        user_is_assigned: board.user_is_assigned?(current_user)
+          column_order: board.ordered_columns.pluck(:uuid),
+          user_is_assigned: board.user_is_assigned?(current_user)
       }
     end
 
