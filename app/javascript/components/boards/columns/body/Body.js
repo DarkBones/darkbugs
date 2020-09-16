@@ -12,7 +12,17 @@ export default class Body extends React.Component {
   }
 
   handleClick = e => {
-    console.log(e)
+    const {
+      isDragging,
+      getPreviousCard
+    } = this.props
+
+    if (!e.target.classList.contains('column-body') || isDragging) {
+      return
+    }
+
+    const previousCard = getPreviousCard(e)
+    console.log('previous card:', previousCard)
   }
 
   render() {
@@ -34,6 +44,7 @@ export default class Body extends React.Component {
         {(provided) => (
           <div
             className="column-body"
+            id={columnUuid}
             onClick={this.handleClick}
             ref={provided.innerRef}
             {...provided.droppableProps}
@@ -47,6 +58,7 @@ export default class Body extends React.Component {
                 userIsAssigned={userIsAssigned}
               />
             )}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
@@ -58,6 +70,8 @@ Body.propTypes = {
   cards:              PropTypes.object.isRequired,
   cardUuids:          PropTypes.array.isRequired,
   columnUuid:         PropTypes.string.isRequired,
+  getPreviousCard:    PropTypes.func.isRequired,
+  isDragging:         PropTypes.bool.isRequired,
   previousCardCount:  PropTypes.func.isRequired,
   userIsAssigned:     PropTypes.bool.isRequired
 }

@@ -72,6 +72,51 @@ export default class Columns extends React.Component {
     await ColumnApi.deleteColumn(columnUuid)
   }
 
+  getPreviousCard = clickEvent => {
+    const columnUuid = clickEvent.target.id
+
+    const {
+      getPreviousCardInColumn,
+      getPreviousCardOutsideColumn
+    } = this
+
+    let previousCard = getPreviousCardInColumn(clickEvent, columnUuid)
+
+    if (!previousCard) {
+      previousCard = getPreviousCardOutsideColumn(columnUuid)
+    }
+
+    return previousCard
+  }
+
+  getPreviousCardInColumn = (clickEvent, columnUuid) => {
+    const column = this.state.columns[columnUuid]
+    const cardUuids = column.card_uuids
+
+    const y = clickEvent.clientY - clickEvent.target.getBoundingClientRect().top
+    let idx = Math.floor((y - 20) / 100)
+    if (idx > cardUuids.length - 1) {
+      idx = cardUuids.length - 1
+    }
+
+    return cardUuids[idx]
+  }
+
+  getPreviousCardOutsideColumn = columnUuid => {
+    const { columnOrder, columns } = this.state
+    let columnIndex = columnOrder.indexOf(columnUuid)
+    let columnCards = []
+
+    while(columnIndex > 0) {
+      columnIndex--
+
+      columnCards = columns[columnOrder[columnIndex]].card_uuids
+      if (columnCards.length > 0) {
+        return columnCards[columnCards.length - 1]
+      }
+    }
+  }
+
   onDragStart = () => {
     this.setState({
       isDragging: true
@@ -121,12 +166,14 @@ export default class Columns extends React.Component {
     const {
       cards,
       columns,
-      columnOrder
+      columnOrder,
+      isDragging
     } = this.state
 
     const {
       addColumn,
       deleteColumn,
+      getPreviousCard,
       updateColumnName
     } = this
 
@@ -155,7 +202,9 @@ export default class Columns extends React.Component {
                   cards=            {cards}
                   column=           {columns[columnUuid]}
                   deleteColumn=     {deleteColumn}
+                  getPreviousCard=  {getPreviousCard}
                   index=            {index}
+                  isDragging=       {isDragging}
                   key=              {columnUuid}
                   previousCardCount={this.previousCardCount}
                   updateColumnName= {updateColumnName}

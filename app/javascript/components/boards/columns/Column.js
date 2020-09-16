@@ -19,7 +19,9 @@ export default class Column extends React.Component {
       cards,
       column,
       deleteColumn,
+      getPreviousCard,
       index,
+      isDragging,
       previousCardCount,
       updateColumnName,
       userIsAssigned,
@@ -56,6 +58,8 @@ export default class Column extends React.Component {
                 cards=                {cards}
                 cardUuids=            {column.card_uuids}
                 columnUuid=           {column.uuid}
+                getPreviousCard=      {getPreviousCard}
+                isDragging=           {isDragging}
                 previousCardCount=    {previousCardCount}
                 userIsAssigned=       {userIsAssigned}
               />
@@ -74,6 +78,8 @@ Column.propTypes = {
   column:             PropTypes.object.isRequired,
   deleteColumn:       PropTypes.func.isRequired,
   index:              PropTypes.number.isRequired,
+  isDragging:         PropTypes.bool.isRequired,
+  getPreviousCard:    PropTypes.func.isRequired,
   previousCardCount:  PropTypes.func.isRequired,
   updateColumnName:   PropTypes.func.isRequired,
   userIsAssigned:     PropTypes.bool.isRequired,
