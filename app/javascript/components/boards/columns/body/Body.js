@@ -13,6 +13,9 @@ export default class Body extends React.Component {
 
   handleClick = e => {
     const {
+      addCard,
+      columnUuid,
+      deleteCard,
       isDragging,
       getPreviousCard
     } = this.props
@@ -21,8 +24,10 @@ export default class Body extends React.Component {
       return
     }
 
+    deleteCard('new')
+
     const previousCard = getPreviousCard(e)
-    console.log('previous card:', previousCard)
+    addCard(columnUuid, 'new', '', previousCard)
   }
 
   render() {
@@ -67,9 +72,11 @@ export default class Body extends React.Component {
 }
 
 Body.propTypes = {
+  addCard:            PropTypes.func.isRequired,
   cards:              PropTypes.object.isRequired,
   cardUuids:          PropTypes.array.isRequired,
   columnUuid:         PropTypes.string.isRequired,
+  deleteCard:         PropTypes.func.isRequired,
   getPreviousCard:    PropTypes.func.isRequired,
   isDragging:         PropTypes.bool.isRequired,
   previousCardCount:  PropTypes.func.isRequired,

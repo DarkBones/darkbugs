@@ -28,6 +28,37 @@ export default class Columns extends React.Component {
     }
   }
 
+  addCard = (columnUuid, uuid, name, previousCard) => {
+    const column = this.state.columns[columnUuid]
+    const newCardUuids = Array.from(column.card_uuids)
+    const idx = newCardUuids.indexOf(previousCard)
+
+    if (!previousCard || idx < 0) {
+      newCardUuids.unshift(uuid)
+    } else {
+      newCardUuids.splice(idx + 1, 0, uuid)
+    }
+
+    this.setState({
+      ...this.state,
+      cards: {
+        ...this.state.cards,
+        [uuid]: {
+          name: name,
+          uuid: uuid,
+          above_card: previousCard
+        }
+      },
+      columns: {
+        ...this.state.columns,
+        [columnUuid]: {
+          ...this.state.columns[columnUuid],
+          card_uuids: newCardUuids
+        }
+      }
+    })
+  }
+
   addColumn = (uuid, name) => {
     const oldState = this.state
     const newState = ColumnsState.addColumn(this.state, uuid, name)
@@ -55,6 +86,14 @@ export default class Columns extends React.Component {
 
     setCards(cardOrder, cards)
     setColumns(columnOrder, columns)
+  }
+
+  deleteCard = (cardUuid) => {
+    console.log('delete card', cardUuid)
+    const newState = ColumnsState.deleteCard(this.state, cardUuid)
+    console.log(newState)
+
+    this.setState(newState)
   }
 
   deleteColumn = columnUuid => {
@@ -237,7 +276,9 @@ export default class Columns extends React.Component {
     } = this.state
 
     const {
+      addCard,
       addColumn,
+      deleteCard,
       deleteColumn,
       getPreviousCard,
       updateColumnName
@@ -263,10 +304,12 @@ export default class Columns extends React.Component {
             >
               {columnOrder.map((columnUuid, index) =>
                 <Column
+                  addCard=          {addCard}
                   addColumn=        {addColumn}
                   boardSlug=        {boardSlug}
                   cards=            {cards}
                   column=           {columns[columnUuid]}
+                  deleteCard=       {deleteCard}
                   deleteColumn=     {deleteColumn}
                   getPreviousCard=  {getPreviousCard}
                   index=            {index}

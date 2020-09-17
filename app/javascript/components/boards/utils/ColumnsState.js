@@ -28,6 +28,52 @@ export default class ColumnsState {
     }
   }
 
+  static deleteCard(state, cardUuid) {
+    const {
+      cardOrder,
+      columnOrder,
+      columns
+    } = state
+
+    let newState = Object.create(state)
+
+    const newCardOrder = Array.from(cardOrder)
+    const cardOrderIndex = newCardOrder.indexOf(cardUuid)
+
+    if (cardOrderIndex >= 0) newCardOrder.splice(cardOrderIndex, 1)
+
+    let column
+    let newCardUuids
+    let idx
+    columnOrder.forEach(function(columnUuid) {
+      column = columns[columnUuid]
+      newCardUuids = Array.from(column.card_uuids)
+      idx = newCardUuids.indexOf(cardUuid)
+
+      if (idx >= 0) {
+        newCardUuids.splice(idx, 1)
+
+        newState = {
+          ...newState,
+          columns: {
+            ...newState.columns,
+            [columnUuid]: {
+              ...newState.columns[columnUuid],
+              card_uuids: newCardUuids
+            }
+          }
+        }
+      }
+    })
+
+    newState = {
+      ...newState,
+      cardOrder: newCardOrder
+    }
+
+    return newState
+  }
+
   static previousCardCount(state, columnUuid) {
     const { columnOrder, columns } = state
     let count = 0

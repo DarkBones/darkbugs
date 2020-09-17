@@ -14,10 +14,12 @@ export default class Column extends React.Component {
 
   render() {
     const {
+      addCard,
       addColumn,
       boardSlug,
       cards,
       column,
+      deleteCard,
       deleteColumn,
       getPreviousCard,
       index,
@@ -55,9 +57,11 @@ export default class Column extends React.Component {
                 />
               </div>
               <Body
+                addCard=              {addCard}
                 cards=                {cards}
                 cardUuids=            {column.card_uuids}
                 columnUuid=           {column.uuid}
+                deleteCard=           {deleteCard}
                 getPreviousCard=      {getPreviousCard}
                 isDragging=           {isDragging}
                 previousCardCount=    {previousCardCount}
@@ -72,10 +76,12 @@ export default class Column extends React.Component {
 }
 
 Column.propTypes = {
+  addCard:            PropTypes.func.isRequired,
   addColumn:          PropTypes.func.isRequired,
   boardSlug:          PropTypes.string.isRequired,
   cards:              PropTypes.object.isRequired,
   column:             PropTypes.object.isRequired,
+  deleteCard:         PropTypes.func.isRequired,
   deleteColumn:       PropTypes.func.isRequired,
   index:              PropTypes.number.isRequired,
   isDragging:         PropTypes.bool.isRequired,
