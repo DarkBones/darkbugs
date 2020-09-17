@@ -1,6 +1,7 @@
 class Card < ApplicationRecord
-  include Identifiable
   include Assignable
+  include Identifiable
+  include Orderable
 
   belongs_to :column
   belongs_to :board

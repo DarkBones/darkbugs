@@ -1,7 +1,7 @@
-import React from 'react'
-import Column from './Column'
-import ColumnsState from '../utils/columnsState'
-import PropTypes from 'prop-types'
+import React        from 'react'
+import Column       from './Column'
+import ColumnsState from '../utils/ColumnsState'
+import PropTypes    from 'prop-types'
 
 import CreateButton from './CreateButton'
 
@@ -57,9 +57,7 @@ export default class Columns extends React.Component {
     setColumns(columnOrder, columns)
   }
 
-  deleteColumn = async columnUuid => {
-    console.log(this.state)
-    const oldState = this.state
+  deleteColumn = columnUuid => {
     const newState = ColumnsState.deleteColumn(this.state, columnUuid)
 
     this.setState(newState)
@@ -69,7 +67,7 @@ export default class Columns extends React.Component {
       return
     }
 
-    await ColumnApi.deleteColumn(columnUuid)
+    ColumnApi.deleteColumn(columnUuid)
   }
 
   getPreviousCard = clickEvent => {
@@ -124,7 +122,27 @@ export default class Columns extends React.Component {
   }
 
   onDragEnd = result => {
-    console.log(result)
+    const {
+      destination,
+      source,
+      draggableId,
+      type
+    } = result
+
+    // return if no changes
+    if (!destination) return
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) return
+
+    type === 'column'
+      ? this.updateColumnOrder(
+        source,
+        destination,
+        draggableId
+      )
+      : console.log('CARD')
 
     this.setState({
       isDragging: false
@@ -155,6 +173,36 @@ export default class Columns extends React.Component {
     this.setState(newState)
 
     this.afterUpdate()
+  }
+
+  updateColumnOrder = async (source, destination, draggableId) => {
+    const { state } = this
+    const { boardSlug } = this.props
+
+    const newState = ColumnsState.updateColumnOrder(
+      state,
+      source,
+      destination,
+      draggableId
+    )
+
+    this.setState(newState)
+
+    let response = await BoardApi
+      .reorderColumns(
+        boardSlug,
+        {
+          columns: newState.columnOrder
+        }
+      ).catch(() => {
+        this.setState(state)
+      })
+
+    if(response) {
+      if(response.data === 200) {
+        this.afterUpdate()
+      }
+    }
   }
 
   render() {

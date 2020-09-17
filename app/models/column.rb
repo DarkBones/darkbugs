@@ -1,5 +1,6 @@
 class Column < ApplicationRecord
   include Identifiable
+  include Orderable
 
   belongs_to :board
   has_many :cards, -> { order(position: :asc) }, dependent: :destroy

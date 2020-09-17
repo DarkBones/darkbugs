@@ -14,7 +14,7 @@ module Boards
           cards: cards,
           card_order: board.cards.pluck(:uuid),
           columns: columns,
-          column_order: board.ordered_columns.pluck(:uuid),
+          column_order: board.columns.ordered.pluck(:uuid),
           user_is_assigned: board.user_is_assigned?(current_user)
       }
     end
@@ -25,7 +25,7 @@ module Boards
 
     private def columns
       cols = {}
-      board.ordered_columns.map do |column|
+      board.columns.ordered.map do |column|
         cols[column.uuid.to_sym] = Columns::ColumnPresenter.new(column).to_h
       end
       cols.to_h
