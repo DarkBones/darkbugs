@@ -35,7 +35,7 @@ export default class ColumnsState {
       columns
     } = state
 
-    let newState = Object.create(state)
+    let newState = state
 
     const newCardOrder = Array.from(cardOrder)
     const cardOrderIndex = newCardOrder.indexOf(cardUuid)
@@ -66,10 +66,10 @@ export default class ColumnsState {
       }
     })
 
-    newState = {
-      ...newState,
-      cardOrder: newCardOrder
-    }
+    // newState = {
+    //   ...newState,
+    //   cardOrder: newCardOrder
+    // }
 
     return newState
   }

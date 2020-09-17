@@ -15,7 +15,6 @@ export default class Body extends React.Component {
     const {
       addCard,
       columnUuid,
-      deleteCard,
       isDragging,
       getPreviousCard
     } = this.props
@@ -23,8 +22,6 @@ export default class Body extends React.Component {
     if (!e.target.classList.contains('column-body') || isDragging) {
       return
     }
-
-    deleteCard('new')
 
     const previousCard = getPreviousCard(e)
     addCard(columnUuid, 'new', '', previousCard)

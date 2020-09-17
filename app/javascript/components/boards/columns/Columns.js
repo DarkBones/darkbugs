@@ -29,7 +29,9 @@ export default class Columns extends React.Component {
   }
 
   addCard = (columnUuid, uuid, name, previousCard) => {
-    const column = this.state.columns[columnUuid]
+    let newState = ColumnsState.deleteCard(this.state, 'new')
+
+    const column = newState.columns[columnUuid]
     const newCardUuids = Array.from(column.card_uuids)
     const idx = newCardUuids.indexOf(previousCard)
 
@@ -39,10 +41,10 @@ export default class Columns extends React.Component {
       newCardUuids.splice(idx + 1, 0, uuid)
     }
 
-    this.setState({
-      ...this.state,
+    newState = {
+      ...newState,
       cards: {
-        ...this.state.cards,
+        ...newState.cards,
         [uuid]: {
           name: name,
           uuid: uuid,
@@ -50,13 +52,16 @@ export default class Columns extends React.Component {
         }
       },
       columns: {
-        ...this.state.columns,
+        ...newState.columns,
         [columnUuid]: {
-          ...this.state.columns[columnUuid],
+          ...newState.columns[columnUuid],
           card_uuids: newCardUuids
         }
       }
-    })
+    }
+
+    this.setState(newState)
+    this.afterUpdate()
   }
 
   addColumn = (uuid, name) => {
