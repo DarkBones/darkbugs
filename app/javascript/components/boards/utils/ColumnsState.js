@@ -53,33 +53,42 @@ export default class ColumnsState {
 
     const cardOrder = Array.from(state.cardOrder)
 
-    const sourceColumn = columns[source.droppableId]
-    const destinationColumn = columns[destination.droppableId]
+    const prepareObj = obj => {
+      const columnId = obj.droppableId
 
-    const previousCardCount = this.previousCardCount(state, destination.droppableId)
+      return {
+        ...obj,
+        cards: Array.from(columns[columnId].card_uuids),
+        column: columns[columnId],
+        previousCardCount: this.previousCardCount(state, columnId)
+      }
+    }
 
-    const sourceCards = Array.from(sourceColumn.card_uuids)
+    source = prepareObj(source)
+    source.cards.splice(source.index - source.previousCardCount, 1)
 
-    sourceCards.splice(source.index - this.previousCardCount(state, source.droppableId), 1)
-    cardOrder.splice(source.index, 1)
-
-    const destinationCards = source.droppableId === destination.droppableId
-      ? Array.from(sourceCards)
-      : Array.from(destinationColumn.card_uuids)
+    destination = prepareObj(destination)
+    if (source.droppableId === destination.droppableId) {
+      destination.cards = Array.from(source.cards)
+    }
 
     let destinationIndex = destination.index
     let totalIndex = destination.index
     if (destinationIndex > 0) {
-      destinationIndex -= previousCardCount
+      destinationIndex -= destination.previousCardCount
     } else {
       destinationIndex = 0
-      totalIndex = previousCardCount
+      totalIndex = destination.previousCardCount
     }
 
-    destinationCards.splice(destinationIndex, 0, draggableId)
-    cardOrder.splice(totalIndex, 0, draggableId)
+    if (source.index < destination.index && totalIndex > 0) {
+      totalIndex -= 1
+    }
 
-    console.log(cardOrder)
+    destination.cards.splice(destinationIndex, 0, draggableId)
+
+    cardOrder.splice(source.index, 1)
+    cardOrder.splice(totalIndex, 0, draggableId)
 
     return {
       ...state,
@@ -88,11 +97,11 @@ export default class ColumnsState {
         ...state.columns,
         [source.droppableId]: {
           ...state.columns[source.droppableId],
-          card_uuids: sourceCards
+          card_uuids: source.cards
         },
         [destination.droppableId]: {
           ...state.columns[destination.droppableId],
-          card_uuids: destinationCards
+          card_uuids: destination.cards
         }
       }
     }

@@ -157,7 +157,7 @@ export default class Columns extends React.Component {
     return ColumnsState.previousCardCount(this.state, columnUuid)
   }
 
-  updateCardOrder = async (source, destination, draggableId) => {
+  updateCardOrder = (source, destination, draggableId) => {
     const newState = ColumnsState
       .updateCardOrder(
         this.state,
@@ -176,15 +176,13 @@ export default class Columns extends React.Component {
       column_uuid: destination.droppableId
     }
 
-    console.log(params)
-
-    let response = await BoardApi
+    BoardApi
       .reorderCards(
         this.props.boardSlug,
         params
       )
 
-    console.log(response)
+    this.afterUpdate()
   }
 
   updateColumnName = (columnUuid, name) => {
