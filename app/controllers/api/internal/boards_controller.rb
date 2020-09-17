@@ -18,13 +18,13 @@ module Api
       def reorder_cards
         card = @board.cards.find_by!(uuid: params[:card_uuid])
         column = @board.columns.find_by!(uuid: params[:column_uuid])
-        above_card = @board.cards.find_by(uuid: params[:above_card])
+        previous_card = @board.cards.find_by(uuid: params[:previous_card])
 
         Cards::ReorderService.new(
           board: @board,
           column: column,
           card: card,
-          above_card: above_card
+          previous_card: previous_card
         ).execute
 
         render json: 'success'

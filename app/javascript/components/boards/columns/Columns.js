@@ -142,7 +142,11 @@ export default class Columns extends React.Component {
         destination,
         draggableId
       )
-      : console.log('CARD')
+      : this.updateCardOrder(
+        source,
+        destination,
+        draggableId
+      )
 
     this.setState({
       isDragging: false
@@ -150,21 +154,37 @@ export default class Columns extends React.Component {
   }
 
   previousCardCount = columnUuid => {
-    const { columnOrder, columns } = this.state
-    let count = 0
-    let breakLoop = false
+    return ColumnsState.previousCardCount(this.state, columnUuid)
+  }
 
-    columnOrder.forEach(function (uuid) {
-      if(uuid === columnUuid) {
-        breakLoop = true
-      }
+  updateCardOrder = async (source, destination, draggableId) => {
+    const newState = ColumnsState
+      .updateCardOrder(
+        this.state,
+        source,
+        destination,
+        draggableId
+      )
 
-      if(!breakLoop) {
-        count += columns[uuid].card_uuids.length
-      }
-    })
+    const previousCard = newState.cardOrder[newState.cardOrder.indexOf(draggableId) - 1]
 
-    return count
+    this.setState(newState)
+
+    const params = {
+      card_uuid: draggableId,
+      previous_card: previousCard,
+      column_uuid: destination.droppableId
+    }
+
+    console.log(params)
+
+    let response = await BoardApi
+      .reorderCards(
+        this.props.boardSlug,
+        params
+      )
+
+    console.log(response)
   }
 
   updateColumnName = (columnUuid, name) => {
@@ -199,7 +219,7 @@ export default class Columns extends React.Component {
       })
 
     if(response) {
-      if(response.data === 200) {
+      if(response.status === 200) {
         this.afterUpdate()
       }
     }

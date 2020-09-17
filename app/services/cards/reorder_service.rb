@@ -1,22 +1,26 @@
 module Cards
   class ReorderService < BaseService
-    attr_reader :board, :column, :card, :above_card
+    attr_reader :board, :column, :card, :previous_card
 
-    def initialize(board:, column:, card:, above_card:)
+    def initialize(board:, column:, card:, previous_card:)
       @board = board
       @column = column
       @card = card
-      @above_card = above_card
+      @previous_card = previous_card
     end
 
     def execute
       update_card
-
-      if above_card.present?
-        if above_card.lower_item.present?
-          card.insert_at(above_card.lower_item.position)
+      
+      if previous_card.present?
+        if card.position < previous_card.position
+          card.insert_at(previous_card.position)
         else
-          card.move_to_bottom
+          if previous_card.lower_item.present?
+            card.insert_at(previous_card.lower_item.position)
+          else
+            card.move_to_bottom
+          end
         end
       else
         card.move_to_top
