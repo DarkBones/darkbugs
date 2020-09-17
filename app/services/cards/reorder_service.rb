@@ -11,21 +11,23 @@ module Cards
 
     def execute
       update_card
-      
-      if previous_card.present?
-        if card.position < previous_card.position
-          card.insert_at(previous_card.position)
-        else
-          if previous_card.lower_item.present?
-            card.insert_at(previous_card.lower_item.position)
-          else
-            card.move_to_bottom
-          end
-        end
-      else
+
+      if previous_card.nil?
         card.move_to_top
+        return success
       end
 
+      if card.position < previous_card.position
+        card.insert_at(previous_card.position)
+        return success
+      end
+
+      if previous_card.lower_item.nil?
+        card.move_to_bottom
+        return success
+      end
+
+      card.insert_at(previous_card.lower_item.position)
       success
     end
 
