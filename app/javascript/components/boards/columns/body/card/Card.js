@@ -33,8 +33,10 @@ export default class Card extends React.Component {
 
   handleSubmit = async () => {
     const {
+      addCard,
       card,
-      columnUuid
+      columnUuid,
+      deleteCard
     } = this.props
 
     const params = {
@@ -48,7 +50,15 @@ export default class Card extends React.Component {
     let response = await CardApi
       .createCard(params)
 
-    console.log(response)
+    if (response) {
+      if (response.status === 200) {
+        const { name, uuid } = response.data
+        addCard(columnUuid, uuid, name, card.above_card)
+        return
+      }
+    }
+
+    deleteCard('new')
   }
 
   render() {
@@ -106,6 +116,7 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
+  addCard:        PropTypes.func.isRequired,
   card:           PropTypes.object.isRequired,
   columnUuid:     PropTypes.string.isRequired,
   deleteCard:     PropTypes.func.isRequired,

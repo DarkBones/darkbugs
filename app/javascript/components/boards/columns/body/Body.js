@@ -29,6 +29,7 @@ export default class Body extends React.Component {
 
   render() {
     const {
+      addCard,
       cards,
       cardUuids,
       columnUuid,
@@ -54,6 +55,7 @@ export default class Body extends React.Component {
           >
             {cardUuids.map((cardUuid, index) =>
               <Card
+                addCard=        {addCard}
                 card=           {cards[cardUuid]}
                 columnUuid=     {columnUuid}
                 deleteCard=     {deleteCard}
