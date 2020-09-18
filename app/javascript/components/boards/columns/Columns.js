@@ -102,9 +102,7 @@ export default class Columns extends React.Component {
   }
 
   deleteCard = (cardUuid) => {
-    console.log('delete card', cardUuid)
     const newState = ColumnsState.deleteCard(this.state, cardUuid)
-    console.log(newState)
 
     this.setState(newState)
   }
