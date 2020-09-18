@@ -20,6 +20,9 @@ class Organization < ApplicationRecord
 
   # -- Scopes --------------------------------------------------------
   scope :accepted_by_user, ->(user) {
+    # TODO: Return only public organizations
+    return all if user.nil?
+
     where(
       id: user
         .user_organizations
@@ -51,6 +54,8 @@ class Organization < ApplicationRecord
   end
 
   def user_is_admin?(user)
+    return false if user.nil?
+
     role = user_organizations.find_by(user: user).role
     return false if role.nil?
 

@@ -19,13 +19,11 @@ class ApplicationController < ActionController::Base
 
   private def set_tenant
     Apartment::Tenant.switch!
-    return if @current_user.nil?
 
     @tenant = @current_user
 
-    if valid_subdomain?(request.subdomain) && @current_user.present?
-      @current_organization = @current_user
-                                .organizations
+    if valid_subdomain?(request.subdomain)
+      @current_organization = Organization
                                 .accepted_by_user(@current_user)
                                 .find_by!(slug: request.subdomain)
       @tenant = @current_organization

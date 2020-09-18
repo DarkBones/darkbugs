@@ -6,6 +6,7 @@
     %i.fas.fa-angle-down
 #collapseOrganizations.collapse{'data-parent' => '#accordionSidenav'}
   %nav#accordionSidenavPages.sidenav-menu-nested.nav.accordion
-    = link_to @current_user.name, root_url(subdomain: ''), class: 'nav-link'
+    - if @current_user.present?
+      = link_to @current_user.name, root_url(subdomain: ''), class: 'nav-link'
     - @organizations&.each do |organization|
       = link_to organization.name, root_url(subdomain: organization.slug), class: 'nav-link'
