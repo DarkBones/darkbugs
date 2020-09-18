@@ -9,7 +9,7 @@ export default class ColumnsState {
     const newColumn = {
       uuid: uuid,
       name: name,
-      cardUuids: []
+      card_uuids: []
     }
 
     let columnOrder = Array.from(newState.columnOrder)

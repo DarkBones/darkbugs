@@ -71,6 +71,7 @@ export default class Columns extends React.Component {
     if (oldState === newState) return
 
     this.deleteColumn('new')
+
     this.setState(newState)
 
     this.afterUpdate()
