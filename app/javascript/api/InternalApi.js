@@ -18,6 +18,12 @@ export class BoardApi {
 
     return put(path, params)
   }
+
+  static updateName(slug, params) {
+    const path = `${BOARD_PATH}/${slug}`
+
+    return put(path, params)
+  }
 }
 
 export class CardApi {

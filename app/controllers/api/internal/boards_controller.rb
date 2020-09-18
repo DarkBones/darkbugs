@@ -1,7 +1,7 @@
 module Api
   module Internal
     class BoardsController < Api::Internal::BaseApiInternalController
-      before_action :load_board, only: %i[reorder_columns reorder_cards]
+      before_action :load_board, only: %i[reorder_columns reorder_cards update]
       before_action :check_is_assignee!, only: %i[create update destroy]
 
       def reorder_columns
@@ -30,8 +30,22 @@ module Api
         render json: 'success'
       end
 
+      def update
+        @board.update!(board_params)
+
+        render json: 'success'
+      end
+
+      private def board_params
+        params.fetch(:board, {}).permit(
+            :name
+        )
+      end
+
       private def load_board
-        @board = Board.find_by!(slug: params[:board_slug])
+        slug = params[:slug] || params[:board_slug]
+
+        @board = Board.find_by!(slug: slug)
       end
 
       private def check_is_assignee!

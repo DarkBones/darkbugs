@@ -1,6 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Columns from './columns/Columns'
+import React      from 'react'
+import PropTypes  from 'prop-types'
+import Columns    from './columns/Columns'
+import Title      from './title/Title'
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
@@ -13,10 +14,17 @@ export default class BoardsApp extends React.Component {
       cardOrder:    props.card_order,
       cards:        props.cards,
       columnOrder:  props.column_order,
-      columns:      props.columns
+      columns:      props.columns,
+      name:         props.name
     }
 
     console.log(props)
+  }
+
+  updateBoardName = name => {
+    this.setState({
+      name: name
+    })
   }
 
   setColumns = (columnOrder, columns) => {
@@ -38,18 +46,26 @@ export default class BoardsApp extends React.Component {
       boardSlug,
       userIsAssigned,
       setCards,
-      setColumns
+      setColumns,
+      updateBoardName
     } = this
 
     const {
       cardOrder,
       cards,
       columnOrder,
-      columns
+      columns,
+      name
     } = this.state
 
     return (
       <div id="project-items-app">
+        <Title
+          boardSlug=          {boardSlug}
+          handleAfterUpdate=  {updateBoardName}
+          name=               {name}
+          userIsAssigned=     {userIsAssigned}
+        />
         <Columns
           boardSlug=      {boardSlug}
           cardOrder=      {cardOrder}
