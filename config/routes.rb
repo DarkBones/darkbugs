@@ -32,4 +32,16 @@ Rails.application.routes.draw do
   get '/user/:username', to: 'user_profiles#show', as: 'user_profile'
 
   root 'projects#index'
+
+  namespace :api, path: 'api/v:api_version', defaults: { format: :json } do
+    namespace :internal do
+      resources :columns, param: :uuid
+      resources :cards, param: :uuid
+
+      resources :boards, param: :slug do
+        put :reorder_columns
+        put :reorder_cards
+      end
+    end
+  end
 end

@@ -21,3 +21,5 @@ en:
         title_sub: New project for %{name}
         card_header: New Project
         submit: Create Project
+      show:
+        title_sub: Items for %{name}

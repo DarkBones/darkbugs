@@ -4,7 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 gem 'activestorage', '>= 6.0.3.1'
-gem 'apartment', git: 'https://github.com/influitive/apartment.git', branch: 'development'
+gem 'acts_as_list'
+gem 'apartment', path: 'vendor/git/apartment'
 gem 'azure-storage', '~> 0.15.0.preview', require: false
 gem 'azure-storage-blob'
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -25,6 +26,7 @@ gem 'sass-rails', '>= 6'
 gem 'simple_form'
 gem 'sprockets-rails', '>= 2.3.2'
 gem 'turbolinks', '~> 5'
+gem 'tzinfo', '1.2.2'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpacker', '~> 4.0'
 

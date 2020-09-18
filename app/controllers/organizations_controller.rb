@@ -1,5 +1,4 @@
 class OrganizationsController < ApplicationController
-  before_action :switch_to_public
   before_action :build_organization,          only:   %i[new create]
   before_action :load_accepted_organization,  only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete]
   before_action :load_any_organization,       only:   %i[leave]
@@ -125,11 +124,6 @@ class OrganizationsController < ApplicationController
   rescue ActionController::BadRequest => e
     flash[:error] = e.message
     redirect_back(fallback_location: organizations_path)
-  end
-
-  private def switch_to_public
-    # TODO: Unhack this
-    Apartment::Tenant.switch! if Rails.env.test?
   end
 
   private def check_admin

@@ -1,11 +1,9 @@
 class Organization < ApplicationRecord
   include Tenantable
+  include Slugable
 
   # -- Constants --------------------------------------------------------
   RESERVED_NAMES = ['www'].freeze
-
-  # -- Callbacks ------------------------------------------------------------
-  before_validation :create_slug, on: :create
 
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
@@ -53,13 +51,17 @@ class Organization < ApplicationRecord
   end
 
   def user_is_admin?(user)
-    role = user_organizations.find_by(user_id: user).role
+    role = user_organizations.find_by(user: user).role
     return false if role.nil?
 
     [UserOrganization::ROLES[:CREATOR], UserOrganization::ROLES[:ADMIN]]
       .include?(
         role
       )
+  end
+
+  def user_is_member?(user)
+    user_organizations.find_by(user_id: user).role.present?
   end
 
   def user_accepted?(user)
@@ -101,18 +103,6 @@ class Organization < ApplicationRecord
 
   def ordered_users(users)
     users.includes(:user_organizations).order('user_organizations.role')
-  end
-
-  private def create_slug
-    slug = name&.parameterize
-    full_slug = slug
-
-    while Organization.exists?(slug: full_slug)
-      rand = SecureRandom.urlsafe_base64(8, false)
-      full_slug = "#{slug}-#{rand}"
-    end
-
-    self.slug = full_slug
   end
 
   private def name_not_reserved

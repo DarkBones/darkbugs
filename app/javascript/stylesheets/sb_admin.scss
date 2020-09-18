@@ -110,6 +110,10 @@ body {
   cursor: pointer;
 }
 
+.editable {
+  cursor: text;
+}
+
 hr {
   box-sizing: content-box;
   height: 0;
