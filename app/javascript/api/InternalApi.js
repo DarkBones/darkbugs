@@ -30,7 +30,6 @@ export class CardApi {
   static createCard(params) {
     const path = CARD_PATH
 
-    console.log(params)
     return post(path, params)
   }
 }
