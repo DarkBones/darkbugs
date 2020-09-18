@@ -2,11 +2,11 @@ module Api
   module Internal
     class CardsController < Api::Internal::BaseApiInternalController
       before_action :load_column, only: %i[create]
-      before_action :load_above_card, only: %i[create]
+      before_action :load_previous_card, only: %i[create]
       before_action :check_is_member!, only: %i[create]
 
       def create
-        service = Cards::CreateCardService.new(card_params, @column, @above_card, @current_user).execute
+        service = Cards::CreateCardService.new(card_params, @column, @previous_card, @current_user).execute
         @card = service.dig(:results, :card)
       end
 
@@ -20,8 +20,8 @@ module Api
         @column = Column.find_by!(uuid: params[:column_uuid])
       end
 
-      private def load_above_card
-        @above_card = @column.cards.find_by(uuid: params[:above_card])
+      private def load_previous_card
+        @previous_card = @column.board.cards.find_by(uuid: params[:previous_card])
       end
 
       private def check_is_member!

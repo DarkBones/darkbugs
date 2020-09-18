@@ -2,6 +2,9 @@ import React      from 'react'
 import PropTypes  from 'prop-types'
 
 import {
+  CardApi
+} from '../../../../../api/InternalApi'
+import {
   Draggable
 } from 'react-beautiful-dnd'
 import ApiInput from "../../../../shared/input/ApiInput";
@@ -28,8 +31,24 @@ export default class Card extends React.Component {
     })
   }
 
-  handleSubmit = () => {
-    console.log('handle submit')
+  handleSubmit = async () => {
+    const {
+      card,
+      columnUuid
+    } = this.props
+
+    const params = {
+      column_uuid: columnUuid,
+      previous_card: card.above_card,
+      card: {
+        name: this.state.name
+      }
+    }
+
+    let response = await CardApi
+      .createCard(params)
+
+    console.log(response)
   }
 
   render() {
@@ -88,6 +107,7 @@ export default class Card extends React.Component {
 
 Card.propTypes = {
   card:           PropTypes.object.isRequired,
+  columnUuid:     PropTypes.string.isRequired,
   deleteCard:     PropTypes.func.isRequired,
   index:          PropTypes.number.isRequired,
   previousCard:   PropTypes.string,

@@ -47,19 +47,20 @@ export default class Body extends React.Component {
         {(provided) => (
           <div
             className="column-body"
-            id={columnUuid}
-            onClick={this.handleClick}
-            ref={provided.innerRef}
+            id=       {columnUuid}
+            onClick=  {this.handleClick}
+            ref=      {provided.innerRef}
             {...provided.droppableProps}
           >
             {cardUuids.map((cardUuid, index) =>
               <Card
-                card={cards[cardUuid]}
-                deleteCard={deleteCard}
-                index={index + cardCount}
-                key={cardUuid}
-                previousCard={cardUuids[index-1]}
-                userIsAssigned={userIsAssigned}
+                card=           {cards[cardUuid]}
+                columnUuid=     {columnUuid}
+                deleteCard=     {deleteCard}
+                index=          {index + cardCount}
+                key=            {cardUuid}
+                previousCard=   {cardUuids[index-1]}
+                userIsAssigned= {userIsAssigned}
               />
             )}
             {provided.placeholder}
