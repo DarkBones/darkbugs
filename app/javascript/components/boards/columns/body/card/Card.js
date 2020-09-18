@@ -114,9 +114,9 @@ export default class Card extends React.Component {
         />
       )
       : (
-        <h5>
+        <h6>
           {card.name}
-        </h5>
+        </h6>
       )
 
     return (

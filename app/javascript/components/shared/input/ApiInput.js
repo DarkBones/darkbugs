@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ColumnTitleName from "../../projects/columns/ColumnTitleName";
 
 export default class ApiInput extends React.Component {
   constructor(props) {
