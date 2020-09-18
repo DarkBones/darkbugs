@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Card from './card/Card'
+import React      from 'react'
+import Card       from './card/Card'
+import PropTypes  from 'prop-types'
 
 import {
   Droppable
@@ -15,13 +15,12 @@ export default class Body extends React.Component {
     const {
       addCard,
       columnUuid,
+      getPreviousCard,
       isDragging,
-      getPreviousCard
+      userIsAssigned
     } = this.props
 
-    if (!e.target.classList.contains('column-body') || isDragging) {
-      return
-    }
+    if (!e.target.classList.contains('column-body') || isDragging || !userIsAssigned) return
 
     const previousCard = getPreviousCard(e)
     addCard(columnUuid, 'new', '', previousCard)

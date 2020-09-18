@@ -1,13 +1,14 @@
 import React      from 'react'
+import ApiInput   from '../../../../shared/input/ApiInput'
 import PropTypes  from 'prop-types'
 
 import {
   CardApi
 } from '../../../../../api/InternalApi'
+
 import {
   Draggable
 } from 'react-beautiful-dnd'
-import ApiInput from "../../../../shared/input/ApiInput";
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -17,11 +18,12 @@ export default class Card extends React.Component {
     this.dragDisabled = !props.userIsAssigned || this.isNew;
 
     this.state = {
+      isEditing: this.isNew,
       name: props.card.name
     }
   }
 
-  cancelNewCard = () => {
+  handleOnCancel = () => {
     this.props.deleteCard('new')
   }
 
@@ -32,6 +34,14 @@ export default class Card extends React.Component {
   }
 
   handleSubmit = async () => {
+    if (!this.props.userIsAssigned) return
+
+    this.state.isNew
+      ? this.saveNewCard()
+      : this.updateCard()
+  }
+
+  saveNewCard = async () => {
     const {
       addCard,
       card,
@@ -61,6 +71,24 @@ export default class Card extends React.Component {
     deleteCard('new')
   }
 
+  setEditing = isEditing => {
+    this.setState({
+      isEditing: isEditing
+    })
+  }
+
+  startEditing = () => {
+    this.setEditing(true)
+  }
+
+  stopEditing = () => {
+    this.setEditing(false)
+  }
+
+  updateCard = async () => {
+    console.log('update card')
+  }
+
   render() {
     const {
       card,
@@ -68,17 +96,16 @@ export default class Card extends React.Component {
     } = this.props
 
     const {
-      cancelNewCard,
       dragDisabled,
+      handleOnCancel,
       handleOnChange,
-      handleSubmit,
-      isNew
+      handleSubmit
     } = this
 
-    const cardName = isNew
+    const cardName = this.state.isEditing
       ? (
         <ApiInput
-          handleCancel={cancelNewCard}
+          handleCancel={handleOnCancel}
           handleOnChange={handleOnChange}
           handleSubmit={handleSubmit}
           name="name"

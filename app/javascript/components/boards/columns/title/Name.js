@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ApiInput from '../../../shared/input/ApiInput'
+import React      from 'react'
+import ApiInput   from '../../../shared/input/ApiInput'
+import PropTypes  from 'prop-types'
 
 import {
   ColumnApi
@@ -13,9 +13,9 @@ export default class Name extends React.Component {
     const isNew = props.columnUuid === 'new'
 
     this.state = {
-      isNew: isNew,
-      isEditing: isNew,
-      name: props.name
+      isNew:      isNew,
+      isEditing:  isNew,
+      name:       props.name
     }
   }
 
@@ -129,12 +129,12 @@ export default class Name extends React.Component {
 
     const input = (
       <ApiInput
-        focus={true}
-        handleCancel={this.removeNewColumn}
-        handleOnChange={this.handleOnChange}
-        handleSubmit={this.handleSubmit}
-        name="name"
-        value={name}
+        focus=          {true}
+        handleCancel=   {this.removeNewColumn}
+        handleOnChange= {this.handleOnChange}
+        handleSubmit=   {this.handleSubmit}
+        name=           "name"
+        value=          {name}
       />
     )
 
