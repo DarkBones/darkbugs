@@ -1,8 +1,15 @@
 import React      from 'react'
 import PropTypes  from 'prop-types'
+import i18n       from '../../../../i18n'
 
 export default function DeleteButton(props) {
   const handleClick = () => {
+    let r = confirm(i18n.t('components.projects.columns.Column.delete_warning'))
+
+    if (!r) {
+      return
+    }
+
     props.handleClick(props.columnUuid)
   }
 
