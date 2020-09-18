@@ -20,7 +20,7 @@ class Project < ApplicationRecord
   def user_is_assigned?(user)
     return owner == user if owner.is_a? User
 
-    owner.user_is_admin?
+    owner.user_is_admin?(user)
   end
 
   private def capitalize_key
