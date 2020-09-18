@@ -48,7 +48,7 @@ export default class Columns extends React.Component {
         [uuid]: {
           name: name,
           uuid: uuid,
-          above_card: previousCard
+          previous_card: previousCard
         }
       },
       columns: {

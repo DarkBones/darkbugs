@@ -36,7 +36,7 @@ export default class Card extends React.Component {
   handleSubmit = async () => {
     if (!this.props.userIsAssigned) return
 
-    this.state.isNew
+    this.isNew
       ? this.saveNewCard()
       : this.updateCard()
   }
@@ -51,7 +51,7 @@ export default class Card extends React.Component {
 
     const params = {
       column_uuid: columnUuid,
-      previous_card: card.above_card,
+      previous_card: card.previous_card,
       card: {
         name: this.state.name
       }
@@ -63,7 +63,7 @@ export default class Card extends React.Component {
     if (response) {
       if (response.status === 200) {
         const { name, uuid } = response.data
-        addCard(columnUuid, uuid, name, card.above_card)
+        addCard(columnUuid, uuid, name, card.previous_card)
         return
       }
     }
