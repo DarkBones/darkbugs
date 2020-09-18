@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
       @current_organization = nil
     end
 
-    Apartment::Tenant.switch!(@tenant.tenant_key)
+    Apartment::Tenant.switch!(@tenant.tenant_key) if @tenant.present?
   end
 
   def set_raven_context
