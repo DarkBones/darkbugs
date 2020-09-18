@@ -17,8 +17,6 @@ export default class BoardsApp extends React.Component {
       columns:      props.columns,
       name:         props.name
     }
-
-    console.log(props)
   }
 
   updateBoardName = name => {

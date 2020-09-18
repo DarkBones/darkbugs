@@ -113,7 +113,11 @@ export default class Card extends React.Component {
           value={this.state.name}
         />
       )
-      : card.name
+      : (
+        <h5>
+          {card.name}
+        </h5>
+      )
 
     return (
       <Draggable

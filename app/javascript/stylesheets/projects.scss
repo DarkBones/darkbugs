@@ -20,7 +20,13 @@
     #project-items-app {
       margin-top: 20px;
       width: 100%;
-      height: calc(100% - 60px);
+      height: calc(100% - 80px);
+
+      #board-title {
+        padding-left: 40px;
+        max-width: 500px;
+        height: 60px;
+      }
 
       #columns {
         padding-left: 40px;
@@ -40,8 +46,7 @@
           display: inline-block;
           height: 100%;
           width: 240px;
-          background-color: rgba(0, 0, 0, .05);
-          overflow-y: auto;
+          background-color: rgb(226,230,236);
 
           .column-title {
             padding: .3em .3em .1em .3em;
@@ -72,13 +77,15 @@
           .column-body {
             padding: 0.5em;
             margin-top: -10px;
-            min-height: calc(100% - 50px);
+            height: calc(100% - 50px);
+            overflow-y: auto;
 
             .item-card {
               display: block;
               width: 100%;
               height: 85px;
               background-color: white;
+              padding: 0.5rem;
               margin-bottom: 15px;
             }
             .item-card-divider {

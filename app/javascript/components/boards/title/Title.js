@@ -82,6 +82,7 @@ export default class Title extends React.Component {
     const nameElement = this.state.isEditing
       ? (
         <ApiInput
+          handleCancel={this.stopEditing}
           handleSubmit={this.handleSubmit}
           name="name"
           focus={true}
@@ -98,7 +99,7 @@ export default class Title extends React.Component {
 
     return (
       <div
-        className="board-title"
+        id="board-title"
         ref={title => this.title = title}
       >
         {nameElement}
