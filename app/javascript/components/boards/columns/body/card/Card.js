@@ -19,11 +19,7 @@ export default class Card extends React.Component {
   }
 
   cancelNewCard = () => {
-    console.log('cancel new card')
-  }
-
-  handleClick = e => {
-    console.log('handle click')
+    this.props.deleteCard('new')
   }
 
   handleOnChange = e => {
@@ -92,6 +88,7 @@ export default class Card extends React.Component {
 
 Card.propTypes = {
   card:           PropTypes.object.isRequired,
+  deleteCard:     PropTypes.func.isRequired,
   index:          PropTypes.number.isRequired,
   previousCard:   PropTypes.string,
   userIsAssigned: PropTypes.bool.isRequired

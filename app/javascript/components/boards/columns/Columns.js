@@ -93,6 +93,14 @@ export default class Columns extends React.Component {
     setColumns(columnOrder, columns)
   }
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClick)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClick)
+  }
+
   deleteCard = (cardUuid) => {
     console.log('delete card', cardUuid)
     const newState = ColumnsState.deleteCard(this.state, cardUuid)
@@ -156,6 +164,12 @@ export default class Columns extends React.Component {
       if (columnCards.length > 0) {
         return columnCards[columnCards.length - 1]
       }
+    }
+  }
+
+  handleClick = e => {
+    if (!e.target.classList.contains('card')) {
+      this.deleteCard('new')
     }
   }
 

@@ -32,6 +32,7 @@ export default class Body extends React.Component {
       cards,
       cardUuids,
       columnUuid,
+      deleteCard,
       previousCardCount,
       userIsAssigned
     } = this.props
@@ -54,6 +55,7 @@ export default class Body extends React.Component {
             {cardUuids.map((cardUuid, index) =>
               <Card
                 card={cards[cardUuid]}
+                deleteCard={deleteCard}
                 index={index + cardCount}
                 key={cardUuid}
                 previousCard={cardUuids[index-1]}
