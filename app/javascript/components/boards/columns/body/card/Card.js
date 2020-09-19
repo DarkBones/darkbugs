@@ -64,6 +64,7 @@ export default class Card extends React.Component {
       if (response.status === 200) {
         const { name, uuid } = response.data
         addCard(columnUuid, uuid, name, card.previous_card)
+        addCard(columnUuid, 'new', '', uuid)
         return
       }
     }
