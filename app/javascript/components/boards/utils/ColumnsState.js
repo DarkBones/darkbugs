@@ -127,8 +127,10 @@ export default class ColumnsState {
       totalIndex = destination.previousCardCount
     }
 
-    if (source.index < destination.index && totalIndex > 0) {
-      totalIndex -= 1
+    if (source.droppableId !== destination.droppableId) {
+      if (source.index < destination.index && totalIndex > 0) {
+        totalIndex -= 1
+      }
     }
 
     destination.cards.splice(destinationIndex, 0, draggableId)
