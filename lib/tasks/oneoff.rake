@@ -19,4 +19,28 @@ namespace :oneoff do
       Apartment::Tenant.create(user.uuid)
     end
   end
+
+  desc 'Initialize card ids'
+  task initialize_card_ids: [:environment] do
+    tenants = User.all.pluck(:uuid) + Organization.all.pluck(:slug)
+
+    tenants.each do |tenant|
+      Apartment::Tenant.switch!(tenant)
+
+      Project.all.each do |project|
+        Project.transaction do
+          id = 0
+
+          project.cards.each do |card|
+            id += 1
+
+            puts "#{project.key}-#{id}"
+            card.update!(card_id: id)
+          end
+
+          project.update!(card_count: id)
+        end
+      end
+    end
+  end
 end
