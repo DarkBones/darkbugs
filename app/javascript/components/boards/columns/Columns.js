@@ -142,7 +142,8 @@ export default class Columns extends React.Component {
     const column = this.state.columns[columnUuid]
     const cardUuids = column.card_uuids
 
-    const y = clickEvent.clientY - clickEvent.target.getBoundingClientRect().top
+    const y = clickEvent.clientY - clickEvent.target.getBoundingClientRect().top + clickEvent.target.scrollTop
+
     let idx = Math.floor((y - 20) / 100)
     if (idx > cardUuids.length - 1) {
       idx = cardUuids.length - 1
