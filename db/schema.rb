@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_153442) do
+ActiveRecord::Schema.define(version: 2020_09_19_172244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
     t.integer "assignee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "card_id", null: false
     t.index ["assignee_id"], name: "index_cards_on_assignee_id"
     t.index ["board_id"], name: "index_cards_on_board_id"
     t.index ["column_id"], name: "index_cards_on_column_id"
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(version: 2020_08_28_153442) do
     t.bigint "owner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "card_count", default: 0
     t.index ["key"], name: "index_projects_on_key"
     t.index ["owner_type", "owner_id"], name: "index_projects_on_owner_type_and_owner_id"
     t.index ["uuid"], name: "index_projects_on_uuid"

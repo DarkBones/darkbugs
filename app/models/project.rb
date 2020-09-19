@@ -5,6 +5,7 @@ class Project < ApplicationRecord
   # -- Relationships ------------------------------------------------------------
   belongs_to :owner, polymorphic: true
   has_many :boards, as: 'component'
+  has_many :cards, through: :boards
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :capitalize_key
