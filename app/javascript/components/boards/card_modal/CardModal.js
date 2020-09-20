@@ -2,29 +2,77 @@ import React      from 'react'
 import Modal      from '../../shared/modal/Modal'
 import PropTypes  from 'prop-types'
 
-export default function CardModal(props) {
-  const handleClose = () => {
-    props.handleClose()
+import {
+  CardApi
+} from '../../../api/InternalApi'
+
+export default class CardModal extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      fetchingData: false,
+      cardNumber: '',
+      data: ''
+    }
   }
 
-  const handleSubmit = () => {
+  handleClose = () => {
+    this.props.handleClose()
+  }
+
+  handleSubmit = () => {
     alert('submit')
   }
 
-  const {
-    show
-  } = props
+  fetchCardData = async () => {
+    this.setState({
+      fetchingData: true
+    })
 
-  return (
-    <Modal
-      body="body"
-      close={handleClose}
-      handleSubmit={handleSubmit}
-      show={show}
-      submit={"SUBMIT PLACEHOLDER"}
-      title={"TITLE PLACEHOLDER"}
-    />
-  )
+    let response = await CardApi.getDetails(this.props.cardUuid)
+
+    if (response) {
+      this.setState({
+        fetchingData: false,
+        cardNumber: response.id,
+        data: response
+      })
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.show !== prevProps.show) {
+      if (this.props.show) {
+        this.fetchCardData()
+      } else {
+        this.setState({
+          fetchingData: false,
+          cardNumber: '',
+          data: ''
+        })
+      }
+    }
+  }
+
+  render() {
+    const {
+      show
+    } = this.props
+
+    const {
+      cardNumber
+    } = this.state
+
+    return (
+      <Modal
+        body="body"
+        close={this.handleClose}
+        show={show}
+        title={cardNumber}
+      />
+    )
+  }
 }
 
 CardModal.propTypes = {

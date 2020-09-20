@@ -32,6 +32,12 @@ export class CardApi {
 
     return post(path, params)
   }
+
+  static getDetails(cardUuid) {
+    const path = `${CARD_PATH}/${cardUuid}`
+
+    return get(path)
+  }
 }
 
 export class ColumnApi {

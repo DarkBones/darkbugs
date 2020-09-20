@@ -39,12 +39,14 @@ export default function Modal (props) {
             >
               {i18n.t('components.shared.modal.Modal.buttons.close')}
             </Button>
-            <Button
-              variant="primary"
-              onClick={handleSubmit}
-            >
-              {submit}
-            </Button>
+            {handleSubmit &&
+              <Button
+                variant="primary"
+                onClick={handleSubmit}
+              >
+                {submit}
+              </Button>
+            }
           </Mod.Footer>
         </Mod>
       }
@@ -57,6 +59,6 @@ Modal.propTypes = {
   close:        PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
   show:         PropTypes.bool.isRequired,
-  submit:       PropTypes.string.isRequired,
-  title:        PropTypes.string.isRequired
+  submit:       PropTypes.string,
+  title:        PropTypes.string
 }

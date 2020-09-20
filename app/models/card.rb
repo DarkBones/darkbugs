@@ -20,6 +20,10 @@ class Card < ApplicationRecord
     self.column.board.cards
   end
 
+  def card_number
+    "#{board.root_project.key}-#{card_id}"
+  end
+
   private def set_card_id
     project = board.root_project
     card_id = project.card_count + 1

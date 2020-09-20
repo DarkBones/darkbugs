@@ -1,6 +1,7 @@
 module Api
   module Internal
     class CardsController < Api::Internal::BaseApiInternalController
+      before_action :load_card, only: %i[show]
       before_action :load_column, only: %i[create]
       before_action :load_previous_card, only: %i[create]
       before_action :check_is_member!, only: %i[create]
@@ -8,6 +9,16 @@ module Api
       def create
         service = Cards::CreateCardService.new(card_params, @column, @previous_card, @current_user).execute
         @card = service.dig(:results, :card)
+      end
+
+      def show
+        card_hash = Cards::ShowPresenter.new(@card).to_h
+
+        render json: card_hash
+      end
+
+      private def load_card
+        @card = Card.find_by!(uuid: params[:uuid])
       end
 
       private def card_params

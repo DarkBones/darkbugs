@@ -176,6 +176,9 @@ export default class Columns extends React.Component {
       return
     }
 
+    console.log(e.target.id)
+    console.log(e.target.classList)
+
     if (!cardIsNew) this.props.showCardModal(e.target.id)
   }
 
