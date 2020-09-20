@@ -1,5 +1,6 @@
 import React      from 'react'
 import PropTypes  from 'prop-types'
+import CardModal  from './card_modal/CardModal'
 import Columns    from './columns/Columns'
 import Title      from './title/Title'
 
@@ -11,12 +12,27 @@ export default class BoardsApp extends React.Component {
     this.userIsAssigned = props.user_is_assigned
 
     this.state = {
+      cardModal: {
+        show: false,
+        cardUuid: ''
+      },
       cardOrder:    props.card_order,
       cards:        props.cards,
       columnOrder:  props.column_order,
       columns:      props.columns,
       name:         props.name
     }
+  }
+
+  closeCardModal = () => {
+    this.setState({
+      ...this.state,
+      cardModal: {
+        ...this.state.cardModal,
+        show: false,
+        cardId: ''
+      }
+    })
   }
 
   updateBoardName = name => {
@@ -39,16 +55,29 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  showCardModal = cardUuid => {
+    this.setState({
+      ...this.state,
+      cardModal: {
+        ...this.state.cardModal,
+        show: true,
+        cardUuid: cardUuid
+      }
+    })
+  }
+
   render() {
     const {
       boardSlug,
       userIsAssigned,
       setCards,
       setColumns,
+      showCardModal,
       updateBoardName
     } = this
 
     const {
+      cardModal,
       cardOrder,
       cards,
       columnOrder,
@@ -58,6 +87,11 @@ export default class BoardsApp extends React.Component {
 
     return (
       <div id="project-items-app">
+        <CardModal
+          show={cardModal.show}
+          cardUuid={cardModal.cardUuid}
+          handleClose={this.closeCardModal}
+        />
         <Title
           boardSlug=          {boardSlug}
           handleAfterUpdate=  {updateBoardName}
@@ -72,6 +106,7 @@ export default class BoardsApp extends React.Component {
           columns=        {columns}
           setCards=       {setCards}
           setColumns=     {setColumns}
+          showCardModal=  {showCardModal}
           userIsAssigned= {userIsAssigned}
         />
       </div>

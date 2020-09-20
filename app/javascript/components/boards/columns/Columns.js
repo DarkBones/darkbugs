@@ -168,9 +168,15 @@ export default class Columns extends React.Component {
   }
 
   handleClick = e => {
-    if (!e.target.classList.contains('card')) {
-      this.deleteCard('new')
+    const cardIsNew = e.target.classList.contains('new-card')
+
+    if (!cardIsNew) this.deleteCard('new')
+
+    if (!e.target.classList.contains('item-card')) {
+      return
     }
+
+    if (!cardIsNew) this.props.showCardModal(e.target.id)
   }
 
   onDragStart = () => {
@@ -361,5 +367,6 @@ Columns.propTypes = {
   columns:        PropTypes.object.isRequired,
   setCards:       PropTypes.func.isRequired,
   setColumns:     PropTypes.func.isRequired,
+  showCardModal:  PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

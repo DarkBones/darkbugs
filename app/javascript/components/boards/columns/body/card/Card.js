@@ -96,6 +96,8 @@ export default class Card extends React.Component {
       index
     } = this.props
 
+    const cardClass = this.isNew ? 'new-card' : ''
+
     const {
       dragDisabled,
       handleOnCancel,
@@ -135,7 +137,8 @@ export default class Card extends React.Component {
             {...provided.dragHandleProps}
           >
             <div
-              className="card item-card"
+              className={`card item-card ${cardClass}`}
+              id={card.uuid}
               ref={(card) => {
                 this.cardRef = card
               }}
