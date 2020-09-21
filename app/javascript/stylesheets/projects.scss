@@ -1,5 +1,13 @@
 @import "variables";
 
+#card-modal-toolbar {
+  -webkit-transform: translateZ(0);
+  position: fixed;
+  right: 50px;
+  top: 70px;
+  z-index: -1;
+}
+
 #project-items-field {
   margin-top: 90px;
   width: 100%;

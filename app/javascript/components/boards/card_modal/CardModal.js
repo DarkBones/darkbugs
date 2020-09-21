@@ -75,13 +75,15 @@ export default class CardModal extends React.Component {
     )
 
     return (
-      <Modal
-        body={body}
-        close={this.handleClose}
-        show={show}
-        includeFooter={false}
-        title={`${card.number} - ${card.short_name}`}
-      />
+      <React.Fragment>
+        <Modal
+          body={body}
+          close={this.handleClose}
+          show={show}
+          includeFooter={false}
+          title={`${card.number} - ${card.short_name}`}
+        />
+      </React.Fragment>
     )
   }
 }
