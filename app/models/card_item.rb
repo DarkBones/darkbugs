@@ -1,0 +1,2 @@
+class CardItem < ApplicationRecord
+end
