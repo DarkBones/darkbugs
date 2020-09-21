@@ -1,4 +1,5 @@
 import React      from 'react'
+import Body       from './Body'
 import Modal      from '../../shared/modal/Modal'
 import PropTypes  from 'prop-types'
 
@@ -10,9 +11,15 @@ export default class CardModal extends React.Component {
   constructor(props) {
     super(props)
 
+    this.default_card = {
+      name: '',
+      number: '',
+      short_name: ''
+    }
+
     this.state = {
       fetchingData: false,
-      card: {}
+      card: this.default_card
     }
   }
 
@@ -46,7 +53,7 @@ export default class CardModal extends React.Component {
       } else {
         this.setState({
           fetchingData: false,
-          card: {}
+          card: this.default_card
         })
       }
     }
@@ -61,13 +68,19 @@ export default class CardModal extends React.Component {
       card
     } = this.state
 
+    const body = (
+      <Body
+        card={card}
+      />
+    )
+
     return (
       <Modal
-        body="body"
+        body={body}
         close={this.handleClose}
         show={show}
         includeFooter={false}
-        title={`${card.card_number} - ${card.short_name}`}
+        title={`${card.number} - ${card.short_name}`}
       />
     )
   }
