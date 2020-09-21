@@ -12,8 +12,7 @@ export default class CardModal extends React.Component {
 
     this.state = {
       fetchingData: false,
-      cardNumber: '',
-      data: ''
+      card: {}
     }
   }
 
@@ -35,8 +34,7 @@ export default class CardModal extends React.Component {
     if (response) {
       this.setState({
         fetchingData: false,
-        cardNumber: response.id,
-        data: response
+        card: response.card
       })
     }
   }
@@ -48,8 +46,7 @@ export default class CardModal extends React.Component {
       } else {
         this.setState({
           fetchingData: false,
-          cardNumber: '',
-          data: ''
+          card: {}
         })
       }
     }
@@ -61,7 +58,7 @@ export default class CardModal extends React.Component {
     } = this.props
 
     const {
-      cardNumber
+      card
     } = this.state
 
     return (
@@ -69,7 +66,8 @@ export default class CardModal extends React.Component {
         body="body"
         close={this.handleClose}
         show={show}
-        title={cardNumber}
+        includeFooter={false}
+        title={`${card.card_number} - ${card.short_name}`}
       />
     )
   }
@@ -78,5 +76,6 @@ export default class CardModal extends React.Component {
 CardModal.propTypes = {
   cardUuid: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
+  includeFooter: PropTypes.bool,
   show: PropTypes.bool.isRequired
 }

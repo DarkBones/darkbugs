@@ -8,6 +8,11 @@ import {
 } from 'react-bootstrap'
 
 export default function Modal (props) {
+  let includeFooter = true
+  if (typeof(props.includeFooter) !== 'undefined') {
+    includeFooter = props.includeFooter
+  }
+
   const {
     body,
     close,
@@ -21,6 +26,7 @@ export default function Modal (props) {
     <div>
       {show &&
         <Mod
+          size="lg"
           show={show}
           onHide={close}
         >
@@ -32,22 +38,24 @@ export default function Modal (props) {
           <Mod.Body>
             {body}
           </Mod.Body>
-          <Mod.Footer>
-            <Button
-              variant="secondary"
-              onClick={close}
-            >
-              {i18n.t('components.shared.modal.Modal.buttons.close')}
-            </Button>
-            {handleSubmit &&
+          {includeFooter &&
+            <Mod.Footer>
+              <Button
+                variant="secondary"
+                onClick={close}
+              >
+                {i18n.t('components.shared.modal.Modal.buttons.close')}
+              </Button>
+              {handleSubmit &&
               <Button
                 variant="primary"
                 onClick={handleSubmit}
               >
                 {submit}
               </Button>
-            }
-          </Mod.Footer>
+              }
+            </Mod.Footer>
+          }
         </Mod>
       }
     </div>

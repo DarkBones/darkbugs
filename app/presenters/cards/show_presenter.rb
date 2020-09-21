@@ -8,7 +8,11 @@ module Cards
 
     def to_h
       {
-        id: card.card_number
+        card: {
+          card_number: card.card_number,
+          name: card.name,
+          short_name: card.name.truncate(34)
+        }
       }
     end
   end

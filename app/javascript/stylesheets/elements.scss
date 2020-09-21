@@ -1,3 +1,5 @@
+@import "variables";
+
 abbr {
   text-decoration: none !important;
 }
@@ -23,6 +25,40 @@ abbr {
       min-height: 100%;
       width: 100%;
       height: auto;
+    }
+  }
+}
+
+.modal-content {
+  .modal-header {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    background-color: $primary;
+
+    .modal-title {
+      color: $light;
+    }
+
+    button.close {
+      display: block;
+      width: 30px;
+      height: 30px;
+      line-height: 1px;
+      border-radius: 50%;
+      text-align: left;
+      text-decoration: none;
+      background: $light;
+      box-shadow: 0 0 3px gray;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      opacity: 1;
+      right: 0.5em;
+      top: 0.5em;
+
+      span {
+        margin-left: -0.3em;
+      }
     }
   }
 }
