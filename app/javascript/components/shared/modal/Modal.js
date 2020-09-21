@@ -63,7 +63,7 @@ export default function Modal (props) {
 }
 
 Modal.propTypes = {
-  body:         PropTypes.string,
+  body:         PropTypes.object,
   close:        PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
   show:         PropTypes.bool.isRequired,
