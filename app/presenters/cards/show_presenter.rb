@@ -9,6 +9,8 @@ module Cards
     def to_h
       {
         card: {
+          item_order: [],
+          items: {},
           name: card.name,
           number: card.card_number,
           short_name: card.name.truncate(34)

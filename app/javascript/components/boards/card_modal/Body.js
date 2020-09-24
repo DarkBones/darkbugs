@@ -1,6 +1,8 @@
 import React from 'react'
-import ToolBar from "./ToolBar";
+import Item from './item/Item'
+import ToolBar from './ToolBar'
 import PropTypes from 'prop-types'
+
 
 export default class Body extends React.Component {
   constructor(props) {
@@ -9,7 +11,9 @@ export default class Body extends React.Component {
 
   render() {
     const {
-      name
+      name,
+      item_order,
+      items
     } = this.props.card
 
     const {
@@ -22,6 +26,18 @@ export default class Body extends React.Component {
           <h1>
             {name}
           </h1>
+          <div
+            className="card-items"
+          >
+            <ul>
+                {item_order.map((uuid, index) =>
+                  <Item
+                    key={uuid}
+                    item={items[uuid]}
+                  />
+                )}
+            </ul>
+          </div>
         </div>
         <ToolBar
           newItem={newItem}

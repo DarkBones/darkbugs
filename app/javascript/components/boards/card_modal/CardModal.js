@@ -12,10 +12,17 @@ export default class CardModal extends React.Component {
     super(props)
 
     this.default_card = {
-      items: [],
+      item_order: [],
+      items: {},
       name: '',
       number: '',
       short_name: ''
+    }
+
+    this.default_item = {
+      uuid: 'new',
+      type: '',
+      params: {}
     }
 
     this.default_note = {
@@ -23,8 +30,8 @@ export default class CardModal extends React.Component {
     }
 
     this.state = {
-      fetchingData: false,
-      card: this.default_card
+      card: this.default_card,
+      fetchingData: false
     }
   }
 
@@ -65,7 +72,63 @@ export default class CardModal extends React.Component {
   }
 
   newItem = type => {
-    console.log(`new ${type}`)
+    let state = this.removeItemState('new')
+    let item = this.default_item
+    const itemOrder = Array.from(state.card.item_order)
+    itemOrder.push('new')
+
+    switch(type) {
+      case 'note':
+        item = {
+          ...item,
+          type: 'note',
+          params: this.default_note
+        }
+        break
+      default:
+        console.log('UNKNOWN TYPE')
+    }
+
+    const newState = {
+      ...state,
+      card: {
+        ...state.card,
+        item_order: itemOrder,
+        items: {
+          ...state.card.items,
+          [item.uuid]: item
+        }
+      }
+    }
+
+    console.log(newState)
+
+    this.setState(newState)
+  }
+
+  removeItemState = uuid => {
+    const items = this.state.card.items
+    delete items[uuid]
+
+    let itemOrder = Array.from(this.state.card.item_order)
+    const idx = itemOrder.indexOf(uuid)
+
+    console.log(idx)
+
+    if(idx >= 0) {
+      itemOrder.splice(idx, 1)
+    }
+
+    console.log(itemOrder)
+
+    return {
+      ...this.state,
+      card:{
+        ...this.state.card,
+        item_order: itemOrder,
+        items: items
+      }
+    }
   }
 
   render() {
