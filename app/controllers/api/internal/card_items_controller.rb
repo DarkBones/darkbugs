@@ -5,10 +5,9 @@ module Api
       before_action :check_is_assignee!, only: %i[create]
 
       def create
-        result = CardItems::CreateService.new(params[:type], item_params, @current_user, @card).execute
+        service = CardItems::CreateService.new(params[:type], item_params, @current_user, @card).execute
 
-        # TODO: Strip ID
-        render json: result
+        @card_item = service.dig(:results, :item)
       end
 
       private def item_params

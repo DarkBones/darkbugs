@@ -33,7 +33,7 @@ module CardItems
         item.card_item_id = card_item.id
         item.save!
 
-        item
+        card_item
       end
     end
 

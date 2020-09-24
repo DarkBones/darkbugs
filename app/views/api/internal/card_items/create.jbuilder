@@ -1,0 +1,1 @@
+json.uuid(@card_item.uuid)
