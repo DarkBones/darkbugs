@@ -26,6 +26,10 @@ export default class ToolBar extends React.Component {
     }.bind(this), 300)
   }
 
+  newNote = () => {
+    this.props.newItem('note')
+  }
+
   render () {
     const toolbar = this.state.render
       ? (
@@ -38,7 +42,7 @@ export default class ToolBar extends React.Component {
               <li>
                 <ToolbarButton
                   faIconClass="fa fa-sticky-note"
-                  onClick={this.props.newNote}
+                  onClick={this.newNote}
                 />
               </li>
             </ul>
@@ -52,5 +56,5 @@ export default class ToolBar extends React.Component {
 }
 
 ToolBar.propTypes = {
-  newNote: PropTypes.func.isRequired
+  newItem: PropTypes.func.isRequired
 }

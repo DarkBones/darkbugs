@@ -12,14 +12,32 @@ export default class CardModal extends React.Component {
     super(props)
 
     this.default_card = {
+      items: [],
       name: '',
       number: '',
       short_name: ''
     }
 
+    this.default_note = {
+      content: ''
+    }
+
     this.state = {
       fetchingData: false,
       card: this.default_card
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.show !== prevProps.show) {
+      if (this.props.show) {
+        this.fetchCardData()
+      } else {
+        this.setState({
+          fetchingData: false,
+          card: this.default_card
+        })
+      }
     }
   }
 
@@ -46,17 +64,8 @@ export default class CardModal extends React.Component {
     }
   }
 
-  componentDidUpdate = (prevProps) => {
-    if (this.props.show !== prevProps.show) {
-      if (this.props.show) {
-        this.fetchCardData()
-      } else {
-        this.setState({
-          fetchingData: false,
-          card: this.default_card
-        })
-      }
-    }
+  newItem = type => {
+    console.log(`new ${type}`)
   }
 
   render() {
@@ -71,6 +80,7 @@ export default class CardModal extends React.Component {
     const body = (
       <Body
         card={card}
+        newItem={this.newItem}
       />
     )
 

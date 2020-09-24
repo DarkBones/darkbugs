@@ -7,22 +7,24 @@ export default class Body extends React.Component {
     super(props)
   }
 
-  newNote = () => {
-    console.log('new note')
-  }
-
   render() {
-    const { card } = this.props
+    const {
+      name
+    } = this.props.card
+
+    const {
+      newItem
+    } = this.props
 
     return (
       <React.Fragment>
         <div>
           <h1>
-            {card.name}
+            {name}
           </h1>
         </div>
         <ToolBar
-          newNote={this.newNote}
+          newItem={newItem}
         />
       </React.Fragment>
     )
@@ -30,5 +32,6 @@ export default class Body extends React.Component {
 }
 
 Body.propTypes = {
-  card: PropTypes.object.isRequired
+  card:     PropTypes.object.isRequired,
+  newItem:  PropTypes.func.isRequired
 }
