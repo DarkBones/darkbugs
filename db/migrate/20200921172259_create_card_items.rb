@@ -3,7 +3,7 @@ class CreateCardItems < ActiveRecord::Migration[6.0]
     create_table :card_items do |t|
       t.string :uuid
       t.references :card
-      t.references :item, polymorphic: true
+      t.references :author, index: true, foreign_key: { to_table: :users }
       t.integer :position
       t.timestamps
     end

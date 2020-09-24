@@ -45,7 +45,10 @@
         "required": {
           "title": "required"
         },
-        "submit": "Submit"
+        "submit": "Submit",
+        "titles": {
+          "new_note": "New Note"
+        }
       },
       "modal": {
         "Modal": {

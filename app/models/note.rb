@@ -1,3 +1,3 @@
 class Note < ApplicationRecord
-  include Identifiable
+  belongs_to :card_item
 end

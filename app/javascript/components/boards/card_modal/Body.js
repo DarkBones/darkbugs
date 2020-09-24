@@ -32,6 +32,7 @@ export default class Body extends React.Component {
           >
             {item_order.map((uuid, index) =>
               <Item
+                cardUuid={this.props.card.uuid}
                 key={uuid}
                 item={items[uuid]}
                 removeItem={removeItem}

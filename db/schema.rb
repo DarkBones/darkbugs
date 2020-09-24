@@ -51,13 +51,12 @@ ActiveRecord::Schema.define(version: 2020_09_21_172714) do
   create_table "card_items", force: :cascade do |t|
     t.string "uuid"
     t.bigint "card_id"
-    t.string "item_type"
-    t.bigint "item_id"
+    t.bigint "author_id"
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_card_items_on_author_id"
     t.index ["card_id"], name: "index_card_items_on_card_id"
-    t.index ["item_type", "item_id"], name: "index_card_items_on_item_type_and_item_id"
     t.index ["uuid"], name: "index_card_items_on_uuid"
   end
 
@@ -92,10 +91,11 @@ ActiveRecord::Schema.define(version: 2020_09_21_172714) do
   end
 
   create_table "notes", force: :cascade do |t|
-    t.bigint "item_id"
+    t.bigint "card_item_id"
     t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["card_item_id"], name: "index_notes_on_card_item_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -185,4 +185,5 @@ ActiveRecord::Schema.define(version: 2020_09_21_172714) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "boards", "projects", column: "root_project_id"
+  add_foreign_key "card_items", "users", column: "author_id"
 end

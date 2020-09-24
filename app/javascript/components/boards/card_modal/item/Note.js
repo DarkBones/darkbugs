@@ -32,8 +32,7 @@ export default class Note extends React.Component {
   }
 
   handleSubmit = (data) => {
-    console.log('submit note')
-    console.log(data)
+    this.props.submitItem('note', data)
   }
 
   render () {
@@ -75,5 +74,6 @@ export default class Note extends React.Component {
 Note.propTypes = {
   content:    PropTypes.string.isRequired,
   removeItem: PropTypes.func.isRequired,
+  submitItem: PropTypes.func.isRequired,
   uuid:       PropTypes.string.isRequired
 }
