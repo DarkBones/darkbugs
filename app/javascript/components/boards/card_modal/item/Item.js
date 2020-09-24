@@ -11,12 +11,17 @@ export default function Item(props) {
 
   let item = <div></div>
 
+  const defaultProps = {
+    removeItem: props.removeItem,
+    uuid: uuid
+  }
+
   switch(type) {
     case 'note':
       item = (
         <Note
+          {...defaultProps}
           content={params.content}
-          uuid={uuid}
         />
       )
       break
@@ -32,5 +37,6 @@ export default function Item(props) {
 }
 
 Item.propTypes = {
-  item: PropTypes.object.isRequired
+  item:       PropTypes.object.isRequired,
+  removeItem: PropTypes.func.isRequired
 }

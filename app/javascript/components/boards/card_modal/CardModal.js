@@ -101,9 +101,11 @@ export default class CardModal extends React.Component {
       }
     }
 
-    console.log(newState)
-
     this.setState(newState)
+  }
+
+  removeItem = uuid => {
+    this.setState(this.removeItemState(uuid))
   }
 
   removeItemState = uuid => {
@@ -113,13 +115,9 @@ export default class CardModal extends React.Component {
     let itemOrder = Array.from(this.state.card.item_order)
     const idx = itemOrder.indexOf(uuid)
 
-    console.log(idx)
-
     if(idx >= 0) {
       itemOrder.splice(idx, 1)
     }
-
-    console.log(itemOrder)
 
     return {
       ...this.state,
@@ -144,6 +142,7 @@ export default class CardModal extends React.Component {
       <Body
         card={card}
         newItem={this.newItem}
+        removeItem={this.removeItem}
       />
     )
 

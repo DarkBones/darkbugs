@@ -17,7 +17,8 @@ export default class Body extends React.Component {
     } = this.props.card
 
     const {
-      newItem
+      newItem,
+      removeItem
     } = this.props
 
     return (
@@ -29,14 +30,13 @@ export default class Body extends React.Component {
           <div
             className="card-items"
           >
-            <ul>
-                {item_order.map((uuid, index) =>
-                  <Item
-                    key={uuid}
-                    item={items[uuid]}
-                  />
-                )}
-            </ul>
+            {item_order.map((uuid, index) =>
+              <Item
+                key={uuid}
+                item={items[uuid]}
+                removeItem={removeItem}
+              />
+            )}
           </div>
         </div>
         <ToolBar
@@ -48,6 +48,7 @@ export default class Body extends React.Component {
 }
 
 Body.propTypes = {
-  card:     PropTypes.object.isRequired,
-  newItem:  PropTypes.func.isRequired
+  card:       PropTypes.object.isRequired,
+  newItem:    PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired
 }

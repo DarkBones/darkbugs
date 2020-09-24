@@ -28,12 +28,12 @@ export default class Note extends React.Component {
   }
 
   handleCancel = () => {
-    console.log('cancel')
+    this.props.removeItem('new')
   }
 
-  handleSubmit = (fields) => {
+  handleSubmit = (data) => {
     console.log('submit note')
-    console.log(fields)
+    console.log(data)
   }
 
   render () {
@@ -73,6 +73,7 @@ export default class Note extends React.Component {
 }
 
 Note.propTypes = {
-  content:  PropTypes.string.isRequired,
-  uuid:     PropTypes.string.isRequired
+  content:    PropTypes.string.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  uuid:       PropTypes.string.isRequired
 }

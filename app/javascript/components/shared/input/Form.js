@@ -27,7 +27,12 @@ export default class Form extends React.Component {
   }
 
   handleSubmit = () => {
-    this.props.handleSubmit(this.state.fields)
+    const values = {}
+    this.props.fieldOrder.forEach(field => {
+      values[field] = this.state.fields[field].value
+    })
+
+    this.props.handleSubmit(values)
   }
 
   render () {
