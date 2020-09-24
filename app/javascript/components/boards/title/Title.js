@@ -49,6 +49,8 @@ export default class Title extends React.Component {
   }
 
   startEditing = () => {
+    if (!this.props.userIsAssigned) return
+
     this.setEditing(true)
   }
 
