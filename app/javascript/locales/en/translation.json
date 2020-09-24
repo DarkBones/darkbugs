@@ -36,9 +36,16 @@
     },
     "shared": {
       "form": {
+        "cancel": "Cancel",
+        "fields": {
+          "labels": {
+            "content": "Content"
+          }
+        },
         "required": {
           "title": "required"
-        }
+        },
+        "submit": "Submit"
       },
       "modal": {
         "Modal": {

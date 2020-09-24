@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ApiInput from '../../../shared/input/ApiInput'
+import Form from '../../../shared/input/Form'
 
 export default class Note extends React.Component {
   constructor(props) {
@@ -8,6 +9,14 @@ export default class Note extends React.Component {
 
     this.state = {
       content: '',
+      fieldOrder: ['content'],
+      fields: {
+        content: {
+          name: 'content',
+          type: 'text',
+          value: props.content
+        }
+      },
       isEditing: props.uuid === 'new'
     }
   }
@@ -18,13 +27,20 @@ export default class Note extends React.Component {
     })
   }
 
-  handleSubmit = () => {
+  handleCancel = () => {
+    console.log('cancel')
+  }
+
+  handleSubmit = (fields) => {
     console.log('submit note')
+    console.log(fields)
   }
 
   render () {
     const {
       content,
+      fieldOrder,
+      fields,
       isEditing
     } = this.state
 
@@ -34,12 +50,11 @@ export default class Note extends React.Component {
 
     const note = isEditing
       ? (
-        <ApiInput
+        <Form
+          fieldOrder={fieldOrder}
+          fields={fields}
+          handleCancel={this.handleCancel}
           handleSubmit={this.handleSubmit}
-          handleOnChange={this.handleOnChange}
-          name="content"
-          focus={true}
-          value={content}
         />
       )
       : (
