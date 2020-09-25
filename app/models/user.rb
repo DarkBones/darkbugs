@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :user_organizations, dependent: :destroy
   has_many :organizations, through: :user_organizations
   has_many :projects, as: 'owner'
+  has_many :card_items, as: 'author'
   accepts_nested_attributes_for :user_profile
   accepts_nested_attributes_for :organizations
 

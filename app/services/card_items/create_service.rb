@@ -26,7 +26,9 @@ module CardItems
 
       CardItem.transaction do
         card_item = card.card_items.create!({
-                                  card: card
+                                  card: card,
+                                  item_type: item_type,
+                                  author_id: current_user.id
                               })
 
         item = klass.new(params)
