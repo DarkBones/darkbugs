@@ -4,12 +4,21 @@ import i18n from '../../../../i18n'
 import Note from './Note'
 import Avatar from '../../../shared/avatar/Avatar'
 
+import JavascriptTimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en'
+
 import { CardItemApi } from '../../../../api/InternalApi'
+
+JavascriptTimeAgo.addLocale(en)
+
+import ReactTimeAgo from 'react-time-ago'
 
 export default function Item(props) {
   const {
     author_name,
     author_avatar,
+    created_at,
     params,
     type,
     uuid
@@ -46,7 +55,7 @@ export default function Item(props) {
 
   const contentClass = uuid === 'new'
     ? ''
-    : 'bg-light rounded p-3 pr-5'
+    : 'bg-light rounded p-3 pr-5 mt-n2'
 
   return (
     <div
@@ -58,18 +67,28 @@ export default function Item(props) {
           {i18n.t(`components.shared.form.titles.new_${type}`)}
         </h4>
       }
+
+      {uuid !== 'new' &&
+        <React.Fragment>
+          <div style={{display: 'inline-block'}}>
+            <Avatar
+              name={author_name}
+              url={author_avatar}
+              size="md"
+            />
+          </div>
+          <div style={{display: 'inline-block', position: 'relative', top: '-0.6em'}} className="ml-2">
+            <h4>{author_name}</h4>
+          </div>
+          <span className="float-right badge badge-info-soft mt-2">
+            <ReactTimeAgo date={created_at}/>
+          </span>
+        </React.Fragment>
+      }
+
       <div className={contentClass}>
         {item}
       </div>
-      {uuid !== 'new' &&
-        <div className="float-right mt-n4 mr-n2">
-          <Avatar
-            name={author_name}
-            url={author_avatar}
-            size="md"
-          />
-        </div>
-      }
     </div>
   )
 }

@@ -12,7 +12,7 @@ module Api
       end
 
       def show
-        card_hash = Cards::ShowPresenter.new(@card).to_h
+        card_hash = Cards::ShowPresenter.new(@card, @current_user).to_h
 
         render json: card_hash
       end

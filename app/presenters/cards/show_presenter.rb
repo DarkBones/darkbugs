@@ -1,9 +1,10 @@
 module Cards
   class ShowPresenter < BasePresenter
-    attr_reader :card
+    attr_reader :card, :current_user
 
-    def initialize(card)
+    def initialize(card, current_user)
       @card = card
+      @current_user = current_user
     end
 
     def to_h
@@ -26,9 +27,11 @@ module Cards
         author = card_item.author
 
         items[card_item.uuid] = {
-          type: card_item.item_type,
-          author_name: author&.name,
           author_avatar: author&.avatar_path,
+          author_name: author&.name,
+          created_at: card_item.created_at,
+          updated_at: card_item.updated_at,
+          type: card_item.item_type,
           params: card_item.formatted_item,
           uuid: card_item.uuid
         }

@@ -27,6 +27,7 @@
     "react-dom": "^16.13.1",
     "react-i18next": "^9.0.10",
     "react-router-dom": "^5.2.0",
+    "react-time-ago": "^6.0.1",
     "react_ujs": "^2.6.1",
     "serialize-javascript": "^4.0.0",
     "turbolinks": "^5.2.0"
