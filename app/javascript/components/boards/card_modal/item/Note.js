@@ -8,7 +8,7 @@ export default class Note extends React.Component {
     super(props)
 
     this.state = {
-      content: '',
+      content: props.content,
       fieldOrder: ['content'],
       fields: {
         content: {
@@ -57,7 +57,7 @@ export default class Note extends React.Component {
         />
       )
       : (
-        {content}
+        content
       )
 
     return (

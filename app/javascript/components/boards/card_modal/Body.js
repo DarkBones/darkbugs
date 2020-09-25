@@ -17,6 +17,7 @@ export default class Body extends React.Component {
     } = this.props.card
 
     const {
+      card,
       newItem,
       removeItem
     } = this.props
@@ -27,12 +28,16 @@ export default class Body extends React.Component {
           <h1>
             {name}
           </h1>
+          <p>
+            {JSON.stringify(items)}
+            {JSON.stringify(items[item_order[0]])}
+          </p>
           <div
             className="card-items"
           >
-            {item_order.map((uuid, index) =>
+            {item_order.map((uuid) =>
               <Item
-                cardUuid={this.props.card.uuid}
+                cardUuid={card.uuid}
                 key={uuid}
                 item={items[uuid]}
                 removeItem={removeItem}

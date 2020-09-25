@@ -6,6 +6,17 @@ class CardItem < ApplicationRecord
 
   before_create :set_position
 
+  def formatted_item
+    "CardItems::#{item_type.titleize.pluralize}::#{item_type.titleize}Presenter"
+        .constantize
+        .new(item)
+        .to_h
+  end
+
+  def item
+    item_type.titleize.constantize.find_by!(card_item_id: id)
+  end
+
   private def set_position
     current_position = CardItem.where(card: card).pluck(:position).max || 0
 
