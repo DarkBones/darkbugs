@@ -17,6 +17,10 @@ class CardItem < ApplicationRecord
     item_type.titleize.constantize.find_by!(card_item_id: id)
   end
 
+  def author
+    User.find_by(id: author_id)
+  end
+
   private def set_position
     current_position = CardItem.where(card: card).pluck(:position).max || 0
 

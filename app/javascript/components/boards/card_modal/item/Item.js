@@ -2,11 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import i18n from '../../../../i18n'
 import Note from './Note'
+import Avatar from '../../../shared/avatar/Avatar'
 
 import { CardItemApi } from '../../../../api/InternalApi'
 
 export default function Item(props) {
   const {
+    author_name,
+    author_avatar,
     params,
     type,
     uuid
@@ -19,11 +22,7 @@ export default function Item(props) {
       item: data
     }
 
-    console.log(params)
-
     let response = await CardItemApi.createItem(params)
-
-    console.log(response)
   }
 
   let item = <div></div>
@@ -39,12 +38,15 @@ export default function Item(props) {
       item = (
         <Note
           {...defaultProps}
-          uuid={uuid}
           content={params.content}
         />
       )
       break
   }
+
+  const contentClass = uuid === 'new'
+    ? ''
+    : 'bg-light rounded p-3 pr-5'
 
   return (
     <div
@@ -56,7 +58,18 @@ export default function Item(props) {
           {i18n.t(`components.shared.form.titles.new_${type}`)}
         </h4>
       }
-      {item}
+      <div className={contentClass}>
+        {item}
+      </div>
+      {uuid !== 'new' &&
+        <div className="float-right mt-n4 mr-n2">
+          <Avatar
+            name={author_name}
+            url={author_avatar}
+            size="md"
+          />
+        </div>
+      }
     </div>
   )
 }

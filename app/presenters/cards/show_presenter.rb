@@ -23,9 +23,14 @@ module Cards
       items = {}
 
       card.card_items.each do |card_item|
+        author = card_item.author
+
         items[card_item.uuid] = {
           type: card_item.item_type,
-          params: card_item.formatted_item
+          author_name: author&.name,
+          author_avatar: author&.avatar_path,
+          params: card_item.formatted_item,
+          uuid: card_item.uuid
         }
       end
 

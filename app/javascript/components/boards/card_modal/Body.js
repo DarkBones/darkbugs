@@ -29,8 +29,6 @@ export default class Body extends React.Component {
             {name}
           </h1>
           <p>
-            {JSON.stringify(items)}
-            {JSON.stringify(items[item_order[0]])}
           </p>
           <div
             className="card-items"
