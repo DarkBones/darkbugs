@@ -28,6 +28,7 @@ module Cards
 
         items[card_item.uuid] = {
           author_avatar: author&.avatar_path,
+          author_id: author&.uuid,
           author_name: author&.name,
           created_at: card_item.created_at,
           updated_at: card_item.updated_at,

@@ -53,9 +53,30 @@ export default function Item(props) {
       break
   }
 
-  const contentClass = uuid === 'new'
-    ? ''
-    : 'bg-light rounded p-3 pr-5 mt-n2'
+  const previousItem = props.previousItem
+
+  const showAvatar = () => {
+    if (uuid === 'new') return false
+
+    if (!previousItem) return true
+
+    if (!item.author_id) return false
+
+    return previousItem.author_id !== item.author_id
+  }
+
+  let contentClass = ''
+  if (uuid !== 'new') {
+    contentClass = 'bg-light rounded p-3 my-4'
+
+    if (showAvatar()) {
+      contentClass += ' mt-n2'
+    }
+  }
+
+  const timeBadgeClass = showAvatar()
+    ? 'mt-2'
+    : 'mt-n3'
 
   return (
     <div
@@ -70,17 +91,22 @@ export default function Item(props) {
 
       {uuid !== 'new' &&
         <React.Fragment>
-          <div style={{display: 'inline-block'}}>
-            <Avatar
-              name={author_name}
-              url={author_avatar}
-              size="md"
-            />
-          </div>
-          <div style={{display: 'inline-block', position: 'relative', top: '-0.6em'}} className="ml-2">
-            <h4>{author_name}</h4>
-          </div>
-          <span className="float-right badge badge-info-soft mt-2">
+          {showAvatar() &&
+            <React.Fragment>
+              <div style={{display: 'inline-block'}}>
+                <Avatar
+                  name={author_name}
+                  url={author_avatar}
+                  size="md"
+                />
+              </div>
+              <div style={{display: 'inline-block', position: 'relative', top: '-0.6em'}} className="ml-2">
+                <h4>{author_name}</h4>
+              </div>
+            </React.Fragment>
+          }
+
+          <span className={`float-right badge badge-info-soft ${timeBadgeClass}`}>
             <ReactTimeAgo date={created_at}/>
           </span>
         </React.Fragment>
@@ -94,7 +120,8 @@ export default function Item(props) {
 }
 
 Item.propTypes = {
-  cardUuid:   PropTypes.string.isRequired,
-  item:       PropTypes.object.isRequired,
-  removeItem: PropTypes.func.isRequired
+  cardUuid:     PropTypes.string.isRequired,
+  item:         PropTypes.object.isRequired,
+  previousItem: PropTypes.object,
+  removeItem:   PropTypes.func.isRequired
 }

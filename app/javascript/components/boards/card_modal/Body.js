@@ -22,6 +22,8 @@ export default class Body extends React.Component {
       removeItem
     } = this.props
 
+    let previousAuthor = ''
+
     return (
       <React.Fragment>
         <div>
@@ -33,12 +35,13 @@ export default class Body extends React.Component {
           <div
             className="card-items"
           >
-            {item_order.map((uuid) =>
+            {item_order.map((uuid, index) =>
               <Item
                 cardUuid={card.uuid}
                 key={uuid}
                 item={items[uuid]}
                 removeItem={removeItem}
+                previousItem={items[item_order[index - 1]]}
               />
             )}
           </div>
