@@ -168,18 +168,20 @@ export default class Columns extends React.Component {
   }
 
   handleClick = e => {
-    const cardIsNew = e.target.classList.contains('new-card')
-
-    if (!cardIsNew) this.deleteCard('new')
-
+    let target = e.target
     if (!e.target.classList.contains('item-card')) {
-      return
+      if (e.target.parentElement.classList.contains('item-card')) {
+        target = e.target.parentElement
+      } else {
+        this.deleteCard('new')
+        return
+      }
     }
 
-    console.log(e.target.id)
-    console.log(e.target.classList)
+    if (target.id === 'new') return
 
-    if (!cardIsNew) this.props.showCardModal(e.target.id)
+    this.deleteCard('new')
+    this.props.showCardModal(target.id)
   }
 
   onDragStart = () => {
