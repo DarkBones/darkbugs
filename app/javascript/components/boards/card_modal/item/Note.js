@@ -64,6 +64,7 @@ export default class Note extends React.Component {
       <div
         itemType="note"
         id={uuid}
+        className="display-linebreak"
       >
         {note}
       </div>
