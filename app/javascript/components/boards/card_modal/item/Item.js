@@ -39,7 +39,7 @@ export default function Item(props) {
       item = (
         <Note
           {...defaultProps}
-          uuid={'ttt'}
+          uuid={uuid}
           content={params.content}
         />
       )

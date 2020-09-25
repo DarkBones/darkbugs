@@ -1,105 +1,113 @@
 @import "variables";
 
-#card-modal-toolbar {
-  -webkit-transform: translateZ(0);
-  position: fixed;
-  right: 50px;
-  top: 70px;
-  z-index: -1;
-}
+.controller-projects.page-show {
+  #card-modal-toolbar {
+    -webkit-transform: translateZ(0);
+    position: fixed;
+    right: 50px;
+    top: 70px;
+    z-index: -1;
+  }
 
-#project-items-field {
-  margin-top: 90px;
-  width: 100%;
-  height: calc(100vh - 60px);
+  //.modal-content {
+  //  .card-item {
+  //    background-color: $gray;
+  //  }
+  //}
 
-  #project-items-container {
-    width: calc(100% + 40px);
-    margin-left: -15px;
-    height: 100%;
-    white-space: nowrap;
-    overflow-x: hidden;
-    overflow-y: hidden;
+  #project-items-field {
+    margin-top: 90px;
+    width: 100%;
+    height: calc(100vh - 60px);
 
-    div[data-react-class] {
+    #project-items-container {
+      width: calc(100% + 40px);
+      margin-left: -15px;
       height: 100%;
-    }
+      white-space: nowrap;
+      overflow-x: hidden;
+      overflow-y: hidden;
 
-    #project-items-app {
-      margin-top: 20px;
-      width: 100%;
-      height: calc(100% - 80px);
-
-      #board-title {
-        padding-left: 40px;
-        max-width: 280px;
-        height: 50px;
+      div[data-react-class] {
+        height: 100%;
       }
 
-      #columns {
-        padding-left: 40px;
+      #project-items-app {
+        margin-top: 20px;
         width: 100%;
-        height: 100%;
-        display: flex;
-        overflow-x: auto;
+        height: calc(100% - 80px);
 
-        .add-column-btn-container {
-          margin-right: 30px;
-          padding-right: 20px;
-          display: inline-block;
+        #board-title {
+          padding-left: 40px;
+          max-width: 280px;
+          height: 50px;
         }
 
-        .column {
-          margin-right: 30px;
-          display: inline-block;
+        #columns {
+          padding-left: 40px;
+          width: 100%;
           height: 100%;
-          width: 240px;
-          background-color: rgb(226,230,236);
+          display: flex;
+          overflow-x: auto;
 
-          .column-title {
-            padding: .3em .3em .1em .3em;
-            overflow: hidden;
-            height: 60px;
-
-            .column-name {
-              display: inline-block;
-            }
-
-            &:hover .delete-column-btn {
-              opacity: 0.5;
-            }
-
-            .title-name:hover {
-              cursor: cell;
-            }
-
-            .delete-column-btn {
-              opacity: 0;
-
-              &:hover {
-                opacity: 1;
-              }
-            }
+          .add-column-btn-container {
+            margin-right: 30px;
+            padding-right: 20px;
+            display: inline-block;
           }
 
-          .column-body {
-            padding: 0.5em;
-            margin-top: -10px;
-            height: calc(100% - 50px);
-            overflow-y: auto;
+          .column {
+            margin-right: 30px;
+            display: inline-block;
+            height: 100%;
+            width: 240px;
+            background-color: rgb(226,230,236);
 
-            .item-card {
-              display: block;
-              width: 100%;
-              height: 85px;
-              background-color: white;
-              padding: 0.5rem;
-              margin-bottom: 15px;
+            .column-title {
+              padding: .3em .3em .1em .3em;
               overflow: hidden;
+              height: 60px;
+
+              .column-name {
+                display: inline-block;
+              }
+
+              &:hover .delete-column-btn {
+                opacity: 0.5;
+              }
+
+              .title-name:hover {
+                cursor: cell;
+              }
+
+              .delete-column-btn {
+                opacity: 0;
+
+                &:hover {
+                  opacity: 1;
+                }
+              }
             }
-            .item-card-divider {
-              height: 1em;
-              cursor: default;
+
+            .column-body {
+              padding: 0.5em;
+              margin-top: -10px;
+              height: calc(100% - 50px);
+              overflow-y: auto;
+
+              .item-card {
+                display: block;
+                width: 100%;
+                height: 85px;
+                background-color: white;
+                padding: 0.5rem;
+                margin-bottom: 15px;
+                overflow: hidden;
+              }
+              .item-card-divider {
+                height: 1em;
+                cursor: default;
+              }
             }
           }
         }
