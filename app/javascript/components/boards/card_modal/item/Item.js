@@ -74,15 +74,13 @@ export default function Item(props) {
     }
   }
 
-  const timeBadgeClass = showAvatar()
-    ? 'mt-2'
-    : 'mt-n3'
-
   return (
     <div
       className="card-item"
     >
-      <hr />
+      {showAvatar() &&
+        <hr />
+      }
       {uuid === 'new' &&
         <h4>
           {i18n.t(`components.shared.form.titles.new_${type}`)}
@@ -105,15 +103,17 @@ export default function Item(props) {
               </div>
             </React.Fragment>
           }
-
-          <span className={`float-right badge badge-info-soft ${timeBadgeClass}`}>
-            <ReactTimeAgo date={created_at}/>
-          </span>
         </React.Fragment>
       }
 
       <div className={contentClass}>
         {item}
+
+        {uuid !== 'new' &&
+          <span className={`float-right badge badge-info-soft mt-2 mr-n3`}>
+            <ReactTimeAgo date={created_at}/>
+          </span>
+        }
       </div>
     </div>
   )
