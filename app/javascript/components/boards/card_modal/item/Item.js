@@ -32,6 +32,11 @@ export default function Item(props) {
     }
 
     let response = await CardItemApi.createItem(params)
+
+    if (!response) return
+    if (response.status !== 200) return
+    
+    props.newItem(type, response.data.uuid, response.data)
   }
 
   let item = <div></div>
@@ -122,6 +127,7 @@ export default function Item(props) {
 Item.propTypes = {
   cardUuid:     PropTypes.string.isRequired,
   item:         PropTypes.object.isRequired,
+  newItem:      PropTypes.func.isRequired,
   previousItem: PropTypes.object,
   removeItem:   PropTypes.func.isRequired
 }

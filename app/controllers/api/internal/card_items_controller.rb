@@ -7,7 +7,9 @@ module Api
       def create
         service = CardItems::CreateService.new(params[:type], item_params, @current_user, @card).execute
 
-        @card_item = service.dig(:results, :item)
+        card_item = service.dig(:results, :item)
+
+        render json: CardItems::CardItemPresenter.new(card_item).to_h
       end
 
       private def item_params

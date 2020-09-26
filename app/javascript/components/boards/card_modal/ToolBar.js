@@ -27,7 +27,7 @@ export default class ToolBar extends React.Component {
   }
 
   newNote = () => {
-    this.props.newItem('note', 'new', this.props.defaultItems.note)
+    this.props.newItem('note', 'new')
   }
 
   render () {
@@ -56,6 +56,5 @@ export default class ToolBar extends React.Component {
 }
 
 ToolBar.propTypes = {
-  defaultItems: PropTypes.object.isRequired,
-  newItem:      PropTypes.func.isRequired
+  newItem: PropTypes.func.isRequired
 }

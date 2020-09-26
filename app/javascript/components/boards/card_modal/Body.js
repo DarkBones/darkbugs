@@ -18,7 +18,6 @@ export default class Body extends React.Component {
 
     const {
       card,
-      defaultItems,
       newItem,
       removeItem
     } = this.props
@@ -39,6 +38,7 @@ export default class Body extends React.Component {
                 cardUuid={card.uuid}
                 key={uuid}
                 item={items[uuid]}
+                newItem={newItem}
                 removeItem={removeItem}
                 previousItem={items[item_order[index - 1]]}
               />
@@ -46,7 +46,6 @@ export default class Body extends React.Component {
           </div>
         </div>
         <ToolBar
-          defaultItems={defaultItems}
           newItem={newItem}
         />
       </React.Fragment>
@@ -56,7 +55,6 @@ export default class Body extends React.Component {
 
 Body.propTypes = {
   card:         PropTypes.object.isRequired,
-  defaultItems: PropTypes.object.isRequired,
   newItem:      PropTypes.func.isRequired,
   removeItem:   PropTypes.func.isRequired
 }
