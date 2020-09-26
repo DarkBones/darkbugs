@@ -35,7 +35,7 @@ export default function Item(props) {
 
     if (!response) return
     if (response.status !== 200) return
-    
+
     props.newItem(type, response.data.uuid, response.data)
   }
 

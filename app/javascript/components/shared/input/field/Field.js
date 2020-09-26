@@ -11,6 +11,12 @@ export default class Field extends React.Component {
     }
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.firstInputRef.focus()
+    })
+  }
+
   handleOnChange = e => {
     this.setState({
       value: e.target.value
@@ -25,10 +31,23 @@ export default class Field extends React.Component {
     const { value } = this.state
     const { name } = this.props
 
+    // ref={(input) => {
+    //   this.inputRef = input
+    // }}
+
+    let ref = {}
+
+    if (this.props.index === 0) {
+      ref = (firstInput) => {
+        this.firstInputRef = firstInput
+      }
+    }
+
     const props = {
       className: className,
       name: name,
       onChange: this.handleOnChange,
+      ref: ref,
       value: value
     }
 
@@ -71,6 +90,7 @@ export default class Field extends React.Component {
 }
 
 Field.propTypes = {
+  index:    PropTypes.number,
   name:     PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   type:     PropTypes.string.isRequired,

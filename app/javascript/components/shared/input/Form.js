@@ -47,9 +47,10 @@ export default class Form extends React.Component {
 
     return (
       <form>
-        {fieldOrder.map((fieldId) =>
+        {fieldOrder.map((fieldId, index) =>
           <Field
             key={fieldId}
+            index={index}
             name={fields[fieldId].name}
             onChange={this.handleChange}
             type={fields[fieldId].type}
