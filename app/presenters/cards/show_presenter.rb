@@ -24,18 +24,9 @@ module Cards
       items = {}
 
       card.card_items.each do |card_item|
-        author = card_item.author
+        item_presenter = CardItems::CardItemPresenter.new(card_item)
 
-        items[card_item.uuid] = {
-          author_avatar: author&.avatar_path,
-          author_id: author&.uuid,
-          author_name: author&.name,
-          created_at: card_item.created_at,
-          updated_at: card_item.updated_at,
-          type: card_item.item_type,
-          params: card_item.formatted_item,
-          uuid: card_item.uuid
-        }
+        items[card_item.uuid] = item_presenter.to_h
       end
 
       items
