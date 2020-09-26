@@ -1,9 +1,10 @@
 module CardItems
   class CardItemPresenter < BasePresenter
-    attr_reader :card_item
+    attr_reader :card_item, :current_user
 
-    def initialize(card_item)
+    def initialize(card_item, current_user)
       @card_item = card_item
+      @current_user = current_user
     end
 
     def to_h
@@ -17,6 +18,7 @@ module CardItems
         updated_at:     card_item.updated_at,
         type:           card_item.item_type,
         params:         card_item.formatted_item,
+        user_is_author: current_user.uuid == author.uuid,
         uuid:           card_item.uuid
       }
     end

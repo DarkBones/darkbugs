@@ -24,7 +24,7 @@ module Cards
       items = {}
 
       card.card_items.each do |card_item|
-        item_presenter = CardItems::CardItemPresenter.new(card_item)
+        item_presenter = CardItems::CardItemPresenter.new(card_item, current_user)
 
         items[card_item.uuid] = item_presenter.to_h
       end

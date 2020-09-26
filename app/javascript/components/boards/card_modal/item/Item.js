@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Ellipsis from '../../../shared/ellipsis/Ellipsis'
 import i18n from '../../../../i18n'
 import Note from './Note'
 import Avatar from '../../../shared/avatar/Avatar'
@@ -21,6 +22,7 @@ export default function Item(props) {
     created_at,
     params,
     type,
+    user_is_author,
     uuid
   } = props.item
 
@@ -79,6 +81,14 @@ export default function Item(props) {
     }
   }
 
+  const deleteItem = () => {
+    console.log('delete item')
+  }
+
+  const editItem = () => {
+    console.log('edit item')
+  }
+
   return (
     <div
       className="card-item"
@@ -108,6 +118,18 @@ export default function Item(props) {
               </div>
             </React.Fragment>
           }
+          {user_is_author &&
+            <span
+              className="item-menu float-right"
+            >
+              <Ellipsis
+                links={[
+                  [i18n.t('components.projects.cards.CardModal.items.menu.edit'), editItem],
+                  [i18n.t('components.projects.cards.CardModal.items.menu.delete'), deleteItem]
+                ]}
+              />
+            </span>
+          }
         </React.Fragment>
       }
 
@@ -115,9 +137,11 @@ export default function Item(props) {
         {item}
 
         {uuid !== 'new' &&
-          <span className={`float-right badge badge-info-soft mt-2 mr-n3`}>
-            <ReactTimeAgo date={created_at}/>
-          </span>
+          <React.Fragment>
+            <span className={`float-left badge badge-info-soft mt-2 ml-n3`}>
+              <ReactTimeAgo date={created_at}/>
+            </span>
+          </React.Fragment>
         }
       </div>
     </div>

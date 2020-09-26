@@ -20,6 +20,12 @@
             "close": "Close",
             "submit": "Create Card"
           },
+          "items": {
+            "menu": {
+              "delete": "Delete",
+              "edit": "Edit"
+            }
+          },
           "form": {
             "name": {
               "label": "Name",

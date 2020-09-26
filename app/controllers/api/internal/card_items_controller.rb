@@ -9,7 +9,7 @@ module Api
 
         card_item = service.dig(:results, :item)
 
-        render json: CardItems::CardItemPresenter.new(card_item).to_h
+        render json: CardItems::CardItemPresenter.new(card_item, @current_user).to_h
       end
 
       private def item_params
