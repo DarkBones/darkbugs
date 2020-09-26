@@ -22,9 +22,7 @@ export default class Body extends React.Component {
       newItem,
       removeItem
     } = this.props
-
-    let previousAuthor = ''
-
+    
     return (
       <React.Fragment>
         <div>
