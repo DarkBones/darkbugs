@@ -18,6 +18,7 @@ export default class Body extends React.Component {
 
     const {
       card,
+      defaultItems,
       newItem,
       removeItem
     } = this.props
@@ -47,6 +48,7 @@ export default class Body extends React.Component {
           </div>
         </div>
         <ToolBar
+          defaultItems={defaultItems}
           newItem={newItem}
         />
       </React.Fragment>
@@ -55,7 +57,8 @@ export default class Body extends React.Component {
 }
 
 Body.propTypes = {
-  card:       PropTypes.object.isRequired,
-  newItem:    PropTypes.func.isRequired,
-  removeItem: PropTypes.func.isRequired
+  card:         PropTypes.object.isRequired,
+  defaultItems: PropTypes.object.isRequired,
+  newItem:      PropTypes.func.isRequired,
+  removeItem:   PropTypes.func.isRequired
 }

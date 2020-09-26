@@ -29,6 +29,11 @@ export default class CardModal extends React.Component {
       content: ''
     }
 
+    this.default_items = {
+      item: this.default_item,
+      note: this.default_note
+    }
+
     this.state = {
       card: this.default_card,
       fetchingData: false
@@ -71,18 +76,19 @@ export default class CardModal extends React.Component {
     }
   }
 
-  newItem = type => {
-    let state = this.removeItemState('new')
+  newItem = (type, uuid, params) => {
+    const state = this.removeItemState('new')
     let item = this.default_item
     const itemOrder = Array.from(state.card.item_order)
-    itemOrder.push('new')
+    itemOrder.push(uuid)
 
     switch(type) {
       case 'note':
         item = {
           ...item,
+          uuid: uuid,
           type: 'note',
-          params: this.default_note
+          params: params
         }
         break
       default:
@@ -141,6 +147,7 @@ export default class CardModal extends React.Component {
     const body = (
       <Body
         card={card}
+        defaultItems={this.default_items}
         newItem={this.newItem}
         removeItem={this.removeItem}
       />
