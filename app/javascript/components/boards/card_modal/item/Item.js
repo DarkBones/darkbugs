@@ -17,6 +17,7 @@ import ReactTimeAgo from 'react-time-ago'
 
 export default function Item(props) {
   const {
+    author_id,
     author_name,
     author_avatar,
     created_at,
@@ -67,14 +68,16 @@ export default function Item(props) {
 
     if (!previousItem) return true
 
-    if (!item.author_id) return false
+    if (!author_id) return false
+    console.log(props.index % 3 === 0)
 
-    return previousItem.author_id !== item.author_id
+
+    return author_id !== previousItem.author_id || props.index % 3 === 0
   }
 
   let contentClass = ''
   if (uuid !== 'new') {
-    contentClass = 'bg-light rounded p-3 my-4'
+    contentClass = 'bg-light rounded p-3 pb-4 my-4'
 
     if (showAvatar()) {
       contentClass += ' mt-n2'
@@ -118,18 +121,6 @@ export default function Item(props) {
               </div>
             </React.Fragment>
           }
-          {user_is_author &&
-            <span
-              className="item-menu float-right"
-            >
-              <Ellipsis
-                links={[
-                  [i18n.t('components.projects.cards.CardModal.items.menu.edit'), editItem],
-                  [i18n.t('components.projects.cards.CardModal.items.menu.delete'), deleteItem]
-                ]}
-              />
-            </span>
-          }
         </React.Fragment>
       }
 
@@ -138,9 +129,17 @@ export default function Item(props) {
 
         {uuid !== 'new' &&
           <React.Fragment>
-            <span className={`float-left badge badge-info-soft mt-2 ml-n3`}>
+            <span className={`float-left badge badge-info-soft mt-3 ml-n3`}>
               <ReactTimeAgo date={created_at}/>
             </span>
+            {user_is_author &&
+              <Ellipsis
+                links={[
+                  [i18n.t('components.projects.cards.CardModal.items.menu.edit'), editItem],
+                  [i18n.t('components.projects.cards.CardModal.items.menu.delete'), deleteItem]
+                ]}
+              />
+            }
           </React.Fragment>
         }
       </div>
@@ -150,6 +149,7 @@ export default function Item(props) {
 
 Item.propTypes = {
   cardUuid:     PropTypes.string.isRequired,
+  index:        PropTypes.number.isRequired,
   item:         PropTypes.object.isRequired,
   newItem:      PropTypes.func.isRequired,
   previousItem: PropTypes.object,

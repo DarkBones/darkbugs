@@ -37,6 +37,7 @@ export default class Body extends React.Component {
               <Item
                 cardUuid={card.uuid}
                 key={uuid}
+                index={index}
                 item={items[uuid]}
                 newItem={newItem}
                 removeItem={removeItem}
