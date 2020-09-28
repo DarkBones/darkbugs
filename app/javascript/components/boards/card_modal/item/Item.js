@@ -1,37 +1,88 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Ellipsis from '../../../shared/ellipsis/Ellipsis'
-import i18n from '../../../../i18n'
-import Note from './Note'
-import Avatar from '../../../shared/avatar/Avatar'
+import React              from 'react'
+import PropTypes          from 'prop-types'
+import Ellipsis           from '../../../shared/ellipsis/Ellipsis'
+import i18n               from '../../../../i18n'
+import Note               from './Note'
+import Avatar             from '../../../shared/avatar/Avatar'
 
-import JavascriptTimeAgo from 'javascript-time-ago'
+import JavascriptTimeAgo  from 'javascript-time-ago'
+import en                 from 'javascript-time-ago/locale/en'
+import ReactTimeAgo       from 'react-time-ago'
 
-import en from 'javascript-time-ago/locale/en'
-
-import { CardItemApi } from '../../../../api/InternalApi'
+import { CardItemApi }    from '../../../../api/InternalApi'
 
 JavascriptTimeAgo.addLocale(en)
 
-import ReactTimeAgo from 'react-time-ago'
+export default class Item extends React.Component {
+  constructor(props) {
+    super(props)
 
-export default function Item(props) {
-  const {
-    author_id,
-    author_name,
-    author_avatar,
-    created_at,
-    params,
-    type,
-    user_is_author,
-    uuid
-  } = props.item
+    this.state = {
+      isEditing: props.item.uuid === 'new'
+    }
+  }
 
-  const submitItem = async (type, data) => {
+  deleteItem = () => {
+    console.log('DELETE ITEM')
+  }
+
+  editItem = () => {
+    this.setEditing(true)
+  }
+
+  setEditing = isEditing => {
+    this.setState({
+      isEditing: true
+    })
+  }
+
+  getItem = () => {
+    const { item, removeItem } = this.props
+
+    const defaultProps = {
+      isEditing: this.state.isEditing,
+      removeItem: removeItem,
+      submitItem: this.submitItem,
+      uuid: item.uuid
+    }
+
+    switch (item.type) {
+      case 'note':
+        return (
+          <Note
+            {...defaultProps}
+            content={item.params.content}
+          />
+        )
+    }
+  }
+
+  showAvatar = () => {
+    const {
+      previousItem,
+      index,
+      item
+    } = this.props
+
+    if (item.uuid === 'new') return false
+
+    if (!previousItem) return true
+
+    if (!item.author_id) return false
+
+    return item.author_id !== previousItem.author_id || index % 3 === 0
+  }
+
+  submitItem = async (type, item) => {
+    const {
+      cardUuid,
+      newItem
+    } = this.props
+
     const params = {
-      card_uuid: props.cardUuid,
+      card_uuid: cardUuid,
       type: type,
-      item: data
+      item: item
     }
 
     let response = await CardItemApi.createItem(params)
@@ -39,117 +90,89 @@ export default function Item(props) {
     if (!response) return
     if (response.status !== 200) return
 
-    props.newItem(type, response.data.uuid, response.data)
+    newItem(type, response.data.uuid, response.data)
   }
 
-  let item = <div></div>
+  render() {
+    const showAvatar = this.showAvatar()
+    const item = this.getItem()
 
-  const defaultProps = {
-    removeItem: props.removeItem,
-    submitItem: submitItem,
-    uuid: uuid
-  }
+    const {
+      author_id,
+      author_name,
+      author_avatar,
+      created_at,
+      params,
+      type,
+      user_is_author,
+      uuid
+    } = this.props.item
 
-  switch(type) {
-    case 'note':
-      item = (
-        <Note
-          {...defaultProps}
-          content={params.content}
-        />
-      )
-      break
-  }
+    const {
+      isEditing
+    } = this.state
 
-  const previousItem = props.previousItem
+    let contentClass = ''
+    if (uuid !== 'new') {
+      contentClass = 'bg-light rounded p-3 pb-4 my-4'
 
-  const showAvatar = () => {
-    if (uuid === 'new') return false
-
-    if (!previousItem) return true
-
-    if (!author_id) return false
-
-    return author_id !== previousItem.author_id || props.index % 3 === 0
-  }
-
-  let contentClass = ''
-  if (uuid !== 'new') {
-    contentClass = 'bg-light rounded p-3 pb-4 my-4'
-
-    if (showAvatar()) {
-      contentClass += ' mt-n2'
+      if (showAvatar) {
+        contentClass += ' mt-n2'
+      }
     }
-  }
 
-  const deleteItem = () => {
-    console.log('delete item')
-  }
-
-  const editItem = () => {
-    console.log('edit item')
-  }
-
-  return (
-    <div
-      className="card-item"
-    >
-      {showAvatar() &&
-        <hr />
-      }
-      {uuid === 'new' &&
-        <h4>
-          {i18n.t(`components.shared.form.titles.new_${type}`)}
-        </h4>
-      }
-
-      {uuid !== 'new' &&
-        <React.Fragment>
-          {showAvatar() &&
-            <React.Fragment>
-              <div style={{display: 'inline-block'}}>
-                <Avatar
-                  name={author_name}
-                  url={author_avatar}
-                  size="md"
-                />
-              </div>
-              <div style={{display: 'inline-block', position: 'relative', top: '-0.6em'}} className="ml-2">
-                <h4>{author_name}</h4>
-              </div>
-            </React.Fragment>
-          }
-        </React.Fragment>
-      }
-
-      <div className={contentClass}>
-        {item}
+    return (
+      <div
+        className="card-item"
+      >
+        {showAvatar &&
+          <hr />
+        }
 
         {uuid !== 'new' &&
           <React.Fragment>
-            <span className={`float-left badge badge-info-soft mt-3 ml-n3`}>
-              <ReactTimeAgo date={created_at}/>
-            </span>
-            {user_is_author &&
-              <Ellipsis
-                links={[
-                  [i18n.t('components.projects.cards.CardModal.items.menu.edit'), editItem],
-                  [i18n.t('components.projects.cards.CardModal.items.menu.delete'), deleteItem]
-                ]}
-              />
+            {showAvatar &&
+              <React.Fragment>
+                <div style={{display: 'inline-block'}}>
+                  <Avatar
+                    name={author_name}
+                    url={author_avatar}
+                    size="md"
+                  />
+                </div>
+                <div
+                  style={{display: 'inline-block', position: 'relative', top: '-0.6em'}}
+                  className="ml-2"
+                >
+                  <h4>
+                    {author_name}
+                  </h4>
+                </div>
+              </React.Fragment>
             }
           </React.Fragment>
         }
-      </div>
-    </div>
-  )
-}
 
-Item.propTypes = {
-  cardUuid:     PropTypes.string.isRequired,
-  index:        PropTypes.number.isRequired,
-  item:         PropTypes.object.isRequired,
-  newItem:      PropTypes.func.isRequired,
-  previousItem: PropTypes.object,
-  removeItem:   PropTypes.func.isRequired
+        <div className={contentClass}>
+          {item}
+
+          {!isEditing &&
+            <React.Fragment>
+              <span className={`float-left badge badge-info-soft mt-3 ml-n3`}>
+                <ReactTimeAgo date={created_at}/>
+              </span>
+              {user_is_author &&
+                <Ellipsis
+                  links={[
+                    [i18n.t('components.projects.cards.CardModal.items.menu.edit'), this.editItem],
+                    [i18n.t('components.projects.cards.CardModal.items.menu.delete'), this.deleteItem]
+                  ]}
+                />
+              }
+            </React.Fragment>
+          }
+        </div>
+      </div>
+    )
+  }
 }
