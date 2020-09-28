@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown } from 'react-bootstrap'
 
-const EllipsisToggle = React.forwardRef(({ children, onClick}, ref) => (
+const EllipsisToggle = React.forwardRef(({ children, onClick }, ref) => (
   <span
     className="item-menu float-right item-button shadow mt-2 clickable"
     ref={ref}

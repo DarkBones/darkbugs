@@ -138,6 +138,7 @@ export default function Item(props) {
                   [i18n.t('components.projects.cards.CardModal.items.menu.edit'), editItem],
                   [i18n.t('components.projects.cards.CardModal.items.menu.delete'), deleteItem]
                 ]}
+                wrapperClass="item-menu float-right item-button shadow mt-2 clickable"
               />
             }
           </React.Fragment>
