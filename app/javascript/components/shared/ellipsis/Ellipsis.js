@@ -4,7 +4,8 @@ import { Dropdown } from 'react-bootstrap'
 
 const EllipsisToggle = React.forwardRef(({ children, onClick }, ref) => (
   <span
-    className="item-menu float-right item-button shadow mt-2 clickable"
+    // className="item-menu float-right item-button shadow mt-2 clickable"
+    className="ellipsis-dropdown"
     ref={ref}
     onClick={(e) => {
       e.preventDefault()
@@ -25,7 +26,7 @@ export default function Ellipsis(props) {
 
       <Dropdown.Menu>
         {props.links.map((link) =>
-          <Dropdown.Item onClick={link[1]}>
+          <Dropdown.Item onClick={link[1]} key={link[0]}>
             {link[0]}
           </Dropdown.Item>
         )}

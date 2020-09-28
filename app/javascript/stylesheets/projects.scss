@@ -9,24 +9,20 @@
     z-index: -1;
   }
 
-  //.modal-content {
-  //  .card-item {
-  //    .item-menu {
-  //      position: relative;
-  //      margin-right: 0;
-  //    }
-  //  }
-  //}
-
   .modal-content {
     .card-item {
-      .item-button {
+      .ellipsis-dropdown {
+        float: right;
+        cursor: pointer;
         width: 30px;
         height: 30px;
+        margin-right: -1em;
+        margin-top: 0.5em;
         border-radius: 50%;
         background-color: white;
         text-align: center;
         line-height: 30px;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15) !important;
       }
     }
   }

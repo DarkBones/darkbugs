@@ -69,8 +69,6 @@ export default function Item(props) {
     if (!previousItem) return true
 
     if (!author_id) return false
-    console.log(props.index % 3 === 0)
-
 
     return author_id !== previousItem.author_id || props.index % 3 === 0
   }
@@ -138,7 +136,6 @@ export default function Item(props) {
                   [i18n.t('components.projects.cards.CardModal.items.menu.edit'), editItem],
                   [i18n.t('components.projects.cards.CardModal.items.menu.delete'), deleteItem]
                 ]}
-                wrapperClass="item-menu float-right item-button shadow mt-2 clickable"
               />
             }
           </React.Fragment>
