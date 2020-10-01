@@ -39,12 +39,12 @@ export default class Note extends React.Component {
     const {
       content,
       fieldOrder,
-      fields,
-      isEditing
+      fields
     } = this.state
 
     const {
-      uuid
+      uuid,
+      isEditing
     } = this.props
 
     const note = isEditing
