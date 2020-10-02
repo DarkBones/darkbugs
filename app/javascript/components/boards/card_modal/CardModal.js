@@ -62,10 +62,6 @@ export default class CardModal extends React.Component {
     this.props.handleClose()
   }
 
-  handleSubmit = () => {
-    alert('submit')
-  }
-
   fetchCardData = async () => {
     this.setState({
       fetchingData: true
@@ -144,7 +140,11 @@ export default class CardModal extends React.Component {
   }
 
   setItemEditing = (uuid, isEditing) => {
-    const state = this.state
+    this.stopEditingItem()
+
+    if (uuid === 'new') return
+
+    const state = this.removeItemState('new')
 
     const newState ={
       ...state,
@@ -159,7 +159,7 @@ export default class CardModal extends React.Component {
         }
       }
     }
-
+    
     this.setState(newState)
   }
 

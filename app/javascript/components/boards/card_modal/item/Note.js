@@ -16,8 +16,7 @@ export default class Note extends React.Component {
           type: 'text',
           value: props.content
         }
-      },
-      isEditing: props.isEditing
+      }
     }
   }
 
