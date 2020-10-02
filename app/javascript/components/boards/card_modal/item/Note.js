@@ -28,7 +28,7 @@ export default class Note extends React.Component {
   }
 
   handleCancel = () => {
-    this.props.removeItem('new')
+    this.props.setItemEditing(this.props.uuid, false)
   }
 
   handleSubmit = (data) => {
@@ -73,9 +73,9 @@ export default class Note extends React.Component {
 }
 
 Note.propTypes = {
-  content:    PropTypes.string.isRequired,
-  isEditing:  PropTypes.bool.isRequired,
-  removeItem: PropTypes.func.isRequired,
-  submitItem: PropTypes.func.isRequired,
-  uuid:       PropTypes.string.isRequired
+  content:        PropTypes.string.isRequired,
+  isEditing:      PropTypes.bool.isRequired,
+  setItemEditing: PropTypes.func.isRequired,
+  submitItem:     PropTypes.func.isRequired,
+  uuid:           PropTypes.string.isRequired
 }

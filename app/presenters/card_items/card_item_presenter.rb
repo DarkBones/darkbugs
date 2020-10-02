@@ -15,6 +15,7 @@ module CardItems
         author_id:      author&.uuid,
         author_name:    author&.name,
         created_at:     card_item.created_at,
+        is_editing:     false,
         updated_at:     card_item.updated_at,
         type:           card_item.item_type,
         params:         card_item.formatted_item,

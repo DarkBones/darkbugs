@@ -19,7 +19,7 @@ export default class Body extends React.Component {
     const {
       card,
       newItem,
-      removeItem
+      setItemEditing
     } = this.props
     
     return (
@@ -40,7 +40,7 @@ export default class Body extends React.Component {
                 index={index}
                 item={items[uuid]}
                 newItem={newItem}
-                removeItem={removeItem}
+                setItemEditing={setItemEditing}
                 previousItem={items[item_order[index - 1]]}
               />
             )}
@@ -55,7 +55,7 @@ export default class Body extends React.Component {
 }
 
 Body.propTypes = {
-  card:         PropTypes.object.isRequired,
-  newItem:      PropTypes.func.isRequired,
-  removeItem:   PropTypes.func.isRequired
+  card:           PropTypes.object.isRequired,
+  newItem:        PropTypes.func.isRequired,
+  setItemEditing: PropTypes.func.isRequired
 }

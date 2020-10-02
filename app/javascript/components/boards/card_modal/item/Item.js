@@ -16,10 +16,6 @@ JavascriptTimeAgo.addLocale(en)
 export default class Item extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      isEditing: props.item.uuid === 'new'
-    }
   }
 
   deleteItem = () => {
@@ -31,17 +27,15 @@ export default class Item extends React.Component {
   }
 
   setEditing = isEditing => {
-    this.setState({
-      isEditing: true
-    })
+    this.props.setItemEditing(this.props.item.uuid, isEditing)
   }
 
   getItem = () => {
-    const { item, removeItem } = this.props
+    const { item, setItemEditing } = this.props
 
     const defaultProps = {
-      isEditing: this.state.isEditing,
-      removeItem: removeItem,
+      isEditing: this.props.item.is_editing,
+      setItemEditing: setItemEditing,
       submitItem: this.submitItem,
       uuid: item.uuid
     }
@@ -102,18 +96,15 @@ export default class Item extends React.Component {
       author_name,
       author_avatar,
       created_at,
+      is_editing,
       params,
       type,
       user_is_author,
       uuid
     } = this.props.item
 
-    const {
-      isEditing
-    } = this.state
-
     let contentClass = ''
-    if (uuid !== 'new') {
+    if (!is_editing) {
       contentClass = 'bg-light rounded p-3 pb-4 my-4'
 
       if (showAvatar) {
@@ -156,7 +147,7 @@ export default class Item extends React.Component {
         <div className={contentClass}>
           {item}
 
-          {!isEditing &&
+          {!is_editing &&
             <React.Fragment>
               <span className={`float-left badge badge-info-soft mt-3 ml-n3`}>
                 <ReactTimeAgo date={created_at}/>

@@ -20,9 +20,10 @@ export default class CardModal extends React.Component {
     }
 
     this.default_item = {
-      uuid: 'new',
+      is_editing: true,
+      params: {},
       type: '',
-      params: {}
+      uuid: 'new'
     }
 
     this.default_note = {
@@ -142,6 +143,32 @@ export default class CardModal extends React.Component {
     }
   }
 
+  setItemEditing = (uuid, isEditing) => {
+    const state = this.state
+
+    const newState ={
+      ...state,
+      card: {
+        ...state.card,
+        items: {
+          ...state.card.items,
+          [uuid]: {
+            ...state.card.items[uuid],
+            is_editing: isEditing
+          }
+        }
+      }
+    }
+
+    this.setState(newState)
+  }
+
+  stopEditingItem = () => {
+    this.removeItem('new')
+
+    
+  }
+
   render() {
     const {
       show
@@ -155,7 +182,7 @@ export default class CardModal extends React.Component {
       <Body
         card={card}
         newItem={this.newItem}
-        removeItem={this.removeItem}
+        setItemEditing={this.setItemEditing}
       />
     )
 
