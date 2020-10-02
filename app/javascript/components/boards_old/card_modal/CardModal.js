@@ -159,7 +159,7 @@ export default class CardModal extends React.Component {
         }
       }
     }
-    
+
     this.setState(newState)
   }
 
