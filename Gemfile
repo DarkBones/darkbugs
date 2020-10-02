@@ -10,6 +10,7 @@ gem 'azure-storage', '~> 0.15.0.preview', require: false
 gem 'azure-storage-blob'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
+gem 'cancan'
 gem 'devise', '>= 4.7.1'
 gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'
