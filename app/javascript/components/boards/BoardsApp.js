@@ -5,6 +5,7 @@ import Title from './Title'
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props)
+    console.log(props)
   }
 
   render() {
@@ -17,7 +18,7 @@ export default class BoardsApp extends React.Component {
       <div
         id="project-items-app"
       >
-        <Title boardSlug={} handleAfterUpdate={} name={} />
+        {/*<Title boardSlug={} handleAfterUpdate={} name={} />*/}
       </div>
     )
   }
