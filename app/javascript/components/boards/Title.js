@@ -3,10 +3,6 @@ import React        from 'react'
 import PropTypes    from 'prop-types'
 import { BoardApi } from '../../api/InternalApi'
 
-function TitleElement(props) {
-
-}
-
 export default class Title extends React.Component {
   constructor(props) {
     super(props)
@@ -17,8 +13,30 @@ export default class Title extends React.Component {
     }
   }
 
+  cancelEditing = () => {
+    this.setState({
+      isEditing: false,
+      name: this.props.name
+    })
+  }
+
+  componentDidMount = () => {
+    document.addEventListener('mousedown', this.handleClick)
+  }
+
+  componentWillUnmount = () => {
+    document.removeEventListener('mousedown', this.handleClick)
+  }
+
   handleClick = e => {
-    this.setIsEditing(this.title.contains(e.target))
+    const {
+      setIsEditing,
+      cancelEditing
+    } = this
+
+    this.title.contains(e.target)
+      ? setIsEditing(true)
+      : cancelEditing()
   }
 
   handleOnChange = e => {
@@ -37,15 +55,23 @@ export default class Title extends React.Component {
       handleAfterUpdate
     } = this.props
 
+    const {
+      name
+    } = this.state
+
     await BoardApi
       .updateName(
         boardSlug,
         {
           board: {
-            name: this.state.name
+            name: name
           }
         }
       )
+
+    this.setIsEditing(false)
+
+    handleAfterUpdate(name)
   }
 
   setIsEditing = isEditing => {
@@ -54,35 +80,66 @@ export default class Title extends React.Component {
     })
   }
 
-  stopEditing = () => {
-    this.setIsEditing(false)
-  }
+  titleElement = () => {
+    const {
+      handleClick,
+      handleOnChange,
+      cancelEditing,
+      updateBoardName
+    } = this
 
-  render() {
+    const {
+      userIsAssigned
+    } = this.props
+
     const {
       isEditing,
       name
     } = this.state
 
+    let el = (
+      <h1
+        onClick={handleClick}
+      >
+        {name}
+      </h1>
+    )
+
+    if (userIsAssigned) {
+      if (isEditing) {
+        el = (
+          <ApiInput
+            handleSubmit=   {updateBoardName}
+            name=           "name"
+            focus=          {true}
+            value=          {name}
+            handleCancel=   {cancelEditing}
+            handleOnChange= {handleOnChange}
+          />
+        )
+      }
+    }
+
+    return el
+  }
+
+  render() {
+    const element = this.titleElement()
+
     return (
-      <TitleElement
-        handleSubmit={this.handleSubmit}
-        handleOnChange={this.handleOnChange}
-        handleOnClick={this.handleClick}
-        isEditing={isEditing}
-        stopEditing={this.stopEditing}
-        value={name}
-      />
+      <div
+        id="board-title"
+        ref={title => this.title = title}
+      >
+        {element}
+      </div>
     )
   }
 }
 
 Title.propTypes = {
   boardSlug:          PropTypes.string.isRequired,
-  handleAfterUpdate:  PropTypes.string.isRequired,
-  name:               PropTypes.string.isRequired
-}
-
-TitleElement.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  handleAfterUpdate:  PropTypes.func.isRequired,
+  name:               PropTypes.string.isRequired,
+  userIsAssigned:     PropTypes.bool.isRequired
 }

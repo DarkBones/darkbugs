@@ -29,12 +29,12 @@ export default class ApiInput extends React.Component {
 
     return (
       <input
-        className='form-control'
-        value={value}
-        onKeyDown={this.handleKeyDown}
-        onChange={handleOnChange}
-        name={name}
-        ref={(input) => {
+        className=  "form-control"
+        value=      {value}
+        onKeyDown=  {this.handleKeyDown}
+        onChange=   {handleOnChange}
+        name=       {name}
+        ref=        {(input) => {
           this.inputRef = input
         }}
       />
@@ -43,10 +43,10 @@ export default class ApiInput extends React.Component {
 }
 
 ApiInput.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  focus: PropTypes.bool.isRequired,
-  value: PropTypes.string.isRequired,
-  handleCancel: PropTypes.func,
-  handleOnChange: PropTypes.func
+  focus:          PropTypes.bool.isRequired,
+  handleCancel:   PropTypes.func,
+  handleOnChange: PropTypes.func,
+  handleSubmit:   PropTypes.func.isRequired,
+  name:           PropTypes.string.isRequired,
+  value:          PropTypes.string.isRequired
 }
