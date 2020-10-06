@@ -9,7 +9,9 @@ export default class BoardsApp extends React.Component {
     console.log(props)
 
     this.state = {
-      boardName: props.name
+      boardName: props.name,
+      columnOrder: props.column_order,
+      columns: props.columns
     }
   }
 
@@ -26,12 +28,13 @@ export default class BoardsApp extends React.Component {
 
     const {
       board_slug,
-      column_order,
       user_is_assigned
     } = this.props
 
     const {
-      boardName
+      boardName,
+      columnOrder,
+      columns
     } = this.state
 
     return (
@@ -45,7 +48,9 @@ export default class BoardsApp extends React.Component {
           userIsAssigned=     {user_is_assigned}
         />
         <Columns
-          columnOrder=        {column_order}
+          columnOrder=        {columnOrder}
+          columns=            {columns}
+          userIsAssigned=     {user_is_assigned}
         />
       </div>
     )
@@ -54,10 +59,10 @@ export default class BoardsApp extends React.Component {
 
 BoardsApp.propTypes = {
   board_slug:       PropTypes.string.isRequired,
-  cards:            PropTypes.object.isRequired,
   card_order:       PropTypes.array.isRequired,
-  columns:          PropTypes.object.isRequired,
+  cards:            PropTypes.object.isRequired,
   column_order:     PropTypes.array.isRequired,
+  columns:          PropTypes.object.isRequired,
   name:             PropTypes.string.isRequired,
   user_is_assigned: PropTypes.bool.isRequired
 }

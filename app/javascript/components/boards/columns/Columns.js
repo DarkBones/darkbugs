@@ -1,4 +1,5 @@
 import React      from 'react'
+import Column     from './Column'
 import PropTypes  from 'prop-types'
 import {
   DragDropContext,
@@ -10,7 +11,8 @@ export default class Columns extends React.Component {
     super(props)
 
     this.state = {
-      columnOrder: props.columnOrder
+      columnOrder: props.columnOrder,
+      columns: props.columns
     }
   }
 
@@ -29,7 +31,12 @@ export default class Columns extends React.Component {
     } = this
 
     const {
-      columnOrder
+      userIsAssigned
+    } = this.props
+
+    const {
+      columnOrder,
+      columns
     } = this.state
 
     return (
@@ -49,11 +56,12 @@ export default class Columns extends React.Component {
               {...provided.droppableProps}
             >
               {columnOrder.map((columnUuid, index) =>
-                <p>
-                  {columnUuid}
-                  {index}
-                  {" >> "}
-                </p>
+                <Column
+                  column=         {columns[columnUuid]}
+                  index=          {index}
+                  userIsAssigned= {userIsAssigned}
+                  uuid=           {columnUuid}
+                />
               )}
             </div>
           )}
@@ -64,5 +72,7 @@ export default class Columns extends React.Component {
 }
 
 Columns.propTypes = {
-  columnOrder: PropTypes.array.isRequired
+  columnOrder:    PropTypes.array.isRequired,
+  columns:        PropTypes.object.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }
