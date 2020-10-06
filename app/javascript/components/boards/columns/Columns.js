@@ -75,8 +75,20 @@ export default class Columns extends React.Component {
     })
   }
 
+  deleteColumn = uuid => {
+    console.log('delete column', uuid)
+  }
+
   updateCardOrder = async (source, destination, draggableId) => {
     console.log('update card order')
+  }
+
+  updateColumnName = (columnUuid, name) => {
+    const newState = ColumnsState.updateName(this.state, columnUuid, name)
+
+    this.setState(newState)
+
+    this.handleAfterUpdate()
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
@@ -113,8 +125,10 @@ export default class Columns extends React.Component {
 
   render() {
     const {
+      deleteColumn,
       onDragEnd,
-      onDragStart
+      onDragStart,
+      updateColumnName
     } = this
 
     const {
@@ -144,11 +158,13 @@ export default class Columns extends React.Component {
             >
               {columnOrder.map((columnUuid, index) =>
                 <Column
-                  column=         {columns[columnUuid]}
-                  index=          {index}
-                  key=            {columnUuid}
-                  userIsAssigned= {userIsAssigned}
-                  uuid=           {columnUuid}
+                  column=           {columns[columnUuid]}
+                  deleteColumn=     {deleteColumn}
+                  index=            {index}
+                  key=              {columnUuid}
+                  updateColumnName= {updateColumnName}
+                  userIsAssigned=   {userIsAssigned}
+                  uuid=             {columnUuid}
                 />
               )}
             </div>

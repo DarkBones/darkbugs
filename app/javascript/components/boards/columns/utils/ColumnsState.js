@@ -10,4 +10,17 @@ export default class ColumnsState {
       columnOrder: newColumnOrder
     }
   }
+
+  static updateName(state, columnUuid, name) {
+    return {
+      ...state,
+      columns: {
+        ...state.columns,
+        [columnUuid]: {
+          ...state.columns[columnUuid],
+          name: name
+        }
+      }
+    }
+  }
 }

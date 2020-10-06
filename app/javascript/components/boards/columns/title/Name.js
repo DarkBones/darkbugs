@@ -1,6 +1,7 @@
-import React      from 'react'
-import ApiInput   from '../../../shared/input/ApiInput'
-import PropTypes  from 'prop-types'
+import React          from 'react'
+import ApiInput       from '../../../shared/input/ApiInput'
+import PropTypes      from 'prop-types'
+import { ColumnApi }  from '../../../../api/InternalApi'
 
 export default class Name extends React.Component {
   constructor(props) {
@@ -53,13 +54,58 @@ export default class Name extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log('handle submit')
+    if (!this.props.userIsAssigned) return
+
+    this.state.isNew
+      ? this.saveNewColumn()
+      : this.updateName()
+  }
+
+  saveNewColumn = () => {
+
   }
 
   setIsEditing = isEditing => {
     this.setState({
       isEditing: isEditing
     })
+  }
+
+  removeNewColumn = () => {
+    this.cancelEdit()
+
+    this.props.deleteColumn('new')
+  }
+
+  updateName = async () => {
+    const {
+      columnUuid,
+      handleAfterSubmit
+    } = this.props
+
+    const {
+      name
+    } = this.state
+
+    if (this.state.name === '') {
+      this.cancelEdit()
+      return
+    }
+
+    let response = await ColumnApi.updateColumn(
+      columnUuid,
+      { name: name }
+    )
+
+    if (!response) return
+
+    if (response.status !== 200) {
+      this.removeNewColumn()
+      return
+    }
+
+    handleAfterSubmit(response.data)
+    this.setIsEditing(false)
   }
 
   render() {
@@ -112,6 +158,8 @@ export default class Name extends React.Component {
 
 Name.propTypes = {
   columnUuid: PropTypes.string.isRequired,
+  deleteColumn: PropTypes.func.isRequired,
+  handleAfterSubmit: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

@@ -6,7 +6,9 @@ import { Draggable } from 'react-beautiful-dnd'
 export default function Column(props) {
   const {
     column,
+    deleteColumn,
     index,
+    updateColumnName,
     userIsAssigned,
     uuid
   } = props
@@ -29,7 +31,9 @@ export default function Column(props) {
             >
               <Title
                 columnUuid={uuid}
+                deleteColumn={deleteColumn}
                 name={column.name}
+                updateColumnName={updateColumnName}
                 userIsAssigned={userIsAssigned}
               />
             </div>
@@ -41,8 +45,10 @@ export default function Column(props) {
 }
 
 Column.propTypes = {
-  column:         PropTypes.object.isRequired,
-  index:          PropTypes.number.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired,
-  uuid:           PropTypes.string.isRequired
+  column:           PropTypes.object.isRequired,
+  deleteColumn:     PropTypes.func.isRequired,
+  index:            PropTypes.number.isRequired,
+  updateColumnName: PropTypes.func.isRequired,
+  userIsAssigned:   PropTypes.bool.isRequired,
+  uuid:             PropTypes.string.isRequired
 }
