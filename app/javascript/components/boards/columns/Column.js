@@ -1,7 +1,7 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
-import Title      from './title/Title'
-import { Draggable } from 'react-beautiful-dnd'
+import React          from 'react'
+import PropTypes      from 'prop-types'
+import Title          from './title/Title'
+import { Draggable }  from 'react-beautiful-dnd'
 
 export default function Column(props) {
   const {
@@ -15,9 +15,9 @@ export default function Column(props) {
 
   return (
     <Draggable
-      draggableId={uuid}
-      index={index}
-      isDragDisabled={!userIsAssigned}
+      draggableId=    {uuid}
+      index=          {index}
+      isDragDisabled= {!userIsAssigned}
     >
       {(provided) => (
         <div
@@ -30,11 +30,11 @@ export default function Column(props) {
               {...provided.dragHandleProps}
             >
               <Title
-                columnUuid={uuid}
-                deleteColumn={deleteColumn}
-                name={column.name}
-                updateColumnName={updateColumnName}
-                userIsAssigned={userIsAssigned}
+                columnUuid=       {uuid}
+                deleteColumn=     {deleteColumn}
+                name=             {column.name}
+                updateColumnName= {updateColumnName}
+                userIsAssigned=   {userIsAssigned}
               />
             </div>
           </div>

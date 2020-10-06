@@ -15,8 +15,8 @@ export default class Title extends React.Component {
 
   cancelEditing = () => {
     this.setState({
-      isEditing: false,
-      name: this.props.name
+      isEditing:  false,
+      name:       this.props.name
     })
   }
 
@@ -29,10 +29,7 @@ export default class Title extends React.Component {
   }
 
   handleClick = e => {
-    const {
-      setIsEditing,
-      cancelEditing
-    } = this
+    const { setIsEditing, cancelEditing } = this
 
     this.title.contains(e.target)
       ? setIsEditing(true)
@@ -50,26 +47,17 @@ export default class Title extends React.Component {
   }
 
   updateBoardName = async () => {
-    const {
-      boardSlug,
-      handleAfterUpdate
-    } = this.props
-
-    const {
-      name
-    } = this.state
+    const { setIsEditing } = this
+    const { boardSlug, handleAfterUpdate } = this.props
+    const { name } = this.state
 
     await BoardApi
       .updateName(
         boardSlug,
-        {
-          board: {
-            name: name
-          }
-        }
+        { board: { name: name }}
       )
 
-    this.setIsEditing(false)
+    setIsEditing(false)
 
     handleAfterUpdate(name)
   }
@@ -88,14 +76,9 @@ export default class Title extends React.Component {
       updateBoardName
     } = this
 
-    const {
-      userIsAssigned
-    } = this.props
+    const { userIsAssigned } = this.props
 
-    const {
-      isEditing,
-      name
-    } = this.state
+    const { isEditing, name } = this.state
 
     let el = (
       <h1

@@ -7,11 +7,7 @@ export default class Name extends React.Component {
   constructor(props) {
     super(props)
 
-    const {
-      columnUuid,
-      name
-    } = this.props
-
+    const { columnUuid, name } = this.props
     const isNew = columnUuid === 'new'
 
     this.state = {
@@ -23,8 +19,8 @@ export default class Name extends React.Component {
 
   cancelEdit = () => {
     this.setState({
-      isEditing: false,
-      name: this.props.name
+      isEditing:  false,
+      name:       this.props.name
     })
   }
 
@@ -43,10 +39,7 @@ export default class Name extends React.Component {
   }
 
   handleOnClick = e => {
-    const {
-      cancelEdit,
-      setIsEditing
-    } = this
+    const { cancelEdit, setIsEditing } = this
 
     this.name.contains(e.target)
       ? setIsEditing(true)
@@ -62,7 +55,7 @@ export default class Name extends React.Component {
   }
 
   saveNewColumn = () => {
-
+    console.log('save new column')
   }
 
   setIsEditing = isEditing => {
@@ -78,17 +71,12 @@ export default class Name extends React.Component {
   }
 
   updateName = async () => {
-    const {
-      columnUuid,
-      handleAfterSubmit
-    } = this.props
+    const { cancelEdit, removeNewColumn, setIsEditing } = this
+    const { columnUuid, handleAfterSubmit } = this.props
+    const { name } = this.state
 
-    const {
-      name
-    } = this.state
-
-    if (this.state.name === '') {
-      this.cancelEdit()
+    if (name === '') {
+      cancelEdit()
       return
     }
 
@@ -100,12 +88,12 @@ export default class Name extends React.Component {
     if (!response) return
 
     if (response.status !== 200) {
-      this.removeNewColumn()
+      removeNewColumn()
       return
     }
 
     handleAfterSubmit(response.data)
-    this.setIsEditing(false)
+    setIsEditing(false)
   }
 
   render() {
@@ -115,10 +103,7 @@ export default class Name extends React.Component {
       handleOnClick,
       handleSubmit
     } = this
-    const {
-      name,
-      isEditing
-    } = this.state
+    const { name, isEditing } = this.state
     const { userIsAssigned } = this.props
 
     const headerClass = userIsAssigned ? 'editable' : ''
@@ -157,9 +142,9 @@ export default class Name extends React.Component {
 }
 
 Name.propTypes = {
-  columnUuid: PropTypes.string.isRequired,
-  deleteColumn: PropTypes.func.isRequired,
-  handleAfterSubmit: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired
+  columnUuid:         PropTypes.string.isRequired,
+  deleteColumn:       PropTypes.func.isRequired,
+  handleAfterSubmit:  PropTypes.func.isRequired,
+  name:               PropTypes.string.isRequired,
+  userIsAssigned:     PropTypes.bool.isRequired
 }

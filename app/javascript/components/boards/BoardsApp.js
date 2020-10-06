@@ -6,7 +6,6 @@ import Title      from './Title'
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props)
 
     this.state = {
       boardName:    props.name,
@@ -32,21 +31,9 @@ export default class BoardsApp extends React.Component {
   }
 
   render() {
-    const {
-      setBoardName,
-      setColumns
-    } = this
-
-    const {
-      board_slug,
-      user_is_assigned
-    } = this.props
-
-    const {
-      boardName,
-      columnOrder,
-      columns
-    } = this.state
+    const { setBoardName, setColumns } = this
+    const { board_slug, user_is_assigned } = this.props
+    const { boardName, columnOrder, columns } = this.state
 
     return (
       <div

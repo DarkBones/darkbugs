@@ -36,11 +36,7 @@ export default class Columns extends React.Component {
   }
 
   onDragEnd = result => {
-    const {
-      updateCardOrder,
-      updateColumnOrder
-    } = this
-
+    const { updateCardOrder, updateColumnOrder } = this
     const {
       destination,
       draggableId,
@@ -50,7 +46,6 @@ export default class Columns extends React.Component {
 
     // return if no changes
     if (!destination) return
-
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -92,10 +87,7 @@ export default class Columns extends React.Component {
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
-    const {
-      state,
-      handleAfterUpdate
-    } = this
+    const { state, handleAfterUpdate, setState } = this
     const { boardSlug } = this.props
 
     const newState = ColumnsState.reorderColumns(
@@ -105,7 +97,7 @@ export default class Columns extends React.Component {
       draggableId
     )
 
-    this.setState(newState)
+    setState(newState)
 
     let response = await BoardApi
       .reorderColumns(
@@ -114,7 +106,7 @@ export default class Columns extends React.Component {
           columns: newState.columnOrder
         }
       ).catch(() => {
-        this.setState(state)
+        setState(state)
       })
 
     if (!response) return
@@ -130,15 +122,8 @@ export default class Columns extends React.Component {
       onDragStart,
       updateColumnName
     } = this
-
-    const {
-      userIsAssigned
-    } = this.props
-
-    const {
-      columnOrder,
-      columns
-    } = this.state
+    const { userIsAssigned } = this.props
+    const { columnOrder, columns } = this.state
 
     return (
       <DragDropContext
