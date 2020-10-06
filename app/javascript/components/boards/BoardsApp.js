@@ -1,4 +1,5 @@
 import React      from 'react'
+import Columns    from './columns/Columns'
 import PropTypes  from 'prop-types'
 import Title      from './Title'
 
@@ -25,6 +26,7 @@ export default class BoardsApp extends React.Component {
 
     const {
       board_slug,
+      column_order,
       user_is_assigned
     } = this.props
 
@@ -41,6 +43,9 @@ export default class BoardsApp extends React.Component {
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
           userIsAssigned=     {user_is_assigned}
+        />
+        <Columns
+          columnOrder=        {column_order}
         />
       </div>
     )
