@@ -1,5 +1,6 @@
 import React      from 'react'
 import PropTypes  from 'prop-types'
+import Title      from './title/Title'
 import { Draggable } from 'react-beautiful-dnd'
 
 export default function Column(props) {
@@ -26,7 +27,11 @@ export default function Column(props) {
               className="column-title"
               {...provided.dragHandleProps}
             >
-              {column.name}
+              <Title
+                columnUuid={uuid}
+                name={column.name}
+                userIsAssigned={userIsAssigned}
+              />
             </div>
           </div>
         </div>
