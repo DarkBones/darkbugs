@@ -2,7 +2,7 @@ import React        from 'react'
 import Column       from './Column'
 import ColumnsState from './utils/ColumnsState'
 import PropTypes    from 'prop-types'
-import { BoardApi } from '../../../api/InternalApi'
+import {BoardApi, ColumnApi} from '../../../api/InternalApi'
 import {
   DragDropContext,
   Droppable
@@ -17,6 +17,25 @@ export default class Columns extends React.Component {
       columns: props.columns,
       isDragging: false
     }
+  }
+
+  deleteColumn = async uuid => {
+    const { handleAfterUpdate, state } = this
+    const newState = ColumnsState.deleteColumn(state, uuid)
+
+    this.setState(newState)
+
+    if (uuid !== 'new') {
+      let response = await ColumnApi.deleteColumn(uuid)
+        .catch(() => {
+          setState(state)
+        })
+
+      if (!response) return
+      if (response.status !== 200) return
+    }
+
+    handleAfterUpdate()
   }
 
   handleAfterUpdate = () => {
@@ -68,10 +87,6 @@ export default class Columns extends React.Component {
     this.setState({
       isDragging: true
     })
-  }
-
-  deleteColumn = uuid => {
-    console.log('delete column', uuid)
   }
 
   updateCardOrder = async (source, destination, draggableId) => {

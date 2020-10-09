@@ -1,4 +1,8 @@
 export default class ColumnsState {
+  static deleteColumn(state, columnUuid) {
+    return this._deleteColumn(state, columnUuid)
+  }
+
   static reorderColumns(state, source, destination, draggableId) {
     const newColumnOrder = Array.from(state.columnOrder)
 
@@ -21,6 +25,23 @@ export default class ColumnsState {
           name: name
         }
       }
+    }
+  }
+
+  static _deleteColumn(state, columnUuid) {
+    const columnOrder = Array.from(state.columnOrder)
+    const columns = state.columns
+    const index = columnOrder.indexOf(columnUuid)
+
+    if (index < 0) return state
+
+    columnOrder.splice(index, 1)
+    delete columns[columnUuid]
+
+    return {
+      ...state,
+      columnOrder: columnOrder,
+      columns: columns
     }
   }
 }

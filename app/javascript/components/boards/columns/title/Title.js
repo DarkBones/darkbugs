@@ -1,6 +1,7 @@
-import React      from 'react'
-import Name       from './Name'
-import PropTypes  from 'prop-types'
+import React        from 'react'
+import DeleteButton from './DeleteButton'
+import Name         from './Name'
+import PropTypes    from 'prop-types'
 
 export default function Title(props) {
   const {
@@ -21,6 +22,13 @@ export default function Title(props) {
             handleAfterSubmit=  {updateColumnName}
             name=               {name}
             userIsAssigned=     {userIsAssigned}
+          />
+        </div>
+        <div className="col-2">
+          <DeleteButton
+            columnUuid=     {columnUuid}
+            handleClick=    {deleteColumn}
+            userIsAssigned= {userIsAssigned}
           />
         </div>
       </div>
