@@ -1,6 +1,7 @@
 import React        from 'react'
 import Column       from './Column'
 import ColumnsState from './utils/ColumnsState'
+import CreateButton from './CreateButton'
 import PropTypes    from 'prop-types'
 import {BoardApi, ColumnApi} from '../../../api/InternalApi'
 import {
@@ -17,6 +18,10 @@ export default class Columns extends React.Component {
       columns: props.columns,
       isDragging: false
     }
+  }
+
+  addNewColumn = (uuid) => {
+    console.log(uuid)
   }
 
   deleteColumn = async uuid => {
@@ -132,6 +137,7 @@ export default class Columns extends React.Component {
 
   render() {
     const {
+      addNewColumn,
       deleteColumn,
       onDragEnd,
       onDragStart,
@@ -167,6 +173,11 @@ export default class Columns extends React.Component {
                   uuid=             {columnUuid}
                 />
               )}
+              {provided.placeholder}
+              <CreateButton
+                isEnabled={true}
+                onClick={addNewColumn}
+              />
             </div>
           )}
         </Droppable>
