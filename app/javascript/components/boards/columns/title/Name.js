@@ -43,11 +43,7 @@ export default class Name extends React.Component {
   }
 
   handleOnClick = e => {
-    const { cancelEdit, setIsEditing } = this
-
-    this.name.contains(e.target)
-      ? setIsEditing(true)
-      : cancelEdit()
+    if (!this.name.contains(e.target)) this.cancelEdit()
   }
 
   handleSubmit = () => {
@@ -58,14 +54,31 @@ export default class Name extends React.Component {
       : this.updateName()
   }
 
-  saveNewColumn = () => {
-    console.log('save new column')
+  saveNewColumn = async () => {
+    const { boardSlug, addColumn } = this.props
+
+    let response = await ColumnApi
+      .createColumn(
+        boardSlug,
+        { name: this.state.name }
+      )
+
+    if (!response) return
+    if (response.status !== 200) return
+
+    const { uuid, name } = response.data
+
+    addColumn(uuid, name)
   }
 
   setIsEditing = isEditing => {
     this.setState({
       isEditing: isEditing
     })
+  }
+
+  startEditing = () => {
+    this.setIsEditing(true)
   }
 
   removeNewColumn = () => {
@@ -104,8 +117,8 @@ export default class Name extends React.Component {
     const {
       cancelEdit,
       handleOnChange,
-      handleOnClick,
-      handleSubmit
+      handleSubmit,
+      startEditing
     } = this
     const { name, isEditing } = this.state
     const { userIsAssigned } = this.props
@@ -115,7 +128,7 @@ export default class Name extends React.Component {
     const header = (
       <h3
         className={`column-name ${headerClass}`}
-        onClick={handleOnClick}
+        onClick={startEditing}
       >
         {name}
       </h3>
@@ -146,6 +159,8 @@ export default class Name extends React.Component {
 }
 
 Name.propTypes = {
+  addColumn:          PropTypes.func.isRequired,
+  boardSlug:          PropTypes.string.isRequired,
   columnUuid:         PropTypes.string.isRequired,
   deleteColumn:       PropTypes.func.isRequired,
   handleAfterSubmit:  PropTypes.func.isRequired,

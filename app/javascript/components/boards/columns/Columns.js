@@ -20,7 +20,7 @@ export default class Columns extends React.Component {
     }
   }
 
-  addNewColumn = (uuid, name = '') => {
+  addColumn = (uuid, name = '') => {
     const { handleAfterUpdate, state } = this
 
     const newState = ColumnsState.addColumn(state, uuid, name)
@@ -100,6 +100,10 @@ export default class Columns extends React.Component {
     })
   }
 
+  saveNewColumn = data => {
+    console.log(data)
+  }
+
   updateCardOrder = async (source, destination, draggableId) => {
     console.log('update card order')
   }
@@ -113,7 +117,7 @@ export default class Columns extends React.Component {
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
-    const { state, handleAfterUpdate, setState } = this
+    const { state, handleAfterUpdate } = this
     const { boardSlug } = this.props
 
     const newState = ColumnsState.reorderColumns(
@@ -123,7 +127,7 @@ export default class Columns extends React.Component {
       draggableId
     )
 
-    setState(newState)
+    this.setState(newState)
 
     let response = await BoardApi
       .reorderColumns(
@@ -135,6 +139,8 @@ export default class Columns extends React.Component {
         setState(state)
       })
 
+    console.log(response)
+
     if (!response) return
     if (response.state !== 200) return
 
@@ -143,13 +149,13 @@ export default class Columns extends React.Component {
 
   render() {
     const {
-      addNewColumn,
+      addColumn,
       deleteColumn,
       onDragEnd,
       onDragStart,
       updateColumnName
     } = this
-    const { userIsAssigned } = this.props
+    const { userIsAssigned, boardSlug } = this.props
     const { columnOrder, columns } = this.state
 
     return (
@@ -170,6 +176,8 @@ export default class Columns extends React.Component {
             >
               {columnOrder.map((columnUuid, index) =>
                 <Column
+                  addColumn=        {addColumn}
+                  boardSlug=        {boardSlug}
                   column=           {columns[columnUuid]}
                   deleteColumn=     {deleteColumn}
                   index=            {index}
@@ -185,7 +193,7 @@ export default class Columns extends React.Component {
                   userIsAssigned &&
                   !columnOrder.includes('new')
                 }
-                onClick={addNewColumn}
+                onClick={addColumn}
               />
             </div>
           )}

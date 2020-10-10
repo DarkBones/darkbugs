@@ -5,6 +5,8 @@ import PropTypes    from 'prop-types'
 
 export default function Title(props) {
   const {
+    addColumn,
+    boardSlug,
     columnUuid,
     deleteColumn,
     updateColumnName,
@@ -17,6 +19,8 @@ export default function Title(props) {
       <div className="row">
         <div className="col-10">
           <Name
+            addColumn=          {addColumn}
+            boardSlug=          {boardSlug}
             columnUuid=         {columnUuid}
             deleteColumn=       {deleteColumn}
             handleAfterSubmit=  {updateColumnName}
@@ -37,6 +41,8 @@ export default function Title(props) {
 }
 
 Title.propTypes = {
+  addColumn:        PropTypes.func.isRequired,
+  boardSlug:        PropTypes.string.isRequired,
   columnUuid:       PropTypes.string.isRequired,
   deleteColumn:     PropTypes.func.isRequired,
   name:             PropTypes.string.isRequired,

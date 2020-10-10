@@ -5,6 +5,8 @@ import { Draggable }  from 'react-beautiful-dnd'
 
 export default function Column(props) {
   const {
+    addColumn,
+    boardSlug,
     column,
     deleteColumn,
     index,
@@ -30,6 +32,8 @@ export default function Column(props) {
               {...provided.dragHandleProps}
             >
               <Title
+                addColumn=        {addColumn}
+                boardSlug=        {boardSlug}
                 columnUuid=       {uuid}
                 deleteColumn=     {deleteColumn}
                 name=             {column.name}
@@ -45,6 +49,8 @@ export default function Column(props) {
 }
 
 Column.propTypes = {
+  addColumn:        PropTypes.func.isRequired,
+  boardSlug:        PropTypes.string.isRequired,
   column:           PropTypes.object.isRequired,
   deleteColumn:     PropTypes.func.isRequired,
   index:            PropTypes.number.isRequired,
