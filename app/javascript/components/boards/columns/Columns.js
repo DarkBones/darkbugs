@@ -20,8 +20,14 @@ export default class Columns extends React.Component {
     }
   }
 
-  addNewColumn = (uuid) => {
-    console.log(uuid)
+  addNewColumn = (uuid, name = '') => {
+    const { handleAfterUpdate, state } = this
+
+    const newState = ColumnsState.addColumn(state, uuid, name)
+
+    this.setState(newState)
+
+    handleAfterUpdate()
   }
 
   deleteColumn = async uuid => {
@@ -175,7 +181,10 @@ export default class Columns extends React.Component {
               )}
               {provided.placeholder}
               <CreateButton
-                isEnabled={true}
+                isEnabled={
+                  userIsAssigned &&
+                  !columnOrder.includes('new')
+                }
                 onClick={addNewColumn}
               />
             </div>

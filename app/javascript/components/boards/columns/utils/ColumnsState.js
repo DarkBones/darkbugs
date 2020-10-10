@@ -1,4 +1,29 @@
 export default class ColumnsState {
+  static addColumn(state, uuid, name) {
+    const newState = this._deleteColumn(state, 'new')
+
+    const newColumn = {
+      uuid: uuid,
+      name: name,
+      card_uuids: []
+    }
+
+    let columnOrder = Array.from(newState.columnOrder)
+
+    if (columnOrder.includes(uuid)) return newState
+
+    columnOrder.push(uuid)
+
+    return {
+      ...newState,
+      columnOrder: columnOrder,
+      columns: {
+        ...newState.columns,
+        [uuid]: newColumn
+      }
+    }
+  }
+
   static deleteColumn(state, columnUuid) {
     return this._deleteColumn(state, columnUuid)
   }

@@ -22,6 +22,10 @@ export default class Name extends React.Component {
       isEditing:  false,
       name:       this.props.name
     })
+
+    if (this.state.isNew) {
+      this.props.deleteColumn('new')
+    }
   }
 
   componentDidMount = () => {
