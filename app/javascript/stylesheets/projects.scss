@@ -9,6 +9,10 @@
     z-index: -1;
   }
 
+  .board-title {
+    display: inline-block;
+  }
+
   .modal-content {
     .card-item {
       .ellipsis-dropdown {

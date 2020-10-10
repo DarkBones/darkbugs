@@ -138,7 +138,7 @@ export default class Columns extends React.Component {
       ).catch(() => {
         setState(state)
       })
-    
+
     if (!response) return
     if (response.state !== 200) return
 

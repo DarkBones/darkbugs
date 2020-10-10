@@ -29,11 +29,7 @@ export default class Title extends React.Component {
   }
 
   handleClick = e => {
-    const { setIsEditing, cancelEditing } = this
-
-    this.title.contains(e.target)
-      ? setIsEditing(true)
-      : cancelEditing()
+    if (!this.title.contains(e.target)) this.cancelEditing()
   }
 
   handleOnChange = e => {
@@ -43,13 +39,22 @@ export default class Title extends React.Component {
   }
 
   handleSubmit = () => {
-    this.updateBoardName()
+    if (this.state.name.length > 0) {
+      this.updateBoardName()
+    } else {
+      this.cancelEditing()
+    }
   }
 
   updateBoardName = async () => {
-    const { setIsEditing } = this
+    const { cancelEditing, setIsEditing } = this
     const { boardSlug, handleAfterUpdate } = this.props
     const { name } = this.state
+
+    if (name.length === 0) {
+      cancelEditing()
+      return
+    }
 
     await BoardApi
       .updateName(
@@ -68,11 +73,15 @@ export default class Title extends React.Component {
     })
   }
 
+  startEditing = () => {
+    this.setIsEditing(true)
+  }
+
   titleElement = () => {
     const {
-      handleClick,
-      handleOnChange,
       cancelEditing,
+      handleOnChange,
+      startEditing,
       updateBoardName
     } = this
 
@@ -82,7 +91,8 @@ export default class Title extends React.Component {
 
     let el = (
       <h1
-        onClick={handleClick}
+        onClick={startEditing}
+        className="board-title"
       >
         {name}
       </h1>
