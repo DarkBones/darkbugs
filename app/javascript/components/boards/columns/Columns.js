@@ -14,6 +14,7 @@ export default class Columns extends React.Component {
     super(props)
 
     this.state = {
+      cards: props.cards,
       columnOrder: props.columnOrder,
       columns: props.columns,
       isDragging: false
@@ -154,7 +155,7 @@ export default class Columns extends React.Component {
       updateColumnName
     } = this
     const { userIsAssigned, boardSlug } = this.props
-    const { columnOrder, columns } = this.state
+    const { columnOrder, columns, cards } = this.state
 
     return (
       <DragDropContext
@@ -176,6 +177,7 @@ export default class Columns extends React.Component {
                 <Column
                   addColumn=        {addColumn}
                   boardSlug=        {boardSlug}
+                  cards=            {cards}
                   column=           {columns[columnUuid]}
                   deleteColumn=     {deleteColumn}
                   index=            {index}
@@ -203,6 +205,7 @@ export default class Columns extends React.Component {
 
 Columns.propTypes = {
   boardSlug:      PropTypes.string.isRequired,
+  cards:          PropTypes.object.isRequired,
   columnOrder:    PropTypes.array.isRequired,
   columns:        PropTypes.object.isRequired,
   setColumns:     PropTypes.func.isRequired,

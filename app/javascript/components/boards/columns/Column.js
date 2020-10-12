@@ -1,4 +1,5 @@
 import React          from 'react'
+import Body           from './body/Body'
 import PropTypes      from 'prop-types'
 import Title          from './title/Title'
 import { Draggable }  from 'react-beautiful-dnd'
@@ -7,6 +8,7 @@ export default function Column(props) {
   const {
     addColumn,
     boardSlug,
+    cards,
     column,
     deleteColumn,
     index,
@@ -41,6 +43,12 @@ export default function Column(props) {
                 userIsAssigned=   {userIsAssigned}
               />
             </div>
+            <Body
+              cardOrder=      {column.card_uuids}
+              cards=          {cards}
+              columnUuid=     {column.uuid}
+              userIsAssigned= {userIsAssigned}
+            />
           </div>
         </div>
       )}
@@ -51,6 +59,7 @@ export default function Column(props) {
 Column.propTypes = {
   addColumn:        PropTypes.func.isRequired,
   boardSlug:        PropTypes.string.isRequired,
+  cards:            PropTypes.object.isRequired,
   column:           PropTypes.object.isRequired,
   deleteColumn:     PropTypes.func.isRequired,
   index:            PropTypes.number.isRequired,
