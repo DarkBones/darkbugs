@@ -13,9 +13,7 @@ export default function Body(props) {
   } = props
 
   const handleOnClick = e => {
-    // const previousCard = findPreviousCard(e)=
-    // console.log(previousCard)
-
+    // todo: open card modal
     if (e.target.classList.contains('item-card')) return
 
     const previousCard = findPreviousCard(e)
