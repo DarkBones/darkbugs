@@ -50,6 +50,40 @@ export default class Columns extends React.Component {
     handleAfterUpdate()
   }
 
+  findPreviousCard = e => {
+    // return the divider id
+    if (e.target.classList.contains('item-card-divider')) {
+      return e.target.parentElement.id
+    }
+
+    const { columnOrder, columns } = this.state
+
+    const columnUuid = e.target.id
+    const column = columns[columnUuid]
+    const y = e.clientY - e.target.getBoundingClientRect().top + e.target.scrollTop
+
+    // if click was below the top card, return the last card in the column
+    if (y > 50) {
+      const { card_uuids } = column
+      if (card_uuids.length > 0) {
+        return card_uuids[card_uuids.length - 1]
+      }
+    }
+
+    // return last card in previous column(s)
+    let columnIndex = columnOrder.indexOf(columnUuid)
+    let columnCards = []
+    while(columnIndex > 0) {
+      columnIndex--
+
+      columnCards = columns[columnOrder[columnIndex]].card_uuids
+
+      if (columnCards.length > 0) {
+        return columnCards[columnCards.length - 1]
+      }
+    }
+  }
+
   handleAfterUpdate = () => {
     const {
       cardOrder,
@@ -150,6 +184,7 @@ export default class Columns extends React.Component {
     const {
       addColumn,
       deleteColumn,
+      findPreviousCard,
       onDragEnd,
       onDragStart,
       updateColumnName
@@ -181,6 +216,7 @@ export default class Columns extends React.Component {
                   column=           {columns[columnUuid]}
                   deleteColumn=     {deleteColumn}
                   index=            {index}
+                  findPreviousCard= {findPreviousCard}
                   key=              {columnUuid}
                   updateColumnName= {updateColumnName}
                   userIsAssigned=   {userIsAssigned}

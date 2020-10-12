@@ -117,11 +117,11 @@
                 height: 85px;
                 background-color: white;
                 padding: 0.5rem;
-                margin-bottom: 15px;
                 overflow: hidden;
               }
               .item-card-divider {
-                height: 1em;
+                height: 15px;
+                background-color: red;
                 cursor: default;
               }
             }

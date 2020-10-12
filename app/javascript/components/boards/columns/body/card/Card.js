@@ -31,17 +31,20 @@ export default class Card extends React.Component {
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
+            id={uuid}
           >
             <div
               className="card item-card"
-              id={uuid}
+              {...provided.dragHandleProps}
               ref={(card) => {
                 this.cardRef = card
               }}
             >
               CARD
             </div>
+            <div
+              className="item-card-divider"
+            />
           </div>
         )}
       </Draggable>

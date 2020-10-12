@@ -12,6 +12,7 @@ export default function Column(props) {
     column,
     deleteColumn,
     index,
+    findPreviousCard,
     updateColumnName,
     userIsAssigned,
     uuid
@@ -44,10 +45,11 @@ export default function Column(props) {
               />
             </div>
             <Body
-              cardOrder=      {column.card_uuids}
-              cards=          {cards}
-              columnUuid=     {column.uuid}
-              userIsAssigned= {userIsAssigned}
+              cardOrder=        {column.card_uuids}
+              cards=            {cards}
+              columnUuid=       {column.uuid}
+              findPreviousCard= {findPreviousCard}
+              userIsAssigned=   {userIsAssigned}
             />
           </div>
         </div>
@@ -62,6 +64,7 @@ Column.propTypes = {
   cards:            PropTypes.object.isRequired,
   column:           PropTypes.object.isRequired,
   deleteColumn:     PropTypes.func.isRequired,
+  findPreviousCard: PropTypes.func.isRequired,
   index:            PropTypes.number.isRequired,
   updateColumnName: PropTypes.func.isRequired,
   userIsAssigned:   PropTypes.bool.isRequired,

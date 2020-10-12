@@ -8,11 +8,19 @@ export default function Body(props) {
     cards,
     cardOrder,
     columnUuid,
+    findPreviousCard,
     userIsAssigned
   } = props
 
   const handleOnClick = e => {
-    console.log(e)
+    // const previousCard = findPreviousCard(e)=
+    // console.log(previousCard)
+
+    if (e.target.classList.contains('item-card')) return
+
+    const previousCard = findPreviousCard(e)
+
+    console.log(previousCard)
   }
 
   return (
