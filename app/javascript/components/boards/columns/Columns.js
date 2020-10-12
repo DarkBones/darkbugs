@@ -189,7 +189,7 @@ export default class Columns extends React.Component {
       onDragStart,
       updateColumnName
     } = this
-    const { userIsAssigned, boardSlug } = this.props
+    const { userIsAssigned, boardSlug, allCards } = this.props
     const { columnOrder, columns, cards } = this.state
 
     return (
@@ -210,6 +210,7 @@ export default class Columns extends React.Component {
             >
               {columnOrder.map((columnUuid, index) =>
                 <Column
+                  allCards=         {allCards}
                   addColumn=        {addColumn}
                   boardSlug=        {boardSlug}
                   cards=            {cards}
@@ -240,6 +241,7 @@ export default class Columns extends React.Component {
 }
 
 Columns.propTypes = {
+  allCards:       PropTypes.array.isRequired,
   boardSlug:      PropTypes.string.isRequired,
   cards:          PropTypes.object.isRequired,
   columnOrder:    PropTypes.array.isRequired,

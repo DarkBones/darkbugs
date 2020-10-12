@@ -7,6 +7,7 @@ import { Draggable }  from 'react-beautiful-dnd'
 export default function Column(props) {
   const {
     addColumn,
+    allCards,
     boardSlug,
     cards,
     column,
@@ -45,6 +46,7 @@ export default function Column(props) {
               />
             </div>
             <Body
+              allCards=         {allCards}
               cardOrder=        {column.card_uuids}
               cards=            {cards}
               columnUuid=       {column.uuid}
@@ -60,6 +62,7 @@ export default function Column(props) {
 
 Column.propTypes = {
   addColumn:        PropTypes.func.isRequired,
+  allCards:         PropTypes.array.isRequired,
   boardSlug:        PropTypes.string.isRequired,
   cards:            PropTypes.object.isRequired,
   column:           PropTypes.object.isRequired,

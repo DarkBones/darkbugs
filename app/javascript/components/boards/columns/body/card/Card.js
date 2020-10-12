@@ -14,6 +14,7 @@ export default class Card extends React.Component {
 
   render() {
     const {
+      allCards,
       index,
       userIsAssigned,
       uuid
@@ -24,7 +25,7 @@ export default class Card extends React.Component {
     return (
       <Draggable
         draggableId={uuid}
-        index={index}
+        index={allCards.indexOf(uuid)}
         isDragDisabled={dragDisabled}
       >
         {(provided) => (

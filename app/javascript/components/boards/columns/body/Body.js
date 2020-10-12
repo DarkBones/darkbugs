@@ -5,6 +5,7 @@ import { Droppable }  from 'react-beautiful-dnd'
 
 export default function Body(props) {
   const {
+    allCards,
     cards,
     cardOrder,
     columnUuid,
@@ -39,6 +40,8 @@ export default function Body(props) {
         >
           {cardOrder.map((id, index) =>
             <Card
+              allCards={allCards}
+              key={id}
               name={cards[id].name}
               userIsAssigned={userIsAssigned}
               uuid={id}
