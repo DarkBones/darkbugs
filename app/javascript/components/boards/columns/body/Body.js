@@ -12,13 +12,16 @@ export default function Body(props) {
     userIsAssigned
   } = props
 
+  const createNewCard = e => {
+    const previousCard = findPreviousCard(e)
+    console.log(previousCard)
+  }
+
   const handleOnClick = e => {
     // todo: open card modal
     if (e.target.classList.contains('item-card')) return
 
-    const previousCard = findPreviousCard(e)
-
-    console.log(previousCard)
+    createNewCard(e)
   }
 
   return (

@@ -63,7 +63,7 @@ export default class Columns extends React.Component {
     const y = e.clientY - e.target.getBoundingClientRect().top + e.target.scrollTop
 
     // if click was below the top card, return the last card in the column
-    if (y > 50) {
+    if (y > 20) {
       const { card_uuids } = column
       if (card_uuids.length > 0) {
         return card_uuids[card_uuids.length - 1]
