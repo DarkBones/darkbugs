@@ -16,6 +16,7 @@ export default class Card extends React.Component {
     const {
       allCards,
       index,
+      name,
       userIsAssigned,
       uuid
     } = this.props
@@ -41,7 +42,7 @@ export default class Card extends React.Component {
                 this.cardRef = card
               }}
             >
-              CARD
+              {name}
             </div>
             <div
               className="item-card-divider"

@@ -1,4 +1,73 @@
 export default class ColumnsState {
+  static addCard(state, columnUuid, uuid, name, previousCard) {
+    let newState = this._deleteCard(state, uuid)
+
+    const newCard = {
+      uuid: uuid,
+      name: name
+    }
+
+    const column = newState.columns[columnUuid]
+    let allCards = Array.from(state.allCards)
+    let cardUuids = Array.from(column.card_uuids)
+
+    const idxAll = allCards.indexOf(previousCard)
+    const idxCol = cardUuids.indexOf(previousCard)
+
+    const insertCard = (arr, previousCard, idx, uuid) => {
+      !previousCard || idx < 0
+        ? arr.unshift(uuid)
+        : arr.splice(idx + 1, 0, uuid)
+
+      return arr
+    }
+
+    allCards = insertCard(allCards, previousCard, idxAll, uuid)
+    cardUuids = insertCard(cardUuids, previousCard, idxCol, uuid)
+
+    return {
+      ...newState,
+      allCards: allCards,
+      cards: {
+        ...newState.cards,
+        [uuid]: newCard
+      },
+      columns: {
+        ...newState.columns,
+        [columnUuid]: {
+          ...newState.columns[columnUuid],
+          card_uuids: cardUuids
+        }
+      }
+    }
+  }
+
+  static addCardOLD(state, columnUuid, uuid, name, previousCard) {
+    let newState = this._deleteCard(state, uuid)
+
+    const column = newState.columns[columnUuid]
+    const newAllCards = Array.from(state.allCards)
+    const newCardUuids = Array.from(column.card_uuids)
+
+    const idxCol = newCardUuids.indexOf(previousCard)
+    const idxAll = newAllCards.indexOf(previousCard)
+
+    if (!previousCard || idxCol < 0) {
+      newCardUuids.unshift(uuid)
+    } else {
+      newCardUuids.splice(idxCol + 1, 0, uuid)
+    }
+
+    if (!previousCard || idxAll < 0) {
+      newAllCards.unshift(uuid)
+    } else {
+      newAllCards.splice(idxAll + 1, 0, uuid)
+    }
+
+    console.log(newCardUuids)
+    console.log(newAllCards)
+  }
+
   static addColumn(state, uuid, name) {
     const newState = this._deleteColumn(state, 'new')
 
@@ -22,6 +91,10 @@ export default class ColumnsState {
         [uuid]: newColumn
       }
     }
+  }
+
+  static deleteCard(state, cardUuid) {
+    return this._deleteCard(state, cardUuid)
   }
 
   static deleteColumn(state, columnUuid) {
@@ -51,6 +124,52 @@ export default class ColumnsState {
         }
       }
     }
+  }
+
+  static _deleteCard(state, cardUuid) {
+    const {
+      allCards,
+      cards,
+      columnOrder,
+      columns
+    } = state
+
+    delete cards[cardUuid]
+
+    let newState = state
+
+    const newAllCards = Array.from(allCards)
+    const allCardsIndex = newAllCards.indexOf(cardUuid)
+
+    if (allCardsIndex >= 0) newAllCards.splice(allCardsIndex, 1)
+
+    let column
+    let newCardUuids
+    let idx
+    columnOrder.forEach((columnUuid) => {
+      column = columns[columnUuid]
+      newCardUuids = Array.from(column.card_uuids)
+      idx = newCardUuids.indexOf(cardUuid)
+
+      if (idx >= 0) {
+        newCardUuids.splice(idx, 1)
+
+        newState = {
+          ...newState,
+          allCards: newAllCards,
+          cards: cards,
+          columns: {
+            ...newState.columns,
+            [columnUuid]: {
+              ...newState.columns[columnUuid],
+              card_uuids: newCardUuids
+            }
+          }
+        }
+      }
+    })
+
+    return newState
   }
 
   static _deleteColumn(state, columnUuid) {

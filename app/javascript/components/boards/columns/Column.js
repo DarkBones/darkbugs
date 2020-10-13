@@ -6,6 +6,7 @@ import { Draggable }  from 'react-beautiful-dnd'
 
 export default function Column(props) {
   const {
+    addCard,
     addColumn,
     allCards,
     boardSlug,
@@ -13,6 +14,7 @@ export default function Column(props) {
     column,
     deleteColumn,
     index,
+    isDragging,
     findPreviousCard,
     updateColumnName,
     userIsAssigned,
@@ -46,11 +48,13 @@ export default function Column(props) {
               />
             </div>
             <Body
+              addCard=          {addCard}
               allCards=         {allCards}
               cardOrder=        {column.card_uuids}
               cards=            {cards}
               columnUuid=       {column.uuid}
               findPreviousCard= {findPreviousCard}
+              isDragging=       {isDragging}
               userIsAssigned=   {userIsAssigned}
             />
           </div>
@@ -61,6 +65,7 @@ export default function Column(props) {
 }
 
 Column.propTypes = {
+  addCard:          PropTypes.func.isRequired,
   addColumn:        PropTypes.func.isRequired,
   allCards:         PropTypes.array.isRequired,
   boardSlug:        PropTypes.string.isRequired,
@@ -69,6 +74,7 @@ Column.propTypes = {
   deleteColumn:     PropTypes.func.isRequired,
   findPreviousCard: PropTypes.func.isRequired,
   index:            PropTypes.number.isRequired,
+  isDragging:       PropTypes.bool.isRequired,
   updateColumnName: PropTypes.func.isRequired,
   userIsAssigned:   PropTypes.bool.isRequired,
   uuid:             PropTypes.string.isRequired

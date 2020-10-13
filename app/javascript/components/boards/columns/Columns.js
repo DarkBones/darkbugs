@@ -14,11 +14,18 @@ export default class Columns extends React.Component {
     super(props)
 
     this.state = {
+      allCards: props.allCards,
       cards: props.cards,
       columnOrder: props.columnOrder,
       columns: props.columns,
       isDragging: false
     }
+  }
+
+  addCard = (columnUuid, uuid, name, previousCard) => {
+    const newState = ColumnsState.addCard(this.state, columnUuid, uuid, name, previousCard)
+
+    this.setState(newState)
   }
 
   addColumn = (uuid, name = '') => {
@@ -182,6 +189,7 @@ export default class Columns extends React.Component {
 
   render() {
     const {
+      addCard,
       addColumn,
       deleteColumn,
       findPreviousCard,
@@ -190,7 +198,7 @@ export default class Columns extends React.Component {
       updateColumnName
     } = this
     const { userIsAssigned, boardSlug, allCards } = this.props
-    const { columnOrder, columns, cards } = this.state
+    const { columnOrder, columns, cards, isDragging } = this.state
 
     return (
       <DragDropContext
@@ -210,6 +218,7 @@ export default class Columns extends React.Component {
             >
               {columnOrder.map((columnUuid, index) =>
                 <Column
+                  addCard=          {addCard}
                   allCards=         {allCards}
                   addColumn=        {addColumn}
                   boardSlug=        {boardSlug}
@@ -217,6 +226,7 @@ export default class Columns extends React.Component {
                   column=           {columns[columnUuid]}
                   deleteColumn=     {deleteColumn}
                   index=            {index}
+                  isDragging=       {isDragging}
                   findPreviousCard= {findPreviousCard}
                   key=              {columnUuid}
                   updateColumnName= {updateColumnName}

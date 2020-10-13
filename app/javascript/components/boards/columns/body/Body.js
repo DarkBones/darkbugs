@@ -5,22 +5,27 @@ import { Droppable }  from 'react-beautiful-dnd'
 
 export default function Body(props) {
   const {
+    addCard,
     allCards,
     cards,
     cardOrder,
     columnUuid,
+    isDragging,
     findPreviousCard,
     userIsAssigned
   } = props
 
   const createNewCard = e => {
     const previousCard = findPreviousCard(e)
-    console.log(previousCard)
+
+    addCard(columnUuid, 'new', '', previousCard)
   }
 
   const handleOnClick = e => {
     // todo: open card modal
     if (e.target.classList.contains('item-card')) return
+
+    if (isDragging) return
 
     createNewCard(e)
   }
@@ -55,8 +60,10 @@ export default function Body(props) {
 }
 
 Body.propTypes = {
+  addCard:        PropTypes.func.isRequired,
   cards:          PropTypes.object.isRequired,
   cardOrder:      PropTypes.array.isRequired,
   columnUuid:     PropTypes.string.isRequired,
+  isDragging:     PropTypes.bool.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }
