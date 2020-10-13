@@ -43,7 +43,7 @@ export default function Body(props) {
           ref=      {provided.innerRef}
           {...provided.droppableProps}
         >
-          {cardOrder.map((id, index) =>
+          {cardOrder.map((id) =>
             <Card
               allCards={allCards}
               key={id}
