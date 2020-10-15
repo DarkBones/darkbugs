@@ -23,19 +23,23 @@ export default class Columns extends React.Component {
   }
 
   addCard = (columnUuid, uuid, name, previousCard) => {
+    if (!this.props.userIsAssigned) return
+
     const newState = ColumnsState.addCard(this.state, columnUuid, uuid, name, previousCard)
 
     this.setState(newState)
   }
 
   addColumn = (uuid, name = '') => {
+    if (!this.props.userIsAssigned) return
+
     const { handleAfterUpdate, state } = this
 
     const newState = ColumnsState.addColumn(state, uuid, name)
 
     this.setState(newState)
 
-    handleAfterUpdate()
+    if (uuid !== 'new') handleAfterUpdate()
   }
 
   componentDidMount = () => {
@@ -52,6 +56,8 @@ export default class Columns extends React.Component {
   }
 
   deleteColumn = async uuid => {
+    if (!this.props.userIsAssigned) return
+
     const { handleAfterUpdate, state } = this
     const newState = ColumnsState.deleteColumn(state, uuid)
 
@@ -106,14 +112,14 @@ export default class Columns extends React.Component {
 
   handleAfterUpdate = () => {
     const {
-      cardOrder,
+      allCards,
       cards,
       columnOrder,
       columns
     } = this.state
 
     this.props.setColumns(
-      cardOrder,
+      allCards,
       cards,
       columnOrder,
       columns
