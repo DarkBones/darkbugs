@@ -7,7 +7,7 @@ export default class Card extends React.Component {
     super(props)
 
     this.state = {
-      isEditing: false,
+      isEditing: props.uuid === 'new',
       name: props.name
     }
   }
@@ -15,7 +15,6 @@ export default class Card extends React.Component {
   render() {
     const {
       allCards,
-      index,
       name,
       userIsAssigned,
       uuid
@@ -56,6 +55,7 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
+  allCards:       PropTypes.array.isRequired,
   name:           PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
   uuid:           PropTypes.string.isRequired
