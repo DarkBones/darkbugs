@@ -37,6 +37,7 @@ export default class Card extends React.Component {
           >
             <div
               className="card item-card"
+              id={uuid}
               {...provided.dragHandleProps}
               ref={(card) => {
                 this.cardRef = card

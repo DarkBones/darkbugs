@@ -38,6 +38,21 @@ export default class Columns extends React.Component {
     handleAfterUpdate()
   }
 
+  componentDidMount = () => {
+    document.addEventListener('mousedown', this.handleClick)
+  }
+
+  componentWillUnmount = () => {
+    document.removeEventListener('mousedown', this.handleClick)
+  }
+
+  handleClick = e => {
+    if (e.target.id === 'new' && e.target.classList.contains('item-card')) return
+    
+    const newState = ColumnsState.deleteCard(this.state, 'new')
+    this.setState(newState)
+  }
+
   deleteColumn = async uuid => {
     const { handleAfterUpdate, state } = this
     const newState = ColumnsState.deleteColumn(state, uuid)
