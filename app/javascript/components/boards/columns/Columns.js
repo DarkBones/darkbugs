@@ -25,9 +25,11 @@ export default class Columns extends React.Component {
   addCard = (columnUuid, uuid, name, previousCard) => {
     if (!this.props.userIsAssigned) return
 
-    const newState = ColumnsState.addCard(this.state, columnUuid, uuid, name, previousCard)
+    const { handleAfterUpdate, state } = this
 
-    this.setState(newState)
+    const newState = ColumnsState.addCard(state, columnUuid, uuid, name, previousCard)
+
+    this.setState(newState, handleAfterUpdate)
   }
 
   addColumn = (uuid, name = '') => {
@@ -37,9 +39,7 @@ export default class Columns extends React.Component {
 
     const newState = ColumnsState.addColumn(state, uuid, name)
 
-    this.setState(newState)
-
-    if (uuid !== 'new') handleAfterUpdate()
+    this.setState(newState, handleAfterUpdate)
   }
 
   componentDidMount = () => {
