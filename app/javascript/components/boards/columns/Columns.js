@@ -160,10 +160,6 @@ export default class Columns extends React.Component {
     })
   }
 
-  saveNewColumn = data => {
-    console.log(data)
-  }
-
   updateCardOrder = async (source, destination, draggableId) => {
     console.log('update card order')
 
