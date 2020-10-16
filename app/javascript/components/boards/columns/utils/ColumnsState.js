@@ -101,6 +101,13 @@ export default class ColumnsState {
     return this._deleteColumn(state, columnUuid)
   }
 
+  static reorderCards(state, source, destination, draggableId) {
+    return {
+      ...state,
+      isDragging: false
+    }
+  }
+
   static reorderColumns(state, source, destination, draggableId) {
     const newColumnOrder = Array.from(state.columnOrder)
 
@@ -109,7 +116,8 @@ export default class ColumnsState {
 
     return {
       ...state,
-      columnOrder: newColumnOrder
+      columnOrder: newColumnOrder,
+      isDragging: false
     }
   }
 

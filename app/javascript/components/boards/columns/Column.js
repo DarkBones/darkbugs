@@ -13,6 +13,7 @@ export default function Column(props) {
     cards,
     column,
     deleteColumn,
+    deleteNewCard,
     index,
     isDragging,
     findPreviousCard,
@@ -53,6 +54,7 @@ export default function Column(props) {
               cardOrder=        {column.card_uuids}
               cards=            {cards}
               columnUuid=       {column.uuid}
+              deleteNewCard=    {deleteNewCard}
               findPreviousCard= {findPreviousCard}
               isDragging=       {isDragging}
               userIsAssigned=   {userIsAssigned}
@@ -72,6 +74,7 @@ Column.propTypes = {
   cards:            PropTypes.object.isRequired,
   column:           PropTypes.object.isRequired,
   deleteColumn:     PropTypes.func.isRequired,
+  deleteNewCard:    PropTypes.func.isRequired,
   findPreviousCard: PropTypes.func.isRequired,
   index:            PropTypes.number.isRequired,
   isDragging:       PropTypes.bool.isRequired,

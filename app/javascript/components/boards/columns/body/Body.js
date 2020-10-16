@@ -10,6 +10,7 @@ export default function Body(props) {
     cards,
     cardOrder,
     columnUuid,
+    deleteNewCard,
     isDragging,
     findPreviousCard,
     userIsAssigned
@@ -45,11 +46,12 @@ export default function Body(props) {
         >
           {cardOrder.map((id) =>
             <Card
-              allCards={allCards}
-              key={id}
-              name={cards[id].name}
-              userIsAssigned={userIsAssigned}
-              uuid={id}
+              allCards=       {allCards}
+              deleteNewCard=  {deleteNewCard}
+              key=            {id}
+              name=           {cards[id].name}
+              userIsAssigned= {userIsAssigned}
+              uuid=           {id}
             />
           )}
           {provided.placeholder}
@@ -64,6 +66,7 @@ Body.propTypes = {
   cards:          PropTypes.object.isRequired,
   cardOrder:      PropTypes.array.isRequired,
   columnUuid:     PropTypes.string.isRequired,
+  deleteNewCard:  PropTypes.func.isRequired,
   isDragging:     PropTypes.bool.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

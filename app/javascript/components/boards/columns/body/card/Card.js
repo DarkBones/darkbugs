@@ -1,5 +1,6 @@
 import React          from 'react'
 import PropTypes      from 'prop-types'
+import TitleInput     from './TitleInput'
 import { Draggable }  from 'react-beautiful-dnd'
 
 export default class Card extends React.Component {
@@ -7,20 +8,28 @@ export default class Card extends React.Component {
     super(props)
 
     this.state = {
-      isEditing: props.uuid === 'new',
-      name: props.name
+      isEditing: props.uuid === 'new'
     }
   }
 
   render() {
     const {
       allCards,
+      deleteNewCard,
       name,
       userIsAssigned,
       uuid
     } = this.props
 
     const dragDisabled = !userIsAssigned || uuid === 'new'
+
+    const element = this.state.isEditing
+      ? (
+          <TitleInput
+            deleteNewCard={deleteNewCard}
+          />
+        )
+      : name
 
     return (
       <Draggable
@@ -42,7 +51,7 @@ export default class Card extends React.Component {
                 this.cardRef = card
               }}
             >
-              {name}
+              {element}
             </div>
             <div
               className="item-card-divider"
@@ -56,6 +65,7 @@ export default class Card extends React.Component {
 
 Card.propTypes = {
   allCards:       PropTypes.array.isRequired,
+  deleteNewCard:  PropTypes.func.isRequired,
   name:           PropTypes.string.isRequired,
   userIsAssigned: PropTypes.bool.isRequired,
   uuid:           PropTypes.string.isRequired

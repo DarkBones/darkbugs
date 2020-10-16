@@ -141,13 +141,6 @@ export default class Columns extends React.Component {
       type
     } = result
 
-    // return if no changes
-    if (!destination) return
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) return
-
     type === 'column'
       ? updateColumnOrder(
           source,
@@ -173,6 +166,15 @@ export default class Columns extends React.Component {
 
   updateCardOrder = async (source, destination, draggableId) => {
     console.log('update card order')
+
+    const newState = ColumnsState.reorderCards(
+      this.state,
+      source,
+      destination,
+      draggableId
+    )
+
+    this.setState(newState)
   }
 
   updateColumnName = (columnUuid, name) => {
@@ -217,6 +219,7 @@ export default class Columns extends React.Component {
       addCard,
       addColumn,
       deleteColumn,
+      deleteNewCard,
       findPreviousCard,
       onDragEnd,
       onDragStart,
@@ -250,6 +253,7 @@ export default class Columns extends React.Component {
                   cards=            {cards}
                   column=           {columns[columnUuid]}
                   deleteColumn=     {deleteColumn}
+                  deleteNewCard=    {deleteNewCard}
                   index=            {index}
                   isDragging=       {isDragging}
                   findPreviousCard= {findPreviousCard}
