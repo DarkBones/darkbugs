@@ -26,7 +26,7 @@ export default class Card extends React.Component {
 
     const params = {
       column_uuid: columnUuid,
-      previousCard: previousCard,
+      previous_card: previousCard,
       card: {
         name: newName
       }
