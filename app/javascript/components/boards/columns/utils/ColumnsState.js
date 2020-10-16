@@ -1,6 +1,6 @@
 export default class ColumnsState {
   static addCard(state, columnUuid, uuid, name, previousCard) {
-    let newState = this._deleteCard(state, uuid)
+    let newState = this._deleteCard(state, 'new')
 
     const newCard = {
       uuid: uuid,

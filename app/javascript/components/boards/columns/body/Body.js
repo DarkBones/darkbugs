@@ -46,8 +46,10 @@ export default function Body(props) {
         >
           {cardOrder.map((id) =>
             <Card
+              addCard=        {addCard}
               allCards=       {allCards}
               deleteNewCard=  {deleteNewCard}
+              columnUuid=     {columnUuid}
               key=            {id}
               name=           {cards[id].name}
               userIsAssigned= {userIsAssigned}

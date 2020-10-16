@@ -7,7 +7,7 @@ export default class TitleInput extends React.Component {
     super(props)
 
     this.state = {
-      name: ''
+      name: props.value
     }
   }
 
@@ -22,14 +22,14 @@ export default class TitleInput extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log('handle submit')
+    this.props.handleSubmit(this.state.name)
   }
 
   render() {
     const {
       handleCancel,
+      handleSubmit,
       handleOnChange,
-      handleSubmit
     } = this
 
     return (
@@ -48,5 +48,7 @@ export default class TitleInput extends React.Component {
 }
 
 TitleInput.propTypes = {
-  deleteNewCard: PropTypes.func.isRequired
+  deleteNewCard:  PropTypes.func.isRequired,
+  handleSubmit:   PropTypes.func.isRequired,
+  value:          PropTypes.string.isRequired
 }
