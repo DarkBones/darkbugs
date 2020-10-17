@@ -195,7 +195,7 @@ export default class Columns extends React.Component {
 
     const params = {
       card_uuid: draggableId,
-      previousCard: previousCard,
+      previous_card: previousCard,
       column_uuid: destination.droppableId
     }
 
