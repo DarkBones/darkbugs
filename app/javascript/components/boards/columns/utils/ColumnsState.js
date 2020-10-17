@@ -122,6 +122,12 @@ export default class ColumnsState {
 
     allCards.splice(source.index, 1)
     allCards.splice(destIdx, 0, draggableId)
+
+    return {
+      ...newState,
+      allCards: allCards,
+      columns: columns
+    }
   }
 
   static reorderColumns(state, source, destination, draggableId) {

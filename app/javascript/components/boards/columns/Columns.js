@@ -180,8 +180,6 @@ export default class Columns extends React.Component {
   }
 
   updateCardOrder = async (source, destination, draggableId) => {
-    console.log('update card order')
-
     const newState = ColumnsState.reorderCards(
       this.state,
       source,
@@ -190,6 +188,25 @@ export default class Columns extends React.Component {
     )
 
     this.setState(newState)
+
+    const previousCard = newState.allCards[
+        newState.allCards.indexOf(draggableId) - 1
+      ]
+
+    const params = {
+      card_uuid: draggableId,
+      previousCard: previousCard,
+      column_uuid: destination.droppableId
+    }
+
+    let response = await BoardApi
+      .reorderCards(
+        this.props.boardSlug,
+        params
+      )
+
+    if (!response) return
+    if (response.status !== 200) return
 
     this.handleAfterUpdate()
   }
