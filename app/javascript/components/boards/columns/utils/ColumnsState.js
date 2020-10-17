@@ -118,7 +118,7 @@ export default class ColumnsState {
     let destIdx = destination.index
     if (destIdx === 0) {
       destIdx = previousCardCount
-    } else if (destIdx > source.index) destIdx -= 1
+    } else if (destIdx > source.index && destination.droppableId !== source.droppableId) destIdx -= 1
 
     allCards.splice(source.index, 1)
     allCards.splice(destIdx, 0, draggableId)
