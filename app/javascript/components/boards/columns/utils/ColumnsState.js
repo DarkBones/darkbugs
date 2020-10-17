@@ -102,10 +102,26 @@ export default class ColumnsState {
   }
 
   static reorderCards(state, source, destination, draggableId) {
-    return {
-      ...state,
-      isDragging: false
-    }
+    let newState = { ...state }
+
+    const { allCards, columns } = newState
+    const sourceCol = columns[source.droppableId]
+    const destCol = columns[destination.droppableId]
+    const previousCardCount = this._previousCardCount(state, destCol.uuid)
+
+    const relativeSourceIdx = sourceCol.card_uuids.indexOf(draggableId)
+    const relativeDestIdx = destination.index - previousCardCount
+
+    sourceCol.card_uuids.splice(relativeSourceIdx, 1)
+    destCol.card_uuids.splice(relativeDestIdx, 0, draggableId)
+
+    let destIdx = destination.index
+    if (destIdx === 0) {
+      destIdx = previousCardCount
+    } else if (destIdx > source.index) destIdx -= 1
+
+    allCards.splice(source.index, 1)
+    allCards.splice(destIdx, 0, draggableId)
   }
 
   static reorderColumns(state, source, destination, draggableId) {
@@ -195,5 +211,23 @@ export default class ColumnsState {
       columnOrder: columnOrder,
       columns: columns
     }
+  }
+
+  static _previousCardCount(state, columnUuid) {
+    const { columnOrder, columns } = state
+    let count = 0
+    let breakLoop = false
+
+    columnOrder.forEach(function (uuid) {
+      if(uuid === columnUuid) {
+        breakLoop = true
+      }
+
+      if(!breakLoop) {
+        count += columns[uuid].card_uuids.length
+      }
+    })
+
+    return count
   }
 }

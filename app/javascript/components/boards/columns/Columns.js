@@ -42,6 +42,12 @@ export default class Columns extends React.Component {
     this.setState(newState, handleAfterUpdate)
   }
 
+  cancelDrag = () => {
+    this.setState({
+      isDragging: false
+    })
+  }
+
   componentDidMount = () => {
     document.addEventListener('mousedown', this.handleClick)
   }
@@ -141,6 +147,19 @@ export default class Columns extends React.Component {
       type
     } = result
 
+    // return if no changes
+    if (!destination) {
+      this.cancelDrag()
+      return
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      this.cancelDrag()
+      return
+    }
+
     type === 'column'
       ? updateColumnOrder(
           source,
@@ -171,6 +190,8 @@ export default class Columns extends React.Component {
     )
 
     this.setState(newState)
+
+    this.handleAfterUpdate()
   }
 
   updateColumnName = (columnUuid, name) => {
