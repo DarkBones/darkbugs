@@ -13,6 +13,7 @@ export default function Body(props) {
     deleteNewCard,
     isDragging,
     findPreviousCard,
+    showCardModal,
     userIsAssigned
   } = props
 
@@ -23,10 +24,12 @@ export default function Body(props) {
   }
 
   const handleOnClick = e => {
-    // todo: open card modal
-    if (e.target.classList.contains('item-card')) return
-
     if (isDragging) return
+
+    if (e.target.classList.contains('item-card')){
+      showCardModal(e.target.id)
+      return
+    }
 
     createNewCard(e)
   }
@@ -70,5 +73,6 @@ Body.propTypes = {
   columnUuid:     PropTypes.string.isRequired,
   deleteNewCard:  PropTypes.func.isRequired,
   isDragging:     PropTypes.bool.isRequired,
+  showCardModal:  PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

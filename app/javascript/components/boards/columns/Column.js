@@ -17,6 +17,7 @@ export default function Column(props) {
     index,
     isDragging,
     findPreviousCard,
+    showCardModal,
     updateColumnName,
     userIsAssigned,
     uuid
@@ -57,6 +58,7 @@ export default function Column(props) {
               deleteNewCard=    {deleteNewCard}
               findPreviousCard= {findPreviousCard}
               isDragging=       {isDragging}
+              showCardModal=    {showCardModal}
               userIsAssigned=   {userIsAssigned}
             />
           </div>
@@ -78,6 +80,7 @@ Column.propTypes = {
   findPreviousCard: PropTypes.func.isRequired,
   index:            PropTypes.number.isRequired,
   isDragging:       PropTypes.bool.isRequired,
+  showCardModal:    PropTypes.func.isRequired,
   updateColumnName: PropTypes.func.isRequired,
   userIsAssigned:   PropTypes.bool.isRequired,
   uuid:             PropTypes.string.isRequired

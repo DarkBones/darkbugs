@@ -259,7 +259,7 @@ export default class Columns extends React.Component {
       onDragStart,
       updateColumnName
     } = this
-    const { userIsAssigned, boardSlug, allCards } = this.props
+    const { userIsAssigned, boardSlug, allCards, showCardModal } = this.props
     const { columnOrder, columns, cards, isDragging } = this.state
 
     return (
@@ -292,6 +292,7 @@ export default class Columns extends React.Component {
                   isDragging=       {isDragging}
                   findPreviousCard= {findPreviousCard}
                   key=              {columnUuid}
+                  showCardModal=    {showCardModal}
                   updateColumnName= {updateColumnName}
                   userIsAssigned=   {userIsAssigned}
                   uuid=             {columnUuid}
@@ -320,5 +321,6 @@ Columns.propTypes = {
   columnOrder:    PropTypes.array.isRequired,
   columns:        PropTypes.object.isRequired,
   setColumns:     PropTypes.func.isRequired,
+  showCardModal:  PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

@@ -66,11 +66,6 @@ export default class ColumnsState {
       }
     })
 
-    // newState = {
-    //   ...newState,
-    //   cardOrder: newCardOrder
-    // }
-
     return newState
   }
 
