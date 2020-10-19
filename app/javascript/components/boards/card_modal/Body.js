@@ -5,7 +5,7 @@ import Item       from './item/Item'
 
 export default function Body(props) {
   const {
-    cancelNewItem,
+    deleteItem,
     cardUuid,
     itemOrder,
     items,
@@ -21,12 +21,13 @@ export default function Body(props) {
       >
         {itemOrder.map((uuid, index) =>
           <Item
-            cancelNewItem=  {cancelNewItem}
             cardUuid=       {cardUuid}
+            deleteItem=     {deleteItem}
             item=           {items[uuid]}
             previousItem=   {items[itemOrder[index - 1]]}
             key=            {uuid}
             saveCardItem=   {saveCardItem}
+            uuid=           {uuid}
           />
         )}
       </div>
@@ -45,8 +46,8 @@ export default function Body(props) {
 }
 
 Body.propTypes = {
-  cancelNewItem:  PropTypes.func.isRequired,
   cardUuid:       PropTypes.string.isRequired,
+  deleteItem:     PropTypes.func.isRequired,
   itemOrder:      PropTypes.array.isRequired,
   items:          PropTypes.object.isRequired,
   name:           PropTypes.string.isRequired,

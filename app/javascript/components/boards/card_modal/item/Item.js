@@ -4,6 +4,7 @@ import Form           from '../../../shared/input/Form'
 import Note           from './Note'
 import PropTypes      from 'prop-types'
 import { CardItemApi } from '../../../../api/InternalApi'
+import Dropdown from "./Dropdown";
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -16,12 +17,16 @@ export default class Item extends React.Component {
     }
   }
 
-  handleCancel = () => {
-    this.props.cancelNewItem()
+  editItem = () => {
+    this.setIsEditing(true)
   }
 
-  handleSubmit = async (itemParams) => {
-    const { cardUuid, item, saveCardItem } = this.props
+  createItem = async (itemParams) => {
+    const {
+      cardUuid,
+      item,
+      saveCardItem
+    } = this.props
     const { type } = item
 
     const params = {
@@ -36,6 +41,26 @@ export default class Item extends React.Component {
     if (response.status !== 200) return
 
     saveCardItem(response.data)
+  }
+
+  deleteItem = () => {
+    console.log('delete item')
+  }
+
+  handleCancel = () => {
+    this.props.deleteItem('new')
+
+    this.setState({
+      isEditing: false
+    })
+  }
+
+  handleSubmit = async (itemParams) => {
+    const { createItem, updateItem } = this
+
+    this.props.uuid === 'new'
+      ? createItem(itemParams)
+      : updateItem(itemParams)
   }
 
   getFormParams = () => {
@@ -80,26 +105,43 @@ export default class Item extends React.Component {
       <Form
         fieldOrder={fieldOrder}
         fields={fields}
+        formId={this.props.uuid}
         handleCancel={handleCancel}
         handleSubmit={handleSubmit}
       />
     )
   }
 
-  render() {
-    const { previousItem } = this.props
+  setIsEditing = isEditing => {
+    this.setState({
+      isEditing: isEditing
+    })
+  }
 
-    const item = this.getItem()
+  updateItem = async (itemParams) => {
+    
+  }
+
+  render() {
+    const { editItem, deleteItem } = this
+    const { item, previousItem } = this.props
+
+    const itemElement = this.getItem()
 
     return (
       <React.Fragment>
         <Author
-          item=         {this.props.item}
+          item=         {item}
           isEditing=    {this.state.isEditing}
           previousItem= {previousItem}
         />
         <div className="card-item">
-          {item}
+          <Dropdown
+            editItem={editItem}
+            deleteItem={deleteItem}
+            userIsAuthor={item.user_is_author}
+          />
+          {itemElement}
         </div>
       </React.Fragment>
     )
@@ -107,9 +149,10 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
-  cancelNewItem:  PropTypes.func.isRequired,
   cardUuid:       PropTypes.string.isRequired,
+  deleteItem:     PropTypes.func.isRequired,
   item:           PropTypes.object.isRequired,
   previousItem:   PropTypes.object,
-  saveCardItem:   PropTypes.func.isRequired
+  saveCardItem:   PropTypes.func.isRequired,
+  uuid:           PropTypes.string.isRequired
 }

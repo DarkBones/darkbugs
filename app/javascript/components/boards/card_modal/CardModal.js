@@ -45,16 +45,19 @@ export default class CardModal extends React.Component {
     }
   }
 
-  cancelNewItem = () => {
-    const newState = CardModalState
+  deleteItem = itemUuid => {
+    let newState = CardModalState
       .deleteItem(this.state, 'new')
+
+    newState = CardModalState
+      .deleteItem(newState, itemUuid)
 
     this.setState(newState)
   }
 
   cardBody = () => {
     const {
-      cancelNewItem,
+      deleteItem,
       newItem,
       saveCardItem
     } = this
@@ -63,8 +66,8 @@ export default class CardModal extends React.Component {
 
     return (
       <Body
-        cancelNewItem=  {cancelNewItem}
         cardUuid=       {card.uuid}
+        deleteItem=     {deleteItem}
         itemOrder=      {card.itemOrder}
         items=          {card.items}
         name=           {card.name}
