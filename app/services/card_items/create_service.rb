@@ -38,13 +38,5 @@ module CardItems
         card_item
       end
     end
-
-    private def create_item_old
-      klass = item_type.titleize.constantize
-
-      params.permit!
-      item = klass.new(params)
-      item.card_id = card.id
-    end
   end
 end
