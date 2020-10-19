@@ -15,7 +15,6 @@ gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails', '>= 4.4.0'
-gem 'listen', '~> 3.2'
 gem 'nested_form'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'postageapp', '>= 1.3.1'
@@ -37,6 +36,7 @@ group :development, :test do
   gem 'guard', '~>2.14.2', require: false
   gem 'guard-livereload', '~>2.5.2', require: false
   gem 'guard-minitest', '~>2.4.6', require: false
+  gem 'listen', '~> 3.2'
   gem 'letter_opener', '>= 1.7.0'
   gem 'letter_opener_web', '>= 1.4.0'
   gem 'rack-livereload'
