@@ -19,7 +19,7 @@ module CardItems
         updated_at:     card_item.updated_at,
         type:           card_item.item_type,
         params:         card_item.formatted_item,
-        user_is_author: current_user.uuid == author.uuid,
+        user_is_author: current_user&.uuid == author.uuid,
         uuid:           card_item.uuid
       }
     end

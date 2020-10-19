@@ -1,6 +1,8 @@
 module Api
   module Internal
     class CardsController < Api::Internal::BaseApiInternalController
+      skip_before_action :authenticate_user!, only: %i[show]
+
       before_action :load_card, only: %i[show]
       before_action :load_column, only: %i[create]
       before_action :load_previous_card, only: %i[create]
