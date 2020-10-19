@@ -100,7 +100,8 @@ export default class ColumnsState {
     return {
       ...newState,
       allCards: allCards,
-      columns: columns
+      columns: columns,
+      isDragging: false
     }
   }
 
