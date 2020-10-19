@@ -119,7 +119,11 @@ export default class Item extends React.Component {
   }
 
   updateItem = async (itemParams) => {
-    
+    let response = CardItemApi
+      .updateItem(this.props.uuid, {item: itemParams})
+
+    if (!response) return
+    if (response.status !== 200) console.log(response)
   }
 
   render() {

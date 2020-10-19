@@ -47,6 +47,12 @@ export class CardItemApi {
 
     return post(path, params)
   }
+
+  static updateItem(uuid, params) {
+    const path = `${CARD_ITEM_PATH}/${uuid}`
+
+    return put(path, params)
+  }
 }
 
 export class ColumnApi {

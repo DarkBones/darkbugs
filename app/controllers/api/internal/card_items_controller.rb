@@ -1,8 +1,9 @@
 module Api
   module Internal
     class CardItemsController < Api::Internal::BaseApiInternalController
-      before_action :load_card, only: %i[create]
+      before_action :load_card!, only: %i[create]
       before_action :check_is_assignee!, only: %i[create]
+      before_action :load_card_item!, only: %i[update]
 
       def create
         service = CardItems::CreateService.new(params[:type], item_params, @current_user, @card).execute
@@ -12,13 +13,21 @@ module Api
         render json: CardItems::CardItemPresenter.new(card_item, @current_user).to_h
       end
 
+      def update
+        @card_item.update!(item_params)
+      end
+
+      private def load_card_item!
+        @card_item = CardItem.find_by!(uuid: params[:uuid]).item
+      end
+
       private def item_params
         params.fetch(:item, {}).permit(
             :content
         )
       end
 
-      private def load_card
+      private def load_card!
         @card = Card.find_by!(uuid: params[:card_uuid])
       end
 
