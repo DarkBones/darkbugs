@@ -14,7 +14,7 @@ export default function Note(props) {
     <div
       itemType="note"
       id={uuid}
-      className="display-linebreak"
+      className="display-linebreak bg-light rounded p-3 my-3"
     >
       {note}
     </div>

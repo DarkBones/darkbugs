@@ -14,7 +14,8 @@ export default class CardModal extends React.Component {
       items: {},
       name: '',
       number: '',
-      shortName: ''
+      shortName: '',
+      uuid: ''
     }
 
     const defaultItem = {
@@ -44,15 +45,31 @@ export default class CardModal extends React.Component {
     }
   }
 
+  cancelNewItem = () => {
+    const newState = CardModalState
+      .deleteItem(this.state, 'new')
+
+    this.setState(newState)
+  }
+
   cardBody = () => {
+    const {
+      cancelNewItem,
+      newItem,
+      saveCardItem
+    } = this
+
     const card = this.state.cardData
 
     return (
       <Body
-        itemOrder={card.itemOrder}
-        items=    {card.items}
-        name=     {card.name}
-        newItem=  {this.newItem}
+        cancelNewItem=  {cancelNewItem}
+        cardUuid=       {card.uuid}
+        itemOrder=      {card.itemOrder}
+        items=          {card.items}
+        name=           {card.name}
+        newItem=        {newItem}
+        saveCardItem=   {saveCardItem}
       />
     )
   }
@@ -118,9 +135,18 @@ export default class CardModal extends React.Component {
         items: data.items,
         name: data.name,
         number: data.number,
-        shortName: data.short_name
+        shortName: data.short_name,
+        uuid: data.uuid
       }
     })
+  }
+
+  saveCardItem = (data) => {
+    const newState = CardModalState.addItem(this.state, data)
+    console.log(this.state)
+    console.log(newState)
+
+    this.setState(newState)
   }
 
   render() {
@@ -139,7 +165,7 @@ export default class CardModal extends React.Component {
         close={handleClose}
         show={show}
         includeFooter={false}
-        title={`${cardData.number} - ${cardData.short_name}`}
+        title={`${cardData.number} - ${cardData.shortName}`}
       />
     )
   }

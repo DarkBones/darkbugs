@@ -29,7 +29,7 @@ export default class ToolBar extends React.Component {
 
   newNote = () => {
     const params = {
-      content: 'test content'
+      content: ''
     }
 
     this.props.newItem('note', params)

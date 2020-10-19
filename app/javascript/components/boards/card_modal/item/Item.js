@@ -1,7 +1,8 @@
-import React      from 'react'
-import Form       from '../../../shared/input/Form'
-import Note       from './Note'
-import PropTypes  from 'prop-types'
+import React          from 'react'
+import Form           from '../../../shared/input/Form'
+import Note           from './Note'
+import PropTypes      from 'prop-types'
+import { CardItemApi } from '../../../../api/InternalApi'
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -15,11 +16,25 @@ export default class Item extends React.Component {
   }
 
   handleCancel = () => {
-    console.log('cancel')
+    this.props.cancelNewItem()
   }
 
-  handleSubmit = params => {
-    console.log(params)
+  handleSubmit = async (itemParams) => {
+    const { cardUuid, item, saveCardItem } = this.props
+    const { type } = item
+
+    const params = {
+      card_uuid: cardUuid,
+      type: type,
+      item: itemParams
+    }
+
+    let response = await CardItemApi.createItem(params)
+
+    if (!response) return
+    if (response.status !== 200) return
+
+    saveCardItem(response.data)
   }
 
   getFormParams = () => {
@@ -82,5 +97,8 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
-  item: PropTypes.object.isRequired
+  cancelNewItem:  PropTypes.func.isRequired,
+  cardUuid:       PropTypes.string.isRequired,
+  item:           PropTypes.object.isRequired,
+  saveCardItem:   PropTypes.func.isRequired
 }
