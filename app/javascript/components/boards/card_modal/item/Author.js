@@ -19,23 +19,25 @@ export default function Author(props) {
       <table
         className="mb-n3"
       >
-        <tr>
-          <td>
-            <Avatar
-              name={author_name}
-              size="md"
-              url={author_avatar}
-            />
-          </td>
-          <td className="pl-2">
-            <h5 style={{display: 'inline-block'}}>
-              {author_name}
-            </h5>
-            <span className="ml-2 small">
-              <RelativeTime date={created_at} />
-            </span>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>
+              <Avatar
+                name={author_name}
+                size="md"
+                url={author_avatar}
+              />
+            </td>
+            <td className="pl-2">
+              <h5 style={{display: 'inline-block'}}>
+                {author_name}
+              </h5>
+              <span className="ml-2 small">
+                <RelativeTime date={created_at} />
+              </span>
+            </td>
+          </tr>
+        </tbody>
       </table>
     )
   }
