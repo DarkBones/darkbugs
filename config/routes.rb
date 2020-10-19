@@ -42,6 +42,8 @@ Rails.application.routes.draw do
         put :reorder_columns
         put :reorder_cards
       end
+
+      resources :card_items, param: :uuid
     end
   end
 end

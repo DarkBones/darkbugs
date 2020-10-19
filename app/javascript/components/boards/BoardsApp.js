@@ -1,78 +1,98 @@
 import React      from 'react'
-import PropTypes  from 'prop-types'
+import CardModal  from './card_modal/CardModal'
 import Columns    from './columns/Columns'
-import Title      from './title/Title'
+import PropTypes  from 'prop-types'
+import Title      from './Title'
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props)
 
-    this.boardSlug      = props.board_slug
-    this.userIsAssigned = props.user_is_assigned
-
     this.state = {
-      cardOrder:    props.card_order,
-      cards:        props.cards,
-      columnOrder:  props.column_order,
-      columns:      props.columns,
-      name:         props.name
+      boardName:      props.name,
+      cardOrder:      props.card_order,
+      cards:          props.cards,
+      columnOrder:    props.column_order,
+      columns:        props.columns,
+      showCardModal:  false,
+      cardModalId:    ''
     }
   }
 
-  updateBoardName = name => {
+  closeCardModal = () => {
     this.setState({
-      name: name
+      showCardModal: false,
+      cardModalId: ''
     })
   }
 
-  setColumns = (columnOrder, columns) => {
+  setBoardName = name => {
     this.setState({
-      columnOrder: columnOrder,
-      columns: columns
+      boardName: name
     })
   }
 
-  setCards = (cardOrder, cards) => {
+  setColumns = (cardOrder, cards, columnOrder, columns) => {
     this.setState({
-      cardOrder: cardOrder,
-      cards: cards
+      ...this.state,
+      cardOrder:    cardOrder,
+      cards:        cards,
+      columnOrder:  columnOrder,
+      columns:      columns
+    })
+  }
+
+  showCardModal = cardUuid => {
+    if (cardUuid === 'new') return
+
+    this.setState({
+      showCardModal: true,
+      cardModalId: cardUuid
     })
   }
 
   render() {
     const {
-      boardSlug,
-      userIsAssigned,
-      setCards,
+      closeCardModal,
+      setBoardName,
       setColumns,
-      updateBoardName
+      showCardModal
     } = this
-
+    const { board_slug, user_is_assigned } = this.props
     const {
+      boardName,
       cardOrder,
       cards,
       columnOrder,
       columns,
-      name
+      cardModalId
     } = this.state
 
     return (
-      <div id="project-items-app">
+      <div
+        id="project-items-app"
+      >
+        <CardModal
+          card=           {cards[cardModalId]}
+          handleClose=    {closeCardModal}
+          show=           {this.state.showCardModal}
+          userIsAssigned= {user_is_assigned}
+        />
         <Title
-          boardSlug=          {boardSlug}
-          handleAfterUpdate=  {updateBoardName}
-          name=               {name}
-          userIsAssigned=     {userIsAssigned}
+          boardSlug=          {board_slug}
+          handleAfterUpdate=  {setBoardName}
+          name=               {boardName}
+          userIsAssigned=     {user_is_assigned}
         />
         <Columns
-          boardSlug=      {boardSlug}
-          cardOrder=      {cardOrder}
-          cards=          {cards}
-          columnOrder=    {columnOrder}
-          columns=        {columns}
-          setCards=       {setCards}
-          setColumns=     {setColumns}
-          userIsAssigned= {userIsAssigned}
+          allCards=           {cardOrder}
+          boardSlug=          {board_slug}
+          cards=              {cards}
+          columnOrder=        {columnOrder}
+          columns=            {columns}
+          setColumns=         {setColumns}
+          showCardModal=      {showCardModal}
+          userIsAssigned=     {user_is_assigned}
         />
       </div>
     )

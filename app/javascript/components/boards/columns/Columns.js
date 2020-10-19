@@ -1,15 +1,9 @@
 import React        from 'react'
 import Column       from './Column'
-import ColumnsState from '../utils/ColumnsState'
-import PropTypes    from 'prop-types'
-
+import ColumnsState from './utils/ColumnsState'
 import CreateButton from './CreateButton'
-
-import {
-  ColumnApi,
-  BoardApi
-} from '../../../api/InternalApi'
-
+import PropTypes    from 'prop-types'
+import {BoardApi, ColumnApi} from '../../../api/InternalApi'
 import {
   DragDropContext,
   Droppable
@@ -20,157 +14,163 @@ export default class Columns extends React.Component {
     super(props)
 
     this.state = {
-      cardOrder:    props.cardOrder,
-      cards:        props.cards,
-      columnOrder:  props.columnOrder,
-      columns:      props.columns,
-      isDragging:   false
+      allCards: props.allCards,
+      cards: props.cards,
+      columnOrder: props.columnOrder,
+      columns: props.columns,
+      isDragging: false
     }
   }
 
   addCard = (columnUuid, uuid, name, previousCard) => {
-    let newState = ColumnsState.deleteCard(this.state, 'new')
+    if (!this.props.userIsAssigned) return
 
-    const column = newState.columns[columnUuid]
-    const newCardUuids = Array.from(column.card_uuids)
-    const idx = newCardUuids.indexOf(previousCard)
+    const { handleAfterUpdate, state } = this
 
-    if (!previousCard || idx < 0) {
-      newCardUuids.unshift(uuid)
-    } else {
-      newCardUuids.splice(idx + 1, 0, uuid)
-    }
+    const newState = ColumnsState.addCard(state, columnUuid, uuid, name, previousCard)
 
-    newState = {
-      ...newState,
-      cards: {
-        ...newState.cards,
-        [uuid]: {
-          name: name,
-          uuid: uuid,
-          previous_card: previousCard
-        }
-      },
-      columns: {
-        ...newState.columns,
-        [columnUuid]: {
-          ...newState.columns[columnUuid],
-          card_uuids: newCardUuids
-        }
-      }
-    }
-
-    this.setState(newState)
-    this.afterUpdate()
+    this.setState(newState, handleAfterUpdate)
   }
 
-  addColumn = (uuid, name) => {
-    const oldState = this.state
-    const newState = ColumnsState.addColumn(this.state, uuid, name)
+  addColumn = (uuid, name = '') => {
+    if (!this.props.userIsAssigned) return
 
-    if (oldState === newState) return
+    const { handleAfterUpdate, state } = this
 
-    this.deleteColumn('new')
+    const newState = ColumnsState.addColumn(state, uuid, name)
 
-    this.setState(newState)
-
-    this.afterUpdate()
+    this.setState(newState, handleAfterUpdate)
   }
 
-  afterUpdate = () => {
-    const {
-      cardOrder,
-      cards,
-      columnOrder,
-      columns
-    } = this.state
-
-    const {
-      setCards,
-      setColumns
-    } = this.props
-
-    setCards(cardOrder, cards)
-    setColumns(columnOrder, columns)
+  cancelDrag = () => {
+    this.setState({
+      isDragging: false
+    })
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     document.addEventListener('mousedown', this.handleClick)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     document.removeEventListener('mousedown', this.handleClick)
   }
 
-  deleteCard = (cardUuid) => {
-    const newState = ColumnsState.deleteCard(this.state, cardUuid)
-
+  deleteNewCard = () => {
+    const newState = ColumnsState.deleteCard(this.state, 'new')
     this.setState(newState)
   }
 
-  deleteColumn = columnUuid => {
-    const newState = ColumnsState.deleteColumn(this.state, columnUuid)
+  deleteColumn = async uuid => {
+    if (!this.props.userIsAssigned) return
+
+    const { handleAfterUpdate, state } = this
+    const newState = ColumnsState.deleteColumn(state, uuid)
 
     this.setState(newState)
 
-    if (columnUuid === 'new'){
-      this.afterUpdate()
-      return
+    if (uuid !== 'new') {
+      let response = await ColumnApi.deleteColumn(uuid)
+        .catch(() => {
+          setState(state)
+        })
+
+      if (!response) return
+      if (response.status !== 200) return
     }
 
-    ColumnApi.deleteColumn(columnUuid)
+    handleAfterUpdate()
   }
 
-  getPreviousCard = clickEvent => {
-    const columnUuid = clickEvent.target.id
-
-    const {
-      getPreviousCardInColumn,
-      getPreviousCardOutsideColumn
-    } = this
-
-    let previousCard = getPreviousCardInColumn(clickEvent, columnUuid)
-
-    if (!previousCard) {
-      previousCard = getPreviousCardOutsideColumn(columnUuid)
+  findPreviousCard = e => {
+    // return the divider id
+    if (e.target.classList.contains('item-card-divider')) {
+      return e.target.parentElement.id
     }
 
-    return previousCard
-  }
-
-  getPreviousCardInColumn = (clickEvent, columnUuid) => {
-    const column = this.state.columns[columnUuid]
-    const cardUuids = column.card_uuids
-
-    const y = clickEvent.clientY - clickEvent.target.getBoundingClientRect().top + clickEvent.target.scrollTop
-
-    let idx = Math.floor((y - 20) / 100)
-    if (idx > cardUuids.length - 1) {
-      idx = cardUuids.length - 1
-    }
-
-    return cardUuids[idx]
-  }
-
-  getPreviousCardOutsideColumn = columnUuid => {
     const { columnOrder, columns } = this.state
+
+    const columnUuid = e.target.id
+    const column = columns[columnUuid]
+    const y = e.clientY - e.target.getBoundingClientRect().top + e.target.scrollTop
+
+    // if click was below the top card, return the last card in the column
+    if (y > 20) {
+      const { card_uuids } = column
+      if (card_uuids.length > 0) {
+        return card_uuids[card_uuids.length - 1]
+      }
+    }
+
+    // return last card in previous column(s)
     let columnIndex = columnOrder.indexOf(columnUuid)
     let columnCards = []
-
     while(columnIndex > 0) {
       columnIndex--
 
       columnCards = columns[columnOrder[columnIndex]].card_uuids
+
       if (columnCards.length > 0) {
         return columnCards[columnCards.length - 1]
       }
     }
   }
 
+  handleAfterUpdate = () => {
+    const {
+      allCards,
+      cards,
+      columnOrder,
+      columns
+    } = this.state
+
+    this.props.setColumns(
+      allCards,
+      cards,
+      columnOrder,
+      columns
+    )
+  }
+
   handleClick = e => {
-    if (!e.target.classList.contains('card')) {
-      this.deleteCard('new')
+    if (e.target.id === 'new' && e.target.classList.contains('item-card')) return
+
+    this.deleteNewCard()
+  }
+
+  onDragEnd = result => {
+    const { updateCardOrder, updateColumnOrder } = this
+    const {
+      destination,
+      draggableId,
+      source,
+      type
+    } = result
+
+    // return if no changes
+    if (!destination) {
+      this.cancelDrag()
+      return
     }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      this.cancelDrag()
+      return
+    }
+
+    type === 'column'
+      ? updateColumnOrder(
+          source,
+          destination,
+          draggableId
+        )
+      : updateCardOrder(
+          source,
+          destination,
+          draggableId
+        )
   }
 
   onDragStart = () => {
@@ -179,54 +179,19 @@ export default class Columns extends React.Component {
     })
   }
 
-  onDragEnd = result => {
-    const {
-      destination,
+  updateCardOrder = async (source, destination, draggableId) => {
+    const newState = ColumnsState.reorderCards(
+      this.state,
       source,
-      draggableId,
-      type
-    } = result
-
-    // return if no changes
-    if (!destination) return
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) return
-
-    type === 'column'
-      ? this.updateColumnOrder(
-        source,
-        destination,
-        draggableId
-      )
-      : this.updateCardOrder(
-        source,
-        destination,
-        draggableId
-      )
-
-    this.setState({
-      isDragging: false
-    })
-  }
-
-  previousCardCount = columnUuid => {
-    return ColumnsState.previousCardCount(this.state, columnUuid)
-  }
-
-  updateCardOrder = (source, destination, draggableId) => {
-    const newState = ColumnsState
-      .updateCardOrder(
-        this.state,
-        source,
-        destination,
-        draggableId
-      )
-
-    const previousCard = newState.cardOrder[newState.cardOrder.indexOf(draggableId) - 1]
+      destination,
+      draggableId
+    )
 
     this.setState(newState)
+
+    const previousCard = newState.allCards[
+        newState.allCards.indexOf(draggableId) - 1
+      ]
 
     const params = {
       card_uuid: draggableId,
@@ -234,13 +199,16 @@ export default class Columns extends React.Component {
       column_uuid: destination.droppableId
     }
 
-    BoardApi
+    let response = await BoardApi
       .reorderCards(
         this.props.boardSlug,
         params
       )
 
-    this.afterUpdate()
+    if (!response) return
+    if (response.status !== 200) return
+
+    this.handleAfterUpdate()
   }
 
   updateColumnName = (columnUuid, name) => {
@@ -248,14 +216,14 @@ export default class Columns extends React.Component {
 
     this.setState(newState)
 
-    this.afterUpdate()
+    this.handleAfterUpdate()
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
-    const { state } = this
+    const { state, handleAfterUpdate } = this
     const { boardSlug } = this.props
 
-    const newState = ColumnsState.updateColumnOrder(
+    const newState = ColumnsState.reorderColumns(
       state,
       source,
       destination,
@@ -271,44 +239,33 @@ export default class Columns extends React.Component {
           columns: newState.columnOrder
         }
       ).catch(() => {
-        this.setState(state)
+        setState(state)
       })
 
-    if(response) {
-      if(response.status === 200) {
-        this.afterUpdate()
-      }
-    }
+    if (!response) return
+    if (response.state !== 200) return
+
+    handleAfterUpdate()
   }
 
   render() {
     const {
-      boardSlug,
-      userIsAssigned
-    } = this.props
-
-    const {
-      cards,
-      columns,
-      columnOrder,
-      isDragging
-    } = this.state
-
-    const {
       addCard,
       addColumn,
-      deleteCard,
       deleteColumn,
-      getPreviousCard,
+      deleteNewCard,
+      findPreviousCard,
+      onDragEnd,
+      onDragStart,
       updateColumnName
     } = this
-
-    const createButtonEnabled = userIsAssigned && this.state.columnOrder.indexOf('new') < 0
+    const { userIsAssigned, boardSlug, allCards, showCardModal } = this.props
+    const { columnOrder, columns, cards, isDragging } = this.state
 
     return (
       <DragDropContext
-        onDragStart={this.onDragStart}
-        onDragEnd={this.onDragEnd}
+        onDragEnd={onDragEnd}
+        onDragStart={onDragStart}
       >
         <Droppable
           droppableId="droppable-columns"
@@ -324,17 +281,18 @@ export default class Columns extends React.Component {
               {columnOrder.map((columnUuid, index) =>
                 <Column
                   addCard=          {addCard}
+                  allCards=         {allCards}
                   addColumn=        {addColumn}
                   boardSlug=        {boardSlug}
                   cards=            {cards}
                   column=           {columns[columnUuid]}
-                  deleteCard=       {deleteCard}
                   deleteColumn=     {deleteColumn}
-                  getPreviousCard=  {getPreviousCard}
+                  deleteNewCard=    {deleteNewCard}
                   index=            {index}
                   isDragging=       {isDragging}
+                  findPreviousCard= {findPreviousCard}
                   key=              {columnUuid}
-                  previousCardCount={this.previousCardCount}
+                  showCardModal=    {showCardModal}
                   updateColumnName= {updateColumnName}
                   userIsAssigned=   {userIsAssigned}
                   uuid=             {columnUuid}
@@ -342,7 +300,10 @@ export default class Columns extends React.Component {
               )}
               {provided.placeholder}
               <CreateButton
-                isEnabled={createButtonEnabled}
+                isEnabled={
+                  userIsAssigned &&
+                  !columnOrder.includes('new')
+                }
                 onClick={addColumn}
               />
             </div>
@@ -354,12 +315,12 @@ export default class Columns extends React.Component {
 }
 
 Columns.propTypes = {
+  allCards:       PropTypes.array.isRequired,
   boardSlug:      PropTypes.string.isRequired,
-  cardOrder:      PropTypes.array.isRequired,
   cards:          PropTypes.object.isRequired,
   columnOrder:    PropTypes.array.isRequired,
   columns:        PropTypes.object.isRequired,
-  setCards:       PropTypes.func.isRequired,
   setColumns:     PropTypes.func.isRequired,
+  showCardModal:  PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired
 }

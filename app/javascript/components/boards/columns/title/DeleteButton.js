@@ -1,21 +1,25 @@
 import React      from 'react'
-import PropTypes  from 'prop-types'
 import i18n       from '../../../../i18n'
+import PropTypes  from 'prop-types'
 
 export default function DeleteButton(props) {
   const handleClick = () => {
-    let r = confirm(i18n.t('components.projects.columns.Column.delete_warning'))
+    const { columnUuid, handleClick } = props
 
-    if (!r) {
-      return
-    }
+    let r = confirm(
+      i18n.t('components.projects.columns.Column.delete_warning')
+    )
 
-    props.handleClick(props.columnUuid)
+    if (!r) return
+
+    handleClick(columnUuid)
   }
+
+  const { userIsAssigned } = props
 
   return (
     <React.Fragment>
-      {props.userIsAssigned &&
+      {userIsAssigned &&
         <div
           className="delete-column-btn clickable float-right"
         >

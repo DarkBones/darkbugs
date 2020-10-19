@@ -19,8 +19,7 @@ module Cards
       {
         uuid: card.uuid,
         name: card.name,
-        index: idx,
-        previous_card: card.higher_item&.uuid
+        index: idx
       }
     end
   end

@@ -10,7 +10,6 @@ module Columns
       {
         uuid: column.uuid,
         name: column.name,
-        position: column.position,
         card_uuids: card_uuids
       }
     end

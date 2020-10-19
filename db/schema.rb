@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_19_172244) do
+ActiveRecord::Schema.define(version: 2020_09_21_172714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,19 @@ ActiveRecord::Schema.define(version: 2020_09_19_172244) do
     t.index ["root_project_id"], name: "index_boards_on_root_project_id"
   end
 
+  create_table "card_items", force: :cascade do |t|
+    t.string "uuid"
+    t.string "item_type"
+    t.bigint "card_id"
+    t.bigint "author_id"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_card_items_on_author_id"
+    t.index ["card_id"], name: "index_card_items_on_card_id"
+    t.index ["uuid"], name: "index_card_items_on_uuid"
+  end
+
   create_table "cards", force: :cascade do |t|
     t.string "uuid", null: false
     t.string "name"
@@ -76,6 +89,14 @@ ActiveRecord::Schema.define(version: 2020_09_19_172244) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["board_id"], name: "index_columns_on_board_id"
     t.index ["uuid"], name: "index_columns_on_uuid"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "card_item_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["card_item_id"], name: "index_notes_on_card_item_id"
   end
 
   create_table "organizations", force: :cascade do |t|

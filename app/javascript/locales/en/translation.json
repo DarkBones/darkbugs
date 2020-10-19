@@ -13,12 +13,23 @@
       }
     },
     "projects": {
+      "cardmodal": {
+        "item": {
+          "delete_warning": "Are you sure?"
+        }
+      },
       "cards": {
         "CardModal": {
           "title": "New Card",
           "buttons": {
             "close": "Close",
             "submit": "Create Card"
+          },
+          "items": {
+            "menu": {
+              "delete": "Delete",
+              "edit": "Edit"
+            }
           },
           "form": {
             "name": {
@@ -36,8 +47,18 @@
     },
     "shared": {
       "form": {
+        "cancel": "Cancel",
+        "fields": {
+          "labels": {
+            "content": "Content"
+          }
+        },
         "required": {
           "title": "required"
+        },
+        "submit": "Submit",
+        "titles": {
+          "new_note": "New Note"
         }
       },
       "modal": {

@@ -1,93 +1,87 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Title from './title/Title'
-import Body from './body/Body'
+import React          from 'react'
+import Body           from './body/Body'
+import PropTypes      from 'prop-types'
+import Title          from './title/Title'
+import { Draggable }  from 'react-beautiful-dnd'
 
-import {
-  Draggable
-} from 'react-beautiful-dnd'
+export default function Column(props) {
+  const {
+    addCard,
+    addColumn,
+    allCards,
+    boardSlug,
+    cards,
+    column,
+    deleteColumn,
+    deleteNewCard,
+    index,
+    isDragging,
+    findPreviousCard,
+    showCardModal,
+    updateColumnName,
+    userIsAssigned,
+    uuid
+  } = props
 
-export default class Column extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const {
-      addCard,
-      addColumn,
-      boardSlug,
-      cards,
-      column,
-      deleteCard,
-      deleteColumn,
-      getPreviousCard,
-      index,
-      isDragging,
-      previousCardCount,
-      updateColumnName,
-      userIsAssigned,
-      uuid
-    } = this.props
-
-    return (
-      <Draggable
-        draggableId={uuid}
-        index={index}
-        isDragDisabled={!userIsAssigned}
-      >
-        {(provided) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-          >
-            <div className="column rounded">
-              <div
-                className="column-title"
-                {...provided.dragHandleProps}
-              >
-                <Title
-                  addColumn=          {addColumn}
-                  boardSlug=          {boardSlug}
-                  columnUuid=         {column.uuid}
-                  deleteColumn=       {deleteColumn}
-                  handleAfterSubmit=  {updateColumnName}
-                  name=               {column.name}
-                  userIsAssigned=     {userIsAssigned}
-                />
-              </div>
-              <Body
-                addCard=              {addCard}
-                cards=                {cards}
-                cardUuids=            {column.card_uuids}
-                columnUuid=           {column.uuid}
-                deleteCard=           {deleteCard}
-                getPreviousCard=      {getPreviousCard}
-                isDragging=           {isDragging}
-                previousCardCount=    {previousCardCount}
-                userIsAssigned=       {userIsAssigned}
+  return (
+    <Draggable
+      draggableId=    {uuid}
+      index=          {index}
+      isDragDisabled= {!userIsAssigned}
+    >
+      {(provided) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+        >
+          <div className="column rounded">
+            <div
+              className="column-title"
+              {...provided.dragHandleProps}
+            >
+              <Title
+                addColumn=        {addColumn}
+                boardSlug=        {boardSlug}
+                columnUuid=       {uuid}
+                deleteColumn=     {deleteColumn}
+                name=             {column.name}
+                updateColumnName= {updateColumnName}
+                userIsAssigned=   {userIsAssigned}
               />
             </div>
+            <Body
+              addCard=          {addCard}
+              allCards=         {allCards}
+              cardOrder=        {column.card_uuids}
+              cards=            {cards}
+              columnUuid=       {column.uuid}
+              deleteNewCard=    {deleteNewCard}
+              findPreviousCard= {findPreviousCard}
+              isDragging=       {isDragging}
+              showCardModal=    {showCardModal}
+              userIsAssigned=   {userIsAssigned}
+            />
           </div>
-        )}
-      </Draggable>
-    )
-  }
+        </div>
+      )}
+    </Draggable>
+  )
 }
 
 Column.propTypes = {
-  addCard:            PropTypes.func.isRequired,
-  addColumn:          PropTypes.func.isRequired,
-  boardSlug:          PropTypes.string.isRequired,
-  cards:              PropTypes.object.isRequired,
-  column:             PropTypes.object.isRequired,
-  deleteCard:         PropTypes.func.isRequired,
-  deleteColumn:       PropTypes.func.isRequired,
-  index:              PropTypes.number.isRequired,
-  isDragging:         PropTypes.bool.isRequired,
-  getPreviousCard:    PropTypes.func.isRequired,
-  previousCardCount:  PropTypes.func.isRequired,
-  updateColumnName:   PropTypes.func.isRequired,
-  userIsAssigned:     PropTypes.bool.isRequired,
-  uuid:               PropTypes.string.isRequired
+  addCard:          PropTypes.func.isRequired,
+  addColumn:        PropTypes.func.isRequired,
+  allCards:         PropTypes.array.isRequired,
+  boardSlug:        PropTypes.string.isRequired,
+  cards:            PropTypes.object.isRequired,
+  column:           PropTypes.object.isRequired,
+  deleteColumn:     PropTypes.func.isRequired,
+  deleteNewCard:    PropTypes.func.isRequired,
+  findPreviousCard: PropTypes.func.isRequired,
+  index:            PropTypes.number.isRequired,
+  isDragging:       PropTypes.bool.isRequired,
+  showCardModal:    PropTypes.func.isRequired,
+  updateColumnName: PropTypes.func.isRequired,
+  userIsAssigned:   PropTypes.bool.isRequired,
+  uuid:             PropTypes.string.isRequired
 }

@@ -3,26 +3,26 @@ import PropTypes  from 'prop-types'
 
 export default function CreateButton(props) {
   const handleClick = () => {
-    props.onClick('new', '')
+    props.onClick('new')
   }
 
   return (
     <React.Fragment>
       {props.isEnabled &&
-        <div
-          className="add-column-btn-container"
+        <button
+          className="btn create-column"
+          onClick={handleClick}
         >
           <i
             className="fa fa-plus-circle fa-3x clickable"
-            onClick={handleClick}
           />
-        </div>
+        </button>
       }
     </React.Fragment>
   )
 }
 
 CreateButton.propTypes = {
-  isEnabled:      PropTypes.bool.isRequired,
-  onClick:        PropTypes.func.isRequired
+  isEnabled:  PropTypes.bool.isRequired,
+  onClick:    PropTypes.func.isRequired
 }

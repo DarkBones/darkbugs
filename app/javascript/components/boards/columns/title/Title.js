@@ -1,7 +1,7 @@
 import React        from 'react'
-import PropTypes    from 'prop-types'
-import Name         from './Name'
 import DeleteButton from './DeleteButton'
+import Name         from './Name'
+import PropTypes    from 'prop-types'
 
 export default function Title(props) {
   const {
@@ -9,7 +9,7 @@ export default function Title(props) {
     boardSlug,
     columnUuid,
     deleteColumn,
-    handleAfterSubmit,
+    updateColumnName,
     name,
     userIsAssigned
   } = props
@@ -23,14 +23,12 @@ export default function Title(props) {
             boardSlug=          {boardSlug}
             columnUuid=         {columnUuid}
             deleteColumn=       {deleteColumn}
-            handleAfterSubmit=  {handleAfterSubmit}
+            handleAfterSubmit=  {updateColumnName}
             name=               {name}
             userIsAssigned=     {userIsAssigned}
           />
         </div>
-        <div
-          className="col-2"
-        >
+        <div className="col-2">
           <DeleteButton
             columnUuid=     {columnUuid}
             handleClick=    {deleteColumn}
@@ -43,11 +41,11 @@ export default function Title(props) {
 }
 
 Title.propTypes = {
-  addColumn:          PropTypes.func.isRequired,
-  boardSlug:          PropTypes.string.isRequired,
-  columnUuid:         PropTypes.string.isRequired,
-  deleteColumn:       PropTypes.func.isRequired,
-  handleAfterSubmit:  PropTypes.func.isRequired,
-  name:               PropTypes.string.isRequired,
-  userIsAssigned:     PropTypes.bool.isRequired
+  addColumn:        PropTypes.func.isRequired,
+  boardSlug:        PropTypes.string.isRequired,
+  columnUuid:       PropTypes.string.isRequired,
+  deleteColumn:     PropTypes.func.isRequired,
+  name:             PropTypes.string.isRequired,
+  updateColumnName: PropTypes.func.isRequired,
+  userIsAssigned:   PropTypes.bool.isRequired
 }

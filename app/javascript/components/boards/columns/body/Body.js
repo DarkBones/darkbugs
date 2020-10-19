@@ -1,85 +1,78 @@
-import React      from 'react'
-import Card       from './card/Card'
-import PropTypes  from 'prop-types'
+import React          from 'react'
+import Card           from './card/Card'
+import PropTypes      from 'prop-types'
+import { Droppable }  from 'react-beautiful-dnd'
 
-import {
-  Droppable
-} from 'react-beautiful-dnd'
+export default function Body(props) {
+  const {
+    addCard,
+    allCards,
+    cards,
+    cardOrder,
+    columnUuid,
+    deleteNewCard,
+    isDragging,
+    findPreviousCard,
+    showCardModal,
+    userIsAssigned
+  } = props
 
-export default class Body extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+  const createNewCard = e => {
+    const previousCard = findPreviousCard(e)
 
-  handleClick = e => {
-    const {
-      addCard,
-      columnUuid,
-      getPreviousCard,
-      isDragging,
-      userIsAssigned
-    } = this.props
-
-    if (!e.target.classList.contains('column-body') || isDragging || !userIsAssigned) return
-
-    const previousCard = getPreviousCard(e)
     addCard(columnUuid, 'new', '', previousCard)
   }
 
-  render() {
-    const {
-      addCard,
-      cards,
-      cardUuids,
-      columnUuid,
-      deleteCard,
-      previousCardCount,
-      userIsAssigned
-    } = this.props
+  const handleOnClick = e => {
+    if (isDragging) return
 
-    const cardCount = previousCardCount(columnUuid)
+    if (e.target.classList.contains('item-card')){
+      showCardModal(e.target.id)
+      return
+    }
 
-    return (
-      <Droppable
-        droppableId={columnUuid}
-        type="card"
-      >
-        {(provided) => (
-          <div
-            className="column-body"
-            id=       {columnUuid}
-            onClick=  {this.handleClick}
-            ref=      {provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {cardUuids.map((cardUuid, index) =>
-              <Card
-                addCard=        {addCard}
-                card=           {cards[cardUuid]}
-                columnUuid=     {columnUuid}
-                deleteCard=     {deleteCard}
-                index=          {index + cardCount}
-                key=            {cardUuid}
-                previousCard=   {cardUuids[index-1]}
-                userIsAssigned= {userIsAssigned}
-              />
-            )}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    )
+    createNewCard(e)
   }
+
+  return (
+    <Droppable
+      droppableId={columnUuid}
+      type="card"
+    >
+      {(provided) => (
+        <div
+          className="column-body"
+          id=       {columnUuid}
+          onClick=  {handleOnClick}
+          ref=      {provided.innerRef}
+          {...provided.droppableProps}
+        >
+          {cardOrder.map((id) =>
+            <Card
+              addCard=        {addCard}
+              allCards=       {allCards}
+              deleteNewCard=  {deleteNewCard}
+              columnUuid=     {columnUuid}
+              key=            {id}
+              name=           {cards[id].name}
+              userIsAssigned= {userIsAssigned}
+              uuid=           {id}
+            />
+          )}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  )
 }
 
 Body.propTypes = {
-  addCard:            PropTypes.func.isRequired,
-  cards:              PropTypes.object.isRequired,
-  cardUuids:          PropTypes.array.isRequired,
-  columnUuid:         PropTypes.string.isRequired,
-  deleteCard:         PropTypes.func.isRequired,
-  getPreviousCard:    PropTypes.func.isRequired,
-  isDragging:         PropTypes.bool.isRequired,
-  previousCardCount:  PropTypes.func.isRequired,
-  userIsAssigned:     PropTypes.bool.isRequired
+  addCard:        PropTypes.func.isRequired,
+  cards:          PropTypes.object.isRequired,
+  cardOrder:      PropTypes.array.isRequired,
+  columnUuid:     PropTypes.string.isRequired,
+  deleteNewCard:  PropTypes.func.isRequired,
+  isDragging:     PropTypes.bool.isRequired,
+  showCardModal:  PropTypes.func.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }
