@@ -31,10 +31,6 @@ export default class Field extends React.Component {
     const { value } = this.state
     const { name } = this.props
 
-    // ref={(input) => {
-    //   this.inputRef = input
-    // }}
-
     let ref = {}
 
     if (this.props.index === 0) {

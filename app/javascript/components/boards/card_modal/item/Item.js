@@ -1,10 +1,11 @@
-import React          from 'react'
-import Author         from './Author'
-import Form           from '../../../shared/input/Form'
-import Note           from './Note'
-import PropTypes      from 'prop-types'
-import { CardItemApi } from '../../../../api/InternalApi'
-import Dropdown from "./Dropdown";
+import React            from 'react'
+import Author           from './Author'
+import Form             from '../../../shared/input/Form'
+import Note             from './Note'
+import PropTypes        from 'prop-types'
+import { CardItemApi }  from '../../../../api/InternalApi'
+import Dropdown         from './Dropdown'
+import i18n             from '../../../../i18n'
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -43,12 +44,27 @@ export default class Item extends React.Component {
     saveCardItem(response.data)
   }
 
-  deleteItem = () => {
-    console.log('delete item')
+  deleteItem = async () => {
+    let r = confirm(
+      i18n.t('components.projects.cardmodal.item.delete_warning')
+    )
+
+    if (!r) return
+
+    const { deleteItem, uuid } = this.props
+
+    let response = await CardItemApi.deleteItem(uuid)
+
+    if (!response) return
+    if (response.status !== 200) return
+
+    deleteItem(uuid)
   }
 
   handleCancel = () => {
-    this.props.deleteItem('new')
+    const { deleteItem, uuid } = this.props
+
+    if (uuid === 'new') deleteItem('new')
 
     this.setState({
       isEditing: false

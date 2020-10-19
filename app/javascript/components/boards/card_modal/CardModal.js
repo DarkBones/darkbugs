@@ -195,7 +195,8 @@ export default class CardModal extends React.Component {
 }
 
 CardModal.propTypes = {
-  card:         PropTypes.object,
-  handleClose:  PropTypes.func.isRequired,
-  show:         PropTypes.bool.isRequired
+  card:           PropTypes.object,
+  handleClose:    PropTypes.func.isRequired,
+  show:           PropTypes.bool.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }

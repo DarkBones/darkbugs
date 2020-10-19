@@ -48,6 +48,12 @@ export class CardItemApi {
     return post(path, params)
   }
 
+  static deleteItem(uuid) {
+    const path = `${CARD_ITEM_PATH}/${uuid}`
+
+    return del(path, uuid)
+  }
+
   static updateItem(uuid, params) {
     const path = `${CARD_ITEM_PATH}/${uuid}`
 

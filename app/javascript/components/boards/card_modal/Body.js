@@ -55,5 +55,5 @@ Body.propTypes = {
   name:           PropTypes.string.isRequired,
   newItem:        PropTypes.func.isRequired,
   saveCardItem:   PropTypes.func.isRequired,
-  updateCardItem: PropTypes.func.isRequired
+  updateCardItem: PropTypes.func.isRequired,
 }

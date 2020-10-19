@@ -73,9 +73,10 @@ export default class BoardsApp extends React.Component {
         id="project-items-app"
       >
         <CardModal
-          card=         {cards[cardModalId]}
-          handleClose=  {closeCardModal}
-          show=         {this.state.showCardModal}
+          card=           {cards[cardModalId]}
+          handleClose=    {closeCardModal}
+          show=           {this.state.showCardModal}
+          userIsAssigned= {user_is_assigned}
         />
         <Title
           boardSlug=          {board_slug}

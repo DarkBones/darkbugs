@@ -21,5 +21,5 @@ export default function Dropdown(props) {
 Dropdown.propTypes = {
   editItem:     PropTypes.func.isRequired,
   deleteItem:   PropTypes.func.isRequired,
-  userIsAuthor: PropTypes.bool.isRequired
+  userIsAuthor: PropTypes.bool
 }
