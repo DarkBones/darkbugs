@@ -1,4 +1,5 @@
 import React          from 'react'
+import Author         from './Author'
 import Form           from '../../../shared/input/Form'
 import Note           from './Note'
 import PropTypes      from 'prop-types'
@@ -86,12 +87,21 @@ export default class Item extends React.Component {
   }
 
   render() {
+    const { previousItem } = this.props
+
     const item = this.getItem()
 
     return (
-      <div className="card-item">
-        {item}
-      </div>
+      <React.Fragment>
+        <Author
+          item=         {this.props.item}
+          isEditing=    {this.state.isEditing}
+          previousItem= {previousItem}
+        />
+        <div className="card-item">
+          {item}
+        </div>
+      </React.Fragment>
     )
   }
 }
@@ -100,5 +110,6 @@ Item.propTypes = {
   cancelNewItem:  PropTypes.func.isRequired,
   cardUuid:       PropTypes.string.isRequired,
   item:           PropTypes.object.isRequired,
+  previousItem:   PropTypes.object,
   saveCardItem:   PropTypes.func.isRequired
 }

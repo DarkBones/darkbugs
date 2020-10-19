@@ -24,6 +24,7 @@ export default function Body(props) {
             cancelNewItem=  {cancelNewItem}
             cardUuid=       {cardUuid}
             item=           {items[uuid]}
+            previousItem=   {items[itemOrder[index - 1]]}
             key=            {uuid}
             saveCardItem=   {saveCardItem}
           />
