@@ -123,7 +123,7 @@ export default class Item extends React.Component {
       .updateItem(this.props.uuid, {item: itemParams})
 
     if (!response) return
-    if (response.status !== 200) console.log(response)
+    if (response.status !== 200) return
 
     this.setState({
       isEditing: false
