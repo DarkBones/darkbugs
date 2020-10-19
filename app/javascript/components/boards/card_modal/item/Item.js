@@ -90,7 +90,10 @@ export default class Item extends React.Component {
             content: {
               name: 'content',
               type: 'text',
-              value: params.content
+              value: params.content,
+              params: {
+                rows: 10
+              }
             }
           }
         }

@@ -53,6 +53,7 @@ export default class Form extends React.Component {
             index={index}
             name={fields[fieldId].name}
             onChange={this.handleChange}
+            params={fields[fieldId].params}
             type={fields[fieldId].type}
             value={fields[fieldId].value}
           />

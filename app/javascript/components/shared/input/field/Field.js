@@ -29,7 +29,7 @@ export default class Field extends React.Component {
     const className = 'form-control mb-2'
 
     const { value } = this.state
-    const { name } = this.props
+    const { name, params } = this.props
 
     let ref = {}
 
@@ -40,6 +40,7 @@ export default class Field extends React.Component {
     }
 
     const props = {
+      ...params,
       className: className,
       name: name,
       onChange: this.handleOnChange,
@@ -89,6 +90,7 @@ Field.propTypes = {
   index:    PropTypes.number,
   name:     PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  params:   PropTypes.object,
   type:     PropTypes.string.isRequired,
   value:    PropTypes.string.isRequired
 }
