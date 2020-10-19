@@ -11,7 +11,8 @@ export default function Body(props) {
     items,
     name,
     newItem,
-    saveCardItem
+    saveCardItem,
+    updateCardItem
   } = props
 
   const cardItems = () => {
@@ -27,6 +28,7 @@ export default function Body(props) {
             previousItem=   {items[itemOrder[index - 1]]}
             key=            {uuid}
             saveCardItem=   {saveCardItem}
+            updateCardItem= {updateCardItem}
             uuid=           {uuid}
           />
         )}
@@ -52,5 +54,6 @@ Body.propTypes = {
   items:          PropTypes.object.isRequired,
   name:           PropTypes.string.isRequired,
   newItem:        PropTypes.func.isRequired,
-  saveCardItem:   PropTypes.func.isRequired
+  saveCardItem:   PropTypes.func.isRequired,
+  updateCardItem: PropTypes.func.isRequired
 }

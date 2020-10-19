@@ -14,11 +14,13 @@ module Api
       end
 
       def update
-        @card_item.update!(item_params)
+        @card_item.item.update!(item_params)
+
+        render json: CardItems::CardItemPresenter.new(@card_item, @current_user).to_h
       end
 
       private def load_card_item!
-        @card_item = CardItem.find_by!(uuid: params[:uuid]).item
+        @card_item = CardItem.find_by!(uuid: params[:uuid])
       end
 
       private def item_params

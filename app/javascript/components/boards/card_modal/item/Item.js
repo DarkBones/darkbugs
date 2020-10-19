@@ -119,11 +119,17 @@ export default class Item extends React.Component {
   }
 
   updateItem = async (itemParams) => {
-    let response = CardItemApi
+    let response = await CardItemApi
       .updateItem(this.props.uuid, {item: itemParams})
 
     if (!response) return
     if (response.status !== 200) console.log(response)
+
+    this.setState({
+      isEditing: false
+    })
+
+    this.props.updateCardItem(this.props.uuid, itemParams)
   }
 
   render() {
@@ -158,5 +164,6 @@ Item.propTypes = {
   item:           PropTypes.object.isRequired,
   previousItem:   PropTypes.object,
   saveCardItem:   PropTypes.func.isRequired,
-  uuid:           PropTypes.string.isRequired
+  uuid:           PropTypes.string.isRequired,
+  updateCardItem: PropTypes.func.isRequired
 }

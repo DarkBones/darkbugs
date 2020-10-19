@@ -59,7 +59,8 @@ export default class CardModal extends React.Component {
     const {
       deleteItem,
       newItem,
-      saveCardItem
+      saveCardItem,
+      updateCardItem
     } = this
 
     const card = this.state.cardData
@@ -73,6 +74,7 @@ export default class CardModal extends React.Component {
         name=           {card.name}
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
+        updateCardItem= {updateCardItem}
       />
     )
   }
@@ -144,12 +146,30 @@ export default class CardModal extends React.Component {
     })
   }
 
-  saveCardItem = (data) => {
+  saveCardItem = data => {
     const newState = CardModalState.addItem(this.state, data)
     console.log(this.state)
     console.log(newState)
 
     this.setState(newState)
+  }
+
+  updateCardItem = (uuid, params) => {
+    const { state } = this
+
+    this.setState({
+      ...state,
+      cardData: {
+        ...state.cardData,
+        items: {
+          ...state.cardData.items,
+          [uuid]: {
+            ...state.cardData.items[uuid],
+            params: params
+          }
+        }
+      }
+    })
   }
 
   render() {
