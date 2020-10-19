@@ -42,32 +42,6 @@ export default class ColumnsState {
     }
   }
 
-  static addCardOLD(state, columnUuid, uuid, name, previousCard) {
-    let newState = this._deleteCard(state, uuid)
-
-    const column = newState.columns[columnUuid]
-    const newAllCards = Array.from(state.allCards)
-    const newCardUuids = Array.from(column.card_uuids)
-
-    const idxCol = newCardUuids.indexOf(previousCard)
-    const idxAll = newAllCards.indexOf(previousCard)
-
-    if (!previousCard || idxCol < 0) {
-      newCardUuids.unshift(uuid)
-    } else {
-      newCardUuids.splice(idxCol + 1, 0, uuid)
-    }
-
-    if (!previousCard || idxAll < 0) {
-      newAllCards.unshift(uuid)
-    } else {
-      newAllCards.splice(idxAll + 1, 0, uuid)
-    }
-
-    console.log(newCardUuids)
-    console.log(newAllCards)
-  }
-
   static addColumn(state, uuid, name) {
     const newState = this._deleteColumn(state, 'new')
 

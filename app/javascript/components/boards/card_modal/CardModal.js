@@ -148,8 +148,6 @@ export default class CardModal extends React.Component {
 
   saveCardItem = data => {
     const newState = CardModalState.addItem(this.state, data)
-    console.log(this.state)
-    console.log(newState)
 
     this.setState(newState)
   }
