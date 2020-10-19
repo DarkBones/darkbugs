@@ -15,6 +15,7 @@ gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails', '>= 4.4.0'
+gem 'listen', '~> 3.2'
 gem 'nested_form'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'postageapp', '>= 1.3.1'
@@ -42,7 +43,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '~> 3.2'
   gem 'rubocop-rails', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
