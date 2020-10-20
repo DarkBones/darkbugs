@@ -3,6 +3,9 @@ class CardItem < ApplicationRecord
   include Orderable
 
   belongs_to :card
+  has_one :note
+
+  accepts_nested_attributes_for :note
 
   before_create :set_position
 

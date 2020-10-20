@@ -7,6 +7,8 @@ class Project < ApplicationRecord
   has_many :boards, as: 'component'
   has_many :cards, through: :boards
 
+  accepts_nested_attributes_for :boards
+
   # -- Callbacks ------------------------------------------------------------
   before_validation :capitalize_key
   after_create :create_default_board

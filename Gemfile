@@ -11,6 +11,7 @@ gem 'azure-storage-blob'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
 gem 'devise', '>= 4.7.1'
+gem 'deep_cloneable', '~> 3.0.0'
 gem 'faker', path: 'vendor/git/faker'
 gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'

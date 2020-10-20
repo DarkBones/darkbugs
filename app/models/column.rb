@@ -5,6 +5,8 @@ class Column < ApplicationRecord
   belongs_to :board
   has_many :cards, -> { order(position: :asc) }, dependent: :destroy
 
+  accepts_nested_attributes_for :cards
+
   validates :name, presence: true
   validates :position, presence: true, on: :create
 

@@ -11,6 +11,8 @@ class Card < ApplicationRecord
   has_one :reporter, class_name: :User, foreign_key: :reporter_id
   has_one :assignee, class_name: :User, foreign_key: :assignee_id
 
+  accepts_nested_attributes_for :card_items
+
   before_create :set_card_id
 
   def user_is_assigned?(user)
