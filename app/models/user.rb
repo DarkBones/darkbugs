@@ -34,6 +34,11 @@ class User < ApplicationRecord
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
 
+  # -- Class Methods -----------------------------------------------------------
+  def self.create_demo_user(key)
+    Users::CreateDemoUserService.new(key).execute
+  end
+
   # -- Instance Methods --------------------------------------------------------
   def name
     user_profile.username
