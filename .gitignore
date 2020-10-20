@@ -48,5 +48,3 @@ docker-compose.yml
 /deploy/secret*
 /deploy/release_values*
 /deploy/service-account*
-
-/app/services/projects/create_demo_project_service.rb
