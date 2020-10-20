@@ -55,6 +55,7 @@ module Users
       post :create, params: params
       assert_response :redirect
       assert_equal 'new_user@test.test', User.last.email
+      assert_not User.last.demo_user
     end
   end
 end
