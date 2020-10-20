@@ -15,3 +15,9 @@ first:
   slug: 00000-first
   created_at: <%= 2.weeks.ago %>
   updated_at: <%= 2.weeks.ago %>
+
+bas:
+  name: Bas
+  slug: bas
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 2.weeks.ago %>

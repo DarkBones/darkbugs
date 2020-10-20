@@ -26,10 +26,7 @@ class ApplicationController < ActionController::Base
 
     @tenant = @current_user
 
-    if @current_user&.demo_user && request.subdomain != 'demo'
-      sign_out @current_user
-      redirect_to root_url(subdomain: '')
-    end
+    logout_demo_user
 
     if valid_subdomain?(request.subdomain)
       @current_organization = Organization
@@ -41,20 +38,30 @@ class ApplicationController < ActionController::Base
         user = User.find_by(demo_user: true, uuid: cookies[:demo_key])
       end
 
-      user ||= User.create_demo_user
+      if user.nil?
+        user = User.create_demo_user
+
+      end
+
       cookies[:demo_key] = user.uuid
 
       @current_user = user
       @tenant = @current_user
 
       sign_in(@current_user)
-      Apartment::Tenant.switch!(@tenant.tenant_key)
     else
       redirect_to root_url(subdomain: '') if request.subdomain.present?
       @current_organization = nil
     end
 
     Apartment::Tenant.switch!(@tenant.tenant_key) if @tenant.present?
+  end
+
+  private def logout_demo_user
+    if @current_user&.demo_user && request.subdomain != 'demo'
+      sign_out @current_user
+      redirect_to root_url(subdomain: '')
+    end
   end
 
   def set_raven_context
