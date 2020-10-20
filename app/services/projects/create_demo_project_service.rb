@@ -2,6 +2,9 @@ module Projects
   class CreateDemoProjectService < BaseService
     attr_reader :user, :original_project
 
+    ORIGINAL_SCHEMA = 'bas'.freeze
+    ORIGINAL_PROJECT = 'DRK'.freeze
+
     PROJECT_ATTRIBUTES = %w[
       name
       key
@@ -45,12 +48,12 @@ module Projects
     def initialize(user)
       @user = user
 
-      Apartment::Tenant.switch!('bas')
-      @original_project = Project.find_by!(key: 'DRK')
+      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
+      @original_project = Project.find_by!(key: ORIGINAL_PROJECT)
     end
 
     def execute
-      Apartment::Tenant.switch!('bas')
+      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
 
       project_attributes = original_project.attributes.keep_if { |k, _| PROJECT_ATTRIBUTES.include? k }
                                .merge(owner: user)
@@ -59,7 +62,7 @@ module Projects
 
       project = Project.create!(project_attributes)
 
-      Apartment::Tenant.switch!('bas')
+      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
 
       board_attributes = original_project.boards.all.map do |board|
         board.attributes.keep_if { |k, _| BOARD_ATTRIBUTES.include? k }
@@ -72,20 +75,20 @@ module Projects
       project.update!(boards_attributes: board_attributes)
 
       original_project.boards.each do |board|
-        Apartment::Tenant.switch!('bas')
+        Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
         cols = columns_attributes(board)
 
         Apartment::Tenant.switch!(user.tenant_key)
 
         board.columns.each do |column|
-          Apartment::Tenant.switch!('bas')
+          Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
           cards = cards_attributes(column).map { |card| card.merge(board: board)}
 
           Apartment::Tenant.switch!(user.tenant_key)
           column.update!(cards_attributes: cards)
 
           column.cards.each do |card|
-            Apartment::Tenant.switch!('bas')
+            Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
             card_items = card_items_attributes(card)
 
             # TODO: Card items

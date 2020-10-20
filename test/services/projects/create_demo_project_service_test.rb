@@ -27,7 +27,7 @@ module Projects
 
       Note.create!({
                        card_item: item,
-                       content: 'test note...........................'
+                       content: 'test note'
                    })
 
       demo_project = Projects::CreateDemoProjectService.new(user).execute

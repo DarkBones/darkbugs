@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
       end
 
       if user.nil?
-        flash.now[:notice] = 'Welcome to the demo app! Anything on the demo subdomain is only accessible by you and any changes will be reverted after seven days'
+        flash.now[:notice] = I18n.t('controllers.application.demo.message')
         user = User.create_demo_user
         Projects::CreateDemoProjectService.new(user).execute
       end

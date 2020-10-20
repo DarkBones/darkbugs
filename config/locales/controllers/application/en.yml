@@ -1,0 +1,6 @@
+---
+en:
+  controllers:
+    application:
+      demo:
+        message: Welcome to the demo app! Anything on the demo subdomain is only accessible by you and any changes will be reverted after seven days
