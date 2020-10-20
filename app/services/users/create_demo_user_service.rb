@@ -1,9 +1,8 @@
 module Users
   class CreateDemoUserService < BaseService
-    attr_reader :key, :name
+    attr_reader :name
 
-    def initialize(key)
-      @key = key
+    def initialize
       @name = Faker::FunnyName.two_word_name
     end
 

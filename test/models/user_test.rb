@@ -2,8 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def test_create_demo_user
-    key = 'test_key'
-    user = User.create_demo_user(key)
+    user = User.create_demo_user
 
     assert_not_nil user
     assert_not_nil user.id
@@ -11,7 +10,13 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not_nil user.email
     assert_not_nil user.name
+    assert_not_nil user.uuid
+
+    assert_not_nil user.user_profile.first_name
+    assert_not_nil user.user_profile.username
 
     assert user.demo_user
+
+    assert_not_nil Tenant.find_by!(key: user.uuid)
   end
 end
