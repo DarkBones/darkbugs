@@ -1,5 +1,6 @@
 module Users
   class CreateDemoUserService < BaseService
+    # require 'faker'
     attr_reader :name
 
     def initialize
