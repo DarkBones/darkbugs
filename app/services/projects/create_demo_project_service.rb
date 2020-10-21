@@ -1,6 +1,6 @@
 module Projects
   class CreateDemoProjectService < BaseService
-    attr_reader :user, :original_project
+    attr_reader :user, :original_project, :demo_project
 
     ORIGINAL_SCHEMA = 'bas'.freeze
     ORIGINAL_PROJECT = 'DRK'.freeze
@@ -48,91 +48,122 @@ module Projects
     def initialize(user)
       @user = user
 
-      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
+      switch_original_schema
       @original_project = Project.find_by!(key: ORIGINAL_PROJECT)
     end
 
     def execute
-      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
-
-      project_attributes = original_project.attributes.keep_if { |k, _| PROJECT_ATTRIBUTES.include? k }
-                               .merge(owner: user)
-
-      Apartment::Tenant.switch!(user.tenant_key)
-
-      project = Project.create!(project_attributes)
-
-      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
-
-      board_attributes = original_project.boards.all.map do |board|
-        board.attributes.keep_if { |k, _| BOARD_ATTRIBUTES.include? k }
+      Project.transaction do
+        create_demo_project
       end
+    end
 
-      Apartment::Tenant.switch!(user.tenant_key)
+    private def create_demo_project
+      @demo_project = create_project
 
-      board_attributes = board_attributes.map { |board| board.merge(root_project_id: project.id) }
+      create_boards
+      create_columns
+      create_cards
 
-      project.update!(boards_attributes: board_attributes)
+      switch_demo_schema
 
-      original_project.boards.each do |board|
-        Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
-        cols = columns_attributes(board)
+      demo_project
+    end
 
-        Apartment::Tenant.switch!(user.tenant_key)
+    private def create_project
+      switch_original_schema
+      attributes = original_project.attributes
+                       .keep_if { |k, _| PROJECT_ATTRIBUTES.include? k }
+                       .merge(owner: user)
+
+      switch_demo_schema
+
+      result = Project.create!(attributes)
+
+      result.boards.destroy_all
+
+      result
+    end
+
+    private def create_boards
+      switch_original_schema
+      attributes = original_project.boards
+                       .map { |board| board.attributes.keep_if { |k, _| BOARD_ATTRIBUTES.include? k }}
+
+      switch_demo_schema
+
+      attributes.each do |board_attributes|
+        demo_project.boards.create!(board_attributes.merge(root_project: demo_project))
+      end
+    end
+
+    private def create_columns
+      switch_original_schema
+      boards = original_project.boards.dup
+
+      boards.each do |board|
+        switch_demo_schema # TODO: Test above baords.each scope
+        demo_board = demo_project.boards.find_by!(slug: board.slug)
 
         board.columns.each do |column|
-          Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
-          cards = cards_attributes(column).map { |card| card.merge(board: board)}
+          demo_board.columns.create!(
+            column.attributes.keep_if { |k, _| COLUMN_ATTRIBUTES.include? k}
+          )
+        end
+      end
+    end
 
-          Apartment::Tenant.switch!(user.tenant_key)
-          column.update!(cards_attributes: cards)
+    private def create_cards
+      switch_original_schema
+      original_project.boards.each do |board|
+        switch_demo_schema
+        demo_board = demo_project.boards.find_by!(slug: board.slug)
 
-          column.cards.each do |card|
-            Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
-            card_items = card_items_attributes(card)
+        board.columns.each do |column|
+          switch_demo_schema
+          demo_column = demo_board.columns.find_by!(name: column.name)
 
-            # TODO: Card items
+          switch_original_schema
+          cards = column.cards.dup
+
+          cards.each do |card|
+            switch_demo_schema
+            demo_card = demo_column.cards.create!(
+              card.attributes.keep_if { |k, _| CARD_ATTRIBUTES.include? k }
+                  .merge(board: demo_board, assignee_id: user.id)
+            )
+
+            switch_original_schema
+            card_items = card.card_items.dup
+
+            card_items.each do |card_item|
+              switch_demo_schema
+              demo_card_item = demo_card.card_items.create!(
+                  card_item.attributes.keep_if { |k, _| CARD_ITEM_ATTRIBUTES.include? k}
+                      .merge(author_id: user.id)
+              )
+
+              switch_original_schema
+              card_item_item = card_item.item.dup
+
+              switch_demo_schema
+              demo_card_item_item = card_item.item_type.titleize.constantize
+                  .create!(
+                      card_item_item.attributes.keep_if { |k, _| CARD_ITEM_DETAILS_ATTRIBUTES.include? k }
+                          .merge(card_item_id: demo_card_item.id)
+                  )
+            end
           end
         end
       end
-
-      project
     end
 
-    private def build_demo_project
-      project_attributes = original_project.attributes.keep_if { |k, _| PROJECT_ATTRIBUTES.include? k }
-                               .merge(owner: user)
-
-      board_attributes = original_project.boards.all.map do |board|
-        board.attributes.keep_if { |k, _| BOARD_ATTRIBUTES.include? k }
-            .merge(columns_attributes: columns_attributes(board))
-      end
-
-
-      project_attributes.merge(boards_attributes: board_attributes)
+    private def switch_original_schema
+      Apartment::Tenant.switch!(ORIGINAL_SCHEMA)
     end
 
-    private def columns_attributes(board)
-      board.columns.map do |column|
-        column.attributes.keep_if { |k, _| COLUMN_ATTRIBUTES.include? k }
-      end
-    end
-
-    private def cards_attributes(column)
-      column.cards.map do |card|
-        card.attributes.keep_if { |k, _| CARD_ATTRIBUTES.include? k }
-      end
-    end
-
-    private def card_items_attributes(card)
-      card.card_items.map do |card_item|
-        card_item.attributes.keep_if { |k, _| CARD_ITEM_ATTRIBUTES.include? k }
-            .merge(note_attributes: card_item_details_attributes(card_item))
-      end
-    end
-
-    private def card_item_details_attributes(card_item)
-      card_item.item.attributes.keep_if { |k, _| CARD_ITEM_DETAILS_ATTRIBUTES.include? k }
+    private def switch_demo_schema
+      Apartment::Tenant.switch!(user.tenant_key)
     end
   end
 end

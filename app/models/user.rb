@@ -31,6 +31,11 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
   validates :user_profile,          presence: true
 
+  # -- Scopes ------------------------------------------------------------------
+  scope :demo, -> {
+    where(demo_user: true)
+  }
+
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
 
