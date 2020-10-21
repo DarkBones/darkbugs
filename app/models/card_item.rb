@@ -2,10 +2,11 @@ class CardItem < ApplicationRecord
   include Identifiable
   include Orderable
 
-  belongs_to :card
-  has_one :note
+  ITEM_TYPES = %w[
+    note
+  ]
 
-  accepts_nested_attributes_for :note
+  belongs_to :card
 
   before_create :set_position
 
