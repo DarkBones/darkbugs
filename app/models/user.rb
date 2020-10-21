@@ -13,6 +13,9 @@ class User < ApplicationRecord
     ADMIN_ROLE = 1
   ].freeze
 
+  DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
+  DEMO_AVATARS_PATH = "#{Rails.root}/app/assets/images/demo_avatars/*".freeze
+
   # -- Relationships --------------------------------------------------------
   has_one :user_profile, dependent: :destroy
   has_many :user_organizations, dependent: :destroy
@@ -44,9 +47,6 @@ class User < ApplicationRecord
     where('demo_user = true AND created_at < ?', 7.days.ago)
   }
 
-  # -- Constants ---------------------------------------------------------------
-  DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
-
   # -- Class Methods -----------------------------------------------------------
   def self.create_demo_user
     Users::CreateDemoUserService.new.execute
@@ -58,9 +58,11 @@ class User < ApplicationRecord
   end
 
   def avatar
-    return DEFAULT_PROFILE_PICTURE unless user_profile.avatar.attached?
+    return user_profile.avatar if user_profile.avatar && user_profile.avatar.attached?
 
-    user_profile.avatar || DEFAULT_PROFILE_PICTURE
+    return DEFAULT_PROFILE_PICTURE unless demo_user
+
+    demo_avatar_path
   end
 
   def avatar_path
@@ -72,7 +74,13 @@ class User < ApplicationRecord
   end
 
   def avatar_placeholder_path
-    ActionController::Base.helpers.asset_path(DEFAULT_PROFILE_PICTURE)
+    path = DEFAULT_PROFILE_PICTURE
+
+    if demo_user
+      path = demo_avatar_path
+    end
+
+    ActionController::Base.helpers.asset_path(path)
   end
 
   def local_date(time)
@@ -92,5 +100,14 @@ class User < ApplicationRecord
   # -- Class Methods --------------------------------------------------------
   def self.find_by_username(username)
     UserProfile.find_by(username: username)&.user
+  end
+
+  private def demo_avatar_path
+    avatars = Dir.glob(DEMO_AVATARS_PATH)
+
+    idx = id % avatars.count
+
+    path = avatars[idx].split('/')
+    path[(path.length - 2)..(path.length - 1)].join('/')
   end
 end

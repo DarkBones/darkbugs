@@ -1,7 +1,8 @@
 module Users
   class CreateDemoUserService < BaseService
-    # require 'faker'
     attr_reader :name
+
+    AVATARS_PATH = "#{Rails.root}/app/assets/images/demo_avatars/*".freeze
 
     def initialize
       @name = Faker::FunnyName.two_word_name
