@@ -1,4 +1,5 @@
 class OrganizationsController < ApplicationController
+  before_action :check_user_not_demo!,        only:   %i[create add_members]
   before_action :build_organization,          only:   %i[new create]
   before_action :load_accepted_organization,  only:   %i[show add_members create_members grant_admin revoke_admin remove_member delete]
   before_action :load_any_organization,       only:   %i[leave]
@@ -131,13 +132,23 @@ class OrganizationsController < ApplicationController
 
     raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.unauthorized') unless @organization.user_is_admin?(@current_user)
   rescue ActionController::BadRequest => e
-    redirect_to(organizations_path, { :flash => { :error => e.message }, :status => :bad_request })
+    flash[:error] = e.message
+    redirect_back(fallback_location: organizations_path)
   end
 
   private def email_new_members(user_tokens, organization)
     user_tokens.each do |user_token|
       Devise.mailer.added_to_organization(user_token[:user], @current_user, organization, user_token[:token]).deliver_now
     end
+  end
+
+  private def check_user_not_demo!
+    return unless @current_user.demo_user
+
+    raise ActionController::BadRequest, I18n.t('controllers.organizations.errors.demo_user')
+  rescue ActionController::BadRequest => e
+    flash[:error] = e.message
+    redirect_back(fallback_location: organizations_path)
   end
 
   private def build_organization
