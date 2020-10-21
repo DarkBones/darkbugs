@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
+  before_action :authenticate!
   protect_from_forgery prepend: true
   before_action :set_user
   after_action :clear_flash
@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   before_action :set_organizations
   before_action :set_raven_context
   before_action :switch_to_public
+
+  private def authenticate!
+    authenticate_user! if request.subdomain != 'demo'
+  end
 
   private def set_user
     @current_user = current_user
@@ -22,17 +26,43 @@ class ApplicationController < ActionController::Base
 
     @tenant = @current_user
 
+    logout_demo_user
+
     if valid_subdomain?(request.subdomain)
       @current_organization = Organization
                                 .accepted_by_user(@current_user)
                                 .find_by!(slug: request.subdomain)
       @tenant = @current_organization
+    elsif request.subdomain == 'demo'
+      if cookies[:demo_key].present?
+        user = User.find_by(demo_user: true, uuid: cookies[:demo_key])
+      end
+
+      if user.nil?
+        flash.now[:notice] = I18n.t('controllers.application.demo.message')
+        user = User.create_demo_user
+        Projects::CreateDemoProjectService.new(user).execute
+      end
+
+      cookies[:demo_key] = user.uuid
+
+      @current_user = user
+      @tenant = @current_user
+
+      sign_in(@current_user)
     else
       redirect_to root_url(subdomain: '') if request.subdomain.present?
       @current_organization = nil
     end
 
     Apartment::Tenant.switch!(@tenant.tenant_key) if @tenant.present?
+  end
+
+  private def logout_demo_user
+    if @current_user&.demo_user && request.subdomain != 'demo'
+      sign_out @current_user
+      redirect_to root_url(subdomain: '')
+    end
   end
 
   def set_raven_context

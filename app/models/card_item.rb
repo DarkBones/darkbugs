@@ -2,6 +2,10 @@ class CardItem < ApplicationRecord
   include Identifiable
   include Orderable
 
+  ITEM_TYPES = %w[
+    note
+  ]
+
   belongs_to :card
 
   before_create :set_position

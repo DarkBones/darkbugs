@@ -3,6 +3,7 @@ en:
   controllers:
     organizations:
       errors:
+        demo_user: Cannot take this action as a demo user
         unauthorized: Only administrators can take this action
         destroy:
           name_mismatch: The name doesn't match

@@ -3,7 +3,7 @@ class Organization < ApplicationRecord
   include Slugable
 
   # -- Constants --------------------------------------------------------
-  RESERVED_NAMES = ['www'].freeze
+  RESERVED_NAMES = %w[www demo].freeze
 
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy

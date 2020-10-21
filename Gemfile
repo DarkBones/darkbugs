@@ -11,6 +11,8 @@ gem 'azure-storage-blob'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
 gem 'devise', '>= 4.7.1'
+gem 'deep_cloneable', '~> 3.0.0'
+gem 'faker', path: 'vendor/git/faker'
 gem 'font-awesome-rails'
 gem 'haml-rails', '>= 2.0'
 gem 'jbuilder', '~> 2.7'
@@ -29,6 +31,7 @@ gem 'turbolinks', '~> 5'
 gem 'tzinfo', '1.2.2'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpacker', '~> 4.0'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
