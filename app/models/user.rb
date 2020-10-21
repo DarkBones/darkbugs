@@ -36,6 +36,10 @@ class User < ApplicationRecord
     where(demo_user: true)
   }
 
+  scope :demo_expired, -> {
+    where('demo_user = true AND created_at < ?', 7.days.ago)
+  }
+
   # -- Constants ---------------------------------------------------------------
   DEFAULT_PROFILE_PICTURE = 'default_profile_picture.png'.freeze
 
