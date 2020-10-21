@@ -22,7 +22,7 @@ module Organizations
 
     private def process_results(results)
       results.each do |r|
-        r[:user] = User.where(demo_user: false).find_by_username(r[:username])
+        r[:user] = User.real.find_by_username(r[:username])
 
         r[:status] = status(r[:user])
         next if r[:status] != NOT_STARTED

@@ -32,6 +32,10 @@ class User < ApplicationRecord
   validates :user_profile,          presence: true
 
   # -- Scopes ------------------------------------------------------------------
+  scope :real, -> {
+    where(demo_user: false)
+  }
+
   scope :demo, -> {
     where(demo_user: true)
   }

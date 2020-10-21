@@ -169,7 +169,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       }
     }
 
-    assert_response :bad_request
+    assert_response :found
     assert_match 'Only administrators can take this action', flash[:error]
   end
 
@@ -338,7 +338,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     login_user(users(:test))
     get :delete, params: { organization_slug: @organization.slug }
 
-    assert_response :bad_request
+    assert_response :found
     assert_match 'Only administrators can take this action', flash[:error]
   end
 
