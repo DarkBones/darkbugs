@@ -28,11 +28,11 @@ module Users
     end
 
     private def email
-      email = "#{first_name}.#{last_name}@darkbugs.com".downcase
+      email = "#{first_name}.#{last_name}@#{ENV['APP_NAME']}.com".downcase
 
       idx = 0
       while User.exists?(email: email)
-        email = "#{first_name}.#{last_name}-#{idx}@darkbugs.com".downcase
+        email = "#{first_name}.#{last_name}-#{idx}@#{ENV['APP_NAME']}.com".downcase
         idx += 1
       end
 
