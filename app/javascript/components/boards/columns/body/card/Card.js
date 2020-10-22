@@ -39,7 +39,7 @@ export default class Card extends React.Component {
 
     const { name, uuid } = response.data
     addCard(columnUuid, uuid, name, previousCard)
-    addCard(columnUuid, 'new', '', uuid)
+    // addCard(columnUuid, 'new', '', uuid)
   }
 
   render() {
