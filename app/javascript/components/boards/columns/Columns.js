@@ -58,7 +58,7 @@ export default class Columns extends React.Component {
 
   deleteNewCard = () => {
     const newState = ColumnsState.deleteCard(this.state, 'new')
-    this.setState(newState)
+    this.setState(newState, this.handleAfterUpdate)
   }
 
   deleteColumn = async uuid => {
@@ -83,8 +83,10 @@ export default class Columns extends React.Component {
   }
 
   findPreviousCard = e => {
+    const classList = e.target.classList
+
     // return the divider id
-    if (e.target.classList.contains('item-card-divider')) {
+    if (classList.contains('item-card-divider')) {
       return e.target.parentElement.id
     }
 
@@ -133,7 +135,10 @@ export default class Columns extends React.Component {
   }
 
   handleClick = e => {
-    if (e.target.id === 'new' && e.target.classList.contains('item-card')) return
+    const classList = e.target.classList
+
+    if (e.target.tagName.toLowerCase() === 'input') return
+    if (e.target.id === 'new' && classList.contains('item-card')) return
 
     this.deleteNewCard()
   }

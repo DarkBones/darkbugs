@@ -18,6 +18,8 @@ export default function Body(props) {
   } = props
 
   const createNewCard = e => {
+    if (e.target.tagName.toLowerCase() === 'input') return
+
     const previousCard = findPreviousCard(e)
 
     addCard(columnUuid, 'new', '', previousCard)
