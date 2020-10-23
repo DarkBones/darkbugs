@@ -3,4 +3,4 @@ en:
   controllers:
     application:
       demo:
-        message: Welcome to the demo app! Everything on the demo subdomain is only visible by you and will be lost after seven days.
+        message: Welcome to this demo! Everything on the demo subdomain is only visible by you and any changes will be lost after seven days.
