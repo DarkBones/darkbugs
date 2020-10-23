@@ -58,7 +58,7 @@ export default class Columns extends React.Component {
 
   deleteNewCard = () => {
     const newState = ColumnsState.deleteCard(this.state, 'new')
-    this.setState(newState)
+    this.setState(newState, this.handleAfterUpdate)
   }
 
   deleteColumn = async uuid => {

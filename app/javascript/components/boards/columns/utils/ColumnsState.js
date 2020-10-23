@@ -8,7 +8,7 @@ export default class ColumnsState {
     }
 
     const column = newState.columns[columnUuid]
-    let allCards = Array.from(state.allCards)
+    let allCards = Array.from(newState.allCards)
     let cardUuids = Array.from(column.card_uuids)
 
     const idxAll = allCards.indexOf(previousCard)
@@ -107,12 +107,19 @@ export default class ColumnsState {
 
   static reorderColumns(state, source, destination, draggableId) {
     const newColumnOrder = Array.from(state.columnOrder)
+    const { columns } = state
 
     newColumnOrder.splice(source.index, 1)
     newColumnOrder.splice(destination.index, 0, draggableId)
 
+    let allCards = []
+    newColumnOrder.forEach((columnUuid) => {
+      allCards = allCards.concat(columns[columnUuid].card_uuids)
+    })
+
     return {
       ...state,
+      allCards: allCards,
       columnOrder: newColumnOrder,
       isDragging: false
     }
@@ -148,6 +155,12 @@ export default class ColumnsState {
 
     if (allCardsIndex >= 0) newAllCards.splice(allCardsIndex, 1)
 
+    newState = {
+      ...newState,
+      allCards: newAllCards,
+      cards: cards
+    }
+
     let column
     let newCardUuids
     let idx
@@ -161,8 +174,6 @@ export default class ColumnsState {
 
         newState = {
           ...newState,
-          allCards: newAllCards,
-          cards: cards,
           columns: {
             ...newState.columns,
             [columnUuid]: {
@@ -179,16 +190,24 @@ export default class ColumnsState {
 
   static _deleteColumn(state, columnUuid) {
     const columnOrder = Array.from(state.columnOrder)
-    const columns = state.columns
     const index = columnOrder.indexOf(columnUuid)
+    const columns = state.columns
+    const allCards = Array.from(state.allCards)
 
     if (index < 0) return state
+
+    const columnCards = columns[columnUuid].card_uuids
 
     columnOrder.splice(index, 1)
     delete columns[columnUuid]
 
+    columnCards.forEach((cardUuid) => {
+      allCards.splice(allCards.indexOf(cardUuid), 1)
+    })
+
     return {
       ...state,
+      allCards: allCards,
       columnOrder: columnOrder,
       columns: columns
     }
