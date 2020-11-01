@@ -8,7 +8,7 @@
 
 = content_for :card_body do
   %h1 User
-  %table.table.table-hover{:cellspacing => "0", :width => "100%"}
+  %table.table.table-hover{:cellspacing => '0', :width => '100%'}
     %tbody
       %tr
         %td
@@ -25,7 +25,7 @@
             = v
 
   %h1 User Profile
-  %table.table.table-hover{:cellspacing => "0", :width => "100%"}
+  %table.table.table-hover{:cellspacing => '0', :width => '100%'}
     %tbody
       - @user.user_profile.attributes.each do |k, v|
         %tr
