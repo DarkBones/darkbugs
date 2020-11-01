@@ -1,3 +1,6 @@
 %ul.navbar-nav.align-items-center.ml-auto
   - if user_signed_in?
+    - if @current_user.admin?
+      = render partial: 'layouts/navbar/admin_dropdown'
+
     = render partial: 'layouts/navbar/user_dropdown'

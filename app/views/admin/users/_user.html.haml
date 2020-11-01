@@ -1,0 +1,13 @@
+%tr
+  %td
+    = render partial: 'shared/user_avatar', locals: { user: user }
+  %td
+    = link_to user.name, admin_user_path(uuid: user.uuid)
+  %td
+    = user.full_name
+  %td
+    = user.created_at
+  %td
+    = user.email
+  %td
+    = user.role_name
