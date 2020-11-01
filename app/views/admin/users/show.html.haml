@@ -1,0 +1,36 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-user', title: @user.name, title_sub: @user.full_name }
+
+- content_for :page_title do
+  Admin - All Users
+
+= content_for :card_header do
+  = @user.name
+
+= content_for :card_body do
+  %h1 User
+  %table.table.table-hover{:cellspacing => "0", :width => "100%"}
+    %tbody
+      %tr
+        %td
+          .font-weight-bold
+            Avatar
+        %td
+          = image_tag @user.avatar
+      - @user.attributes.each do |k, v|
+        %tr
+          %td
+            .font-weight-bold
+              = k.titleize
+          %td
+            = v
+
+  %h1 User Profile
+  %table.table.table-hover{:cellspacing => "0", :width => "100%"}
+    %tbody
+      - @user.user_profile.attributes.each do |k, v|
+        %tr
+          %td
+            .font-weight-bold
+              = k.titleize
+          %td
+            = v
