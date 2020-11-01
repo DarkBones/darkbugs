@@ -15,7 +15,8 @@ RUN apk add --update --no-cache \
     postgresql \
     postgresql-client \
     postgresql-dev \
-    yarn
+    yarn \
+    vim
 
 RUN mkdir /$APP_HOME
 WORKDIR /$APP_HOME
