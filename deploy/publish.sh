@@ -30,6 +30,19 @@ main() {
   #  install_tls_resources
 }
 
+ask_confirmations() {
+  if [ $O_DEBUG_MODE = false ] && [ $O_LOCAL_INSTALL = false ]; then
+    echo "WARNING: This will deploy to PRODUCTION."
+    echo "Type 'prod' to continue"
+
+    read input
+    if [ -z $input ] || [ ! $input = "prod" ]; then
+      echo "Deploy cancelled. Exiting..."
+      exit 0
+    fi
+  fi
+}
+
 set_dns_secret() {
   installed=false
 
@@ -119,17 +132,6 @@ install_helm() {
 
   echo $cmd
   echo ""
-
-  if [ $O_DEBUG_MODE = false ] && [ $O_LOCAL_INSTALL = false ]; then
-    echo "WARNING: This will deploy to PRODUCTION."
-    echo "Type 'prod' to continue"
-
-    read input
-    if [ -z $input ] || [ ! $input = "prod" ]; then
-      echo "Deploy cancelled. Exiting..."
-      exit 0
-    fi
-  fi
 
   eval $cmd
 }

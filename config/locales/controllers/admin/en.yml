@@ -1,0 +1,6 @@
+---
+en:
+  controllers:
+    admin:
+      errors:
+        unauthorized: Unauthorized

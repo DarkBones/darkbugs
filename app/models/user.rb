@@ -57,6 +57,16 @@ class User < ApplicationRecord
     user_profile.username
   end
 
+  def full_name
+    "#{user_profile.first_name} #{user_profile.last_name}"
+  end
+
+  def role_name
+    return 'Demo' if demo_user
+
+    role == ADMIN_ROLE ? 'Admin' : 'User'
+  end
+
   def avatar
     return user_profile.avatar if user_profile.avatar && user_profile.avatar.attached?
 

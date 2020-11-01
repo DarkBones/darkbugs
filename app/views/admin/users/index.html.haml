@@ -1,0 +1,20 @@
+= render partial: 'layouts/header', locals: { icon_class: 'fas fa-users', title: 'All Users', title_sub: 'Only admins can see this' }
+
+- content_for :page_title do
+  Admin - All Users
+
+= content_for :card_header do
+  Users
+
+= content_for :card_body do
+  %table.table.table-hover{:cellspacing => "0", :width => "100%"}
+    %thead
+      %tr
+        %th Avatar
+        %th Username
+        %th Full Name
+        %th Created
+        %th Email
+        %th Role
+    %tbody
+      = render @users, partial: 'admin/users/user'

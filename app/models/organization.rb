@@ -5,11 +5,13 @@ class Organization < ApplicationRecord
   # -- Constants --------------------------------------------------------
   RESERVED_NAMES = %w[
     admin
+    blog
     dashboard
     data
     demo
     internal
     out
+    public
     script
     test
     www
