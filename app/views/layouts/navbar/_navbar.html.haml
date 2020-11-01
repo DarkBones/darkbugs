@@ -1,5 +1,5 @@
 %nav.topnav.navbar.navbar-expand.shadow.navbar-light.bg-white#sidenavAccordion
-  = link_to @current_organization&.name&.truncate(18) || ENV['APP_NAME'], root_path, class: 'navbar-brand d-none d-sm-block'
+  = link_to @current_organization&.name&.truncate(18) || ENV['APP_NAME'], root_path, class: 'navbar-brand d-noe d-sm-block'
   %button.btn.btn-transparent-dark.order-1.order-lg-0.mr-lg-2#sidebarToggle
     %i.fa.fa-bars.fa-lg
   = render partial: 'layouts/navbar/links'
