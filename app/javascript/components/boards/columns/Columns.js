@@ -125,7 +125,7 @@ export default class Columns extends React.Component {
       columnOrder,
       columns
     } = this.state
-
+    
     this.props.setColumns(
       allCards,
       cards,
@@ -219,9 +219,7 @@ export default class Columns extends React.Component {
   updateColumnName = (columnUuid, name) => {
     const newState = ColumnsState.updateName(this.state, columnUuid, name)
 
-    this.setState(newState)
-
-    this.handleAfterUpdate()
+    this.setState(newState, this.handleAfterUpdate())
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
