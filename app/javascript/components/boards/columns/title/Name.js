@@ -109,7 +109,7 @@ export default class Name extends React.Component {
       return
     }
 
-    handleAfterSubmit(response.data)
+    handleAfterSubmit(response.data.uuid, response.data.name)
     setIsEditing(false)
   }
 
