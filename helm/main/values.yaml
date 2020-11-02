@@ -30,6 +30,8 @@ rails-app:
     hosts:
     - host: darkbugs.com
       paths: ['/']
+    - host: db.darkbugs.com
+      paths: ['']
     - host: '*.darkbugs.com'
       paths: ['/']
 
