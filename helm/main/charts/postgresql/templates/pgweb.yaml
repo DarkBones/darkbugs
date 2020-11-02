@@ -10,10 +10,6 @@ spec:
       name: pgweb
       ports:
         - containerPort: 8081
-      env:
-      - name: DATABASE_URL
-        value: postgres://{{ template "postgresql.username" . }}:{{ template "postgresql.password" . }}@{{ template "postgresql.host" . }}:5432/darkbugs_production?sslmode=disable
-#        value: postgresql://{{ template "postgresql.host" . }}/darkbugs_production?user={{ template "postgresql.username" . }}&password={{ template "postgresql.password" . }}?sslmode=disable
 ---
 apiVersion: v1
 kind: Service

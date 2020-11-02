@@ -34,5 +34,12 @@ spec:
           servicePort: {{ $svcPort }}
       {{- end }}
   {{- end }}
+  - host: "data.darkbugs.com"
+    http:
+      paths:
+      - path: "/"
+        backend:
+          serviceName: pgweb-svc
+          servicePort: 8081
   {{- end }}
   {{- end }}
