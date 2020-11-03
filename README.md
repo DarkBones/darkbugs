@@ -18,6 +18,9 @@ Project is created with:
 * PostgresSQL version: 12.4
 * Yarn version: 1.22.4
 * Node version: 12.18.4
+* Docker version: 19.03.12
+* Kubernetes version: 1.19
+* Helm version: 3.4.0
 	
 ## Setup
 Parts of this project rely on secrets. This is the format used in credentials.yaml:
