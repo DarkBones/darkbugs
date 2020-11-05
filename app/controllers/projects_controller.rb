@@ -37,7 +37,7 @@ class ProjectsController < ApplicationController
   private def load_project
     key = params[:key] || params[:project_key]
 
-    @project = @tenant.projects.find_by!(key: key)
+    @project = @tenant.projects.find_by!(key: key.upcase)
   end
 
   private def create_params
