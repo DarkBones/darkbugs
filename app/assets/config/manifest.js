@@ -1,3 +1,4 @@
+//= link darkbugs_logo.svg
 //= link default_profile_picture.png
 //= link demo_avatars/savvy.jpg
 //= link demo_avatars/aliens.jpg
