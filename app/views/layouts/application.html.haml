@@ -7,6 +7,7 @@
     %title= page_title
     = csrf_meta_tags
     = csp_meta_tag
+    = favicon_link_tag asset_path('darkbugs_logo.svg')
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body.nav-fixed
