@@ -8,7 +8,7 @@ postgresql:
     enabled: true
 
 rails-app:
-  replicaCount: 1
+  replicaCount: 2
   appName: Darkbugs
   domain: darkbugs.com
   image:
