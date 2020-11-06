@@ -45,6 +45,7 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
+  config.ssl_options = { redirect: { exclude: -> request { /\/health$/.match?(request.path) } } }
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -111,7 +112,7 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.hosts << /([a-z0-9\-_]+\.)*darkbugs\.com/i
-  # config.hosts << /^10\.[0-9]{2}.[0-9]+\.[0-9]{2}$/i
+  config.hosts << /^10\.[\d]{1,2}.[\d]{1,2}\.[\d]{1,2}$/i
 
   Raven.configure do |config|
     config.dsn = Rails.application.credentials.sentry_url
