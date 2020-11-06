@@ -117,6 +117,7 @@ install_helm() {
     --set rails-app.rails.masterKey=\"$MASTER_KEY\" \
     --set rails-app.image.tag=\"$CURRENT_DOCKER_TAG\" \
     --set rails-app.ingress.email=\"$ADMIN_EMAIL\" \
+    --set rails-app.dockerSecret=\"$DOCKER_SECRET\" \
     --set global.postgresql.postgresqlUsername=\"$DB_USERNAME\" \
     --set global.postgresql.postgresqlPassword=\"$DB_PASSWORD\" \
     --set global.release.helm=\"$CURRENT_HELM_RELEASE\" \
@@ -360,6 +361,7 @@ initialize_secrets() {
   ADMIN_EMAIL=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "admin_email")
   DNS_CLOUD_SECRET_NAME=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "cloud_secret_name")
   MASTER_KEY=$(cat $MASTER_KEY_FILE)
+  DOCKER_SECRET=$(deploy/bin/get_value_from_file.sh $SECRETS_FILE "docker_image_secret")
 
   print_header SECRETS
   if [ -n "${DB_USERNAME}" ]; then
@@ -407,6 +409,14 @@ initialize_secrets() {
   else
     echo ""
     echo "ERROR: master key not found in $MASTER_KEY_FILE"
+    exit 1
+  fi
+
+  if [ -n "${DOCKER_SECRET}" ]; then
+    echo "found master_key"
+  else
+    echo ""
+    echo "ERROR: docker image secret not found in $SECRETS_FILE"
     exit 1
   fi
 }
@@ -461,6 +471,7 @@ KUBE_CONTEXT=""
 ADMIN_EMAIL=""
 MASTER_KEY=""
 DNS_CLOUD_SECRET_NAME=""
+DOCKER_SECRET=""
 
 # OPTIONS
 O_FORCE_BUILD_DOCKER=false

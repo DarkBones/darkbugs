@@ -17,7 +17,8 @@ appName: app
 
 domain: example.com
 
-imagePullSecrets: []
+imagePullSecrets:
+- name: registrypullsecret
 nameOverride: ""
 fullnameOverride: ""
 
@@ -46,6 +47,8 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 3000
+
+dockerSecret: docker-secret-placeholder
 
 ingress:
   enabled: true
