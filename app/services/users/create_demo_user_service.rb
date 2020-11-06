@@ -58,7 +58,7 @@ module Users
 
     private def username
       username = generate_username
-      username = generate_username while UserProfile.exists?(username: username)
+      username = generate_username while UserProfile.exists?(username: username) || username.downcase.include?('isis')
 
       username
     end
