@@ -43,8 +43,9 @@ spec:
 #              port: http
           readinessProbe:
             httpGet:
-              path: /health_check
-              port: http
+              path: /
+              port: 3000
+              scheme: HTTP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
