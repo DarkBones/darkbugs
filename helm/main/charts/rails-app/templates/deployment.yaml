@@ -51,6 +51,7 @@ spec:
               port: http
             initialDelaySeconds: 300 # 5 minutes
             periodSeconds: 10
+            successThreshold: 3
             timeoutSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
