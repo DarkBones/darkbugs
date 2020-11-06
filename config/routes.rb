@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'uploads/user_avatar' => 'uploads#create_user_avatar'
   delete 'uploads/user_avatar' => 'uploads#delete_user_avatar'
 
+  resources :health, only: [:index]
+
   resources :users
   resources :organizations, param: :slug, except: [:update, :edit, :destroy] do
     post :create_members
