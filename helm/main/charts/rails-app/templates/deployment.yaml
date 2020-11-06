@@ -41,10 +41,10 @@ spec:
 #            httpGet:
 #              path: /
 #              port: http
-          readinessProbe:
-            httpGet:
-              path: /health_check
-              port: http
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
