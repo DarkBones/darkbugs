@@ -17,8 +17,6 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil user.user_profile.last_name
     assert_not_nil user.user_profile.bio
 
-    puts user.user_profile.bio
-
     assert user.demo_user
 
     assert_not_nil Tenant.find_by!(key: user.uuid)
