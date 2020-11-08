@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_writer :login
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, stretches: 13
@@ -55,6 +57,10 @@ class User < ApplicationRecord
   end
 
   # -- Instance Methods --------------------------------------------------------
+  def login
+    @login || self.username || self.email
+  end
+
   def name
     username
   end
@@ -110,6 +116,14 @@ class User < ApplicationRecord
   end
 
   # -- Class Methods --------------------------------------------------------
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions.to_h).where(['lower(username) = :value OR lower(email) = :value', { :value => login.downcase }]).first
+    elsif conditions.has_key?(:username) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
+  end
 
   private def demo_avatar_path
     avatars = Dir.glob(DEMO_AVATARS_PATH)

@@ -6,7 +6,7 @@
     .card-body
       = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         = render partial: 'devise/shared/error_messages', locals: { include_flash: true }
-        = f.input :email, autofocus: true, autocomplete: 'email', class: 'form-control py-4', placeholder: true
+        = f.input :login, autofocus: true, autocomplete: 'login', class: 'form-control py-4', placeholder: true
         = f.input :password, autocomplete: 'current-password', class: 'form-control py-4', placeholder: true
         .form-group.col-12
           .custom-control.custom-checkbox
