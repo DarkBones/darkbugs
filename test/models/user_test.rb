@@ -10,10 +10,12 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not_nil user.email
     assert_not_nil user.name
+    assert_not_nil user.username
     assert_not_nil user.uuid
 
     assert_not_nil user.user_profile.first_name
-    assert_not_nil user.user_profile.username
+    assert_not_nil user.user_profile.last_name
+    assert_not_nil user.user_profile.bio
 
     assert user.demo_user
 

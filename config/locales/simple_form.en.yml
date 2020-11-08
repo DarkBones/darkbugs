@@ -27,6 +27,8 @@ en:
       project:
         name: Name
         key: Key
+      user:
+        login: Email or Username
     placeholders:
       defaults:
         email: Enter email address
@@ -42,3 +44,5 @@ en:
       project:
         name: Name your project
         key: Short reference key
+      user:
+        login: Enter email address or username

@@ -55,8 +55,8 @@ module Users
 
     # If you have extra params to permit, append them to the sanitizer.
     private def configure_sign_up_params
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, user_profile_attributes: [:username]])
-      devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, user_profile_attributes: [:username, :first_name, :last_name, :bio, :id]])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :username])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password, :password_confirmation, :username, user_profile_attributes: [:first_name, :last_name, :bio, :id]])
     end
 
     # If you have extra params to permit, append them to the sanitizer.

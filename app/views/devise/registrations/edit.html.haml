@@ -14,7 +14,7 @@
                   = react_component('file_uploader/FileUploader', src: @current_user.avatar_path, buttonText: i18n('upload_image'), fileType: 'image/jpeg, image/png', id: 'avatar', placeholder: @current_user.avatar_placeholder_path)
             .col-12.col-sm-8.col-md-9
               .row
-                = user_profile.input :username, autofocus: true, input_html: { autocomplete: 'username' }
+                = f.input :username, autofocus: true, input_html: { autocomplete: 'username' }
                 = user_profile.input :first_name, wrapper: :md6
                 = user_profile.input :last_name, wrapper: :md6
                 = user_profile.input :bio

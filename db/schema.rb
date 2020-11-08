@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_103236) do
+ActiveRecord::Schema.define(version: 2020_11_07_160859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,13 @@ ActiveRecord::Schema.define(version: 2020_10_20_103236) do
     t.integer "assignee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "card_id", null: false
+    t.integer "card_id"
     t.index ["assignee_id"], name: "index_cards_on_assignee_id"
     t.index ["board_id"], name: "index_cards_on_board_id"
+    t.index ["card_id"], name: "index_cards_on_card_id"
     t.index ["column_id"], name: "index_cards_on_column_id"
     t.index ["position"], name: "index_cards_on_position"
     t.index ["reporter_id"], name: "index_cards_on_reporter_id"
-    t.index ["uuid"], name: "index_cards_on_uuid"
   end
 
   create_table "columns", force: :cascade do |t|
@@ -149,12 +149,10 @@ ActiveRecord::Schema.define(version: 2020_10_20_103236) do
     t.bigint "user_id"
     t.string "first_name"
     t.string "last_name"
-    t.string "username", null: false
     t.text "bio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_user_profiles_on_user_id"
-    t.index ["username"], name: "index_user_profiles_on_username", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -180,8 +178,10 @@ ActiveRecord::Schema.define(version: 2020_10_20_103236) do
     t.string "uuid", null: false
     t.integer "role", default: 0
     t.boolean "demo_user", default: false
+    t.string "username", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
     t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 

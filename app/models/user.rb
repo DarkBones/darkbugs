@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_writer :login
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, stretches: 13
@@ -26,13 +28,15 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :organizations
 
   # -- Callbacks ------------------------------------------------------------
-  before_validation :create_uuid, on: :create
+  before_create :create_user_profile
 
   # -- Validations --------------------------------------------------------
   validates :email,                 presence: true
   validates :password,              presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
-  validates :user_profile,          presence: true
+  validates :username,              presence: true
+  validates :username,              format: /\A[a-z0-9\-_]+\z/i, allow_blank: true
+  validates_uniqueness_of :username, case_sensitive: false
 
   # -- Scopes ------------------------------------------------------------------
   scope :real, -> {
@@ -53,8 +57,12 @@ class User < ApplicationRecord
   end
 
   # -- Instance Methods --------------------------------------------------------
+  def login
+    @login || self.username || self.email
+  end
+
   def name
-    user_profile.username
+    username
   end
 
   def full_name
@@ -108,8 +116,13 @@ class User < ApplicationRecord
   end
 
   # -- Class Methods --------------------------------------------------------
-  def self.find_by_username(username)
-    UserProfile.find_by(username: username)&.user
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions.to_h).where(['lower(username) = :value OR lower(email) = :value', { :value => login.downcase }]).first
+    elsif conditions.has_key?(:username) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
   end
 
   private def demo_avatar_path
@@ -119,5 +132,9 @@ class User < ApplicationRecord
 
     path = avatars[idx].split('/')
     path[(path.length - 2)..(path.length - 1)].join('/')
+  end
+
+  private def create_user_profile
+    build_user_profile if user_profile.nil?
   end
 end
