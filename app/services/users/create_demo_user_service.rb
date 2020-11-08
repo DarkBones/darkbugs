@@ -41,7 +41,13 @@ module Users
     end
 
     private def bio
-      Faker::Company.bs.titleize
+      bio = []
+
+      5.times do
+        bio.push(Faker::Company.bs.titleize)
+      end
+
+      "#{bio.join(', ')}."
     end
 
     private def generate_password
