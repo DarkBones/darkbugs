@@ -42,16 +42,20 @@ module Users
       params = {
         user: {
           username: 'testusername',
-          email: 'new_user@test.test',
+          email: 'test_create@test.test',
           password: '&v)&8YAU~]HkqVA',
           password_confirmation: '&v)&8YAU~]HkqVA'
         }
       }
 
       post :create, params: params
+
+      user = User.last
+
       assert_response :redirect
-      assert_equal 'new_user@test.test', User.last.email
-      assert_not User.last.demo_user
+      assert_equal 'test_create@test.test', user.email
+      assert_not user.demo_user
+      assert_not_nil user.user_profile
     end
   end
 end

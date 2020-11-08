@@ -26,7 +26,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :organizations
 
   # -- Callbacks ------------------------------------------------------------
-  after_create :create_user_profile
+  before_create :create_user_profile
 
   # -- Validations --------------------------------------------------------
   validates :email,                 presence: true
@@ -121,6 +121,6 @@ class User < ApplicationRecord
   end
 
   private def create_user_profile
-    build_user_profile.save! if user_profile.nil?
+    build_user_profile if user_profile.nil?
   end
 end
