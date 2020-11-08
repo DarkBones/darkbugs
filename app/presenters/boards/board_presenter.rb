@@ -12,7 +12,7 @@ module Boards
           name: board.name,
           board_slug: board.slug,
           cards: cards,
-          card_order: board.cards.pluck(:uuid),
+          card_order: board.cards.ordered.pluck(:uuid),
           columns: columns,
           column_order: board.columns.ordered.pluck(:uuid),
           user_is_assigned: board.user_is_assigned?(current_user)

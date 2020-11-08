@@ -15,7 +15,7 @@ module Columns
     end
 
     private def card_uuids
-      column.cards.pluck(:uuid)
+      column.cards.ordered.pluck(:uuid)
     rescue StandardError
       []
     end
