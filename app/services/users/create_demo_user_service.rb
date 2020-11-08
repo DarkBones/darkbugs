@@ -19,8 +19,8 @@ module Users
                        password: password,
                        password_confirmation: password,
                        demo_user: true,
+                       username: username,
                        user_profile_attributes: {
-                           username: username,
                            first_name: first_name,
                            last_name: last_name,
                            bio: bio
@@ -58,7 +58,7 @@ module Users
 
     private def username
       username = generate_username
-      username = generate_username while UserProfile.exists?(username: username) || username.downcase.include?('isis')
+      username = generate_username while User.exists?(username: username) || username.downcase.include?('isis')
 
       username
     end
