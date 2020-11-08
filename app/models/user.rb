@@ -32,7 +32,6 @@ class User < ApplicationRecord
   validates :email,                 presence: true
   validates :password,              presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
-  # validates :user_profile,          presence: true
   validates :username,              presence: true
   validates :username,              format: /\A[a-z0-9\-_]+\z/i, allow_blank: true
   validates_uniqueness_of :username, case_sensitive: false
