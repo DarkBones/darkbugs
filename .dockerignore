@@ -3,3 +3,5 @@ config/master.key
 config/k8s/secret*
 helm/*
 deploy/*
+lib/tasks/data.rake
+lib/tasks/test.rake
