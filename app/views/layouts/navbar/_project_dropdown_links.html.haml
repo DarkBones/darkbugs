@@ -1,0 +1,9 @@
+= link_to projects_url(subdomain: ''), class: 'dropdown-item' do
+  .dropdown-item-icon
+    %i.fa.fa-user
+  = t 'views.navbar.projects.personal'
+- @current_user.organizations.order(:name).each do |organization|
+  = link_to projects_url(subdomain: organization.slug), class: 'dropdown-item' do
+    .dropdown-item-icon
+      %i.fa.fa-users
+    = organization.name

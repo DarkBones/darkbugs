@@ -1,15 +1,15 @@
-%li.nav-item.dropdown.no-caret.mr-3.dropdown-user
+%li.nav-item.dropdown.no-caret.mr-3.dropdown-nav
   .dropdown.show
-    %li.nav-item.dropdown.no-caret.mr-3.dropdown-user
+    %li.nav-item.dropdown.no-caret.mr-3.dropdown-nav
       %a#navbarDropdownUserImage.btn.btn-icon.btn-light.dropdown-toggle{'aria-expanded' => 'false', 'aria-haspopup' => 'true', 'data-toggle' => 'dropdown', :href => 'javascript:void(0);', :role => 'button'}
         = image_tag @current_user.avatar, class: 'avatar'
       .dropdown-menu.dropdown-menu-right.border-0.shadow.animated--fade-in-up{'aria-labelledby' => 'navbarDropdownUserImage'}
         %h6.dropdown-header.d-flex.align-items-center
-          = render partial: 'shared/user_avatar', locals: { user: @current_user, img_class: 'dropdown-user-img' }
-          .dropdown-user-details
-            .dropdown-user-details-name
+          = render partial: 'shared/user_avatar', locals: { user: @current_user, img_class: 'dropdown-nav-img' }
+          .dropdown-nav-details
+            .dropdown-nav-details-name
               = @current_user.name
-            .dropdown-user-details-email
+            .dropdown-nav-details-email
               = @current_user.email
         .dropdown-divider
         = render partial: 'layouts/navbar/user_dropdown_links'
