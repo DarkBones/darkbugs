@@ -1,0 +1,10 @@
+Description:
+    An extension to the default model generator
+
+Example:
+    rails generate model Thing
+
+    This will create:
+        app/models/thing.rb
+        db/migrate/timestamp_create_thing.rb
+        test/models/thing_test.rb

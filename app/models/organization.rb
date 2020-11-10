@@ -2,7 +2,9 @@ class Organization < ApplicationRecord
   include Tenantable
   include Slugable
 
-  # -- Constants --------------------------------------------------------
+  attr_reader :usernames
+
+  # -- Constants ------------------------------------------------------------
   RESERVED_NAMES = %w[
     admin
     blog
@@ -23,14 +25,12 @@ class Organization < ApplicationRecord
   has_many :projects, as: 'owner'
   accepts_nested_attributes_for :user_organizations
 
-  attr_reader :usernames
-
   # -- Validations ------------------------------------------------------------
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false }
   validate :name_not_reserved
 
-  # -- Scopes --------------------------------------------------------
+  # -- Scopes ---------------------------------------------------------------
   scope :accepted_by_user, ->(user) {
     # TODO: Return only public organizations
     return all if user.nil?
@@ -52,7 +52,7 @@ class Organization < ApplicationRecord
       )
   }
 
-  # -- Instance Methods --------------------------------------------------------
+  # -- Instance Methods -----------------------------------------------------
   def user_role(user)
     UserOrganization::ROLES.key(user_organizations.find_by(user_id: user).role).downcase
   end
@@ -122,6 +122,7 @@ class Organization < ApplicationRecord
     users.includes(:user_organizations).order('user_organizations.role')
   end
 
+  # -- Private Methods ------------------------------------------------------
   private def name_not_reserved
     errors.add(:name, I18n.t('activerecord.errors.models.organization.attributes.name.reserved')) if RESERVED_NAMES.include? name&.downcase
   end
