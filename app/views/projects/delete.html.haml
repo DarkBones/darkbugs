@@ -4,7 +4,7 @@
             title_sub: i18n('title_sub', name: @project.name) }
 
 - content_for :page_title do
-  = i18n('title')
+  = i18n('title', name: @project.name)
 
 = content_for :card_header do
   = i18n 'card_header', name: @project.name
