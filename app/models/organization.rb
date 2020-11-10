@@ -3,7 +3,6 @@ class Organization < ApplicationRecord
   include Slugable
 
   attr_reader :usernames
-  accepts_nested_attributes_for :user_organizations
 
   # -- Constants ------------------------------------------------------------
   RESERVED_NAMES = %w[
@@ -24,6 +23,7 @@ class Organization < ApplicationRecord
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
   has_many :projects, as: 'owner'
+  accepts_nested_attributes_for :user_organizations
 
   # -- Validations ------------------------------------------------------------
   validates :name, presence: true
