@@ -4,8 +4,8 @@ class Project < ApplicationRecord
 
   # -- Relationships ------------------------------------------------------------
   belongs_to :owner, polymorphic: true
-  has_many :boards, as: 'component'
-  has_many :cards, through: :boards
+  has_many :boards, as: 'component', dependent: :destroy
+  has_many :cards, through: :boards, dependent: :destroy
 
   # -- Callbacks ------------------------------------------------------------
   before_validation :capitalize_key

@@ -30,27 +30,27 @@ module Users
 
       params = {
         user: {
-          email: @user.email,
+          login: @user.email,
           password: 'wrongpassword'
         }
       }
 
       post :create, params: params
       assert_response :success
-      assert_includes response.body, 'Invalid Email or password'
+      assert_includes response.body, 'Invalid Login or password'
       assert_template :new
     end
 
     def test_login
       params = {
         user: {
-          email: @user.email,
+          login: @user.email,
           password: ENV['DEFAULT_TEST_PASS']
         }
       }
 
       post :create, params: params
-      assert_not_includes response.body, 'Invalid Email or password'
+      assert_not_includes response.body, 'Invalid Login or password'
       assert_response :redirect
     end
 
@@ -60,7 +60,7 @@ module Users
       user = users(:locked)
       params = {
         user: {
-          email: user.email,
+          login: user.email,
           password: ENV['DEFAULT_TEST_PASS']
         }
       }
