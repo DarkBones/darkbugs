@@ -1,5 +1,5 @@
 class UserOrganization < ApplicationRecord
-  # -- Constants --------------------------------------------------------
+  # -- Constants ------------------------------------------------------------
   ROLES = {
     CREATOR: 0,
     ADMIN: 1,
@@ -14,6 +14,7 @@ class UserOrganization < ApplicationRecord
   before_validation :create_confirmation_token, on: :create
   before_validation :set_invited_at, on: :create
 
+  # -- Callback Methods -----------------------------------------------------
   private def create_confirmation_token
     token = SecureRandom.urlsafe_base64(32, false)
 

@@ -1,4 +1,4 @@
-class <%= class_name %> < ApplicationRecord
+class Class < ApplicationRecord
   # -- Constants ------------------------------------------------------------
 
   # -- Relationships --------------------------------------------------------
@@ -13,6 +13,6 @@ class <%= class_name %> < ApplicationRecord
 
   # -- Class Methods --------------------------------------------------------
 
-  # -- Callback Methods -----------------------------------------------------
+  # -- Private Methods ------------------------------------------------------
 
 end

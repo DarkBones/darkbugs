@@ -9,7 +9,7 @@ class User < ApplicationRecord
   include Identifiable
   include Tenantable
 
-  # -- Constants --------------------------------------------------------
+  # -- Constants ------------------------------------------------------------
   ALL_ROLES = [
     USER_ROLE = 0,
     ADMIN_ROLE = 1
@@ -30,7 +30,7 @@ class User < ApplicationRecord
   # -- Callbacks ------------------------------------------------------------
   before_create :create_user_profile
 
-  # -- Validations --------------------------------------------------------
+  # -- Validations ----------------------------------------------------------
   validates :email,                 presence: true
   validates :password,              presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
@@ -38,7 +38,7 @@ class User < ApplicationRecord
   validates :username,              format: /\A[a-z0-9\-_]+\z/i, allow_blank: true
   validates_uniqueness_of :username, case_sensitive: false
 
-  # -- Scopes ------------------------------------------------------------------
+  # -- Scopes ---------------------------------------------------------------
   scope :real, -> {
     where(demo_user: false)
   }
@@ -51,12 +51,7 @@ class User < ApplicationRecord
     where('demo_user = true AND created_at < ?', 7.days.ago)
   }
 
-  # -- Class Methods -----------------------------------------------------------
-  def self.create_demo_user
-    Users::CreateDemoUserService.new.execute
-  end
-
-  # -- Instance Methods --------------------------------------------------------
+  # -- Instance Methods -----------------------------------------------------
   def login
     @login || self.username || self.email
   end
@@ -116,6 +111,10 @@ class User < ApplicationRecord
   end
 
   # -- Class Methods --------------------------------------------------------
+  def self.create_demo_user
+    Users::CreateDemoUserService.new.execute
+  end
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -125,6 +124,11 @@ class User < ApplicationRecord
     end
   end
 
+  # -- Private Methods ------------------------------------------------------
+  private def create_user_profile
+    build_user_profile if user_profile.nil?
+  end
+
   private def demo_avatar_path
     avatars = Dir.glob(DEMO_AVATARS_PATH)
 
@@ -132,9 +136,5 @@ class User < ApplicationRecord
 
     path = avatars[idx].split('/')
     path[(path.length - 2)..(path.length - 1)].join('/')
-  end
-
-  private def create_user_profile
-    build_user_profile if user_profile.nil?
   end
 end
