@@ -43,4 +43,18 @@ namespace :oneoff do
       end
     end
   end
+
+  desc 'Correct card ordering in all boards'
+  task fix_card_order: [:environment] do
+    Tenant.all.each do |tenant|
+      puts "\nProcessing #{tenant.model_type}: #{tenant.key}"
+
+      Apartment::Tenant.switch!(tenant.key)
+
+      Board.all.each do |board|
+        puts "  #{board.name}"
+        Cards::SetPositionsService.new(board).execute
+      end
+    end
+  end
 end
