@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[new create]
   before_action :load_project, only: %i[delete destroy show]
   before_action :check_is_admin!, only: %i[new delete destroy]
+  before_action :no_footer, only: %i[show]
 
   def index; end
 
@@ -57,5 +58,9 @@ class ProjectsController < ApplicationController
     raise ActionController::BadRequest, I18n.t('controllers.projects.errors.unauthorized') unless @tenant.user_is_admin?(@current_user)
   rescue ActionController::BadRequest => e
     redirect_to(projects_path, { :flash => { :error => e.message } })
+  end
+
+  private def no_footer
+    @include_footer = false
   end
 end
