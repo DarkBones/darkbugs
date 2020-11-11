@@ -22,7 +22,7 @@ class Organization < ApplicationRecord
   # -- Relationships --------------------------------------------------------
   has_many :user_organizations, dependent: :destroy
   has_many :users, through: :user_organizations
-  has_many :projects, as: 'owner'
+  has_many :projects, as: 'owner', dependent: :destroy
   accepts_nested_attributes_for :user_organizations
 
   # -- Validations ------------------------------------------------------------
