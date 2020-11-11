@@ -105,7 +105,11 @@ module Projects
         switch_demo_schema # TODO: Test above baords.each scope
         demo_board = demo_project.boards.find_by!(slug: board.slug)
 
-        board.columns.each do |column|
+        switch_original_schema
+        columns = board.columns.dup
+
+        columns.each do |column|
+          switch_demo_schema
           demo_board.columns.create!(
             column.attributes.keep_if { |k, _| COLUMN_ATTRIBUTES.include? k}
           )

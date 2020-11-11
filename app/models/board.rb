@@ -2,8 +2,8 @@ class Board < ApplicationRecord
   include Slugable
   include Assignable
 
-  has_many :columns
-  has_many :cards, -> { order(position: :asc) }
+  has_many :columns, dependent: :destroy
+  has_many :cards, -> { order(position: :asc) }, dependent: :destroy
   belongs_to :component, polymorphic: true
   belongs_to :root_project, class_name: :Project, foreign_key: :root_project_id
 
