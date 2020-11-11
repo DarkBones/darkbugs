@@ -1,21 +1,22 @@
 - style ||= 'footer-light'
 
-%footer.footer.mt-auto{:class => style}
-  .container-fluid
-    .row
-      .col-md-6.small
-        = "Copyright &copy; #{ENV['APP_NAME']} #{Time.now.utc.year}".html_safe
-    .row
-      .col-12.small
-        - if @current_user&.admin?
-          %div
-            - app_info_data = app_info
-            = @tenant&.tenant_key || 'public'
-            = '//'
-            = app_info_data[:source]
-            = '//'
-            = app_info_data[:hostname]
-            = '//'
-            = app_info_data[:sha]
-            = '//'
-            = app_info_data[:branch]
+- if !defined?(@include_footer) || @include_footer == true
+  %footer.footer.mt-auto{:class => style}
+    .container-fluid
+      .row
+        .col-md-6.small
+          = "Copyright &copy; #{ENV['APP_NAME']} #{Time.now.utc.year}".html_safe
+      .row
+        .col-12.small
+          - if @current_user&.admin?
+            %div
+              - app_info_data = app_info
+              = @tenant&.tenant_key || 'public'
+              = '//'
+              = app_info_data[:source]
+              = '//'
+              = app_info_data[:hostname]
+              = '//'
+              = app_info_data[:sha]
+              = '//'
+              = app_info_data[:branch]
