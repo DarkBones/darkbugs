@@ -38,6 +38,8 @@ class ProjectsController < ApplicationController
   private def load_project
     key = params[:key] || params[:project_key]
 
+    authenticate! unless @tenant.is_a? Organization
+
     @project = @tenant.projects.find_by!(key: key.upcase)
   end
 
