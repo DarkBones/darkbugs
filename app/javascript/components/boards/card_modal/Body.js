@@ -1,5 +1,6 @@
 import React      from 'react'
 import PropTypes  from 'prop-types'
+import Title      from './Title'
 import ToolBar    from './ToolBar'
 import Item       from './item/Item'
 
@@ -13,8 +14,12 @@ export default function Body(props) {
     name,
     newItem,
     saveCardItem,
-    updateCardItem
+    saveName,
+    updateCardItem,
+    userIsAssigned
   } = props
+
+  let cardName = name
 
   const cardItems = () => {
     return (
@@ -39,9 +44,12 @@ export default function Body(props) {
 
   return (
     <React.Fragment>
-      <h1>
-        {name}
-      </h1>
+      <Title
+        cardUuid=       {cardUuid}
+        name=           {name}
+        saveName=       {saveName}
+        userIsAssigned= {userIsAssigned}
+      />
       {cardItems()}
       <ToolBar
         newItem=    {newItem}
@@ -60,5 +68,7 @@ Body.propTypes = {
   name:           PropTypes.string.isRequired,
   newItem:        PropTypes.func.isRequired,
   saveCardItem:   PropTypes.func.isRequired,
+  saveName:       PropTypes.func.isRequired,
   updateCardItem: PropTypes.func.isRequired,
+  userIsAssigned: PropTypes.bool.isRequired
 }

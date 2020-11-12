@@ -81,6 +81,7 @@ export default class CardModal extends React.Component {
       deleteItem,
       newItem,
       saveCardItem,
+      saveCardName,
       updateCardItem
     } = this
 
@@ -96,7 +97,9 @@ export default class CardModal extends React.Component {
         name=           {card.name}
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
+        saveName=       {saveCardName}
         updateCardItem= {updateCardItem}
+        userIsAssigned= {this.props.userIsAssigned}
       />
     )
   }
@@ -122,6 +125,16 @@ export default class CardModal extends React.Component {
           ...newState.cardData.items,
           [item.uuid]: item
         }
+      }
+    })
+  }
+
+  saveCardName = newName => {
+    this.setState({
+      ...this.state,
+      cardData: {
+        ...this.state.cardData,
+        name: newName
       }
     })
   }

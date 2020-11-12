@@ -3,7 +3,7 @@ module Api
     class CardsController < Api::Internal::BaseApiInternalController
       skip_before_action :authenticate!, only: %i[show]
 
-      before_action :load_card, only: %i[show destroy]
+      before_action :load_card, only: %i[show destroy update]
       before_action :load_column, only: %i[create]
       before_action :load_previous_card, only: %i[create]
       before_action :check_is_member!, only: %i[create]
@@ -21,6 +21,12 @@ module Api
 
       def destroy
         @card.destroy!
+
+        render json: {message: 'success'}
+      end
+
+      def update
+        @card.update!(card_params)
 
         render json: {message: 'success'}
       end

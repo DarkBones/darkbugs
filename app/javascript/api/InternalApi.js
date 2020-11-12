@@ -45,6 +45,12 @@ export class CardApi {
 
     return get(path)
   }
+
+  static updateCard(cardUuid, params) {
+    const path = `${CARD_PATH}/${cardUuid}`
+
+    return put(path, params)
+  }
 }
 
 export class CardItemApi {
