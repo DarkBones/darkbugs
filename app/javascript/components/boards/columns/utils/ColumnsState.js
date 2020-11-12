@@ -192,7 +192,6 @@ export default class ColumnsState {
     const columnCards = columns[columnUuid].card_uuids
 
     columnOrder.splice(index, 1)
-    // delete columns[columnUuid]
 
     columnCards.forEach((cardUuid) => {
       allCards.splice(allCards.indexOf(cardUuid), 1)
