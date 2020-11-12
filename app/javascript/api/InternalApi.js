@@ -34,6 +34,12 @@ export class CardApi {
     return post(path, params)
   }
 
+  static deleteCard(cardUuid) {
+    const path = `${CARD_PATH}/${cardUuid}`
+
+    return del(path)
+  }
+
   static getDetails(cardUuid) {
     const path = `${CARD_PATH}/${cardUuid}`
 

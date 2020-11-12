@@ -1,8 +1,9 @@
-import React      from 'react'
-import CardModal  from './card_modal/CardModal'
-import Columns    from './columns/Columns'
-import PropTypes  from 'prop-types'
-import Title      from './Title'
+import React        from 'react'
+import CardModal    from './card_modal/CardModal'
+import Columns      from './columns/Columns'
+import ColumnsState from './columns/utils/ColumnsState'
+import PropTypes    from 'prop-types'
+import Title        from './Title'
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
@@ -24,6 +25,14 @@ export default class BoardsApp extends React.Component {
       showCardModal: false,
       cardModalId: ''
     })
+  }
+
+  deleteCard = cardUuid => {
+    this.closeCardModal()
+
+    const newState = ColumnsState.deleteCardTwo(this.state, cardUuid)
+
+    this.setState(newState, function(){ delete this.state.cards[cardUuid] })
   }
 
   setBoardName = name => {
@@ -54,6 +63,7 @@ export default class BoardsApp extends React.Component {
   render() {
     const {
       closeCardModal,
+      deleteCard,
       setBoardName,
       setColumns,
       showCardModal
@@ -73,10 +83,11 @@ export default class BoardsApp extends React.Component {
         id="project-items-app"
       >
         <CardModal
-          card=           {cards[cardModalId]}
-          handleClose=    {closeCardModal}
-          show=           {this.state.showCardModal}
-          userIsAssigned= {user_is_assigned}
+          card=             {cards[cardModalId]}
+          handleClose=      {closeCardModal}
+          handleDeleteCard= {deleteCard}
+          show=             {this.state.showCardModal}
+          userIsAssigned=   {user_is_assigned}
         />
         <Title
           boardSlug=          {board_slug}
@@ -90,6 +101,7 @@ export default class BoardsApp extends React.Component {
           cards=              {cards}
           columnOrder=        {columnOrder}
           columns=            {columns}
+          deleteCard=         {deleteCard}
           setColumns=         {setColumns}
           showCardModal=      {showCardModal}
           userIsAssigned=     {user_is_assigned}

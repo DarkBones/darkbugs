@@ -56,9 +56,24 @@ export default class Columns extends React.Component {
     document.removeEventListener('mousedown', this.handleClick)
   }
 
+  componentDidUpdate = prevProps => {
+    const {
+      allCards,
+      cards,
+      columns
+    } = this.props
+
+    if (prevProps.allCards.length !== this.props.allCards.length) {
+      this.setState({
+        allCards: allCards,
+        cards: cards,
+        columns: columns
+      })
+    }
+  }
+
   deleteNewCard = () => {
-    const newState = ColumnsState.deleteCard(this.state, 'new')
-    this.setState(newState, this.handleAfterUpdate)
+    this.props.deleteCard('new')
   }
 
   deleteColumn = async uuid => {
@@ -137,7 +152,10 @@ export default class Columns extends React.Component {
   handleClick = e => {
     const classList = e.target.classList
 
+    if (this.state.allCards.indexOf('new') < 0) return
+
     if (e.target.tagName.toLowerCase() === 'input') return
+    if (e.target.id === 'new' && classList.contains('item-card')) return
     if (e.target.id === 'new' && classList.contains('item-card')) return
 
     this.deleteNewCard()
@@ -323,6 +341,7 @@ Columns.propTypes = {
   cards:          PropTypes.object.isRequired,
   columnOrder:    PropTypes.array.isRequired,
   columns:        PropTypes.object.isRequired,
+  deleteCard:     PropTypes.func.isRequired,
   setColumns:     PropTypes.func.isRequired,
   showCardModal:  PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired

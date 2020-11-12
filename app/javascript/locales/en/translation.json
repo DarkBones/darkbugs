@@ -16,6 +16,11 @@
       "cardmodal": {
         "item": {
           "delete_warning": "Are you sure?"
+        },
+        "toolbar": {
+          "new_note": "New Note",
+          "delete_card": "Delete Card",
+          "delete_confirm": "Are you sure?"
         }
       },
       "cards": {

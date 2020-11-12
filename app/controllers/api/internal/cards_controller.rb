@@ -3,7 +3,7 @@ module Api
     class CardsController < Api::Internal::BaseApiInternalController
       skip_before_action :authenticate!, only: %i[show]
 
-      before_action :load_card, only: %i[show]
+      before_action :load_card, only: %i[show destroy]
       before_action :load_column, only: %i[create]
       before_action :load_previous_card, only: %i[create]
       before_action :check_is_member!, only: %i[create]
@@ -17,6 +17,12 @@ module Api
         card_hash = Cards::ShowPresenter.new(@card, @current_user).to_h
 
         render json: card_hash
+      end
+
+      def destroy
+        @card.destroy!
+
+        render json: {message: 'success'}
       end
 
       private def load_card

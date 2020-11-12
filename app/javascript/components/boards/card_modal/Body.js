@@ -5,6 +5,7 @@ import Item       from './item/Item'
 
 export default function Body(props) {
   const {
+    deleteCard,
     deleteItem,
     cardUuid,
     itemOrder,
@@ -42,13 +43,17 @@ export default function Body(props) {
         {name}
       </h1>
       {cardItems()}
-      <ToolBar newItem={newItem} />
+      <ToolBar
+        newItem=    {newItem}
+        deleteCard= {deleteCard}
+      />
     </React.Fragment>
   )
 }
 
 Body.propTypes = {
   cardUuid:       PropTypes.string.isRequired,
+  deleteCard:     PropTypes.func.isRequired,
   deleteItem:     PropTypes.func.isRequired,
   itemOrder:      PropTypes.array.isRequired,
   items:          PropTypes.object.isRequired,
