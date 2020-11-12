@@ -42,6 +42,7 @@ export default function Column(props) {
               <Title
                 addColumn=        {addColumn}
                 boardSlug=        {boardSlug}
+                cardCount=        {column.card_uuids.length}
                 columnUuid=       {uuid}
                 deleteColumn=     {deleteColumn}
                 name=             {column.name}

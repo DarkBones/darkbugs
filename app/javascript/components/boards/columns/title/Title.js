@@ -7,6 +7,7 @@ export default function Title(props) {
   const {
     addColumn,
     boardSlug,
+    cardCount,
     columnUuid,
     deleteColumn,
     updateColumnName,
@@ -30,6 +31,7 @@ export default function Title(props) {
         </div>
         <div className="col-2">
           <DeleteButton
+            cardCount=      {cardCount}
             columnUuid=     {columnUuid}
             handleClick=    {deleteColumn}
             userIsAssigned= {userIsAssigned}
@@ -43,6 +45,7 @@ export default function Title(props) {
 Title.propTypes = {
   addColumn:        PropTypes.func.isRequired,
   boardSlug:        PropTypes.string.isRequired,
+  cardCount:        PropTypes.number.isRequired,
   columnUuid:       PropTypes.string.isRequired,
   deleteColumn:     PropTypes.func.isRequired,
   name:             PropTypes.string.isRequired,
