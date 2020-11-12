@@ -138,6 +138,8 @@ export default class CardModal extends React.Component {
         name: newName
       }
     })
+
+    this.props.updateCardName(this.state.cardData.uuid, newName)
   }
 
   componentDidUpdate = prevProps => {
@@ -235,5 +237,6 @@ CardModal.propTypes = {
   handleClose:      PropTypes.func.isRequired,
   handleDeleteCard: PropTypes.func.isRequired,
   show:             PropTypes.bool.isRequired,
+  updateCardName:   PropTypes.func.isRequired,
   userIsAssigned:   PropTypes.bool.isRequired
 }

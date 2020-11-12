@@ -60,13 +60,27 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  updateCardName = (cardUuid, newName) => {
+    this.setState({
+      ...this.state,
+      cards: {
+        ...this.state.cards,
+        [cardUuid]: {
+          ...this.state.cards[cardUuid],
+          name: newName
+        }
+      }
+    })
+  }
+
   render() {
     const {
       closeCardModal,
       deleteCard,
       setBoardName,
       setColumns,
-      showCardModal
+      showCardModal,
+      updateCardName
     } = this
     const { board_slug, user_is_assigned } = this.props
     const {
@@ -87,6 +101,7 @@ export default class BoardsApp extends React.Component {
           handleClose=      {closeCardModal}
           handleDeleteCard= {deleteCard}
           show=             {this.state.showCardModal}
+          updateCardName=   {updateCardName}
           userIsAssigned=   {user_is_assigned}
         />
         <Title

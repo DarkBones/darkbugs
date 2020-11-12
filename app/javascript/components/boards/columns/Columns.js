@@ -280,8 +280,8 @@ export default class Columns extends React.Component {
       onDragStart,
       updateColumnName
     } = this
-    const { userIsAssigned, boardSlug, allCards, showCardModal } = this.props
-    const { columnOrder, columns, cards, isDragging } = this.state
+    const { userIsAssigned, boardSlug, allCards, cards, columns, showCardModal } = this.props
+    const { columnOrder, isDragging } = this.state
 
     return (
       <DragDropContext
