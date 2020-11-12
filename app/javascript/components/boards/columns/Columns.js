@@ -39,7 +39,10 @@ export default class Columns extends React.Component {
 
     const newState = ColumnsState.addColumn(state, uuid, name)
 
-    this.setState(newState, handleAfterUpdate)
+    this.setState(newState, function() {
+      if (uuid !== 'new') delete this.state.columns['new']
+      handleAfterUpdate()
+    })
   }
 
   cancelDrag = () => {
@@ -82,7 +85,10 @@ export default class Columns extends React.Component {
     const { handleAfterUpdate, state } = this
     const newState = ColumnsState.deleteColumn(state, uuid)
 
-    this.setState(newState)
+    this.setState(newState, function() {
+      delete this.state.columns[uuid]
+      handleAfterUpdate()
+    })
 
     if (uuid !== 'new') {
       let response = await ColumnApi.deleteColumn(uuid)
@@ -280,8 +286,8 @@ export default class Columns extends React.Component {
       onDragStart,
       updateColumnName
     } = this
-    const { userIsAssigned, boardSlug, allCards, cards, columns, showCardModal } = this.props
-    const { columnOrder, isDragging } = this.state
+    const { userIsAssigned, boardSlug, columns, columnOrder, allCards, cards, showCardModal } = this.props
+    const { isDragging } = this.state
 
     return (
       <DragDropContext
