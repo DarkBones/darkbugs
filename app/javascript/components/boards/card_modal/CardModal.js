@@ -178,7 +178,6 @@ export default class CardModal extends React.Component {
         items: data.items,
         name: data.name,
         number: data.number,
-        shortName: data.short_name,
         uuid: data.uuid
       }
     })

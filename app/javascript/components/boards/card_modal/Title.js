@@ -94,12 +94,10 @@ export default class Title extends React.Component {
     } = this
 
     const { isEditing, name } = this.state
-
-    const shortName = String.shorten(this.props.name, 39)
-
+    
     const header = (
       <h1 onClick={startEditing}>
-        {shortName}
+        {this.props.name}
       </h1>
     )
 
