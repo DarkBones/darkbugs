@@ -1,6 +1,6 @@
 export default class ColumnsState {
   static addCard(state, columnUuid, uuid, name, previousCard) {
-    let newState = this._deleteCard(state, 'new')
+    let newState = this.deleteCard(state, 'new')
 
     const newCard = {
       uuid: uuid,
@@ -135,59 +135,11 @@ export default class ColumnsState {
 
   static deleteCard(state, cardUuid) {
     const {
-      cardOrder,
-      cards,
-      columnOrder,
-      columns
-    } = state
-
-    let newState = state
-
-    const newCardOrder = Array.from(cardOrder)
-    const cardOrderIndex = newCardOrder.indexOf(cardUuid)
-
-    if (cardOrderIndex >= 0) newCardOrder.splice(cardOrderIndex, 1)
-
-    newState = {
-      ...newState,
-      cardOrder: newCardOrder,
-      cards: cards
-    }
-
-    let column, newCardUuids, idx
-    columnOrder.forEach((columnUuid) => {
-      column = columns[columnUuid]
-      newCardUuids = Array.from(column.card_uuids)
-      idx = newCardUuids.indexOf(cardUuid)
-
-      if (idx >= 0) {
-        newCardUuids.splice(idx, 1)
-
-        newState = {
-          ...newState,
-          columns: {
-            ...newState.columns,
-            [columnUuid]: {
-              ...newState.columns[columnUuid],
-              card_uuids: newCardUuids
-            }
-          }
-        }
-      }
-    })
-
-    return newState
-  }
-
-  static _deleteCard(state, cardUuid) {
-    const {
       allCards,
       cards,
       columnOrder,
       columns
     } = state
-
-    delete cards[cardUuid]
 
     let newState = state
 
