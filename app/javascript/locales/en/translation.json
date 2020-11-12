@@ -39,7 +39,7 @@
           "form": {
             "name": {
               "label": "Name",
-              "placeholder": "Name the card"
+              "placeholder": "Title"
             }
           }
         }
