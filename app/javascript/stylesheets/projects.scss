@@ -3,9 +3,18 @@
 #card-modal-toolbar {
   -webkit-transform: translateZ(0);
   position: fixed;
-  right: 50px;
+  right: 20px;
   top: 70px;
   z-index: -1;
+
+  .button-label {
+    display: inline-block;
+    background-color: #0f151e;
+  }
+
+  li {
+    margin-bottom: 1em;
+  }
 }
 
 .board-title {

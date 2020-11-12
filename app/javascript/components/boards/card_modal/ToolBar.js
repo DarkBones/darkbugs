@@ -1,4 +1,5 @@
 import React          from 'react'
+import i18n           from '../../../i18n'
 import ToolBarButton  from './ToolBarButton'
 import PropTypes      from 'prop-types'
 import { fadeIn }     from 'react-animations'
@@ -35,6 +36,10 @@ export default class ToolBar extends React.Component {
     this.props.newItem('note', params)
   }
 
+  deleteCard = () => {
+    this.props.deleteCard()
+  }
+
   toolBar = () => {
     if (!this.state.render) return ''
 
@@ -50,7 +55,15 @@ export default class ToolBar extends React.Component {
             <li>
               <ToolBarButton
                 faIconClass="fa fa-sticky-note"
+                buttonText={i18n.t('components.projects.cardmodal.toolbar.new_note')}
                 onClick={this.newNote}
+              />
+            </li>
+            <li>
+              <ToolBarButton
+                faIconClass="fa fa-trash"
+                buttonText={i18n.t('components.projects.cardmodal.toolbar.delete_card')}
+                onClick={this.deleteCard}
               />
             </li>
           </ul>
@@ -67,5 +80,6 @@ export default class ToolBar extends React.Component {
 }
 
 ToolBar.propTypes = {
-  newItem: PropTypes.func.isRequired
+  deleteCard: PropTypes.func.isRequired,
+  newItem:    PropTypes.func.isRequired
 }

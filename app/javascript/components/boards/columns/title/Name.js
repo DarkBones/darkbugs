@@ -78,6 +78,8 @@ export default class Name extends React.Component {
   }
 
   startEditing = () => {
+    if (!this.props.userIsAssigned) return
+
     this.setIsEditing(true)
   }
 

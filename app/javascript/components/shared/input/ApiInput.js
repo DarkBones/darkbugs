@@ -25,7 +25,7 @@ export default class ApiInput extends React.Component {
   }
 
   render() {
-    const { value, handleOnChange, name } = this.props
+    const { value, handleOnChange, name, placeholder } = this.props
 
     return (
       <input
@@ -34,6 +34,7 @@ export default class ApiInput extends React.Component {
         onKeyDown=  {this.handleKeyDown}
         onChange=   {handleOnChange}
         name=       {name}
+        placeholder={placeholder}
         ref=        {(input) => {
           this.inputRef = input
         }}
@@ -48,5 +49,6 @@ ApiInput.propTypes = {
   handleOnChange: PropTypes.func,
   handleSubmit:   PropTypes.func.isRequired,
   name:           PropTypes.string.isRequired,
+  placeholder:    PropTypes.string,
   value:          PropTypes.string.isRequired
 }

@@ -1,5 +1,6 @@
 import React      from 'react'
 import ApiInput   from '../../../../shared/input/ApiInput'
+import i18n       from '../../../../../i18n'
 import PropTypes  from 'prop-types'
 
 export default class TitleInput extends React.Component {
@@ -22,7 +23,14 @@ export default class TitleInput extends React.Component {
   }
 
   handleSubmit = () => {
-    this.props.handleSubmit(this.state.name)
+    const { name } = this.state
+
+    if (name === '') {
+      this.handleCancel()
+      return
+    }
+
+    this.props.handleSubmit(name)
   }
 
   render() {
@@ -40,6 +48,7 @@ export default class TitleInput extends React.Component {
           handleOnChange={handleOnChange}
           handleSubmit={handleSubmit}
           name="name"
+          placeholder={i18n.t('components.projects.cards.CardModal.form.name.placeholder')}
           value={this.state.name}
         />
       </React.Fragment>

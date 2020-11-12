@@ -4,13 +4,15 @@ import PropTypes  from 'prop-types'
 
 export default function DeleteButton(props) {
   const handleClick = () => {
-    const { columnUuid, handleClick } = props
+    const { cardCount, columnUuid, handleClick } = props
 
-    let r = confirm(
-      i18n.t('components.projects.columns.Column.delete_warning')
-    )
+    if (cardCount > 0) {
+      let r = confirm(
+        i18n.t('components.projects.columns.Column.delete_warning')
+      )
 
-    if (!r) return
+      if (!r) return
+    }
 
     handleClick(columnUuid)
   }
@@ -34,6 +36,7 @@ export default function DeleteButton(props) {
 }
 
 DeleteButton.propTypes = {
+  cardCount:      PropTypes.number.isRequired,
   columnUuid:     PropTypes.string.isRequired,
   handleClick:    PropTypes.func.isRequired,
   userIsAssigned: PropTypes.bool.isRequired

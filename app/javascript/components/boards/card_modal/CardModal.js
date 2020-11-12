@@ -1,8 +1,10 @@
 import React          from 'react'
 import Body           from './Body'
 import CardModalState from './utils/CardModalState'
+import i18n           from '../../../i18n'
 import Modal          from '../../shared/modal/Modal'
 import PropTypes      from 'prop-types'
+import String         from '../../shared/string/String'
 import { CardApi }    from '../../../api/InternalApi'
 
 export default class CardModal extends React.Component {
@@ -45,6 +47,25 @@ export default class CardModal extends React.Component {
     }
   }
 
+  deleteCard = async () => {
+    if (this.state.cardData.itemOrder.length > 0) {
+      let r = confirm(
+        i18n.t('components.projects.cardmodal.toolbar.delete_confirm')
+      )
+
+      if (!r) return
+    }
+
+    const cardUuid = this.props.card.uuid
+
+    let response = await CardApi.deleteCard(cardUuid)
+
+    if (!response) return
+    if (response.status !== 200) return
+
+    this.props.handleDeleteCard(cardUuid)
+  }
+
   deleteItem = itemUuid => {
     let newState = CardModalState
       .deleteItem(this.state, 'new')
@@ -57,9 +78,11 @@ export default class CardModal extends React.Component {
 
   cardBody = () => {
     const {
+      deleteCard,
       deleteItem,
       newItem,
       saveCardItem,
+      saveCardName,
       updateCardItem
     } = this
 
@@ -68,13 +91,16 @@ export default class CardModal extends React.Component {
     return (
       <Body
         cardUuid=       {card.uuid}
+        deleteCard=     {deleteCard}
         deleteItem=     {deleteItem}
         itemOrder=      {card.itemOrder}
         items=          {card.items}
         name=           {card.name}
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
+        saveName=       {saveCardName}
         updateCardItem= {updateCardItem}
+        userIsAssigned= {this.props.userIsAssigned}
       />
     )
   }
@@ -102,6 +128,18 @@ export default class CardModal extends React.Component {
         }
       }
     })
+  }
+
+  saveCardName = newName => {
+    this.setState({
+      ...this.state,
+      cardData: {
+        ...this.state.cardData,
+        name: newName
+      }
+    })
+
+    this.props.updateCardName(this.state.cardData.uuid, newName)
   }
 
   componentDidUpdate = prevProps => {
@@ -140,7 +178,6 @@ export default class CardModal extends React.Component {
         items: data.items,
         name: data.name,
         number: data.number,
-        shortName: data.short_name,
         uuid: data.uuid
       }
     })
@@ -180,21 +217,25 @@ export default class CardModal extends React.Component {
 
     const { cardData } = this.state
 
+    const shortName = String.shorten(cardData.name, 48)
+
     return (
       <Modal
         body={cardBody()}
         close={handleClose}
         show={show}
         includeFooter={false}
-        title={`${cardData.number} - ${cardData.shortName}`}
+        title={`${cardData.number} - ${shortName}`}
       />
     )
   }
 }
 
 CardModal.propTypes = {
-  card:           PropTypes.object,
-  handleClose:    PropTypes.func.isRequired,
-  show:           PropTypes.bool.isRequired,
-  userIsAssigned: PropTypes.bool.isRequired
+  card:             PropTypes.object,
+  handleClose:      PropTypes.func.isRequired,
+  handleDeleteCard: PropTypes.func.isRequired,
+  show:             PropTypes.bool.isRequired,
+  updateCardName:   PropTypes.func.isRequired,
+  userIsAssigned:   PropTypes.bool.isRequired
 }

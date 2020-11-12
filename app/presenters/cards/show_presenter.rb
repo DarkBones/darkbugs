@@ -14,7 +14,6 @@ module Cards
           items: card_items,
           name: card.name,
           number: card.card_number,
-          short_name: card.name.truncate(34),
           uuid: card.uuid
         }
       }
