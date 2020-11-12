@@ -30,7 +30,7 @@ export default class BoardsApp extends React.Component {
   deleteCard = cardUuid => {
     this.closeCardModal()
 
-    const newState = ColumnsState.deleteCardTwo(this.state, cardUuid)
+    const newState = ColumnsState.deleteCard(this.state, cardUuid)
 
     this.setState(newState, function(){ delete this.state.cards[cardUuid] })
   }

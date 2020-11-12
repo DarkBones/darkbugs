@@ -67,10 +67,6 @@ export default class ColumnsState {
     }
   }
 
-  static deleteCard(state, cardUuid) {
-    return this._deleteCard(state, cardUuid)
-  }
-
   static deleteColumn(state, columnUuid) {
     return this._deleteColumn(state, columnUuid)
   }
@@ -137,7 +133,7 @@ export default class ColumnsState {
     }
   }
 
-  static deleteCardTwo(state, cardUuid) {
+  static deleteCard(state, cardUuid) {
     const {
       cardOrder,
       cards,
