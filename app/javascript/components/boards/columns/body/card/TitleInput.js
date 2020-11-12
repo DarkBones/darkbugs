@@ -23,7 +23,14 @@ export default class TitleInput extends React.Component {
   }
 
   handleSubmit = () => {
-    this.props.handleSubmit(this.state.name)
+    const { name } = this.state
+
+    if (name === '') {
+      this.handleCancel()
+      return
+    }
+
+    this.props.handleSubmit(name)
   }
 
   render() {
