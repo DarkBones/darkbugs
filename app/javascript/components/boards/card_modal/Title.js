@@ -1,6 +1,7 @@
 import React        from 'react'
 import ApiInput     from '../../shared/input/ApiInput'
 import PropTypes    from 'prop-types'
+import String       from '../../shared/string/String'
 import { CardApi }  from '../../../api/InternalApi'
 
 export default class Title extends React.Component {
@@ -94,9 +95,11 @@ export default class Title extends React.Component {
 
     const { isEditing, name } = this.state
 
+    const shortName = String.shorten(this.props.name, 39)
+
     const header = (
       <h1 onClick={startEditing}>
-        {this.props.name}
+        {shortName}
       </h1>
     )
 

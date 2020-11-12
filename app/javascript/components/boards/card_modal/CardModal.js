@@ -4,6 +4,7 @@ import CardModalState from './utils/CardModalState'
 import i18n           from '../../../i18n'
 import Modal          from '../../shared/modal/Modal'
 import PropTypes      from 'prop-types'
+import String         from '../../shared/string/String'
 import { CardApi }    from '../../../api/InternalApi'
 
 export default class CardModal extends React.Component {
@@ -215,13 +216,15 @@ export default class CardModal extends React.Component {
 
     const { cardData } = this.state
 
+    const shortName = String.shorten(cardData.name, 48)
+
     return (
       <Modal
         body={cardBody()}
         close={handleClose}
         show={show}
         includeFooter={false}
-        title={`${cardData.number} - ${cardData.shortName}`}
+        title={`${cardData.number} - ${shortName}`}
       />
     )
   }

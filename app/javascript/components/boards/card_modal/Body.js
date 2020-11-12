@@ -19,8 +19,6 @@ export default function Body(props) {
     userIsAssigned
   } = props
 
-  let cardName = name
-
   const cardItems = () => {
     return (
       <div
