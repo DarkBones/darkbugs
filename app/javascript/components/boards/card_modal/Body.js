@@ -49,10 +49,12 @@ export default function Body(props) {
         userIsAssigned= {userIsAssigned}
       />
       {cardItems()}
-      <ToolBar
-        newItem=    {newItem}
-        deleteCard= {deleteCard}
-      />
+      {userIsAssigned &&
+        <ToolBar
+          newItem=    {newItem}
+          deleteCard= {deleteCard}
+        />
+      }
     </React.Fragment>
   )
 }
