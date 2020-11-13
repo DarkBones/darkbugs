@@ -1,6 +1,6 @@
 FROM ruby:2.7.1-alpine
 
-ENV BUNDLE_PATH /bundle
+ENV BUNDLE_PATH /box
 ENV APP_HOME=/app
 ENV PATH=$APP_HOME/bin:$PATH
 
@@ -18,17 +18,6 @@ RUN apk add --update --no-cache \
     yarn \
     vim
 
-#COPY Gemfile* /tmp/
-#COPY /app/vendor ./tmp/vendor
-#WORKDIR /tmp
-#RUN bundle install
-
-#RUN mkdir /$APP_HOME
-#WORKDIR /$APP_HOME
-#COPY Gemfile* ./
-#COPY vendor ./vendor
-#RUN bundle install
-
 COPY Gemfile* /tmp/
 COPY vendor /tmp/vendor/
 WORKDIR /tmp
@@ -43,6 +32,7 @@ ADD . $APP_HOME
 
 EXPOSE 3000
 
+RUN bundle exec whenever --update-crontab
+
 ENTRYPOINT ["bundle", "exec"]
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-#CMD rails s -b 0.0.0.0
