@@ -18,31 +18,19 @@ RUN apk add --update --no-cache \
     yarn \
     vim
 
-#COPY Gemfile* /tmp/
-#COPY /app/vendor ./tmp/vendor
-#WORKDIR /tmp
-#RUN bundle install
+RUN mkdir /$APP_HOME
+WORKDIR /$APP_HOME
 
-#RUN mkdir /$APP_HOME
-#WORKDIR /$APP_HOME
-#COPY Gemfile* ./
-#COPY vendor ./vendor
-#RUN bundle install
+COPY Gemfile* ./
+COPY vendor ./vendor
 
-COPY Gemfile* /tmp/
-COPY vendor /tmp/vendor/
-WORKDIR /tmp
-RUN gem install bundler
-RUN gem install rake
-RUN bundle install
+RUN gem install bundler \
+    && gem install rake
 
-ENV app /app
-RUN mkdir $APP_HOME
-WORKDIR $APP_HOME
-ADD . $APP_HOME
+RUN bundle install --jobs=2
+COPY . ./
 
 EXPOSE 3000
 
 ENTRYPOINT ["bundle", "exec"]
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-#CMD rails s -b 0.0.0.0
