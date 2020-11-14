@@ -1,4 +1,5 @@
 default:
+  id: 1
   name: default
   column: default_open
   board: default

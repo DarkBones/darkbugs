@@ -27,6 +27,18 @@ module Api
         assert_not_nil card.uuid
         assert_equal @column, card.column
       end
+
+      def test_read_boards
+        card = cards(:default)
+
+        get :show, params: {
+            api_version: Api::VERSION,
+            uuid: card.uuid
+        }
+
+        data = JSON.parse(response.body)
+        assert_equal [{'name'=>'card board', 'slug'=>'card-board'}, {'name'=>'card board two', 'slug'=>'card-board-two'}], data['card']['boards']
+      end
     end
   end
 end

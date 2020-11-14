@@ -10,6 +10,7 @@ module Cards
     def to_h
       {
         card: {
+          boards: boards,
           item_order: card.card_items.ordered.pluck(:uuid),
           items: card_items,
           name: card.name,
@@ -17,6 +18,15 @@ module Cards
           uuid: card.uuid
         }
       }
+    end
+
+    private def boards
+      card.boards.map do |board|
+        {
+          name: board.name,
+          slug: board.slug
+        }
+      end
     end
 
     private  def card_items
