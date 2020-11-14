@@ -3,10 +3,10 @@ module Api
     class CardsController < Api::Internal::BaseApiInternalController
       skip_before_action :authenticate!, only: %i[show]
 
-      before_action :load_card, only: %i[show destroy update]
+      before_action :load_card, only: %i[show destroy update create_board]
       before_action :load_column, only: %i[create]
       before_action :load_previous_card, only: %i[create]
-      before_action :check_is_member!, only: %i[create]
+      before_action :check_is_member!, only: %i[create create_board]
 
       def create
         service = Cards::CreateCardService.new(card_params, @column, @previous_card, @current_user).execute
@@ -31,8 +31,14 @@ module Api
         render json: {message: 'success'}
       end
 
+      def create_board
+        @board = Boards::CreateService.new(@card, params.dig(:board, :name)).execute
+      end
+
       private def load_card
-        @card = Card.find_by!(uuid: params[:uuid])
+        uuid = params[:uuid] || params[:card_uuid]
+
+        @card = Card.find_by!(uuid: uuid)
       end
 
       private def card_params
@@ -58,7 +64,9 @@ module Api
       end
 
       private def owner
-        @column.board.root_project.owner
+        model = @column || @card
+
+        model.board.root_project.owner
       end
 
       private def user_is_member?

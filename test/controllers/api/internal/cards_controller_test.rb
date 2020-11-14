@@ -39,6 +39,20 @@ module Api
         data = JSON.parse(response.body)
         assert_equal [{'name'=>'card board', 'slug'=>'card-board'}, {'name'=>'card board two', 'slug'=>'card-board-two'}], data['card']['boards']
       end
+
+      def test_create_board
+        card = cards(:default)
+
+        post :create_board, params: {
+            api_version: Api::VERSION,
+            card_uuid: card.uuid,
+            board: {
+                name: 'Test Create Board'
+            }
+        }
+
+        assert_equal '{"name":"Test Create Board","slug":"test-create-board"}', response.body
+      end
     end
   end
 end
