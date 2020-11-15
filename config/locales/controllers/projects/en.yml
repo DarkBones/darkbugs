@@ -7,4 +7,4 @@ en:
         destroy:
           name_mismatch: The name doesn't match
       destroy:
-        success: Successfully deleted organization %{name}
+        success: Successfully deleted project %{name}
