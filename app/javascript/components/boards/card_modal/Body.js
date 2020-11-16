@@ -12,12 +12,17 @@ export default function Body(props) {
     itemOrder,
     items,
     name,
+    newBoard,
     newItem,
     saveCardItem,
     saveName,
     updateCardItem,
     userIsAssigned
   } = props
+
+  const cardBoards = () => {
+    console.log(props)
+  }
 
   const cardItems = () => {
     return (
@@ -48,11 +53,13 @@ export default function Body(props) {
         saveName=       {saveName}
         userIsAssigned= {userIsAssigned}
       />
+      {cardBoards()}
       {cardItems()}
       {userIsAssigned &&
         <ToolBar
           newItem=    {newItem}
           deleteCard= {deleteCard}
+          newBoard=   {newBoard}
         />
       }
     </React.Fragment>
@@ -66,6 +73,7 @@ Body.propTypes = {
   itemOrder:      PropTypes.array.isRequired,
   items:          PropTypes.object.isRequired,
   name:           PropTypes.string.isRequired,
+  newBoard:       PropTypes.func.isRequired,
   newItem:        PropTypes.func.isRequired,
   saveCardItem:   PropTypes.func.isRequired,
   saveName:       PropTypes.func.isRequired,

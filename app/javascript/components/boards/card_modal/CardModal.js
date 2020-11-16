@@ -80,6 +80,7 @@ export default class CardModal extends React.Component {
     const {
       deleteCard,
       deleteItem,
+      newBoard,
       newItem,
       saveCardItem,
       saveCardName,
@@ -96,6 +97,7 @@ export default class CardModal extends React.Component {
         itemOrder=      {card.itemOrder}
         items=          {card.items}
         name=           {card.name}
+        newBoard=       {newBoard}
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
         saveName=       {saveCardName}
@@ -103,6 +105,21 @@ export default class CardModal extends React.Component {
         userIsAssigned= {this.props.userIsAssigned}
       />
     )
+  }
+
+  newBoard = (name, url = '') => {
+    console.log('Create Board:', name)
+
+    this.setState({
+      ...this.state,
+      cardData: {
+        ...this.state.cardData,
+        boards: {
+          ...this.state.cardData.boards,
+          [name]: url
+        }
+      }
+    })
   }
 
   newItem = (type, params, uuid = 'new') => {
@@ -174,6 +191,7 @@ export default class CardModal extends React.Component {
     this.setState({
       fetchingData: false,
       cardData: {
+        boards: data.boards,
         itemOrder: data.item_order,
         items: data.items,
         name: data.name,

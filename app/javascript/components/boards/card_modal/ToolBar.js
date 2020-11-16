@@ -28,6 +28,10 @@ export default class ToolBar extends React.Component {
     }.bind(this), 300)
   }
 
+  newBoard = () => {
+    this.props.newBoard('')
+  }
+
   newNote = () => {
     const params = {
       content: ''
@@ -52,6 +56,13 @@ export default class ToolBar extends React.Component {
           <ul
             className="list-unstyled"
           >
+            <li>
+              <ToolBarButton
+                faIconClass="fa fa-columns"
+                buttonText={i18n.t('components.projects.cardmodal.toolbar.new_board')}
+                onClick={this.newBoard}
+              />
+            </li>
             <li>
               <ToolBarButton
                 faIconClass="fa fa-sticky-note"
@@ -81,5 +92,6 @@ export default class ToolBar extends React.Component {
 
 ToolBar.propTypes = {
   deleteCard: PropTypes.func.isRequired,
+  newBoard:   PropTypes.func.isRequired,
   newItem:    PropTypes.func.isRequired
 }

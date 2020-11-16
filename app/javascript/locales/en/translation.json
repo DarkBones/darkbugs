@@ -20,7 +20,8 @@
         "toolbar": {
           "new_note": "New Note",
           "delete_card": "Delete Card",
-          "delete_confirm": "Are you sure?"
+          "delete_confirm": "Are you sure?",
+          "new_board": "New Board"
         }
       },
       "cards": {
