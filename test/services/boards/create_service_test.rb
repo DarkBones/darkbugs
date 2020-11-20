@@ -12,6 +12,8 @@ module Boards
 
       assert_equal ['Open', 'In Progress', 'Done', 'Released', 'Archived'], board.columns.pluck(:name)
       assert_equal (0..4).to_a, board.columns.pluck(:position)
+
+      assert_equal 'features', board.slug
     end
 
     def test_create_from_card
@@ -24,6 +26,8 @@ module Boards
 
       assert_equal ['Open', 'In Progress', 'Done', 'Released', 'Archived'], board.columns.pluck(:name)
       assert_equal (0..4).to_a, board.columns.pluck(:position)
+
+      assert_equal 'dflt-1-test-board', board.slug
     end
   end
 end

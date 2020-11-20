@@ -28,4 +28,12 @@ class Board < ApplicationRecord
   def siblings
     component.boards.where.not(id: id)
   end
+
+  # -- Private Methods ------------------------------------------------------
+  private def slug_key
+    prefix = ''
+    prefix = "#{component.card_number}-" if component.is_a? Card
+
+    "#{prefix}#{name}"
+  end
 end
