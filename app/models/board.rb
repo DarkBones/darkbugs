@@ -24,4 +24,8 @@ class Board < ApplicationRecord
   def user_is_assigned?(user)
     component.user_is_assigned?(user)
   end
+
+  def siblings
+    component.boards.where.not(id: id)
+  end
 end

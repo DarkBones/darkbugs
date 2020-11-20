@@ -9,6 +9,7 @@ module Boards
 
     def to_h
       {
+          boards: boards,
           name: board.name,
           board_slug: board.slug,
           cards: cards,
@@ -17,6 +18,15 @@ module Boards
           column_order: board.columns.ordered.pluck(:uuid),
           user_is_assigned: board.user_is_assigned?(current_user)
       }
+    end
+
+    private def boards
+      boards = {}
+      board.siblings.each do |board|
+        boards[board.slug] = board.name
+      end
+
+      boards
     end
 
     private def cards
