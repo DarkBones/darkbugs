@@ -2,6 +2,7 @@ import ApiInput     from '../shared/input/ApiInput'
 import React        from 'react'
 import PropTypes    from 'prop-types'
 import { BoardApi } from '../../api/InternalApi'
+import { Dropdown } from 'react-bootstrap'
 
 export default class Title extends React.Component {
   constructor(props) {
@@ -87,17 +88,35 @@ export default class Title extends React.Component {
       updateBoardName
     } = this
 
-    const { userIsAssigned } = this.props
+    const { boardOrder, boards, userIsAssigned } = this.props
 
     const { isEditing, name } = this.state
 
     let el = (
-      <h1
-        onClick={startEditing}
-        className="board-title"
-      >
-        {name}
-      </h1>
+      // <h1
+      //   onClick={startEditing}
+      //   className="board-title"
+      // >
+      //   {name}
+      // </h1>
+      <Dropdown>
+        <Dropdown.Toggle
+          className="p-0"
+          variant="link"
+        >
+          <h1>
+            {name}
+          </h1>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {boardOrder.map((slug) =>
+            <Dropdown.Item>
+              {boards[slug]}
+            </Dropdown.Item>
+          )}
+        </Dropdown.Menu>
+      </Dropdown>
     )
 
     if (userIsAssigned) {
@@ -133,6 +152,8 @@ export default class Title extends React.Component {
 }
 
 Title.propTypes = {
+  boardOrder:          PropTypes.array.isRequired,
+  boards:             PropTypes.object.isRequired,
   boardSlug:          PropTypes.string.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,

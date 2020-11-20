@@ -9,6 +9,7 @@ module Boards
 
     def to_h
       {
+          board_order: board_order,
           boards: boards,
           name: board.name,
           board_slug: board.slug,
@@ -18,6 +19,10 @@ module Boards
           column_order: board.columns.ordered.pluck(:uuid),
           user_is_assigned: board.user_is_assigned?(current_user)
       }
+    end
+
+    private def board_order
+      board.siblings.order(:slug).pluck(:slug)
     end
 
     private def boards

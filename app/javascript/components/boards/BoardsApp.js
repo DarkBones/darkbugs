@@ -11,6 +11,8 @@ export default class BoardsApp extends React.Component {
 
     this.state = {
       boardName:      props.name,
+      boardOrder:     props.board_order,
+      boards:         props.boards,
       allCards:       props.card_order,
       cards:          props.cards,
       columnOrder:    props.column_order,
@@ -85,6 +87,8 @@ export default class BoardsApp extends React.Component {
     const { board_slug, user_is_assigned } = this.props
     const {
       boardName,
+      boardOrder,
+      boards,
       allCards,
       cards,
       columnOrder,
@@ -105,6 +109,8 @@ export default class BoardsApp extends React.Component {
           userIsAssigned=   {user_is_assigned}
         />
         <Title
+          boardOrder=          {boardOrder}
+          boards=             {boards}
           boardSlug=          {board_slug}
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
