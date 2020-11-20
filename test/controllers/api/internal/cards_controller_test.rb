@@ -51,7 +51,7 @@ module Api
             }
         }
 
-        assert_equal '{"name":"Test Create Board","slug":"test-create-board"}', response.body
+        assert_equal '{"name":"Test Create Board","slug":"dflt-1-test-create-board"}', response.body
       end
     end
   end
