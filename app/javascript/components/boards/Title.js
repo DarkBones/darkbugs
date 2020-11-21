@@ -33,6 +33,10 @@ export default class Title extends React.Component {
     if (!this.title.contains(e.target)) this.cancelEditing()
   }
 
+  handleBoardClick = e => {
+    this.props.visitBoard(e.target.getAttribute('slug'))
+  }
+
   handleOnChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -84,6 +88,7 @@ export default class Title extends React.Component {
     const {
       cancelEditing,
       handleOnChange,
+      handleBoardClick,
       startEditing,
       updateBoardName
     } = this
@@ -111,7 +116,7 @@ export default class Title extends React.Component {
 
         <Dropdown.Menu>
           {boardOrder.map((slug) =>
-            <Dropdown.Item>
+            <Dropdown.Item onClick={handleBoardClick} key={slug} slug={slug}>
               {boards[slug]}
             </Dropdown.Item>
           )}
@@ -152,10 +157,11 @@ export default class Title extends React.Component {
 }
 
 Title.propTypes = {
-  boardOrder:          PropTypes.array.isRequired,
+  boardOrder:         PropTypes.array.isRequired,
   boards:             PropTypes.object.isRequired,
   boardSlug:          PropTypes.string.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,
-  userIsAssigned:     PropTypes.bool.isRequired
+  userIsAssigned:     PropTypes.bool.isRequired,
+  visitBoard:         PropTypes.func.isRequired
 }

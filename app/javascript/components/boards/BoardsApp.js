@@ -75,6 +75,10 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  visitBoard = slug => {
+    console.log('visit', slug)
+  }
+
   render() {
     const {
       closeCardModal,
@@ -82,7 +86,8 @@ export default class BoardsApp extends React.Component {
       setBoardName,
       setColumns,
       showCardModal,
-      updateCardName
+      updateCardName,
+      visitBoard
     } = this
     const { board_slug, user_is_assigned } = this.props
     const {
@@ -115,6 +120,7 @@ export default class BoardsApp extends React.Component {
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
           userIsAssigned=     {user_is_assigned}
+          visitBoard=         {visitBoard}
         />
         <Columns
           allCards=           {allCards}
