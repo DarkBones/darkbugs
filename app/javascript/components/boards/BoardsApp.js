@@ -4,6 +4,7 @@ import Columns      from './columns/Columns'
 import ColumnsState from './columns/utils/ColumnsState'
 import PropTypes    from 'prop-types'
 import Title        from './Title'
+import {useHistory} from 'react-router-dom'
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
@@ -75,10 +76,6 @@ export default class BoardsApp extends React.Component {
     })
   }
 
-  visitBoard = slug => {
-    console.log('visit', slug)
-  }
-
   render() {
     const {
       closeCardModal,
@@ -87,9 +84,8 @@ export default class BoardsApp extends React.Component {
       setColumns,
       showCardModal,
       updateCardName,
-      visitBoard
     } = this
-    const { board_slug, user_is_assigned } = this.props
+    const { board_slug, project_path, user_is_assigned } = this.props
     const {
       boardName,
       boardOrder,
@@ -119,8 +115,8 @@ export default class BoardsApp extends React.Component {
           boardSlug=          {board_slug}
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
+          projectPath=        {project_path}
           userIsAssigned=     {user_is_assigned}
-          visitBoard=         {visitBoard}
         />
         <Columns
           allCards=           {allCards}

@@ -33,10 +33,6 @@ export default class Title extends React.Component {
     if (!this.title.contains(e.target)) this.cancelEditing()
   }
 
-  handleBoardClick = e => {
-    this.props.visitBoard(e.target.getAttribute('slug'))
-  }
-
   handleOnChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -93,7 +89,7 @@ export default class Title extends React.Component {
       updateBoardName
     } = this
 
-    const { boardOrder, boards, userIsAssigned } = this.props
+    const { boardOrder, boards, projectPath, userIsAssigned } = this.props
 
     const { isEditing, name } = this.state
 
@@ -116,7 +112,11 @@ export default class Title extends React.Component {
 
         <Dropdown.Menu>
           {boardOrder.map((slug) =>
-            <Dropdown.Item onClick={handleBoardClick} key={slug} slug={slug}>
+            <Dropdown.Item
+              key={slug}
+              slug={slug}
+              href={`${projectPath}/boards/${slug}`}
+            >
               {boards[slug]}
             </Dropdown.Item>
           )}
@@ -162,6 +162,6 @@ Title.propTypes = {
   boardSlug:          PropTypes.string.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,
+  projectPath:        PropTypes.string.isRequired,
   userIsAssigned:     PropTypes.bool.isRequired,
-  visitBoard:         PropTypes.func.isRequired
 }

@@ -97,4 +97,8 @@ class ApplicationController < ActionController::Base
                        .accepted_by_user(@current_user)
                        .order(:slug)
   end
+
+  private def no_footer
+    @include_footer = false
+  end
 end

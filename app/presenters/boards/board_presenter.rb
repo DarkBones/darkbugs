@@ -1,5 +1,7 @@
 module Boards
   class BoardPresenter < BasePresenter
+    include Rails.application.routes.url_helpers
+
     attr_reader :board, :current_user
 
     def initialize(board, current_user)
@@ -17,6 +19,7 @@ module Boards
           card_order: board.cards.ordered.pluck(:uuid),
           columns: columns,
           column_order: board.columns.ordered.pluck(:uuid),
+          project_path: project_path(board.root_project.key),
           user_is_assigned: board.user_is_assigned?(current_user)
       }
     end

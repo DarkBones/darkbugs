@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :projects, param: :key do
     get :delete
+    resources :boards, param: :slug, only: [:show]
     post :destroy
   end
 
