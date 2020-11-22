@@ -111,16 +111,20 @@ export default class Title extends React.Component {
           >
             {i18n.t("components.projects.title.dropdown.edit_name")}
           </Dropdown.Item>
-          <div className="dropdown-divider"></div>
-          {boardOrder.map((slug) =>
-            <Dropdown.Item
-              key={slug}
-              slug={slug}
-              href={boards[slug].path}
-            >
-              {boards[slug].name}
-            </Dropdown.Item>
-          )}
+          {boardOrder.length > 0 &&
+            <React.Fragment>
+              <div className="dropdown-divider"></div>
+              {boardOrder.map((slug) =>
+                <Dropdown.Item
+                  key={slug}
+                  slug={slug}
+                  href={boards[slug].path}
+                >
+                  {boards[slug].name}
+                </Dropdown.Item>
+              )}
+            </React.Fragment>
+          }
         </Dropdown.Menu>
       </Dropdown>
     )
