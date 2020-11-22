@@ -85,7 +85,6 @@ export default class Title extends React.Component {
     const {
       cancelEditing,
       handleOnChange,
-      handleBoardClick,
       startEditing,
       updateBoardName
     } = this
