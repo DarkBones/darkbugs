@@ -111,6 +111,12 @@ export default class Title extends React.Component {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
+          <Dropdown.Item
+            onClick={startEditing}
+          >
+            Edit Name
+          </Dropdown.Item>
+          <div className="dropdown-divider"></div>
           {boardOrder.map((slug) =>
             <Dropdown.Item
               key={slug}
