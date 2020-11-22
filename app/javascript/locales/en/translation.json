@@ -49,6 +49,11 @@
         "Column": {
           "delete_warning": "Deleting a column will also delete all its cards. Continue?"
         }
+      },
+      "title": {
+        "dropdown": {
+          "edit_name": "Edit Name"
+        }
       }
     },
     "shared": {

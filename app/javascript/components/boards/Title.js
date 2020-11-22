@@ -1,4 +1,5 @@
 import ApiInput     from '../shared/input/ApiInput'
+import i18n         from '../../i18n'
 import React        from 'react'
 import PropTypes    from 'prop-types'
 import { BoardApi } from '../../api/InternalApi'
@@ -94,12 +95,6 @@ export default class Title extends React.Component {
     const { isEditing, name } = this.state
 
     let el = (
-      // <h1
-      //   onClick={startEditing}
-      //   className="board-title"
-      // >
-      //   {name}
-      // </h1>
       <Dropdown>
         <Dropdown.Toggle
           className="p-0"
@@ -114,7 +109,7 @@ export default class Title extends React.Component {
           <Dropdown.Item
             onClick={startEditing}
           >
-            Edit Name
+            {i18n.t("components.projects.title.dropdown.edit_name")}
           </Dropdown.Item>
           <div className="dropdown-divider"></div>
           {boardOrder.map((slug) =>
