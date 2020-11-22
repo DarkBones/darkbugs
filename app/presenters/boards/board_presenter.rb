@@ -19,7 +19,6 @@ module Boards
           card_order: board.cards.ordered.pluck(:uuid),
           columns: columns,
           column_order: board.columns.ordered.pluck(:uuid),
-          project_path: project_path(board.root_project.key),
           user_is_assigned: board.user_is_assigned?(current_user)
       }
     end
@@ -31,7 +30,10 @@ module Boards
     private def boards
       boards = {}
       board.siblings.each do |board|
-        boards[board.slug] = board.name
+        boards[board.slug] = {
+            name: board.name,
+            path: project_board_path(project_key: board.root_project.key, slug: board.slug)
+        }
       end
 
       boards

@@ -89,7 +89,7 @@ export default class Title extends React.Component {
       updateBoardName
     } = this
 
-    const { boardOrder, boards, projectPath, userIsAssigned } = this.props
+    const { boardOrder, boards, userIsAssigned } = this.props
 
     const { isEditing, name } = this.state
 
@@ -115,9 +115,9 @@ export default class Title extends React.Component {
             <Dropdown.Item
               key={slug}
               slug={slug}
-              href={`${projectPath}/boards/${slug}`}
+              href={boards[slug].path}
             >
-              {boards[slug]}
+              {boards[slug].name}
             </Dropdown.Item>
           )}
         </Dropdown.Menu>
@@ -162,6 +162,5 @@ Title.propTypes = {
   boardSlug:          PropTypes.string.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,
-  projectPath:        PropTypes.string.isRequired,
   userIsAssigned:     PropTypes.bool.isRequired,
 }

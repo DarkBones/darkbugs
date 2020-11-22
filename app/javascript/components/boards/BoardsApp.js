@@ -85,7 +85,7 @@ export default class BoardsApp extends React.Component {
       showCardModal,
       updateCardName,
     } = this
-    const { board_slug, project_path, user_is_assigned } = this.props
+    const { board_slug, user_is_assigned } = this.props
     const {
       boardName,
       boardOrder,
@@ -115,7 +115,6 @@ export default class BoardsApp extends React.Component {
           boardSlug=          {board_slug}
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
-          projectPath=        {project_path}
           userIsAssigned=     {user_is_assigned}
         />
         <Columns
