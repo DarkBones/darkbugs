@@ -111,6 +111,9 @@ export default class Title extends React.Component {
           >
             {i18n.t("components.projects.title.dropdown.edit_name")}
           </Dropdown.Item>
+          <Dropdown.Item>
+            {i18n.t("components.projects.title.dropdown.new_board")}
+          </Dropdown.Item>
           {boardOrder.length > 0 &&
             <React.Fragment>
               <div className="dropdown-divider"></div>

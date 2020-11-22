@@ -52,7 +52,8 @@
       },
       "title": {
         "dropdown": {
-          "edit_name": "Edit Name"
+          "edit_name": "Edit Name",
+          "new_board": "New Board"
         }
       }
     },
