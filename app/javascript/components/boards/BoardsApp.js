@@ -125,6 +125,7 @@ export default class BoardsApp extends React.Component {
           userIsAssigned=   {user_is_assigned}
         />
         <NewBoardModal
+          board_slug=   {board_slug}
           handleClose=  {closeNewBoardModal}
           show=         {this.state.showNewBoardModal}
         />

@@ -1,8 +1,22 @@
 module Api
   module Internal
     class BoardsController < Api::Internal::BaseApiInternalController
-      before_action :load_board, only: %i[reorder_columns reorder_cards update]
+      before_action :load_board, only: %i[create reorder_columns reorder_cards update]
       before_action :check_is_assignee!, only: %i[create update destroy]
+
+      def create
+        5.times do
+          puts '---------------------------'
+        end
+        puts params.to_yaml
+        5.times do
+          puts '==========================='
+        end
+
+        @board = Boards::CreateService
+                     .new(@board.component, board_params[:name])
+                     .execute
+      end
 
       def reorder_columns
         params[:columns].each_with_index do |uuid, idx|

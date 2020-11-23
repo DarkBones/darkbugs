@@ -25,6 +25,12 @@ export class BoardApi {
 
     return put(path, params)
   }
+
+  static createBoard(params) {
+    const path = BOARD_PATH
+
+    return post(path, params)
+  }
 }
 
 export class CardApi {
