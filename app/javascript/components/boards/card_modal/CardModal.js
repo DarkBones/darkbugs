@@ -84,6 +84,7 @@ export default class CardModal extends React.Component {
       deleteItem,
       newBoard,
       newItem,
+      removeNewBoard,
       saveCardItem,
       saveCardName,
       submitCardBoard,
@@ -109,6 +110,7 @@ export default class CardModal extends React.Component {
         saveCardItem=   {saveCardItem}
         saveName=       {saveCardName}
         submitCardBoard={submitCardBoard}
+        removeNewBoard= {removeNewBoard}
         updateCardItem= {updateCardItem}
         userIsAssigned= {userIsAssigned}
       />
@@ -138,24 +140,18 @@ export default class CardModal extends React.Component {
     })
   }
 
-  newBoardOld = (name, slug = '') => {
-    if (slug === '' && this.state.cardData.boardOrder.includes('')) return
-
+  removeNewBoard = () => {
     const boardOrder = Array.from(this.state.cardData.boardOrder)
-    boardOrder.push(slug)
+    const idx = boardOrder.indexOf('')
+    if (idx < 0) return
+
+    boardOrder.splice(idx, 1)
 
     this.setState({
       ...this.state,
       cardData: {
         ...this.state.cardData,
-        boardOrder: boardOrder,
-        boards: {
-          ...this.state.cardData.boards,
-          [slug]: {
-            name: name,
-            slug: slug
-          }
-        }
+        boardOrder: boardOrder
       }
     })
   }

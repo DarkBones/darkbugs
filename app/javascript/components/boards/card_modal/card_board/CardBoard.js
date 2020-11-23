@@ -18,10 +18,16 @@ export default class CardBoard extends React.Component {
   }
 
   handleSubmit = async () => {
+    const {
+      boardSlug,
+      cardUuid,
+      removeNewBoard
+    } = this.props
+
     const params = {
-      board_slug: this.props.boardSlug,
+      board_slug: boardSlug,
       component_type: 'Card',
-      component_uuid: this.props.cardUuid,
+      component_uuid: cardUuid,
       board: {
         name: this.state.name
       }
@@ -37,6 +43,8 @@ export default class CardBoard extends React.Component {
       name: response.data.name,
       slug: response.data.slug
     })
+
+    removeNewBoard()
   }
 
   handleOnChange = e => {
@@ -74,9 +82,10 @@ export default class CardBoard extends React.Component {
 }
 
 CardBoard.propTypes = {
-  boardSlug:    PropTypes.string.isRequired,
-  cardUuid:     PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  name:         PropTypes.string.isRequired,
-  slug:         PropTypes.string.isRequired
+  boardSlug:      PropTypes.string.isRequired,
+  cardUuid:       PropTypes.string.isRequired,
+  handleSubmit:   PropTypes.func.isRequired,
+  name:           PropTypes.string.isRequired,
+  removeNewBoard: PropTypes.func.isRequired,
+  slug:           PropTypes.string
 }
