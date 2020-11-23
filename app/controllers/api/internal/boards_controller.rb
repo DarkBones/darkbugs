@@ -5,14 +5,6 @@ module Api
       before_action :check_is_assignee!, only: %i[create update destroy]
 
       def create
-        5.times do
-          puts '---------------------------'
-        end
-        puts params.to_yaml
-        5.times do
-          puts '==========================='
-        end
-
         @board = Boards::CreateService
                      .new(@board.component, board_params[:name])
                      .execute
