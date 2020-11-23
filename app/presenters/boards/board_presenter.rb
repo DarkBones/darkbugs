@@ -24,7 +24,7 @@ module Boards
     end
 
     private def board_order
-      board.siblings.order(:slug).pluck(:slug)
+      board.siblings.order(:created_at).pluck(:slug)
     end
 
     private def boards
