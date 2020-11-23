@@ -89,7 +89,7 @@ export default class Title extends React.Component {
       updateBoardName
     } = this
 
-    const { boardOrder, boards, userIsAssigned } = this.props
+    const { boardOrder, boards, showNewBoardModal, userIsAssigned } = this.props
 
     const { isEditing, name } = this.state
 
@@ -105,17 +105,8 @@ export default class Title extends React.Component {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item
-            onClick={startEditing}
-          >
-            {i18n.t("components.projects.title.dropdown.edit_name")}
-          </Dropdown.Item>
-          <Dropdown.Item>
-            {i18n.t("components.projects.title.dropdown.new_board")}
-          </Dropdown.Item>
           {boardOrder.length > 0 &&
             <React.Fragment>
-              <div className="dropdown-divider"></div>
               {boardOrder.map((slug) =>
                 <Dropdown.Item
                   key={slug}
@@ -125,6 +116,21 @@ export default class Title extends React.Component {
                   {boards[slug].name}
                 </Dropdown.Item>
               )}
+            </React.Fragment>
+          }
+          {userIsAssigned &&
+            <React.Fragment>
+              <div className="dropdown-divider"></div>
+              <Dropdown.Item
+                onClick={startEditing}
+              >
+                {i18n.t("components.projects.title.dropdown.edit_name")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={showNewBoardModal}
+              >
+                {i18n.t("components.projects.title.dropdown.new_board")}
+              </Dropdown.Item>
             </React.Fragment>
           }
         </Dropdown.Menu>
@@ -169,5 +175,6 @@ Title.propTypes = {
   boardSlug:          PropTypes.string.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,
+  showNewBoardModal:  PropTypes.func.isRequired,
   userIsAssigned:     PropTypes.bool.isRequired,
 }
