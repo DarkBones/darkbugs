@@ -29,7 +29,7 @@ export default class ToolBar extends React.Component {
   }
 
   newBoard = () => {
-    this.props.newBoard('')
+    this.props.newBoard('', '')
   }
 
   newNote = () => {

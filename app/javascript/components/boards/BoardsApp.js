@@ -18,6 +18,7 @@ export default class BoardsApp extends React.Component {
       cards:              props.cards,
       columnOrder:        props.column_order,
       columns:            props.columns,
+      component:          props.component,
       showCardModal:      false,
       cardModalId:        '',
       showNewBoardModal:  false
@@ -109,7 +110,8 @@ export default class BoardsApp extends React.Component {
       cards,
       columnOrder,
       columns,
-      cardModalId
+      cardModalId,
+      component
     } = this.state
 
     return (
@@ -117,6 +119,7 @@ export default class BoardsApp extends React.Component {
         id="project-items-app"
       >
         <CardModal
+          boardSlug=        {board_slug}
           card=             {cards[cardModalId]}
           handleClose=      {closeCardModal}
           handleDeleteCard= {deleteCard}
@@ -125,14 +128,15 @@ export default class BoardsApp extends React.Component {
           userIsAssigned=   {user_is_assigned}
         />
         <NewBoardModal
-          board_slug=   {board_slug}
+          boardSlug=    {board_slug}
+          component=    {component}
           handleClose=  {closeNewBoardModal}
           show=         {this.state.showNewBoardModal}
         />
         <Title
-          boardOrder=          {boardOrder}
+          boardOrder=         {boardOrder}
           boards=             {boards}
-          boardSlug=          {board_slug}
+          component=          {component}
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
           userIsAssigned=     {user_is_assigned}
@@ -160,6 +164,7 @@ BoardsApp.propTypes = {
   cards:            PropTypes.object.isRequired,
   column_order:     PropTypes.array.isRequired,
   columns:          PropTypes.object.isRequired,
+  component:        PropTypes.object.isRequired,
   name:             PropTypes.string.isRequired,
   user_is_assigned: PropTypes.bool.isRequired
 }

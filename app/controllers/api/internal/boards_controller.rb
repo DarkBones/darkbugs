@@ -1,12 +1,13 @@
 module Api
   module Internal
     class BoardsController < Api::Internal::BaseApiInternalController
-      before_action :load_board, only: %i[create reorder_columns reorder_cards update]
+      before_action :load_board!, only: %i[create reorder_columns reorder_cards update]
       before_action :check_is_assignee!, only: %i[create update destroy]
+      before_action :load_component!, only: %i[create]
 
       def create
         @board = Boards::CreateService
-                     .new(@board.component, board_params[:name])
+                     .new(@component, board_params[:name])
                      .execute
       end
 
@@ -48,7 +49,17 @@ module Api
         )
       end
 
-      private def load_board
+      private def load_component!
+        model = params[:component_type].classify.constantize
+
+        if model.name == 'Project'
+          @component = model.find_by!(key: params[:component_uuid])
+        else
+          @component = model.find_by!(uuid: params[:component_uuid])
+        end
+      end
+
+      private def load_board!
         slug = params[:slug] || params[:board_slug]
 
         @board = Board.find_by!(slug: slug)

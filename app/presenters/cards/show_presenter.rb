@@ -1,5 +1,7 @@
 module Cards
   class ShowPresenter < BasePresenter
+    include Rails.application.routes.url_helpers
+
     attr_reader :card, :current_user
 
     def initialize(card, current_user)
@@ -10,6 +12,7 @@ module Cards
     def to_h
       {
         card: {
+          board_order: board_order,
           boards: boards,
           item_order: card.card_items.ordered.pluck(:uuid),
           items: card_items,
@@ -20,13 +23,27 @@ module Cards
       }
     end
 
+    private def board_order
+      card.boards.order(:created_at).pluck(:slug)
+    end
+
     private def boards
-      card.boards.map do |board|
-        {
-          name: board.name,
-          slug: board.slug
+      # card.boards.map do |board|
+      #   {
+      #     name: board.name,
+      #     slug: board.slug
+      #   }
+      # end
+
+      boards = {}
+      card.boards.each do |board|
+        boards[board.slug] = {
+            name: board.name,
+            path: project_board_path(project_key: board.root_project.key, slug: board.slug)
         }
       end
+
+      boards
     end
 
     private  def card_items

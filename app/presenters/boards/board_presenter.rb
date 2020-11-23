@@ -11,6 +11,7 @@ module Boards
 
     def to_h
       {
+          component: component,
           board_order: board_order,
           boards: boards,
           name: board.name,
@@ -25,6 +26,13 @@ module Boards
 
     private def board_order
       board.siblings.order(:created_at).pluck(:slug)
+    end
+
+    private def component
+      {
+          type: board.component_type,
+          uuid: board.component&.key || board.component.uuid
+      }
     end
 
     private def boards

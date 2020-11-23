@@ -11,10 +11,16 @@ export default class NewBoardModal extends React.Component {
   }
 
   handleSubmit = async (data) => {
+    const { type, uuid } = this.props.component
+
     const params = {
-      board_slug: this.props.board_slug,
+      board_slug: this.props.boardSlug,
+      component_type: type,
+      component_uuid: uuid,
       board: data
     }
+
+    console.log(params)
 
     let response = await BoardApi.createBoard(params)
 
@@ -51,7 +57,8 @@ export default class NewBoardModal extends React.Component {
 }
 
 NewBoardModal.propTypes = {
-  board_slug:   PropTypes.string.isRequired,
+  boardSlug:    PropTypes.string.isRequired,
+  component:    PropTypes.object.isRequired,
   handleClose:  PropTypes.func.isRequired,
   show:         PropTypes.bool.isRequired
 }

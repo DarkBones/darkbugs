@@ -172,7 +172,7 @@ export default class Title extends React.Component {
 Title.propTypes = {
   boardOrder:         PropTypes.array.isRequired,
   boards:             PropTypes.object.isRequired,
-  boardSlug:          PropTypes.string.isRequired,
+  component:          PropTypes.object.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,
   showNewBoardModal:  PropTypes.func.isRequired,

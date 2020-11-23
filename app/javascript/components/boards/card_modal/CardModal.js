@@ -12,6 +12,8 @@ export default class CardModal extends React.Component {
     super(props)
 
     const defaultCard = {
+      boardOrder: [],
+      boards: {},
       itemOrder: [],
       items: {},
       name: '',
@@ -84,13 +86,18 @@ export default class CardModal extends React.Component {
       newItem,
       saveCardItem,
       saveCardName,
+      submitCardBoard,
       updateCardItem
     } = this
 
     const card = this.state.cardData
+    const { boardSlug, userIsAssigned } = this.props
 
     return (
       <Body
+        boardOrder=     {card.boardOrder}
+        boards=         {card.boards}
+        boardSlug=      {boardSlug}
         cardUuid=       {card.uuid}
         deleteCard=     {deleteCard}
         deleteItem=     {deleteItem}
@@ -101,22 +108,53 @@ export default class CardModal extends React.Component {
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
         saveName=       {saveCardName}
+        submitCardBoard={submitCardBoard}
         updateCardItem= {updateCardItem}
-        userIsAssigned= {this.props.userIsAssigned}
+        userIsAssigned= {userIsAssigned}
       />
     )
   }
 
-  newBoard = (name, url = '') => {
-    console.log('Create Board:', name)
+  newBoard = (name, slug = '') => {
+    const boardOrder = Array.from(this.state.cardData.boardOrder)
+    const idx = boardOrder.indexOf('')
+    if (idx > 0) boardOrder.splice(idx, 1)
+
+    boardOrder.push(slug)
 
     this.setState({
       ...this.state,
       cardData: {
         ...this.state.cardData,
+        boardOrder: boardOrder,
         boards: {
           ...this.state.cardData.boards,
-          [name]: url
+          [slug]: {
+            name: name,
+            slug: slug
+          }
+        }
+      }
+    })
+  }
+
+  newBoardOld = (name, slug = '') => {
+    if (slug === '' && this.state.cardData.boardOrder.includes('')) return
+
+    const boardOrder = Array.from(this.state.cardData.boardOrder)
+    boardOrder.push(slug)
+
+    this.setState({
+      ...this.state,
+      cardData: {
+        ...this.state.cardData,
+        boardOrder: boardOrder,
+        boards: {
+          ...this.state.cardData.boards,
+          [slug]: {
+            name: name,
+            slug: slug
+          }
         }
       }
     })
@@ -191,6 +229,7 @@ export default class CardModal extends React.Component {
     this.setState({
       fetchingData: false,
       cardData: {
+        boardOrder: data.board_order,
         boards: data.boards,
         itemOrder: data.item_order,
         items: data.items,
@@ -225,6 +264,10 @@ export default class CardModal extends React.Component {
     })
   }
 
+  submitCardBoard = data => {
+    console.log('submit cardboard', data)
+  }
+
   render() {
     const { cardBody } = this
 
@@ -250,6 +293,7 @@ export default class CardModal extends React.Component {
 }
 
 CardModal.propTypes = {
+  boardSlug:        PropTypes.string.isRequired,
   card:             PropTypes.object,
   handleClose:      PropTypes.func.isRequired,
   handleDeleteCard: PropTypes.func.isRequired,
