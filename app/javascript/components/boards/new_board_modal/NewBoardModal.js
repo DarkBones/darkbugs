@@ -19,9 +19,7 @@ export default class NewBoardModal extends React.Component {
       component_uuid: uuid,
       board: data
     }
-
-    console.log(params)
-
+    
     let response = await BoardApi.createBoard(params)
 
     if (!response) return
