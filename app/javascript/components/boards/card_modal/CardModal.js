@@ -117,7 +117,7 @@ export default class CardModal extends React.Component {
     )
   }
 
-  newBoard = (name, slug = '') => {
+  newBoard = (name = '', slug = '', path= '') => {
     const boardOrder = Array.from(this.state.cardData.boardOrder)
     const idx = boardOrder.indexOf('')
     if (idx > 0) boardOrder.splice(idx, 1)
@@ -133,7 +133,7 @@ export default class CardModal extends React.Component {
           ...this.state.cardData.boards,
           [slug]: {
             name: name,
-            slug: slug
+            path: path
           }
         }
       }

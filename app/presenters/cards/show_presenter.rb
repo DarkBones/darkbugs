@@ -28,13 +28,6 @@ module Cards
     end
 
     private def boards
-      # card.boards.map do |board|
-      #   {
-      #     name: board.name,
-      #     slug: board.slug
-      #   }
-      # end
-
       boards = {}
       card.boards.each do |board|
         boards[board.slug] = {

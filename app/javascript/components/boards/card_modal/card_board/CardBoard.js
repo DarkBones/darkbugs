@@ -44,7 +44,7 @@ export default class CardBoard extends React.Component {
       path: response.data.path
     })
 
-    newBoard(response.data.name, response.data.path)
+    newBoard(response.data.name, response.data.slug, response.data.path)
   }
 
   handleOnChange = e => {
