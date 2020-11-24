@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :projects, param: :key do
     get :delete
+    resources :boards, param: :slug, only: [:show]
     post :destroy
   end
 
@@ -42,7 +43,9 @@ Rails.application.routes.draw do
   namespace :api, path: 'api/v:api_version', defaults: { format: :json } do
     namespace :internal do
       resources :columns, param: :uuid
-      resources :cards, param: :uuid
+      resources :cards, param: :uuid do
+        post :create_board
+      end
 
       resources :boards, param: :slug do
         put :reorder_columns

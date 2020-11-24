@@ -61,8 +61,4 @@ class ProjectsController < ApplicationController
   rescue ActionController::BadRequest => e
     redirect_to(projects_path, { :flash => { :error => e.message } })
   end
-
-  private def no_footer
-    @include_footer = false
-  end
 end

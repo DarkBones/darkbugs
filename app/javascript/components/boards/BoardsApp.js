@@ -1,22 +1,27 @@
-import React        from 'react'
-import CardModal    from './card_modal/CardModal'
-import Columns      from './columns/Columns'
-import ColumnsState from './columns/utils/ColumnsState'
-import PropTypes    from 'prop-types'
-import Title        from './Title'
+import React          from 'react'
+import CardModal      from './card_modal/CardModal'
+import Columns        from './columns/Columns'
+import ColumnsState   from './columns/utils/ColumnsState'
+import NewBoardModal  from './new_board_modal/NewBoardModal'
+import PropTypes      from 'prop-types'
+import Title          from './Title'
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      boardName:      props.name,
-      allCards:       props.card_order,
-      cards:          props.cards,
-      columnOrder:    props.column_order,
-      columns:        props.columns,
-      showCardModal:  false,
-      cardModalId:    ''
+      boardName:          props.name,
+      boardOrder:         props.board_order,
+      boards:             props.boards,
+      allCards:           props.card_order,
+      cards:              props.cards,
+      columnOrder:        props.column_order,
+      columns:            props.columns,
+      component:          props.component,
+      showCardModal:      false,
+      cardModalId:        '',
+      showNewBoardModal:  false
     }
   }
 
@@ -24,6 +29,12 @@ export default class BoardsApp extends React.Component {
     this.setState({
       showCardModal: false,
       cardModalId: ''
+    })
+  }
+
+  closeNewBoardModal = () => {
+    this.setState({
+      showNewBoardModal: false
     })
   }
 
@@ -60,6 +71,12 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  showNewBoardModal = () => {
+    this.setState({
+      showNewBoardModal: true
+    })
+  }
+
   updateCardName = (cardUuid, newName) => {
     this.setState({
       ...this.state,
@@ -76,20 +93,25 @@ export default class BoardsApp extends React.Component {
   render() {
     const {
       closeCardModal,
+      closeNewBoardModal,
       deleteCard,
       setBoardName,
       setColumns,
       showCardModal,
-      updateCardName
+      updateCardName,
+      showNewBoardModal
     } = this
     const { board_slug, user_is_assigned } = this.props
     const {
       boardName,
+      boardOrder,
+      boards,
       allCards,
       cards,
       columnOrder,
       columns,
-      cardModalId
+      cardModalId,
+      component
     } = this.state
 
     return (
@@ -97,6 +119,7 @@ export default class BoardsApp extends React.Component {
         id="project-items-app"
       >
         <CardModal
+          boardSlug=        {board_slug}
           card=             {cards[cardModalId]}
           handleClose=      {closeCardModal}
           handleDeleteCard= {deleteCard}
@@ -104,11 +127,20 @@ export default class BoardsApp extends React.Component {
           updateCardName=   {updateCardName}
           userIsAssigned=   {user_is_assigned}
         />
+        <NewBoardModal
+          boardSlug=    {board_slug}
+          component=    {component}
+          handleClose=  {closeNewBoardModal}
+          show=         {this.state.showNewBoardModal}
+        />
         <Title
-          boardSlug=          {board_slug}
+          boardOrder=         {boardOrder}
+          boards=             {boards}
+          component=          {component}
           handleAfterUpdate=  {setBoardName}
           name=               {boardName}
           userIsAssigned=     {user_is_assigned}
+          showNewBoardModal=  {showNewBoardModal}
         />
         <Columns
           allCards=           {allCards}
@@ -132,6 +164,7 @@ BoardsApp.propTypes = {
   cards:            PropTypes.object.isRequired,
   column_order:     PropTypes.array.isRequired,
   columns:          PropTypes.object.isRequired,
+  component:        PropTypes.object.isRequired,
   name:             PropTypes.string.isRequired,
   user_is_assigned: PropTypes.bool.isRequired
 }

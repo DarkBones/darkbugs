@@ -1,7 +1,9 @@
 import ApiInput     from '../shared/input/ApiInput'
+import i18n         from '../../i18n'
 import React        from 'react'
 import PropTypes    from 'prop-types'
 import { BoardApi } from '../../api/InternalApi'
+import { Dropdown } from 'react-bootstrap'
 
 export default class Title extends React.Component {
   constructor(props) {
@@ -87,17 +89,52 @@ export default class Title extends React.Component {
       updateBoardName
     } = this
 
-    const { userIsAssigned } = this.props
+    const { boardOrder, boards, showNewBoardModal, userIsAssigned } = this.props
 
     const { isEditing, name } = this.state
 
     let el = (
-      <h1
-        onClick={startEditing}
-        className="board-title"
-      >
-        {name}
-      </h1>
+      <Dropdown>
+        <Dropdown.Toggle
+          className="p-0"
+          variant="link"
+        >
+          <h1>
+            {name}
+          </h1>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {boardOrder.length > 0 &&
+            <React.Fragment>
+              {boardOrder.map((slug) =>
+                <Dropdown.Item
+                  key={slug}
+                  slug={slug}
+                  href={boards[slug].path}
+                >
+                  {boards[slug].name}
+                </Dropdown.Item>
+              )}
+              <div className="dropdown-divider"></div>
+            </React.Fragment>
+          }
+          {userIsAssigned &&
+            <React.Fragment>
+              <Dropdown.Item
+                onClick={startEditing}
+              >
+                {i18n.t("components.projects.title.dropdown.edit_name")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={showNewBoardModal}
+              >
+                {i18n.t("components.projects.title.dropdown.new_board")}
+              </Dropdown.Item>
+            </React.Fragment>
+          }
+        </Dropdown.Menu>
+      </Dropdown>
     )
 
     if (userIsAssigned) {
@@ -133,8 +170,11 @@ export default class Title extends React.Component {
 }
 
 Title.propTypes = {
-  boardSlug:          PropTypes.string.isRequired,
+  boardOrder:         PropTypes.array.isRequired,
+  boards:             PropTypes.object.isRequired,
+  component:          PropTypes.object.isRequired,
   handleAfterUpdate:  PropTypes.func.isRequired,
   name:               PropTypes.string.isRequired,
-  userIsAssigned:     PropTypes.bool.isRequired
+  showNewBoardModal:  PropTypes.func.isRequired,
+  userIsAssigned:     PropTypes.bool.isRequired,
 }

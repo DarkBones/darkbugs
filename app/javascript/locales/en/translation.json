@@ -20,7 +20,8 @@
         "toolbar": {
           "new_note": "New Note",
           "delete_card": "Delete Card",
-          "delete_confirm": "Are you sure?"
+          "delete_confirm": "Are you sure?",
+          "new_board": "New Board"
         }
       },
       "cards": {
@@ -48,6 +49,16 @@
         "Column": {
           "delete_warning": "Deleting a column will also delete all its cards. Continue?"
         }
+      },
+      "newBoardModal": {
+        "title": "New Board",
+        "placeholder": "Board Name"
+      },
+      "title": {
+        "dropdown": {
+          "edit_name": "Edit Name",
+          "new_board": "New Board"
+        }
       }
     },
     "shared": {
@@ -55,7 +66,8 @@
         "cancel": "Cancel",
         "fields": {
           "labels": {
-            "content": "Content"
+            "content": "Content",
+            "name": "Name"
           }
         },
         "required": {

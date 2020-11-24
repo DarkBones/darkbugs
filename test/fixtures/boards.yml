@@ -11,3 +11,17 @@ organization_project:
   root_project_id: 2
   name: organization project
   slug: organization-project
+
+card_board:
+  component_type: Card
+  component_id: 1
+  root_project_id: 1
+  name: card board
+  slug: card-board
+
+card_board_two:
+  component_type: Card
+  component_id: 1
+  root_project_id: 1
+  name: card board two
+  slug: card-board-two

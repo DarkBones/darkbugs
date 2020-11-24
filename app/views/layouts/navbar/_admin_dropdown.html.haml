@@ -5,7 +5,7 @@
         %i.fa.fa-crown.fa-2x.text-yellow
       .dropdown-menu.dropdown-menu-right.border-0.shadow.animated--fade-in-up{'aria-labelledby' => 'navbarDropdownUserImage'}
         %h6.p-3
-          Admin
+          = "Schema: #{@tenant.tenant_key}"
         .dropdown-divider
         = link_to admin_users_path, class: 'dropdown-item' do
           .dropdown-item-icon

@@ -12,6 +12,8 @@ export default class CardModal extends React.Component {
     super(props)
 
     const defaultCard = {
+      boardOrder: [],
+      boards: {},
       itemOrder: [],
       items: {},
       name: '',
@@ -80,29 +82,60 @@ export default class CardModal extends React.Component {
     const {
       deleteCard,
       deleteItem,
+      newBoard,
       newItem,
+      removeNewBoard,
       saveCardItem,
       saveCardName,
       updateCardItem
     } = this
 
     const card = this.state.cardData
+    const { boardSlug, userIsAssigned } = this.props
 
     return (
       <Body
+        boardOrder=     {card.boardOrder}
+        boards=         {card.boards}
+        boardSlug=      {boardSlug}
         cardUuid=       {card.uuid}
         deleteCard=     {deleteCard}
         deleteItem=     {deleteItem}
         itemOrder=      {card.itemOrder}
         items=          {card.items}
         name=           {card.name}
+        newBoard=       {newBoard}
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
         saveName=       {saveCardName}
+        removeNewBoard= {removeNewBoard}
         updateCardItem= {updateCardItem}
-        userIsAssigned= {this.props.userIsAssigned}
+        userIsAssigned= {userIsAssigned}
       />
     )
+  }
+
+  newBoard = (name = '', slug = '', path= '') => {
+    const boardOrder = Array.from(this.state.cardData.boardOrder)
+    const idx = boardOrder.indexOf('')
+    if (idx > 0) boardOrder.splice(idx, 1)
+
+    boardOrder.push(slug)
+
+    this.setState({
+      ...this.state,
+      cardData: {
+        ...this.state.cardData,
+        boardOrder: boardOrder,
+        boards: {
+          ...this.state.cardData.boards,
+          [slug]: {
+            name: name,
+            path: path
+          }
+        }
+      }
+    })
   }
 
   newItem = (type, params, uuid = 'new') => {
@@ -174,6 +207,8 @@ export default class CardModal extends React.Component {
     this.setState({
       fetchingData: false,
       cardData: {
+        boardOrder: data.board_order,
+        boards: data.boards,
         itemOrder: data.item_order,
         items: data.items,
         name: data.name,
@@ -232,6 +267,7 @@ export default class CardModal extends React.Component {
 }
 
 CardModal.propTypes = {
+  boardSlug:        PropTypes.string.isRequired,
   card:             PropTypes.object,
   handleClose:      PropTypes.func.isRequired,
   handleDeleteCard: PropTypes.func.isRequired,
