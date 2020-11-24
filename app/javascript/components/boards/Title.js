@@ -116,11 +116,11 @@ export default class Title extends React.Component {
                   {boards[slug].name}
                 </Dropdown.Item>
               )}
+              <div className="dropdown-divider"></div>
             </React.Fragment>
           }
           {userIsAssigned &&
             <React.Fragment>
-              <div className="dropdown-divider"></div>
               <Dropdown.Item
                 onClick={startEditing}
               >

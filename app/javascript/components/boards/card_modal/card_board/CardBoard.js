@@ -8,12 +8,12 @@ export default class CardBoard extends React.Component {
   constructor(props) {
     super(props)
 
-    const isNew = props.slug === ''
+    const isNew = props.path === ''
 
     this.state = {
       isNew: isNew,
       name: props.name,
-      slug: props.slug
+      path: props.path
     }
   }
 
@@ -21,7 +21,7 @@ export default class CardBoard extends React.Component {
     const {
       boardSlug,
       cardUuid,
-      removeNewBoard
+      newBoard
     } = this.props
 
     const params = {
@@ -41,10 +41,10 @@ export default class CardBoard extends React.Component {
     this.setState({
       isNew: false,
       name: response.data.name,
-      slug: response.data.slug
+      path: response.data.path
     })
 
-    removeNewBoard()
+    newBoard(response.data.name, response.data.path)
   }
 
   handleOnChange = e => {
@@ -67,7 +67,11 @@ export default class CardBoard extends React.Component {
       />
     )
 
-    const cardBoard = this.state.name
+    const cardBoard = (
+      <a href={this.state.path}>
+        {this.state.name}
+      </a>
+    )
 
     const element = this.state.isNew
       ? input
@@ -82,10 +86,10 @@ export default class CardBoard extends React.Component {
 }
 
 CardBoard.propTypes = {
-  boardSlug:      PropTypes.string.isRequired,
-  cardUuid:       PropTypes.string.isRequired,
-  handleSubmit:   PropTypes.func.isRequired,
-  name:           PropTypes.string.isRequired,
-  removeNewBoard: PropTypes.func.isRequired,
-  slug:           PropTypes.string
+  boardSlug:    PropTypes.string.isRequired,
+  cardUuid:     PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  name:         PropTypes.string.isRequired,
+  newBoard:     PropTypes.func.isRequired,
+  path:         PropTypes.string
 }

@@ -140,22 +140,6 @@ export default class CardModal extends React.Component {
     })
   }
 
-  removeNewBoard = () => {
-    const boardOrder = Array.from(this.state.cardData.boardOrder)
-    const idx = boardOrder.indexOf('')
-    if (idx < 0) return
-
-    boardOrder.splice(idx, 1)
-
-    this.setState({
-      ...this.state,
-      cardData: {
-        ...this.state.cardData,
-        boardOrder: boardOrder
-      }
-    })
-  }
-
   newItem = (type, params, uuid = 'new') => {
     const item = {
       ...this.defaultItems[type],
