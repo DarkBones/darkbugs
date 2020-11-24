@@ -36,8 +36,19 @@ module Api
             uuid: card.uuid
         }
 
+        expected = {
+            'card-board' => {
+                'name' => 'card board',
+                'path' => '/projects/DFLT/boards/card-board'
+            },
+            'card-board-two' => {
+                'name' => 'card board two',
+                'path' => '/projects/DFLT/boards/card-board-two'
+            }
+        }
+
         data = JSON.parse(response.body)
-        assert_equal [{'name'=>'card board', 'slug'=>'card-board'}, {'name'=>'card board two', 'slug'=>'card-board-two'}], data['card']['boards']
+        assert_equal expected, data['card']['boards']
       end
 
       def test_create_board

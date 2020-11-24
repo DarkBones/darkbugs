@@ -15,7 +15,7 @@ class Card < ApplicationRecord
 
   def user_is_assigned?(user)
     return true if assignee_id.nil?
-    
+
     assignee_id == user.id
   end
 
