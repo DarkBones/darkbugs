@@ -14,6 +14,8 @@ class Card < ApplicationRecord
   before_create :set_card_id
 
   def user_is_assigned?(user)
+    return true if assignee_id.nil?
+    
     assignee_id == user.id
   end
 
