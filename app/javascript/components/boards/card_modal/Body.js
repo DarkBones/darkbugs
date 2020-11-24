@@ -20,7 +20,6 @@ export default function Body(props) {
     newItem,
     saveCardItem,
     saveName,
-    submitCardBoard,
     updateCardItem,
     userIsAssigned
   } = props
@@ -40,7 +39,6 @@ export default function Body(props) {
                   <CardBoard
                     boardSlug=    {boardSlug}
                     cardUuid=     {cardUuid}
-                    handleSubmit= {submitCardBoard}
                     name=         {boards[slug].name}
                     newBoard=     {newBoard}
                     path=         {boards[slug].path}
@@ -109,7 +107,6 @@ Body.propTypes = {
   newItem:          PropTypes.func.isRequired,
   saveCardItem:     PropTypes.func.isRequired,
   saveName:         PropTypes.func.isRequired,
-  submitCardBoard:  PropTypes.func.isRequired,
   updateCardItem:   PropTypes.func.isRequired,
   userIsAssigned:   PropTypes.bool.isRequired
 }

@@ -87,7 +87,6 @@ export default class CardModal extends React.Component {
       removeNewBoard,
       saveCardItem,
       saveCardName,
-      submitCardBoard,
       updateCardItem
     } = this
 
@@ -109,7 +108,6 @@ export default class CardModal extends React.Component {
         newItem=        {newItem}
         saveCardItem=   {saveCardItem}
         saveName=       {saveCardName}
-        submitCardBoard={submitCardBoard}
         removeNewBoard= {removeNewBoard}
         updateCardItem= {updateCardItem}
         userIsAssigned= {userIsAssigned}
@@ -242,10 +240,6 @@ export default class CardModal extends React.Component {
         }
       }
     })
-  }
-
-  submitCardBoard = data => {
-    console.log('submit cardboard', data)
   }
 
   render() {

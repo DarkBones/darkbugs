@@ -88,7 +88,6 @@ export default class CardBoard extends React.Component {
 CardBoard.propTypes = {
   boardSlug:    PropTypes.string.isRequired,
   cardUuid:     PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   name:         PropTypes.string.isRequired,
   newBoard:     PropTypes.func.isRequired,
   path:         PropTypes.string
