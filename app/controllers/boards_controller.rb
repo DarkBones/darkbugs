@@ -1,6 +1,5 @@
 class BoardsController < ApplicationController
   before_action :load_project!
-  before_action :load_component!
   before_action :load_board!
   before_action :no_footer
 
@@ -9,11 +8,7 @@ class BoardsController < ApplicationController
   end
 
   private def load_board!
-    @board = @project.boards.find_by!(slug: params[:slug])
-  end
-
-  private def load_component
-    
+    @board = Board.find_by!(root_project_id: @project.id, slug: params[:slug])
   end
 
   private def load_project!

@@ -29,9 +29,15 @@ module Boards
     end
 
     private def component
+      if board.component.is_a? Project
+        uuid = board.component.key
+      else
+        uuid = board.component.uuid
+      end
+
       {
           type: board.component_type,
-          uuid: board.component&.key || board.component.uuid
+          uuid: uuid
       }
     end
 
