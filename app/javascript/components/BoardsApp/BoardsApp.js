@@ -1,6 +1,7 @@
 import React from "react";
 import Title from "./Title";
 import ToggleInput from "../shared/ToggleInput";
+import UserContext from "./UserContext";
 import { BoardApi } from "../../api/InternalApi";
 
 export default class BoardsApp extends React.Component {
@@ -12,6 +13,10 @@ export default class BoardsApp extends React.Component {
       boards,
       name
     } = props
+
+    this.user = {
+      isAssigned: props.user_is_assigned
+    }
 
     this.state = {
       boardOrder: board_order,
@@ -52,6 +57,10 @@ export default class BoardsApp extends React.Component {
 
   render() {
     const {
+      user
+    } = this
+
+    const {
       boardOrder,
       boards,
       name,
@@ -60,28 +69,30 @@ export default class BoardsApp extends React.Component {
 
     return (
       <div id="boards-app">
-        <ToggleInput
-          handleOnSubmit={this.handleSubmit}
-          handleOnCancel={this.handelCancelEditName}
-          value={name}
-          toggleOnClick={false}
-          isEditing={nameIsEditing}
-        >
-          <h1>
-            {name}
-          </h1>
-          <div
-            onClick={() => {this.setState({nameIsEditing: true})}}
+        <UserContext.Provider value={user}>
+          <ToggleInput
+            handleOnSubmit={this.handleSubmit}
+            handleOnCancel={this.handelCancelEditName}
+            value={name}
+            toggleOnClick={false}
+            isEditing={nameIsEditing}
           >
-            CLICK!!!
-          </div>
-        </ToggleInput>
+            <h1>
+              {name}
+            </h1>
+            <div
+              onClick={() => {this.setState({nameIsEditing: true})}}
+            >
+              CLICK!!!
+            </div>
+          </ToggleInput>
 
-        <Title
-          boardOrder={boardOrder}
-          boards={boards}
-          name={name}
-        />
+          <Title
+            boardOrder={boardOrder}
+            boards={boards}
+            name={name}
+          />
+        </UserContext.Provider>
       </div>
     )
   }
