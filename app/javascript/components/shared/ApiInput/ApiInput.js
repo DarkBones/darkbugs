@@ -1,5 +1,5 @@
-import React      from 'react'
-import PropTypes  from 'prop-types'
+import PropTypes  from "prop-types";
+import React      from "react";
 
 export default class ApiInput extends React.Component {
   constructor(props) {
@@ -19,11 +19,11 @@ export default class ApiInput extends React.Component {
   }
 
   handleOnKeyDown = e => {
-    const { handleSubmit, handleCancel, name } = this.props
+    const { handleSubmit, handleCancel, name } = this.props;
 
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit(this.state[name]);
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       if (handleCancel) handleCancel();
     }
   }
@@ -68,6 +68,6 @@ ApiInput.propTypes = {
 
 ApiInput.defaultProps = {
   focus:  true,
-  name:   'value',
-  value:  ''
+  name:   "value",
+  value:  ""
 }

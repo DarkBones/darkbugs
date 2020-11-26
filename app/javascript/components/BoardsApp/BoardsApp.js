@@ -1,14 +1,21 @@
-import React from 'react';
-import ToggleInput from '../shared/ToggleInput';
-import { BoardApi } from '../../api/InternalApi';
+import React from "react";
+import Title from "./Title";
+import ToggleInput from "../shared/ToggleInput";
+import { BoardApi } from "../../api/InternalApi";
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props);
 
-    const { name } = props
+    const {
+      board_order,
+      boards,
+      name
+    } = props
 
     this.state = {
+      boardOrder: board_order,
+      boards: boards,
       name: name,
       nameIsEditing: false
     };
@@ -37,8 +44,19 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  setMainState = (key, value) => {
+    this.setState({
+      [key]: value
+    })
+  }
+
   render() {
-    const { name, nameIsEditing } = this.state;
+    const {
+      boardOrder,
+      boards,
+      name,
+      nameIsEditing
+    } = this.state;
 
     return (
       <div id="boards-app">
@@ -58,6 +76,12 @@ export default class BoardsApp extends React.Component {
             CLICK!!!
           </div>
         </ToggleInput>
+
+        <Title
+          boardOrder={boardOrder}
+          boards={boards}
+          name={name}
+        />
       </div>
     )
   }

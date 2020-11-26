@@ -1,6 +1,6 @@
-import ApiInput from '../ApiInput';
-import React from 'react';
-import PropTypes from 'prop-types';
+import ApiInput from "../ApiInput";
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class ToggleInput extends React.Component {
   constructor(props) {
