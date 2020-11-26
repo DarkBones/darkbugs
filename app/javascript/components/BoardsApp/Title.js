@@ -11,13 +11,25 @@ export default class Title extends React.Component {
     super(props);
 
     this.state = {
-      name: props.name,
       nameIsEditing: false
     };
   }
 
   updateBoardName = async (name) => {
-    console.log('update board name to', name);
+    const params = {
+      board: {
+        name: name
+      }
+    };
+
+    const { boardSlug, setMainState } = this.props;
+
+    let response = await BoardApi.updateName(boardSlug, params);
+
+    if (!response) return;
+    if (response.status !== 200) return;
+
+    setMainState('name', response.data.name)
   }
 
   render() {
@@ -28,7 +40,8 @@ export default class Title extends React.Component {
     const {
       boardOrder,
       boards,
-      name
+      name,
+      showBoardModal
     } = this.props;
 
     const {
@@ -70,7 +83,7 @@ export default class Title extends React.Component {
                         {boards[slug].name}
                       </Dropdown.Item>
                     )}
-                    <div className="dropdown-divider"></div>
+                    <div className="dropdown-divider" />
                   </React.Fragment>
                   }
                   {user.isAssigned &&
@@ -79,6 +92,11 @@ export default class Title extends React.Component {
                         onClick={() => { this.setState({nameIsEditing: true}) }}
                       >
                         {i18n.t("components.projects.title.dropdown.edit_name")}
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={showBoardModal}
+                      >
+                        {i18n.t("components.projects.title.dropdown.new_board")}
                       </Dropdown.Item>
                     </React.Fragment>
                   }
@@ -93,7 +111,10 @@ export default class Title extends React.Component {
 }
 
 Title.propTypes = {
-  boardOrder: PropTypes.array.isRequired,
-  boards:     PropTypes.object.isRequired,
-  name:       PropTypes.string.isRequired
+  boardOrder:     PropTypes.array.isRequired,
+  boards:         PropTypes.object.isRequired,
+  boardSlug:      PropTypes.string.isRequired,
+  name:           PropTypes.string.isRequired,
+  setMainState:   PropTypes.func.isRequired,
+  showBoardModal: PropTypes.func.isRequired
 }

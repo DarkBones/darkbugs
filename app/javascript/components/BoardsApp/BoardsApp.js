@@ -11,6 +11,7 @@ export default class BoardsApp extends React.Component {
     const {
       board_order,
       boards,
+      board_slug,
       name
     } = props
 
@@ -21,8 +22,10 @@ export default class BoardsApp extends React.Component {
     this.state = {
       boardOrder: board_order,
       boards: boards,
+      boardSlug: board_slug,
       name: name,
-      nameIsEditing: false
+      nameIsEditing: false,
+      showBoardModal: false
     };
   }
 
@@ -50,19 +53,29 @@ export default class BoardsApp extends React.Component {
   }
 
   setMainState = (key, value) => {
+    console.log('setMainState', key, value)
     this.setState({
       [key]: value
     })
   }
 
+  showBoardModal = () => {
+    this.setState({
+      showBoardModal: true
+    });
+  }
+
   render() {
     const {
-      user
+      user,
+      setMainState,
+      showBoardModal
     } = this
 
     const {
       boardOrder,
       boards,
+      boardSlug,
       name,
       nameIsEditing
     } = this.state;
@@ -90,7 +103,10 @@ export default class BoardsApp extends React.Component {
           <Title
             boardOrder={boardOrder}
             boards={boards}
+            boardSlug={boardSlug}
             name={name}
+            setMainState={setMainState}
+            showBoardModal={showBoardModal}
           />
         </UserContext.Provider>
       </div>
