@@ -39,7 +39,7 @@ class UserMailer < PostageApp::Mailer
     @added_by = added_by.name
     @name = added_user.name
     @organization = organization.name
-    @link = organization_accept_invitation_path(organization_slug: organization.slug, confirmation_token: token)
+    @link = organization_accept_invitation_path(organization_slug: organization.slug, token: token)
     mail(to: added_user.email,
          subject: I18n.t('mailers.user_mailer.added_to_organization.subject'))
   end

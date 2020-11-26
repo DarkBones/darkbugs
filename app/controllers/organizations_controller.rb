@@ -53,7 +53,7 @@ class OrganizationsController < ApplicationController
 
     user_organization = @current_user
                           .user_organizations
-                          .find_by!(confirmation_token: params[:confirmation_token])
+                          .find_by!(confirmation_token: params[:token])
     user_organization.update!(accepted_at: Time.now.utc)
 
     redirect_to(organizations_path, {

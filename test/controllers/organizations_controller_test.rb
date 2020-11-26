@@ -137,7 +137,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     get :accept_invitation, params: {
       organization_slug: @organization.slug,
-      confirmation_token: token
+      token: token
     }
 
     assert_not_nil user_org.reload.accepted_at
@@ -155,7 +155,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     get :accept_invitation, params: {
       organization_slug: @organization.slug,
-      confirmation_token: token
+      token: token
     }
 
     assert_nil user_org.reload.accepted_at
