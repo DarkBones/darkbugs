@@ -136,7 +136,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_nil user_org.accepted_at
 
     get :accept_invitation, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       confirmation_token: token
     }
 
@@ -154,7 +154,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_nil user_org.accepted_at
 
     get :accept_invitation, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       confirmation_token: token
     }
 
@@ -198,7 +198,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:MEMBER], user_organization.role
 
     put :grant_admin, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       user_uuid: user.uuid
     }
 
@@ -213,7 +213,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
 
     put :revoke_admin, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       user_uuid: user.uuid
     }
 
@@ -230,7 +230,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_no_difference 'Organization.count' do
       put :grant_admin, params: {
-        slug: @organization.slug,
+        organization_slug: @organization.slug,
         user_uuid: user.uuid
       }
 
@@ -249,7 +249,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:ADMIN], user_organization.role
 
     put :revoke_admin, params: {
-      slug: @organization.slug,
+        organization_slug: @organization.slug,
       user_uuid: user.uuid
     }
 
@@ -262,7 +262,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
 
     put :grant_admin, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       user_uuid: @user.uuid
     }
 
@@ -275,7 +275,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
 
     put :revoke_admin, params: {
-      slug: @organization.slug,
+        organization_slug: @organization.slug,
       user_uuid: @user.uuid
     }
 
@@ -291,7 +291,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_equal UserOrganization::ROLES[:CREATOR], user_organization.role
 
     put :grant_admin, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       user_uuid: user.uuid
     }
 
@@ -305,7 +305,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_not_nil UserOrganization.find_by(user: user, organization: @organization)
 
     delete :remove_member, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       user_uuid: user.uuid
     }
 
@@ -318,7 +318,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     user = users(:locked)
 
     delete :remove_member, params: {
-      slug: @organization.slug,
+      organization_slug: @organization.slug,
       user_uuid: user.uuid
     }
 

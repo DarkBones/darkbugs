@@ -11,17 +11,19 @@ Rails.application.routes.draw do
   resources :health, only: [:index]
 
   resources :users
+
   resources :organizations, param: :slug, except: [:update, :edit, :destroy] do
     post :create_members
     post :destroy
     get :add_members
     get :delete
     delete :leave
+
+    get 'accept_invitation/:confirmation_token', action: :accept_invitation, as: 'accept_invitation'
+    put 'grant_admin/:user_uuid', action: :grant_admin, as: 'grant_admin'
+    put 'revoke_admin/:user_uuid', action: :revoke_admin, as: 'revoke_admin'
+    delete 'remove_member/:user_uuid', action: :remove_member, as: 'remove_member'
   end
-  get '/organizations/:slug/accept_invitation/:confirmation_token', to: 'organizations#accept_invitation', as: 'organization_accept_invitation'
-  put '/organizations/:slug/grant_admin/:user_uuid',    to: 'organizations#grant_admin',    as: 'organization_grant_admin'
-  put '/organizations/:slug/revoke_admin/:user_uuid',   to: 'organizations#revoke_admin',   as: 'organization_revoke_admin'
-  delete '/organizations/:slug/remove_member/:user_uuid',  to: 'organizations#remove_member',  as: 'organization_remove_member'
 
   resources :projects, param: :key do
     get :delete
