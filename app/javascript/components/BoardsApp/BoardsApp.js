@@ -83,23 +83,6 @@ export default class BoardsApp extends React.Component {
     return (
       <div id="boards-app">
         <UserContext.Provider value={user}>
-          <ToggleInput
-            handleOnSubmit={this.handleSubmit}
-            handleOnCancel={this.handelCancelEditName}
-            value={name}
-            toggleOnClick={false}
-            isEditing={nameIsEditing}
-          >
-            <h1>
-              {name}
-            </h1>
-            <div
-              onClick={() => {this.setState({nameIsEditing: true})}}
-            >
-              CLICK!!!
-            </div>
-          </ToggleInput>
-
           <Title
             boardOrder={boardOrder}
             boards={boards}
