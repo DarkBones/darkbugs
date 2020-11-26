@@ -7,7 +7,7 @@ import {
   Button
 } from 'react-bootstrap'
 
-export default function Modal (props) {
+export default function ModalOld (props) {
   let includeFooter = true
   if (typeof(props.includeFooter) !== 'undefined') {
     includeFooter = props.includeFooter

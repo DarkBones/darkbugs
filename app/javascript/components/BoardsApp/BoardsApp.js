@@ -1,8 +1,7 @@
-import React from "react";
-import Title from "./Title";
-import ToggleInput from "../shared/ToggleInput";
-import UserContext from "./UserContext";
-import { BoardApi } from "../../api/InternalApi";
+import BoardModal   from "./BoardModal";
+import React        from "react";
+import Title        from "./Title";
+import UserContext  from "./UserContext";
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
@@ -12,6 +11,7 @@ export default class BoardsApp extends React.Component {
       board_order,
       boards,
       board_slug,
+      component,
       name
     } = props
 
@@ -23,66 +23,56 @@ export default class BoardsApp extends React.Component {
       boardOrder: board_order,
       boards: boards,
       boardSlug: board_slug,
+      component: component,
       name: name,
       nameIsEditing: false,
-      showBoardModal: false
+      boardModalShowing: false
     };
-  }
-
-  handleSubmit = async (data) => {
-    const params = {
-      board: {
-        name: data
-      }
-    };
-
-    let response = await BoardApi.updateName(this.props.board_slug, params)
-
-    if (!response) return;
-    if (response.status !== 200) return;
-
-    this.setState({
-      name: response.data.name
-    })
-  }
-
-  handelCancelEditName = () => {
-    this.setState({
-      nameIsEditing: false
-    })
   }
 
   setMainState = (key, value) => {
-    console.log('setMainState', key, value)
     this.setState({
       [key]: value
-    })
-  }
-
-  showBoardModal = () => {
-    this.setState({
-      showBoardModal: true
     });
   }
 
+  showBoardModal = () => { this.setShowBoardModal(true); }
+  closeBoardModal = () => { this.setShowBoardModal(false); }
+
+  setShowBoardModal = show => {
+    this.setState({
+      boardModalShowing: show
+    })
+  }
+
   render() {
+    console.log(this.state.keys);
     const {
-      user,
+      closeBoardModal,
       setMainState,
-      showBoardModal
+      showBoardModal,
+      user
     } = this
 
     const {
+      boardModalShowing,
       boardOrder,
       boards,
       boardSlug,
-      name,
-      nameIsEditing
+      component,
+      name
     } = this.state;
 
     return (
       <div id="boards-app">
         <UserContext.Provider value={user}>
+          <BoardModal
+            boardSlug={boardSlug}
+            component={component}
+            handleClose={closeBoardModal}
+            show={boardModalShowing}
+          />
+
           <Title
             boardOrder={boardOrder}
             boards={boards}

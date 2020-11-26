@@ -1,6 +1,6 @@
 import React        from 'react'
 import Body         from './Body'
-import Modal        from '../../shared/modal/Modal'
+import Modal        from '../../shared/modal_old/ModalOld'
 import i18n         from '../../../i18n'
 import PropTypes    from 'prop-types'
 import { BoardApi } from '../../../api/InternalApi'
