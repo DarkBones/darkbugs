@@ -10,8 +10,6 @@ Rails.application.routes.draw do
 
   resources :health, only: [:index]
 
-  resources :users
-
   resources :organizations, param: :slug, except: [:update, :edit, :destroy] do
     post :create_members
     post :destroy
@@ -31,7 +29,8 @@ Rails.application.routes.draw do
     post :destroy
   end
 
-  get '/user/:username', to: 'user_profiles#show', as: 'user_profile'
+  resources :users
+  resources :user_profiles, path: 'user', param: :username, only: :show
 
   root 'projects#index'
 
