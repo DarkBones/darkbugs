@@ -2,10 +2,21 @@ import {get, put, post, del} from './BaseApi'
 
 const BASE_URL = '/internal'
 
+const AVATAR_PATH     = `${BASE_URL}/user_avatars`
 const BOARD_PATH      = `${BASE_URL}/boards`
 const CARD_ITEM_PATH  = `${BASE_URL}/card_items`
 const CARD_PATH       = `${BASE_URL}/cards`
 const COLUMN_PATH     = `${BASE_URL}/columns`
+
+export class UserAvatarApi {
+  static uploadAvatar(params) {
+    return post(AVATAR_PATH, params)
+  }
+
+  static deleteAvatar() {
+    return del(AVATAR_PATH)
+  }
+}
 
 export class BoardApi {
   static reorderColumns(slug, params) {
