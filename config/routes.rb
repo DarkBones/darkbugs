@@ -8,9 +8,6 @@ Rails.application.routes.draw do
   }
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
-  post 'uploads/user_avatar' => 'uploads#create_user_avatar'
-  delete 'uploads/user_avatar' => 'uploads#delete_user_avatar'
-
   resources :health, only: [:index]
 
   resources :users
@@ -53,6 +50,8 @@ Rails.application.routes.draw do
       end
 
       resources :card_items, param: :uuid
+
+      resource :user_avatars, only: [:create, :destroy]
     end
   end
 end
