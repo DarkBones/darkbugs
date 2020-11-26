@@ -40,7 +40,7 @@ module Api
       def update
         @board.update!(board_params)
 
-        render json: 'success'
+        render :create
       end
 
       private def board_params
