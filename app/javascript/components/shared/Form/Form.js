@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Field from './field/Field'
-import i18n from '../../../i18n'
+import i18n       from '../../../i18n';
+import Field      from './Field';
+import PropTypes  from 'prop-types';
+import React      from 'react';
 
 export default class Form extends React.Component {
   constructor(props) {
@@ -26,7 +26,9 @@ export default class Form extends React.Component {
     })
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+
     const values = {}
     this.props.fieldOrder.forEach(field => {
       values[field] = this.state.fields[field].value
@@ -46,7 +48,7 @@ export default class Form extends React.Component {
     } = this.props
 
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         {fieldOrder.map((fieldId, index) =>
           <Field
             key={fieldId}

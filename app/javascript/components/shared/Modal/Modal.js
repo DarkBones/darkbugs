@@ -8,7 +8,15 @@ import {
 } from 'react-bootstrap';
 
 export default function Modal (props) {
-  const { handleOnClose, show, size, title } = props;
+  const {
+    children,
+    handleOnClose,
+    handleSubmit,
+    includeFooter,
+    show,
+    size,
+    title
+  } = props;
 
   return (
     <div>
@@ -23,6 +31,27 @@ export default function Modal (props) {
               {title}
             </Mod.Title>
           </Mod.Header>
+          <Mod.Body>
+            {children}
+          </Mod.Body>
+          {includeFooter &&
+            <Mod.Footer>
+              <Button
+                variant="secondary"
+                onClick={handleOnClose}
+              >
+                {i18n.t('components.shared.Modal.buttons.close')}
+              </Button>
+              {handleSubmit &&
+                <Button
+                  variant="primary"
+                  onClick={handleSubmit}
+                >
+                  {submit}
+                </Button>
+              }
+            </Mod.Footer>
+          }
         </Mod>
       }
     </div>

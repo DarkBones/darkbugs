@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from '../../../shared/input/Form'
+// import Form from '../../../shared/input/Form'
 import PropTypes from 'prop-types'
 
 export default function Note(props) {

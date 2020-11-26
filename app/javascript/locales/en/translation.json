@@ -12,6 +12,14 @@
         }
       }
     },
+    "BoardsApp": {
+      "BoardModal": {
+        "title": "Create New Board",
+        "Body": {
+          "placeholder": "Create New Board"
+        }
+      }
+    },
     "projects": {
       "cardmodal": {
         "item": {
@@ -78,11 +86,9 @@
           "new_note": "New Note"
         }
       },
-      "modal": {
-        "Modal": {
-          "buttons": {
-            "close": "Close"
-          }
+      "Modal": {
+        "buttons": {
+          "close": "Close"
         }
       }
     }

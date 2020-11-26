@@ -1,7 +1,7 @@
 import React      from 'react'
 import i18n       from '../../../i18n'
 import PropTypes  from 'prop-types'
-import Form       from '../../shared/input/Form'
+// import Form       from '../../shared/input/Form'
 
 export default class Body extends React.Component {
   constructor(props) {
@@ -32,13 +32,13 @@ export default class Body extends React.Component {
 
     return (
       <React.Fragment>
-        <Form
-          fieldOrder={fieldOrder}
-          fields={fields}
-          formId={'test form id'}
-          handleCancel={handleClose}
-          handleSubmit={handleSubmit}
-        />
+        {/*<Form*/}
+        {/*  fieldOrder={fieldOrder}*/}
+        {/*  fields={fields}*/}
+        {/*  formId={'test form id'}*/}
+        {/*  handleCancel={handleClose}*/}
+        {/*  handleSubmit={handleSubmit}*/}
+        {/*/>*/}
       </React.Fragment>
     )
   }

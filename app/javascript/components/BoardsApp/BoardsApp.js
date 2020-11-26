@@ -46,7 +46,6 @@ export default class BoardsApp extends React.Component {
   }
 
   render() {
-    console.log(this.state.keys);
     const {
       closeBoardModal,
       setMainState,

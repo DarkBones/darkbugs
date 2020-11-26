@@ -1,6 +1,6 @@
 import React            from 'react'
 import Author           from './Author'
-import Form             from '../../../shared/input/Form'
+// import Form             from '../../../shared/input/Form'
 import Note             from './Note'
 import PropTypes        from 'prop-types'
 import { CardItemApi }  from '../../../../api/InternalApi'
@@ -121,13 +121,14 @@ export default class Item extends React.Component {
     const { fieldOrder, fields } = this.formParams
 
     return (
-      <Form
-        fieldOrder={fieldOrder}
-        fields={fields}
-        formId={this.props.uuid}
-        handleCancel={handleCancel}
-        handleSubmit={handleSubmit}
-      />
+      <div>depricated</div>
+      // <Form
+      //   fieldOrder={fieldOrder}
+      //   fields={fields}
+      //   formId={this.props.uuid}
+      //   handleCancel={handleCancel}
+      //   handleSubmit={handleSubmit}
+      // />
     )
   }
 
