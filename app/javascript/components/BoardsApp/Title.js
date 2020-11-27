@@ -22,9 +22,9 @@ export default class Title extends React.Component {
       }
     };
 
-    const { boardSlug, setMainState } = this.props;
+    const { boardSlug, projectKey, setMainState } = this.props;
 
-    let response = await BoardApi.updateName(boardSlug, params);
+    let response = await BoardApi.updateName(projectKey, boardSlug, params);
 
     if (!response) return;
     if (response.status !== 200) return;
@@ -78,7 +78,7 @@ export default class Title extends React.Component {
                     {boardOrder.map((slug) =>
                       <Dropdown.Item
                         // href={boards[slug].path}
-                        onClick={() => {switchBoard(boards[slug].path)}}
+                        onClick={() => {switchBoard(boards[slug].path, slug)}}
                         key={slug}
                         slug={slug}
                       >
@@ -117,6 +117,7 @@ Title.propTypes = {
   boards:         PropTypes.object.isRequired,
   boardSlug:      PropTypes.string.isRequired,
   name:           PropTypes.string.isRequired,
+  projectKey:     PropTypes.string.isRequired,
   setMainState:   PropTypes.func.isRequired,
   showBoardModal: PropTypes.func.isRequired,
   switchBoard:    PropTypes.func.isRequired

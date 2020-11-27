@@ -11,7 +11,10 @@ class BoardsController < ApplicationController
   end
 
   private def load_props
-    @props = Boards::BoardPresenter.new(@board, @current_user).to_h
+    @props = {
+        board_slug: @board.slug,
+        project_key: @board.root_project.key
+    }
   end
 
   private def load_board!

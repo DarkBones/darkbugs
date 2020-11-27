@@ -5,7 +5,7 @@ import PropTypes    from 'prop-types';
 import React        from 'react';
 import { BoardApi } from '../../../api/InternalApi';
 
-export default function BoardModal({ addBoard, boardSlug, component, handleClose, show }) {
+export default function BoardModal({ addBoard, boardSlug, component, handleClose, projectKey, show }) {
   const handleSubmit = async (data) => {
     const { type, uuid } = component;
 
@@ -16,7 +16,7 @@ export default function BoardModal({ addBoard, boardSlug, component, handleClose
       board: data
     };
 
-    let response = await BoardApi.createBoard(params);
+    let response = await BoardApi.createBoard(projectKey, params);
 
     if (!response) return;
     if (response.status !== 200) return;
@@ -45,5 +45,6 @@ BoardModal.propTypes = {
   boardSlug:    PropTypes.string.isRequired,
   component:    PropTypes.object.isRequired,
   handleClose:  PropTypes.func.isRequired,
+  projectKey:   PropTypes.string.isRequired,
   show:         PropTypes.bool.isRequired
 }

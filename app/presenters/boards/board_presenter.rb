@@ -11,15 +11,16 @@ module Boards
 
     def to_h
       {
-          component: component,
-          board_order: board_order,
-          boards: boards,
-          name: board.name,
-          board_slug: board.slug,
-          cards: cards,
-          card_order: board.cards.ordered.pluck(:uuid),
-          columns: columns,
-          column_order: board.columns.ordered.pluck(:uuid),
+          component:        component,
+          board_order:      board_order,
+          boards:           boards,
+          name:             board.name,
+          board_slug:       board.slug,
+          cards:            cards,
+          card_order:       board.cards.ordered.pluck(:uuid),
+          columns:          columns,
+          column_order:     board.columns.ordered.pluck(:uuid),
+          project_key:      board.root_project.key,
           user_is_assigned: board.user_is_assigned?(current_user)
       }
     end

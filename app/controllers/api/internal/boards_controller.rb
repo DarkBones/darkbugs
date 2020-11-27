@@ -1,9 +1,15 @@
 module Api
   module Internal
     class BoardsController < Api::Internal::BaseApiInternalController
-      before_action :load_board!, only: %i[create reorder_columns reorder_cards update]
-      before_action :check_is_assignee!, only: %i[create update destroy]
-      before_action :load_component!, only: %i[create]
+      before_action :load_board!,         only: %i[show create reorder_columns reorder_cards update]
+      before_action :check_is_assignee!,  only: %i[create update destroy]
+      before_action :load_component!,     only: %i[create]
+
+      def show
+        data = Boards::BoardPresenter.new(@board, @current_user).to_h
+
+        render json: {data: data, status: 200}
+      end
 
       def create
         @board = Boards::CreateService
@@ -23,8 +29,8 @@ module Api
       end
 
       def reorder_cards
-        card = @board.cards.find_by!(uuid: params[:card_uuid])
-        column = @board.columns.find_by!(uuid: params[:column_uuid])
+        card =          @board.cards.find_by!(uuid: params[:card_uuid])
+        column =        @board.columns.find_by!(uuid: params[:column_uuid])
         previous_card = @board.cards.find_by(uuid: params[:previous_card])
 
         Cards::ReorderService.new(
@@ -59,14 +65,22 @@ module Api
         end
       end
 
+      private def load_project!
+        @project = Project.find_by!(key: params[:project_key])
+      end
+
       private def load_board!
+        load_project!
+
         slug = params[:slug] || params[:board_slug]
 
-        @board = Board.find_by!(slug: slug)
+        @board = Board.find_by!(slug: slug, root_project_id: @project.id)
       end
 
       private def check_is_assignee!
-        return if @board.user_is_assigned?(@current_user)
+        load_project!
+
+        return if @project.user_is_assigned?(@current_user)
 
         raise ActionController::BadRequest
       rescue ActionController::BadRequest

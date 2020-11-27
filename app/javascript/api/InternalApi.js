@@ -3,7 +3,7 @@ import {get, put, post, del} from './BaseApi'
 const BASE_URL = '/internal'
 
 const AVATAR_PATH     = `${BASE_URL}/user_avatars`
-const BOARD_PATH      = `${BASE_URL}/boards`
+const BOARD_PATH      = `${BASE_URL}/projects/:project_key/boards`
 const CARD_ITEM_PATH  = `${BASE_URL}/card_items`
 const CARD_PATH       = `${BASE_URL}/cards`
 const COLUMN_PATH     = `${BASE_URL}/columns`
@@ -19,28 +19,34 @@ export class UserAvatarApi {
 }
 
 export class BoardApi {
-  static reorderColumns(slug, params) {
-    const path = `${BOARD_PATH}/${slug}/reorder_columns`
+  static reorderColumns(projectKey, slug, params) {
+    const path = `${BOARD_PATH.replace(':project_key', projectKey)}/${slug}/reorder_columns`
 
     return put(path, params)
   }
 
-  static reorderCards(slug, params) {
-    const path = `${BOARD_PATH}/${slug}/reorder_cards`
+  static reorderCards(projectKey, slug, params) {
+    const path = `${BOARD_PATH.replace(':project_key', projectKey)}/${slug}/reorder_cards`
 
     return put(path, params)
   }
 
-  static updateName(slug, params) {
-    const path = `${BOARD_PATH}/${slug}`
+  static updateName(projectKey, slug, params) {
+    const path = `${BOARD_PATH.replace(':project_key', projectKey)}/${slug}`
 
     return put(path, params)
   }
 
-  static createBoard(params) {
-    const path = BOARD_PATH
+  static createBoard(projectKey, params) {
+    const path = BOARD_PATH.replace(':project_key', projectKey)
 
     return post(path, params)
+  }
+
+  static getBoard(projectKey, slug) {
+    const path = `${BOARD_PATH.replace(':project_key', projectKey)}/${slug}`
+
+    return get(path)
   }
 }
 

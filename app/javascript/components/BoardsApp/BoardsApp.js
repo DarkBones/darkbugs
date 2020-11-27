@@ -3,39 +3,34 @@ import Columns      from "./Columns";
 import React        from "react";
 import Title        from "./Title";
 import UserContext  from "./UserContext";
-
-import { Router } from "react-router";
-import {Spinner} from "react-bootstrap";
+import { BoardApi } from "../../api/InternalApi";
+import { Spinner }  from "react-bootstrap";
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props);
 
     const {
-      board_order,
-      boards,
       board_slug,
-      column_order,
-      columns,
-      component,
-      name
+      project_key
     } = props
 
-    this.user = {
-      isAssigned: props.user_is_assigned
-    }
-
     this.state = {
+      boardModalShowing:  false,
       boardOrder:         [],
       boards:             {},
-      boardSlug:          '',
+      boardSlug:          board_slug,
       columnOrder:        [],
       columns:            {},
       component:          {},
-      fetchingData:       true,
+      fetchingData:       false,
       name:               '',
       nameIsEditing:      false,
-      boardModalShowing:  false
+      projectKey:         project_key,
+      showSpinner:        false,
+      user:               {
+                            isAssigned: false
+                          }
     };
   }
 
@@ -55,6 +50,49 @@ export default class BoardsApp extends React.Component {
     }, this.closeBoardModal());
   }
 
+  componentDidMount() {
+    this.fetchBoardData(this.state.boardSlug);
+
+    // TODO: Test this doesn't affect dragging / typing actions
+    // setInterval(() => {
+    //   if (!this.state.fetchingData) this.fetchBoardData(this.state.boardSlug);
+    // }, 1000 * 60);
+  }
+
+  fetchBoardData = async (slug) => {
+    // if (this.state.fetchingData) return;
+
+    this.setState({
+      fetchingData: true,
+      showSpinner: slug !== this.state.boardSlug || this.state.name === ''
+    });
+
+    let response = await BoardApi.getBoard(this.props.project_key, slug);
+
+    if (!response) return;
+    if (response.status !== 200) return;
+
+    const { data } = response;
+
+    console.log(data);
+
+    this.setState({
+      boardOrder: data.board_order,
+      boards: data.boards,
+      boardSlug: data.board_slug,
+      columnOrder: data.column_order,
+      columns: data.columns,
+      component: data.component,
+      fetchingData: false,
+      name: data.name,
+      showSpinner: false,
+      user: {
+        ...this.state.users,
+        isAssigned: data.user_is_assigned
+      }
+    })
+  }
+
   setMainState = (key, value) => {
     this.setState({
       [key]: value
@@ -72,6 +110,8 @@ export default class BoardsApp extends React.Component {
 
   switchBoard = (path, slug) => {
     window.history.pushState({}, '', path);
+
+    this.fetchBoardData(slug);
   }
 
   render() {
@@ -80,8 +120,7 @@ export default class BoardsApp extends React.Component {
       closeBoardModal,
       setMainState,
       showBoardModal,
-      switchBoard,
-      user
+      switchBoard
     } = this
 
     const {
@@ -93,7 +132,10 @@ export default class BoardsApp extends React.Component {
       columns,
       component,
       fetchingData,
-      name
+      name,
+      projectKey,
+      showSpinner,
+      user
     } = this.state;
 
     return (
@@ -104,16 +146,18 @@ export default class BoardsApp extends React.Component {
             boardSlug=    {boardSlug}
             component=    {component}
             handleClose=  {closeBoardModal}
+            projectKey=   {projectKey}
             show=         {boardModalShowing}
           />
 
-          {!fetchingData &&
+          {!showSpinner &&
             <React.Fragment>
               <Title
                 boardOrder=     {boardOrder}
                 boards=         {boards}
                 boardSlug=      {boardSlug}
                 name=           {name}
+                projectKey=     {projectKey}
                 setMainState=   {setMainState}
                 showBoardModal= {showBoardModal}
                 switchBoard=    {switchBoard}
@@ -126,7 +170,7 @@ export default class BoardsApp extends React.Component {
             </React.Fragment>
           }
 
-          {fetchingData &&
+          {showSpinner &&
             <div className="spinner-container">
               <div className="spinner-center">
                 <Spinner animation="border" />

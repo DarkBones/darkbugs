@@ -52,7 +52,7 @@ Rails.application.routes.draw do
         post :create_board
       end
 
-      resources :boards, param: :slug do
+      resources :boards, path: 'projects/:project_key/boards', param: :slug, only: [:show, :create, :update] do
         put :reorder_columns
         put :reorder_cards
       end
