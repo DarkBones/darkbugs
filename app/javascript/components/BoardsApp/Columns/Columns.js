@@ -1,7 +1,7 @@
 import Column       from './Column';
+import MainContext  from '../MainContext';
 import PropTypes    from 'prop-types';
 import React        from 'react';
-import UserContext  from '../UserContext';
 
 import {
   DragDropContext,

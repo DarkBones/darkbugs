@@ -1,8 +1,8 @@
 import i18n         from "../../i18n";
+import MainContext  from "./MainContext"
 import PropTypes    from "prop-types";
 import React        from "react";
 import ToggleInput  from "../shared/ToggleInput";
-import UserContext  from "./UserContext"
 import { BoardApi } from "../../api/InternalApi";
 import { Dropdown } from "react-bootstrap";
 
@@ -50,8 +50,8 @@ export default class Title extends React.Component {
     } = this.state;
 
     return (
-      <UserContext.Consumer>
-        {user =>
+      <MainContext.Consumer>
+        {context =>
           <div
             id="board-title"
           >
@@ -77,7 +77,6 @@ export default class Title extends React.Component {
                   <React.Fragment>
                     {boardOrder.map((slug) =>
                       <Dropdown.Item
-                        // href={boards[slug].path}
                         onClick={() => {switchBoard(boards[slug].path, slug)}}
                         key={slug}
                         slug={slug}
@@ -88,7 +87,7 @@ export default class Title extends React.Component {
                     <div className="dropdown-divider" />
                   </React.Fragment>
                   }
-                  {user.isAssigned &&
+                  {context.userIsAssigned &&
                   <React.Fragment>
                     <Dropdown.Item
                       onClick={() => { this.setState({nameIsEditing: true}) }}
@@ -107,7 +106,7 @@ export default class Title extends React.Component {
             </ToggleInput>
           </div>
         }
-      </UserContext.Consumer>
+      </MainContext.Consumer>
     )
   }
 }

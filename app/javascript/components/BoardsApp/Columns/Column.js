@@ -1,16 +1,16 @@
 import PropTypes      from 'prop-types';
 import React          from 'react';
-import UserContext    from '../UserContext';
+import MainContext    from '../MainContext';
 import { Draggable }  from 'react-beautiful-dnd';
 
 export default function Column({ column, index, uuid }) {
   return (
-    <UserContext.Consumer>
-      {user =>
+    <MainContext.Consumer>
+      {context =>
         <Draggable
           draggableId=    {uuid}
           index=          {index}
-          isDragDisabled= {!user.isAssigned}
+          isDragDisabled= {!context.userIsAssigned}
         >
           {provided =>
             <div
@@ -31,6 +31,6 @@ export default function Column({ column, index, uuid }) {
           }
         </Draggable>
       }
-    </UserContext.Consumer>
+    </MainContext.Consumer>
   )
 }

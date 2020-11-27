@@ -1,8 +1,8 @@
 import BoardModal   from "./BoardModal";
 import Columns      from "./Columns";
+import MainContext  from "./MainContext";
 import React        from "react";
 import Title        from "./Title";
-import UserContext  from "./UserContext";
 import { BoardApi } from "../../api/InternalApi";
 import { Spinner }  from "react-bootstrap";
 
@@ -136,9 +136,14 @@ export default class BoardsApp extends React.Component {
       user
     } = this.state;
 
+    const contextValue = {
+      userIsAssigned: user.isAssigned,
+      setMainState: setMainState
+    }
+
     return (
       <div id="boards-app">
-        <UserContext.Provider value={user}>
+        <MainContext.Provider value={contextValue}>
           <BoardModal
             addBoard=     {addBoard}
             boardSlug=    {boardSlug}
@@ -175,7 +180,7 @@ export default class BoardsApp extends React.Component {
               </div>
             </div>
           }
-        </UserContext.Provider>
+        </MainContext.Provider>
       </div>
     )
   }
