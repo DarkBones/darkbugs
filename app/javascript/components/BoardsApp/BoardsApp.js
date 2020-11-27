@@ -30,6 +30,22 @@ export default class BoardsApp extends React.Component {
     };
   }
 
+  addBoard = (name, path, slug) => {
+    const newBoardOrder = Array.from(this.state.boardOrder);
+    newBoardOrder.push(slug);
+
+    this.setState({
+      boardOrder: newBoardOrder,
+      boards: {
+        ...this.state.boards,
+        [slug]: {
+          name: name,
+          path: path
+        }
+      }
+    }, this.closeBoardModal());
+  }
+
   setMainState = (key, value) => {
     this.setState({
       [key]: value
@@ -47,6 +63,7 @@ export default class BoardsApp extends React.Component {
 
   render() {
     const {
+      addBoard,
       closeBoardModal,
       setMainState,
       showBoardModal,
@@ -66,6 +83,7 @@ export default class BoardsApp extends React.Component {
       <div id="boards-app">
         <UserContext.Provider value={user}>
           <BoardModal
+            addBoard={addBoard}
             boardSlug={boardSlug}
             component={component}
             handleClose={closeBoardModal}
