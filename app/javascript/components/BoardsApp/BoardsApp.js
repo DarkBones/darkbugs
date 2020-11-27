@@ -74,23 +74,21 @@ export default class BoardsApp extends React.Component {
 
     const { data } = response;
 
-    console.log(data);
-
     this.setState({
-      boardOrder: data.board_order,
-      boards: data.boards,
-      boardSlug: data.board_slug,
-      columnOrder: data.column_order,
-      columns: data.columns,
-      component: data.component,
+      boardOrder:   data.board_order,
+      boards:       data.boards,
+      boardSlug:    data.board_slug,
+      columnOrder:  data.column_order,
+      columns:      data.columns,
+      component:    data.component,
       fetchingData: false,
-      name: data.name,
-      showSpinner: false,
-      user: {
-        ...this.state.users,
-        isAssigned: data.user_is_assigned
-      }
-    })
+      name:         data.name,
+      showSpinner:  false,
+      user:         {
+                      ...this.state.users,
+                      isAssigned: data.user_is_assigned
+                    }
+    });
   }
 
   setMainState = (key, value) => {
