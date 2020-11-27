@@ -1,4 +1,5 @@
 import BoardModal   from "./BoardModal";
+import Columns      from "./Columns";
 import React        from "react";
 import Title        from "./Title";
 import UserContext  from "./UserContext";
@@ -11,6 +12,8 @@ export default class BoardsApp extends React.Component {
       board_order,
       boards,
       board_slug,
+      column_order,
+      columns,
       component,
       name
     } = props
@@ -20,13 +23,15 @@ export default class BoardsApp extends React.Component {
     }
 
     this.state = {
-      boardOrder: board_order,
-      boards: boards,
-      boardSlug: board_slug,
-      component: component,
-      name: name,
-      nameIsEditing: false,
-      boardModalShowing: false
+      boardOrder:         board_order,
+      boards:             boards,
+      boardSlug:          board_slug,
+      columnOrder:        column_order,
+      columns:            columns,
+      component:          component,
+      name:               name,
+      nameIsEditing:      false,
+      boardModalShowing:  false
     };
   }
 
@@ -75,6 +80,8 @@ export default class BoardsApp extends React.Component {
       boardOrder,
       boards,
       boardSlug,
+      columnOrder,
+      columns,
       component,
       name
     } = this.state;
@@ -83,20 +90,25 @@ export default class BoardsApp extends React.Component {
       <div id="boards-app">
         <UserContext.Provider value={user}>
           <BoardModal
-            addBoard={addBoard}
-            boardSlug={boardSlug}
-            component={component}
-            handleClose={closeBoardModal}
-            show={boardModalShowing}
+            addBoard=     {addBoard}
+            boardSlug=    {boardSlug}
+            component=    {component}
+            handleClose=  {closeBoardModal}
+            show=         {boardModalShowing}
           />
 
           <Title
-            boardOrder={boardOrder}
-            boards={boards}
-            boardSlug={boardSlug}
-            name={name}
-            setMainState={setMainState}
-            showBoardModal={showBoardModal}
+            boardOrder=     {boardOrder}
+            boards=         {boards}
+            boardSlug=      {boardSlug}
+            name=           {name}
+            setMainState=   {setMainState}
+            showBoardModal= {showBoardModal}
+          />
+
+          <Columns
+            columnOrder=  {columnOrder}
+            columns=      {columns}
           />
         </UserContext.Provider>
       </div>
