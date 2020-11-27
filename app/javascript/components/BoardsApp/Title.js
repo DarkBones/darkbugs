@@ -41,7 +41,8 @@ export default class Title extends React.Component {
       boardOrder,
       boards,
       name,
-      showBoardModal
+      showBoardModal,
+      switchBoard
     } = this.props;
 
     const {
@@ -76,7 +77,8 @@ export default class Title extends React.Component {
                   <React.Fragment>
                     {boardOrder.map((slug) =>
                       <Dropdown.Item
-                        href={boards[slug].path}
+                        // href={boards[slug].path}
+                        onClick={() => {switchBoard(boards[slug].path)}}
                         key={slug}
                         slug={slug}
                       >
@@ -87,18 +89,18 @@ export default class Title extends React.Component {
                   </React.Fragment>
                   }
                   {user.isAssigned &&
-                    <React.Fragment>
-                      <Dropdown.Item
-                        onClick={() => { this.setState({nameIsEditing: true}) }}
-                      >
-                        {i18n.t("components.projects.title.dropdown.edit_name")}
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={showBoardModal}
-                      >
-                        {i18n.t("components.projects.title.dropdown.new_board")}
-                      </Dropdown.Item>
-                    </React.Fragment>
+                  <React.Fragment>
+                    <Dropdown.Item
+                      onClick={() => { this.setState({nameIsEditing: true}) }}
+                    >
+                      {i18n.t("components.projects.title.dropdown.edit_name")}
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={showBoardModal}
+                    >
+                      {i18n.t("components.projects.title.dropdown.new_board")}
+                    </Dropdown.Item>
+                  </React.Fragment>
                   }
                 </Dropdown.Menu>
               </Dropdown>
@@ -116,5 +118,6 @@ Title.propTypes = {
   boardSlug:      PropTypes.string.isRequired,
   name:           PropTypes.string.isRequired,
   setMainState:   PropTypes.func.isRequired,
-  showBoardModal: PropTypes.func.isRequired
+  showBoardModal: PropTypes.func.isRequired,
+  switchBoard:    PropTypes.func.isRequired
 }

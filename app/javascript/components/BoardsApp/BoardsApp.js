@@ -4,6 +4,9 @@ import React        from "react";
 import Title        from "./Title";
 import UserContext  from "./UserContext";
 
+import { Router } from "react-router";
+import {Spinner} from "react-bootstrap";
+
 export default class BoardsApp extends React.Component {
   constructor(props) {
     super(props);
@@ -23,13 +26,14 @@ export default class BoardsApp extends React.Component {
     }
 
     this.state = {
-      boardOrder:         board_order,
-      boards:             boards,
-      boardSlug:          board_slug,
-      columnOrder:        column_order,
-      columns:            columns,
-      component:          component,
-      name:               name,
+      boardOrder:         [],
+      boards:             {},
+      boardSlug:          '',
+      columnOrder:        [],
+      columns:            {},
+      component:          {},
+      fetchingData:       true,
+      name:               '',
       nameIsEditing:      false,
       boardModalShowing:  false
     };
@@ -66,12 +70,17 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  switchBoard = (path, slug) => {
+    window.history.pushState({}, '', path);
+  }
+
   render() {
     const {
       addBoard,
       closeBoardModal,
       setMainState,
       showBoardModal,
+      switchBoard,
       user
     } = this
 
@@ -83,6 +92,7 @@ export default class BoardsApp extends React.Component {
       columnOrder,
       columns,
       component,
+      fetchingData,
       name
     } = this.state;
 
@@ -97,19 +107,32 @@ export default class BoardsApp extends React.Component {
             show=         {boardModalShowing}
           />
 
-          <Title
-            boardOrder=     {boardOrder}
-            boards=         {boards}
-            boardSlug=      {boardSlug}
-            name=           {name}
-            setMainState=   {setMainState}
-            showBoardModal= {showBoardModal}
-          />
+          {!fetchingData &&
+            <React.Fragment>
+              <Title
+                boardOrder=     {boardOrder}
+                boards=         {boards}
+                boardSlug=      {boardSlug}
+                name=           {name}
+                setMainState=   {setMainState}
+                showBoardModal= {showBoardModal}
+                switchBoard=    {switchBoard}
+              />
 
-          <Columns
-            columnOrder=  {columnOrder}
-            columns=      {columns}
-          />
+              <Columns
+                columnOrder=  {columnOrder}
+                columns=      {columns}
+              />
+            </React.Fragment>
+          }
+
+          {fetchingData &&
+            <div className="spinner-container">
+              <div className="spinner-center">
+                <Spinner animation="border" />
+              </div>
+            </div>
+          }
         </UserContext.Provider>
       </div>
     )
