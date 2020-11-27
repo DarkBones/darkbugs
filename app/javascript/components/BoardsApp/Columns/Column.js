@@ -1,6 +1,7 @@
+import MainContext    from '../MainContext';
 import PropTypes      from 'prop-types';
 import React          from 'react';
-import MainContext    from '../MainContext';
+import Title          from './Title';
 import { Draggable }  from 'react-beautiful-dnd';
 
 export default function Column({ column, index, uuid }) {
@@ -24,7 +25,10 @@ export default function Column({ column, index, uuid }) {
                   className="column-title"
                   {...provided.dragHandleProps}
                 >
-                  {column.name}
+                  <Title
+                    columnUuid={uuid}
+                    name={column.name}
+                  />
                 </div>
               </div>
             </div>

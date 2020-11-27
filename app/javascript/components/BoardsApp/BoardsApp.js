@@ -91,9 +91,9 @@ export default class BoardsApp extends React.Component {
     });
   }
 
-  setMainState = (key, value) => {
+  setBoardName = name => {
     this.setState({
-      [key]: value
+      name: name
     });
   }
 
@@ -106,6 +106,18 @@ export default class BoardsApp extends React.Component {
     })
   }
 
+  setColumnValue = (columnUuid, key, value) => {
+    this.setState({
+      columns: {
+        ...this.state.columns,
+        [columnUuid]: {
+          ...this.state.columns[columnUuid],
+          [key]: value
+        }
+      }
+    });
+  }
+
   switchBoard = (path, slug) => {
     window.history.pushState({}, '', path);
 
@@ -116,7 +128,8 @@ export default class BoardsApp extends React.Component {
     const {
       addBoard,
       closeBoardModal,
-      setMainState,
+      setBoardName,
+      setColumnValue,
       showBoardModal,
       switchBoard
     } = this
@@ -129,7 +142,6 @@ export default class BoardsApp extends React.Component {
       columnOrder,
       columns,
       component,
-      fetchingData,
       name,
       projectKey,
       showSpinner,
@@ -138,7 +150,7 @@ export default class BoardsApp extends React.Component {
 
     const contextValue = {
       userIsAssigned: user.isAssigned,
-      setMainState: setMainState
+      setColumnValue: setColumnValue
     }
 
     return (
@@ -161,7 +173,7 @@ export default class BoardsApp extends React.Component {
                 boardSlug=      {boardSlug}
                 name=           {name}
                 projectKey=     {projectKey}
-                setMainState=   {setMainState}
+                setBoardName=   {setBoardName}
                 showBoardModal= {showBoardModal}
                 switchBoard=    {switchBoard}
               />

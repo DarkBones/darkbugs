@@ -22,14 +22,14 @@ export default class Title extends React.Component {
       }
     };
 
-    const { boardSlug, projectKey, setMainState } = this.props;
+    const { boardSlug, projectKey, setBoardName } = this.props;
 
     let response = await BoardApi.updateName(projectKey, boardSlug, params);
 
     if (!response) return;
     if (response.status !== 200) return;
 
-    setMainState('name', response.data.name)
+    setBoardName(response.data.name);
   }
 
   render() {
@@ -57,7 +57,7 @@ export default class Title extends React.Component {
           >
             <ToggleInput
               handleOnCancel= {() => {this.setState({ nameIsEditing: false })}}
-              handleOnSubmit= {updateBoardName}
+              handleOnSubmit= {data => updateBoardName(data, context.updateBoardNameMain)}
               isEditing=      {nameIsEditing}
               toggleOnClick=  {false}
               value=          {name}
@@ -117,7 +117,7 @@ Title.propTypes = {
   boardSlug:      PropTypes.string.isRequired,
   name:           PropTypes.string.isRequired,
   projectKey:     PropTypes.string.isRequired,
-  setMainState:   PropTypes.func.isRequired,
+  setBoardName:   PropTypes.func.isRequired,
   showBoardModal: PropTypes.func.isRequired,
   switchBoard:    PropTypes.func.isRequired
 }
