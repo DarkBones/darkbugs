@@ -61,11 +61,11 @@ export default function Modal (props) {
 
 Modal.propTypes = {
   handleOnClose:  PropTypes.func.isRequired,
-  includeFooter:  PropTypes.bool,
+  includeFooter:  PropTypes.bool.isRequired,
   show:           PropTypes.bool.isRequired,
-  size:           PropTypes.string,
-  submitText:     PropTypes.string,
-  title:          PropTypes.string
+  size:           PropTypes.string.isRequired,
+  submitText:     PropTypes.string.isRequired,
+  title:          PropTypes.string.isRequired
 };
 
 Modal.defaultProps = {

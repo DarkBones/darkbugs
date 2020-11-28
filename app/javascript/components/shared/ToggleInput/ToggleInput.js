@@ -55,12 +55,12 @@ export default class ToggleInput extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleOnClick);
+    document.addEventListener(this.props.triggerOn, this.handleOnClick);
     this.mounted = true;
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleOnClick);
+    document.removeEventListener(this.props.triggerOn, this.handleOnClick);
     this.mounted = false;
   }
 
@@ -104,16 +104,17 @@ export default class ToggleInput extends React.Component {
 }
 
 ToggleInput.propTypes = {
-  allowBlank:     PropTypes.bool,
+  allowBlank:     PropTypes.bool.isRequired,
   handleOnSubmit: PropTypes.func.isRequired,
   handleOnCancel: PropTypes.func,
-  isEditing:      PropTypes.bool,
-  isEnabled:      PropTypes.bool,
-  toggleOnClick:  PropTypes.bool,
+  isEditing:      PropTypes.bool.isRequired,
+  isEnabled:      PropTypes.bool.isRequired,
+  toggleOnClick:  PropTypes.bool.isRequired,
+  triggerOn:      PropTypes.string.isRequired,
   value:          PropTypes.oneOfType([
                     PropTypes.string,
                     PropTypes.number
-                  ])
+                  ]).isRequired
 };
 
 ToggleInput.defaultProps = {
@@ -121,5 +122,6 @@ ToggleInput.defaultProps = {
   isEditing:      false,
   isEnabled:      true,
   toggleOnClick:  true,
+  triggerOn:      'mousedown',
   value:          ''
 };

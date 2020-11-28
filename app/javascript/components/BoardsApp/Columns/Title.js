@@ -67,6 +67,7 @@ export default function Title({ cardCount, columnUuid, name }) {
                                           }}
                 isEnabled=      {context.userIsAssigned}
                 isEditing=      {columnUuid === 'new'}
+                triggerOn=      {'mouseup'}
                 value=          {name}
               >
                 <h3>
