@@ -6,11 +6,8 @@ export default class ToggleInput extends React.Component {
   constructor(props) {
     super(props);
 
-    const { isEditing, value } = props;
-
     this.state = {
-      isEditing: isEditing,
-      value: value
+      isEditing: props.isEditing
     };
   }
 
@@ -18,25 +15,29 @@ export default class ToggleInput extends React.Component {
     const { setIsEditing } = this
     const {
       allowBlank,
-      handleOnSubmit
+      handleOnSubmit,
+      value
     } = this.props
 
     setIsEditing(false);
 
     // Return if data hasn't changed or is blank when not allowed
-    if ((!data || data.length === 0) && !allowBlank) return;
-    if (data === this.state.value) return;
+    if ((!data || data.toString().length === 0) && !allowBlank) return;
+    if (data === value) return;
 
     handleOnSubmit(data);
   }
 
   handleOnClick = e => {
-    const { toggleInput, props } = this;
+    const { toggleInput } = this;
+    const { isEnabled, toggleOnClick} = this.props;
+
+    if (!isEnabled) return;
 
     let isEditing = toggleInput
       && toggleInput.contains(e.target);
 
-    if (isEditing && !props.toggleOnClick) return;
+    if (isEditing && !toggleOnClick) return;
 
     this.setIsEditing(isEditing);
   }
@@ -44,7 +45,9 @@ export default class ToggleInput extends React.Component {
   setIsEditing = isEditing => {
     const { handleOnCancel } = this.props;
 
-    if (!isEditing && handleOnCancel) handleOnCancel();
+    if (this.state.isEditing && !isEditing && handleOnCancel) handleOnCancel();
+
+    if(!this.mounted) return;
 
     this.setState({
       isEditing: isEditing
@@ -53,10 +56,12 @@ export default class ToggleInput extends React.Component {
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleOnClick);
+    this.mounted = true;
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleOnClick);
+    this.mounted = false;
   }
 
   componentDidUpdate = prevProps => {
@@ -82,7 +87,7 @@ export default class ToggleInput extends React.Component {
       </div>
     );
 
-    const el = this.state.isEditing
+    const el = this.state.isEditing && this.props.isEnabled
       ? input
       : element
 
@@ -103,6 +108,7 @@ ToggleInput.propTypes = {
   handleOnSubmit: PropTypes.func.isRequired,
   handleOnCancel: PropTypes.func,
   isEditing:      PropTypes.bool,
+  isEnabled:      PropTypes.bool,
   toggleOnClick:  PropTypes.bool,
   value:          PropTypes.oneOfType([
                     PropTypes.string,
@@ -113,6 +119,7 @@ ToggleInput.propTypes = {
 ToggleInput.defaultProps = {
   allowBlank:     false,
   isEditing:      false,
+  isEnabled:      true,
   toggleOnClick:  true,
   value:          ''
 }

@@ -18,6 +18,11 @@
         "Body": {
           "placeholder": "Create New Board"
         }
+      },
+      "Columns": {
+        "Title": {
+          "delete_warning": "Are you sure? Deleting this column will also delete its cards."
+        }
       }
     },
     "projects": {

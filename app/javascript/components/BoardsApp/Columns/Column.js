@@ -5,6 +5,8 @@ import Title          from './Title';
 import { Draggable }  from 'react-beautiful-dnd';
 
 export default function Column({ column, index, uuid }) {
+  const cardUuids = column.card_uuids;
+
   return (
     <MainContext.Consumer>
       {context =>
@@ -26,6 +28,7 @@ export default function Column({ column, index, uuid }) {
                   {...provided.dragHandleProps}
                 >
                   <Title
+                    cardCount={cardUuids.length}
                     columnUuid={uuid}
                     name={column.name}
                   />

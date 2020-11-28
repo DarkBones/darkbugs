@@ -43,34 +43,50 @@ export default class Columns extends React.Component {
     } = this.props;
 
     return (
-      <DragDropContext
-        onDragEnd={handleOnDragEnd}
-        onDragStat={handleOnDragStart}
-      >
-        <Droppable
-          droppableId="droppable-columns"
-          direction="horizontal"
-          type="column"
-        >
-          { provided =>
-            <div
-              id="columns"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
+      <MainContext.Consumer>
+        {context =>
+          <DragDropContext
+            onDragEnd={handleOnDragEnd}
+            onDragStat={handleOnDragStart}
+          >
+            <Droppable
+              droppableId="droppable-columns"
+              direction="horizontal"
+              type="column"
             >
-              {columnOrder.map((uuid, index) =>
-                <Column
-                  column={columns[uuid]}
-                  index={index}
-                  key={uuid}
-                  uuid={uuid}
-                />
-              )}
-              {provided.placeholder}
-            </div>
-          }
-        </Droppable>
-      </DragDropContext>
+              { provided =>
+                <div
+                  id="columns"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {columnOrder.map((uuid, index) =>
+                    <Column
+                      column={columns[uuid]}
+                      index={index}
+                      key={uuid}
+                      uuid={uuid}
+                    />
+                  )}
+                  {provided.placeholder}
+                  {context.userIsAssigned && !columnOrder.includes('new') &&
+                    <React.Fragment>
+                      <button
+                        className="btn create-column"
+                        onClick={() => {context.addColumn('new')}}
+                      >
+                        <i
+                          className="fa fa-plus-circle fa-3x clickable"
+                        />
+                      </button>
+                    </React.Fragment>
+                  }
+                </div>
+              }
+            </Droppable>
+          </DragDropContext>
+        }
+      </MainContext.Consumer>
     )
   }
 }

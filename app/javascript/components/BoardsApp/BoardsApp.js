@@ -1,5 +1,6 @@
 import BoardModal   from "./BoardModal";
 import Columns      from "./Columns";
+import ColumnsState from "./ColumnsState";
 import MainContext  from "./MainContext";
 import React        from "react";
 import Title        from "./Title";
@@ -50,6 +51,10 @@ export default class BoardsApp extends React.Component {
     }, this.closeBoardModal());
   }
 
+  addColumn = (uuid, name = '') => {
+    this.setState(ColumnsState.addColumn(this.state, uuid, name));
+  }
+
   componentDidMount() {
     this.fetchBoardData(this.state.boardSlug);
 
@@ -57,6 +62,10 @@ export default class BoardsApp extends React.Component {
     // setInterval(() => {
     //   if (!this.state.fetchingData) this.fetchBoardData(this.state.boardSlug);
     // }, 1000 * 60);
+  }
+
+  deleteColumn = uuid => {
+    this.setState(ColumnsState.deleteColumn(this.state, uuid));
   }
 
   fetchBoardData = async (slug) => {
@@ -78,6 +87,8 @@ export default class BoardsApp extends React.Component {
       boardOrder:   data.board_order,
       boards:       data.boards,
       boardSlug:    data.board_slug,
+      cardOrder:    data.card_order,
+      cards:        data.cards,
       columnOrder:  data.column_order,
       columns:      data.columns,
       component:    data.component,
@@ -127,7 +138,9 @@ export default class BoardsApp extends React.Component {
   render() {
     const {
       addBoard,
+      addColumn,
       closeBoardModal,
+      deleteColumn,
       setBoardName,
       setColumnValue,
       showBoardModal,
@@ -150,6 +163,8 @@ export default class BoardsApp extends React.Component {
 
     const contextValue = {
       userIsAssigned: user.isAssigned,
+      addColumn: addColumn,
+      deleteColumn: deleteColumn,
       setColumnValue: setColumnValue
     }
 
