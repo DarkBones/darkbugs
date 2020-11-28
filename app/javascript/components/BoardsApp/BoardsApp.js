@@ -165,6 +165,7 @@ export default class BoardsApp extends React.Component {
     } = this.state;
 
     const contextValue = {
+      boardSlug:      boardSlug,
       userIsAssigned: user.isAssigned,
       addColumn:      addColumn,
       deleteColumn:   deleteColumn,

@@ -12,6 +12,14 @@ export default function Title({ cardCount, columnUuid, name }) {
     }
   }
 
+  const handleCreate = async (name, addColumn, boardSlug) => {
+    let response = await ColumnApi.createColumn(boardSlug, { name: name });
+    if (!response) return;
+    if (response.status !== 200) return;
+
+    addColumn(response.data.uuid, response.data.name);
+  }
+
   const handleDelete = async (deleteColumn) => {
     if (cardCount > 0) {
       let r = confirm(
@@ -30,13 +38,16 @@ export default function Title({ cardCount, columnUuid, name }) {
     deleteColumn(columnUuid);
   }
 
+  const handleSubmit = (name, setColumnValue, addColumn, boardSlug) => {
+    columnUuid === 'new' ? handleCreate(name, addColumn, boardSlug) : handleUpdate(name, setColumnValue);
+  }
+
   const handleUpdate = async (name, setColumnValue) => {
     let response = await ColumnApi.updateColumn(columnUuid, { name: name });
-
     if (!response) return;
     if (response.status !== 200) return;
 
-    setColumnValue(columnUuid, 'name', name);
+    setColumnValue(columnUuid, 'name', response.data.name);
   }
 
   return (
@@ -47,7 +58,13 @@ export default function Title({ cardCount, columnUuid, name }) {
             <div className="col-10">
               <ToggleInput
                 handleOnCancel= {() => { handleCancel(context.deleteColumn); }}
-                handleOnSubmit= {data => { handleUpdate(data, context.setColumnValue); }}
+                handleOnSubmit= {data => {
+                                            handleSubmit(
+                                              data,
+                                              context.setColumnValue,
+                                              context.addColumn,
+                                              context.boardSlug);
+                                          }}
                 isEnabled=      {context.userIsAssigned}
                 isEditing=      {columnUuid === 'new'}
                 value=          {name}
