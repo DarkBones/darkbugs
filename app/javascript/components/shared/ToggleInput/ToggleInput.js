@@ -17,7 +17,7 @@ export default class ToggleInput extends React.Component {
       allowBlank,
       handleOnSubmit,
       value
-    } = this.props
+    } = this.props;
 
     setIsEditing(false);
 
