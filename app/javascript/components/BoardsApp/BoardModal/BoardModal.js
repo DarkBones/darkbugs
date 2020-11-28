@@ -10,10 +10,10 @@ export default function BoardModal({ addBoard, boardSlug, component, handleClose
     const { type, uuid } = component;
 
     const params = {
-      board_slug: boardSlug,
+      board_slug:     boardSlug,
       component_type: type,
       component_uuid: uuid,
-      board: data
+      board:          data
     };
 
     let response = await BoardApi.createBoard(projectKey, params);
@@ -47,4 +47,4 @@ BoardModal.propTypes = {
   handleClose:  PropTypes.func.isRequired,
   projectKey:   PropTypes.string.isRequired,
   show:         PropTypes.bool.isRequired
-}
+};

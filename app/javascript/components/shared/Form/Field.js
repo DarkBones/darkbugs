@@ -4,59 +4,59 @@ import React      from 'react';
 
 export default class Field extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       value: props.value
-    }
+    };
   }
 
   componentDidMount() {
     setTimeout(() => {
-      this.firstInputRef.focus()
-    })
+      this.firstInputRef.focus();
+    });
   }
 
   handleOnChange = e => {
     this.setState({
       value: e.target.value
-    })
+    });
 
-    this.props.onChange(e)
+    this.props.onChange(e);
   }
 
   inputField = type => {
-    const className = 'form-control mb-2'
+    const className = 'form-control mb-2';
 
-    const { value } = this.state
-    const { name, params } = this.props
+    const { value } = this.state;
+    const { name, params } = this.props;
 
-    let ref = {}
+    let ref = {};
 
     if (this.props.index === 0) {
       ref = (firstInput) => {
-        this.firstInputRef = firstInput
+        this.firstInputRef = firstInput;
       }
     }
 
     const props = {
       ...params,
-      className: className,
-      name: name,
-      onChange: this.handleOnChange,
-      ref: ref,
-      value: value
-    }
+      className:  className,
+      name:       name,
+      onChange:   this.handleOnChange,
+      ref:        ref,
+      value:      value
+    };
 
     switch (type) {
       case 'text':
         return (
           <textarea {...props} />
-        )
+        );
       case 'input':
         return (
           <input {...props} />
-        )
+        );
     }
   }
 
@@ -64,14 +64,10 @@ export default class Field extends React.Component {
     const {
       name,
       type
-    } = this.props
+    } = this.props;
 
-    const {
-      value
-    } = this.state
-
-    const input = this.inputField(type)
-    const label = i18n.t(`components.shared.form.fields.labels.${name}`)
+    const input = this.inputField(type);
+    const label = i18n.t(`components.shared.form.fields.labels.${name}`);
 
     return (
       <React.Fragment>
@@ -82,7 +78,7 @@ export default class Field extends React.Component {
         </label>
         {input}
       </React.Fragment>
-    )
+    );
   }
 }
 

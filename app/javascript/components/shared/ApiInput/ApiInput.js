@@ -1,5 +1,5 @@
-import PropTypes  from "prop-types";
-import React      from "react";
+import PropTypes  from 'prop-types';
+import React      from 'react';
 
 export default class ApiInput extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class ApiInput extends React.Component {
   componentDidMount = () => {
     if (this.props.focus) {
       setTimeout(() => {
-        this.inputRef.focus()
+        this.inputRef.focus();
       }, 1);
     }
   }
@@ -21,9 +21,9 @@ export default class ApiInput extends React.Component {
   handleOnKeyDown = e => {
     const { handleSubmit, handleCancel, name } = this.props;
 
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSubmit(this.state[name]);
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       if (handleCancel) handleCancel();
     }
   }
@@ -42,16 +42,16 @@ export default class ApiInput extends React.Component {
 
     return (
       <input
-        className="form-control"
-        value={this.state[name]}
-        onKeyDown={handleOnKeyDown}
-        onChange={handleOnChange}
-        name={name}
-        ref={(input) => {
-          this.inputRef = input
-        }}
+        className=  "form-control"
+        value=      {this.state[name]}
+        onKeyDown=  {handleOnKeyDown}
+        onChange=   {handleOnChange}
+        name=       {name}
+        ref=        {(input) => {
+                      this.inputRef = input
+                    }}
       />
-    )
+    );
   }
 }
 
@@ -64,10 +64,10 @@ ApiInput.propTypes = {
                   PropTypes.string,
                   PropTypes.number
                 ])
-}
+};
 
 ApiInput.defaultProps = {
   focus:  true,
   name:   "value",
   value:  ""
-}
+};

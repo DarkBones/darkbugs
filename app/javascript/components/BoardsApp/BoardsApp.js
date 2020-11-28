@@ -1,11 +1,12 @@
-import BoardModal   from "./BoardModal";
-import Columns      from "./Columns";
-import ColumnsState from "./ColumnsState";
-import MainContext  from "./MainContext";
-import React        from "react";
-import Title        from "./Title";
-import { BoardApi } from "../../api/InternalApi";
-import { Spinner }  from "react-bootstrap";
+import BoardModal   from './BoardModal';
+import Columns      from './Columns';
+import ColumnsState from './ColumnsState';
+import MainContext  from './MainContext';
+import PropTypes    from 'prop-types';
+import React        from 'react';
+import Title        from './Title';
+import { BoardApi } from '../../api/InternalApi';
+import { Spinner }  from 'react-bootstrap';
 
 export default class BoardsApp extends React.Component {
   constructor(props) {
@@ -14,13 +15,15 @@ export default class BoardsApp extends React.Component {
     const {
       board_slug,
       project_key
-    } = props
+    } = props;
 
     this.state = {
       boardModalShowing:  false,
       boardOrder:         [],
       boards:             {},
       boardSlug:          board_slug,
+      cardOrder:          [],
+      cards:              {},
       columnOrder:        [],
       columns:            {},
       component:          {},
@@ -73,7 +76,7 @@ export default class BoardsApp extends React.Component {
 
     this.setState({
       fetchingData: true,
-      showSpinner: slug !== this.state.boardSlug || this.state.name === ''
+      showSpinner:  slug !== this.state.boardSlug || this.state.name === ''
     });
 
     let response = await BoardApi.getBoard(this.props.project_key, slug);
@@ -114,7 +117,7 @@ export default class BoardsApp extends React.Component {
   setShowBoardModal = show => {
     this.setState({
       boardModalShowing: show
-    })
+    });
   }
 
   setColumnValue = (columnUuid, key, value) => {
@@ -163,8 +166,8 @@ export default class BoardsApp extends React.Component {
 
     const contextValue = {
       userIsAssigned: user.isAssigned,
-      addColumn: addColumn,
-      deleteColumn: deleteColumn,
+      addColumn:      addColumn,
+      deleteColumn:   deleteColumn,
       setColumnValue: setColumnValue
     }
 
@@ -209,6 +212,11 @@ export default class BoardsApp extends React.Component {
           }
         </MainContext.Provider>
       </div>
-    )
+    );
   }
 }
+
+BoardsApp.propTypes = {
+  board_slug:   PropTypes.string.isRequired,
+  project_key:  PropTypes.string.isRequired
+};

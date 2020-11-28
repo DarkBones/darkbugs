@@ -1,4 +1,4 @@
-import i18n       from '../../../i18n'
+import i18n       from '../../../i18n';
 import PropTypes  from 'prop-types';
 import React      from 'react';
 
@@ -15,6 +15,7 @@ export default function Modal (props) {
     includeFooter,
     show,
     size,
+    submitText,
     title
   } = props;
 
@@ -22,9 +23,9 @@ export default function Modal (props) {
     <div>
       {show &&
         <Mod
-          show={show}
-          size={size}
-          onHide={handleOnClose}
+          show=   {show}
+          size=   {size}
+          onHide= {handleOnClose}
         >
           <Mod.Header closeButton>
             <Mod.Title>
@@ -47,7 +48,7 @@ export default function Modal (props) {
                   variant="primary"
                   onClick={handleSubmit}
                 >
-                  {submit}
+                  {submitText}
                 </Button>
               }
             </Mod.Footer>
@@ -63,11 +64,13 @@ Modal.propTypes = {
   includeFooter:  PropTypes.bool,
   show:           PropTypes.bool.isRequired,
   size:           PropTypes.string,
+  submitText:     PropTypes.string,
   title:          PropTypes.string
-}
+};
 
 Modal.defaultProps = {
   includeFooter:  false,
   size:           'lg',
+  submitText:     i18n.t('components.shared.Modal.buttons.submit'),
   title:          ''
-}
+};

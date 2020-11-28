@@ -35,7 +35,7 @@ export default class Columns extends React.Component {
     const {
       handleOnDragEnd,
       handleOnDragStart
-    } = this
+    } = this;
 
     const {
       columnOrder,
@@ -46,13 +46,13 @@ export default class Columns extends React.Component {
       <MainContext.Consumer>
         {context =>
           <DragDropContext
-            onDragEnd={handleOnDragEnd}
-            onDragStat={handleOnDragStart}
+            onDragEnd=  {handleOnDragEnd}
+            onDragStat= {handleOnDragStart}
           >
             <Droppable
-              droppableId="droppable-columns"
-              direction="horizontal"
-              type="column"
+              droppableId=  "droppable-columns"
+              direction=    "horizontal"
+              type=         "column"
             >
               { provided =>
                 <div
@@ -62,18 +62,18 @@ export default class Columns extends React.Component {
                 >
                   {columnOrder.map((uuid, index) =>
                     <Column
-                      column={columns[uuid]}
-                      index={index}
-                      key={uuid}
-                      uuid={uuid}
+                      column= {columns[uuid]}
+                      index=  {index}
+                      key=    {uuid}
+                      uuid=   {uuid}
                     />
                   )}
                   {provided.placeholder}
                   {context.userIsAssigned && !columnOrder.includes('new') &&
                     <React.Fragment>
                       <button
-                        className="btn create-column"
-                        onClick={() => {context.addColumn('new')}}
+                        className=  "btn create-column"
+                        onClick=    {() => { context.addColumn('new'); }}
                       >
                         <i
                           className="fa fa-plus-circle fa-3x clickable"
@@ -87,11 +87,11 @@ export default class Columns extends React.Component {
           </DragDropContext>
         }
       </MainContext.Consumer>
-    )
+    );
   }
 }
 
 Columns.propTypes = {
   columnOrder:  PropTypes.array.isRequired,
   columns:      PropTypes.object.isRequired
-}
+};

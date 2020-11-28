@@ -28,9 +28,9 @@ export default function Column({ column, index, uuid }) {
                   {...provided.dragHandleProps}
                 >
                   <Title
-                    cardCount={cardUuids.length}
-                    columnUuid={uuid}
-                    name={column.name}
+                    cardCount=  {cardUuids.length}
+                    columnUuid= {uuid}
+                    name=       {column.name}
                   />
                 </div>
               </div>
@@ -39,5 +39,11 @@ export default function Column({ column, index, uuid }) {
         </Draggable>
       }
     </MainContext.Consumer>
-  )
+  );
 }
+
+Column.propTypes = {
+  column: PropTypes.object.isRequired,
+  index:  PropTypes.number.isRequired,
+  uuid:   PropTypes.string.isRequired
+};

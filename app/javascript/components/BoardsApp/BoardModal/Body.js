@@ -19,11 +19,11 @@ export default class Body extends React.Component {
           }
         }
       }
-    }
+    };
 
     this.state = {
       name: ''
-    }
+    };
   }
 
   render() {
@@ -32,16 +32,16 @@ export default class Body extends React.Component {
 
     return (
       <Form
-        handleCancel={handleClose}
-        handleSubmit={handleSubmit}
-        fieldOrder={fieldOrder}
-        fields={fields}
+        handleCancel= {handleClose}
+        handleSubmit= {handleSubmit}
+        fieldOrder=   {fieldOrder}
+        fields=       {fields}
       />
-    )
+    );
   }
 }
 
 Body.propTypes = {
   handleClose:  PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-}
+};

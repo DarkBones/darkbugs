@@ -1,6 +1,6 @@
-import ApiInput from "../ApiInput";
-import React from "react";
-import PropTypes from "prop-types";
+import ApiInput   from '../ApiInput';
+import React      from 'react';
+import PropTypes  from 'prop-types';
 
 export default class ToggleInput extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class ToggleInput extends React.Component {
   }
 
   handleSubmit = data => {
-    const { setIsEditing } = this
+    const { setIsEditing } = this;
     const {
       allowBlank,
       handleOnSubmit,
@@ -42,7 +42,7 @@ export default class ToggleInput extends React.Component {
     this.setIsEditing(isEditing);
   }
 
-  setIsEditing = isEditing => {
+  setIsEditing = (isEditing) => {
     const { handleOnCancel } = this.props;
 
     if (this.state.isEditing && !isEditing && handleOnCancel) handleOnCancel();
@@ -68,16 +68,16 @@ export default class ToggleInput extends React.Component {
     if (prevProps.isEditing !== this.props.isEditing) {
       this.setState({
         isEditing: this.props.isEditing
-      })
+      });
     }
   }
 
   render() {
     const input = (
       <ApiInput
-        handleCancel={() => {this.setIsEditing(false);}}
-        handleSubmit={this.handleSubmit}
-        value={this.props.value}
+        handleCancel= {() => {this.setIsEditing(false);}}
+        handleSubmit= {this.handleSubmit}
+        value=        {this.props.value}
       />
     );
 
@@ -122,4 +122,4 @@ ToggleInput.defaultProps = {
   isEnabled:      true,
   toggleOnClick:  true,
   value:          ''
-}
+};

@@ -2,7 +2,7 @@ module Api
   module Internal
     class ColumnsController < Api::Internal::BaseApiInternalController
       before_action :load_column, only: %i[update destroy]
-      before_action :load_board, only: %i[create]
+      before_action :load_board!, only: %i[create]
       before_action :check_is_assignee!, only: %i[create update destroy]
 
       def create
@@ -18,14 +18,14 @@ module Api
       def destroy
         @uuid = @column.uuid
 
-        @column.destroy!
+        @column&.destroy!
       end
 
       private def load_column
-        @column = Column.find_by!(uuid: params[:uuid])
+        @column = Column.find_by(uuid: params[:uuid])
       end
 
-      private def load_board
+      private def load_board!
         @board = Board.find_by!(slug: params[:board_slug])
       end
 

@@ -5,22 +5,22 @@ export default class ColumnsState {
     const newState = this.deleteColumn(state, 'new');
 
     const newColumn = {
-      uuid: uuid,
-      name: name,
+      uuid:       uuid,
+      name:       name,
       card_uuids: []
-    }
+    };
 
     const columnOrder = Array.from(newState.columnOrder);
     columnOrder.push(uuid);
 
     return {
       ...newState,
-      columnOrder: columnOrder,
-      columns: {
-        ...newState.columns,
-        [uuid]: newColumn
-      }
-    }
+      columnOrder:  columnOrder,
+      columns:      {
+                      ...newState.columns,
+                      [uuid]: newColumn
+                    }
+    };
   }
 
   static deleteColumn(state, uuid) {
@@ -33,7 +33,7 @@ export default class ColumnsState {
     const cardOrder = Array.from(state.cardOrder);
     const columnCards = columns[uuid].card_uuids;
 
-    columnOrder.splice(index, 1)
+    columnOrder.splice(index, 1);
 
     if (columnCards.length > 0) {
       cardOrder.splice(cardOrder.indexOf(columnCards[0]), columnCards.length);
@@ -43,10 +43,9 @@ export default class ColumnsState {
 
     return {
       ...state,
-      cardOrder: cardOrder,
-      columnOrder: columnOrder,
-      columns: columns
-    }
-
+      cardOrder:    cardOrder,
+      columnOrder:  columnOrder,
+      columns:      columns
+    };
   }
 }

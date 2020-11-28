@@ -1,10 +1,10 @@
-import i18n         from "../../i18n";
-import MainContext  from "./MainContext"
-import PropTypes    from "prop-types";
-import React        from "react";
-import ToggleInput  from "../shared/ToggleInput";
-import { BoardApi } from "../../api/InternalApi";
-import { Dropdown } from "react-bootstrap";
+import i18n         from '../../i18n';
+import MainContext  from './MainContext'
+import PropTypes    from 'prop-types';
+import React        from 'react';
+import ToggleInput  from '../shared/ToggleInput';
+import { BoardApi } from '../../api/InternalApi';
+import { Dropdown } from 'react-bootstrap';
 
 export default class Title extends React.Component {
   constructor(props) {
@@ -56,16 +56,16 @@ export default class Title extends React.Component {
             id="board-title"
           >
             <ToggleInput
-              handleOnCancel= {() => {this.setState({ nameIsEditing: false })}}
-              handleOnSubmit= {data => updateBoardName(data, context.updateBoardNameMain)}
+              handleOnCancel= {() => { this.setState({ nameIsEditing: false }); }}
+              handleOnSubmit= {data => { updateBoardName(data, context.updateBoardNameMain); }}
               isEditing=      {nameIsEditing}
               toggleOnClick=  {false}
               value=          {name}
             >
               <Dropdown>
                 <Dropdown.Toggle
-                  className="p-0"
-                  variant="link"
+                  className=  "p-0"
+                  variant=    "link"
                 >
                   <h1>
                     {name}
@@ -74,30 +74,30 @@ export default class Title extends React.Component {
 
                 <Dropdown.Menu>
                   {boardOrder.length > 0 &&
-                  <React.Fragment>
-                    {boardOrder.map((slug) =>
-                      <Dropdown.Item
-                        onClick={() => {switchBoard(boards[slug].path, slug)}}
-                        key={slug}
-                        slug={slug}
-                      >
-                        {boards[slug].name}
-                      </Dropdown.Item>
-                    )}
-                    <div className="dropdown-divider" />
-                  </React.Fragment>
+                    <React.Fragment>
+                      {boardOrder.map((slug) =>
+                        <Dropdown.Item
+                          onClick={() => { switchBoard(boards[slug].path, slug); }}
+                          key={slug}
+                          slug={slug}
+                        >
+                          {boards[slug].name}
+                        </Dropdown.Item>
+                      )}
+                      <div className="dropdown-divider" />
+                    </React.Fragment>
                   }
                   {context.userIsAssigned &&
                   <React.Fragment>
                     <Dropdown.Item
-                      onClick={() => { this.setState({nameIsEditing: true}) }}
+                      onClick={() => { this.setState({nameIsEditing: true}); }}
                     >
-                      {i18n.t("components.projects.title.dropdown.edit_name")}
+                      {i18n.t('components.projects.title.dropdown.edit_name')}
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={showBoardModal}
                     >
-                      {i18n.t("components.projects.title.dropdown.new_board")}
+                      {i18n.t('components.projects.title.dropdown.new_board')}
                     </Dropdown.Item>
                   </React.Fragment>
                   }
@@ -107,7 +107,7 @@ export default class Title extends React.Component {
           </div>
         }
       </MainContext.Consumer>
-    )
+    );
   }
 }
 

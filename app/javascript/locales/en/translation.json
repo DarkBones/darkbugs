@@ -93,7 +93,8 @@
       },
       "Modal": {
         "buttons": {
-          "close": "Close"
+          "close": "Close",
+          "submit": "Submit"
         }
       }
     }

@@ -5,12 +5,12 @@ import React      from 'react';
 
 export default class Form extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       fieldOrder: props.fieldOrder,
       fields: props.fields
-    }
+    };
   }
 
   handleChange = e => {
@@ -23,41 +23,41 @@ export default class Form extends React.Component {
           value: e.target.value
         }
       }
-    })
+    });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const values = {}
+    const values = {};
     this.props.fieldOrder.forEach(field => {
       values[field] = this.state.fields[field].value
-    })
+    });
 
-    this.props.handleSubmit(values)
+    this.props.handleSubmit(values);
   }
 
   render () {
     const {
       fields
-    } = this.state
+    } = this.state;
 
     const {
       fieldOrder,
       handleCancel
-    } = this.props
+    } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit}>
         {fieldOrder.map((fieldId, index) =>
           <Field
-            key={fieldId}
-            index={index}
-            name={fields[fieldId].name}
-            onChange={this.handleChange}
-            params={fields[fieldId].params}
-            type={fields[fieldId].type}
-            value={fields[fieldId].value}
+            key=      {fieldId}
+            index=    {index}
+            name=     {fields[fieldId].name}
+            onChange= {this.handleChange}
+            params=   {fields[fieldId].params}
+            type=     {fields[fieldId].type}
+            value=    {fields[fieldId].value}
           />
         )}
         <div
@@ -65,15 +65,15 @@ export default class Form extends React.Component {
         >
           <button
             className="btn btn-secondary mr-3"
-            onClick={handleCancel}
-            type="button"
+            onClick=  {handleCancel}
+            type=     "button"
           >
             {i18n.t('components.shared.form.cancel')}
           </button>
           <button
             className="btn btn-primary"
-            onClick={this.handleSubmit}
-            type="button"
+            onClick=  {this.handleSubmit}
+            type=     "button"
           >
             {i18n.t('components.shared.form.submit')}
           </button>
@@ -88,4 +88,4 @@ Form.propTypes = {
   fields:       PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-}
+};
