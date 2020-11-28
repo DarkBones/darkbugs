@@ -3,9 +3,7 @@ import React  from 'react';
 
 export default function LetterWidthsApp() {
   const chars = "ABCEFGHIJKLMNOPQRSTOVWQRSTUVWabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()_+/*\\|{}[];:'\"<>?-".split('');
-
-  // const chars = "ABC".split('');
-
+  
   return (
     <div>
       {chars.map((c, index) =>
