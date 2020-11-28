@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   # =========================================================================
   namespace :admin do
     resources :users, param: :uuid
+    resource :letter_widths, only: [:show]
   end
 
   # =========================================================================
