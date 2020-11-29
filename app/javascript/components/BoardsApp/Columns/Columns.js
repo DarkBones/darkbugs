@@ -18,39 +18,26 @@ export default class Columns extends React.Component {
     };
   }
 
-  findPreviousCard = e => {
+  findColumnIndex = e => {
     const classList = e.target.classList;
-
-    // return the divider id
-    if (classList.contains('item-card-divider')) {
-      return e.target.parentElement.id;
-    }
-
     const { columnOrder, columns } = this.props;
 
-    const columnUuid = e.target.id;
-    const column = columns[columnUuid];
-    const y = e.clientY - e.target.getBoundingClientRect().top + e.target.scrollTop;
+    if (classList.contains('item-card-divider')) {
+      const cardId = e.target.getAttribute('cardid');
+      const columnId = e.target.getAttribute('columnid');
 
-    // if click was below the top card, return the last card in the column
-    if (y > 20) {
-      const { card_uuids: cardUuids } = column;
-      if (cardUuids.length > 0) {
-        return cardUuids[cardUuids.length - 1];
-      }
+      const {card_uuids: cardUuids} = columns[columnId];
+      return cardUuids.indexOf(cardId) + 1;
     }
 
-    // return last card in previous column(s)
-    let columnIndex = columnOrder.indexOf(columnUuid);
-    let columnCards = [];
-    while (columnIndex > 0) {
-      columnIndex--;
+    const columnUuid = e.target.id
+    const column = columns[columnUuid]
+    const y = e.clientY - e.target.getBoundingClientRect().top + e.target.scrollTop;
 
-      columnCards = columns[columnOrder[columnIndex]].card_uuids;
-
-      if (columnCards.length > 0) {
-        return columnCards[columnCards.length - 1];
-      }
+    if (y > 20) {
+      return column.card_uuids.length;
+    } else {
+      return 0;
     }
   }
 
@@ -70,7 +57,7 @@ export default class Columns extends React.Component {
 
   render() {
     const {
-      findPreviousCard,
+      findColumnIndex,
       handleOnDragEnd,
       handleOnDragStart
     } = this;
@@ -81,7 +68,7 @@ export default class Columns extends React.Component {
     } = this.props;
 
     const contextValue = {
-      findPreviousCard: findPreviousCard
+      findColumnIndex: findColumnIndex
     }
 
     return (

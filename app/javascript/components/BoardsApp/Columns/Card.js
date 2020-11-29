@@ -4,7 +4,7 @@ import React              from 'react';
 import StringTransformer  from '../../shared/StringTransformer';
 import { Draggable }      from 'react-beautiful-dnd';
 
-export default function Card({ uuid }) {
+export default function Card({ columnUuid, uuid }) {
   return (
     <MainContext.Consumer>
       {context =>
@@ -27,6 +27,8 @@ export default function Card({ uuid }) {
               </div>
               <div
                 className="item-card-divider"
+                cardid={uuid}
+                columnid={columnUuid}
               />
             </div>
           )}
@@ -37,5 +39,6 @@ export default function Card({ uuid }) {
 }
 
 Card.propTypes = {
-  uuid: PropTypes.string.isRequired
+  columnUuid: PropTypes.string.isRequired,
+  uuid:       PropTypes.string.isRequired
 }

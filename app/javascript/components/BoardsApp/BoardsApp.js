@@ -54,6 +54,10 @@ export default class BoardsApp extends React.Component {
     }, this.closeBoardModal());
   }
 
+  addCard = () => {
+    console.log('add card');
+  }
+
   addColumn = (uuid, name = '') => {
     this.setState(ColumnsState.addColumn(this.state, uuid, name));
   }
@@ -141,6 +145,7 @@ export default class BoardsApp extends React.Component {
   render() {
     const {
       addBoard,
+      addCard,
       addColumn,
       closeBoardModal,
       deleteColumn,
@@ -171,6 +176,7 @@ export default class BoardsApp extends React.Component {
       cardOrder:      cardOrder,
       cards:          cards,
       userIsAssigned: user.isAssigned,
+      addCard:        addCard,
       addColumn:      addColumn,
       deleteColumn:   deleteColumn,
       setColumnValue: setColumnValue
