@@ -14,6 +14,10 @@ export default function Body({ column }) {
   const handleOnClick = (e, findColumnIndex, addCard, userIsAssigned) => {
     if (!userIsAssigned) return;
 
+    const classList = e.target.classList;
+    
+    if (classList.contains('item-card') || classList.contains('form-control')) return;
+
     const columnIndex = findColumnIndex(e);
 
     addCard(columnUuid, columnIndex, '', 'new');
