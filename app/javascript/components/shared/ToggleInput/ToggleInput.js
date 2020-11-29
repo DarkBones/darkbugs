@@ -32,7 +32,7 @@ export default class ToggleInput extends React.Component {
     const { handleOnCancel } = this.props;
 
     this.setIsEditing(false);
-    handleOnCancel();
+    if (handleOnCancel) handleOnCancel();
   }
 
   handleOnClick = e => {
