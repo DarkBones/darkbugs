@@ -71,6 +71,10 @@ export default class BoardsApp extends React.Component {
     // }, 1000 * 60);
   }
 
+  deleteCard = uuid => {
+    this.setState(ColumnsState.deleteCard(this.state, uuid));
+  }
+
   deleteColumn = uuid => {
     this.setState(ColumnsState.deleteColumn(this.state, uuid));
   }
@@ -148,6 +152,7 @@ export default class BoardsApp extends React.Component {
       addCard,
       addColumn,
       closeBoardModal,
+      deleteCard,
       deleteColumn,
       setBoardName,
       setColumnValue,
@@ -178,6 +183,7 @@ export default class BoardsApp extends React.Component {
       userIsAssigned: user.isAssigned,
       addCard:        addCard,
       addColumn:      addColumn,
+      deleteCard:     deleteCard,
       deleteColumn:   deleteColumn,
       setColumnValue: setColumnValue
     }

@@ -2,9 +2,28 @@ import MainContext        from '../MainContext';
 import PropTypes          from 'prop-types';
 import React              from 'react';
 import StringTransformer  from '../../shared/StringTransformer';
+import ToggleInput        from '../../shared/ToggleInput';
 import { Draggable }      from 'react-beautiful-dnd';
 
 export default function Card({ columnUuid, uuid }) {
+  const input = deleteCard => {
+    return (
+      <ToggleInput
+        handleOnCancel={() => { deleteCard('new'); }}
+        handleOnSubmit={data => { console.log(data); }}
+        isEditing={true}
+      />
+    );
+  }
+
+  const title = name => {
+    return StringTransformer.shortenWidth(name, 1700);
+  }
+
+  const element = (name, deleteCard) => {
+    return uuid === 'new' ? input(deleteCard) : title(name);
+  }
+
   return (
     <MainContext.Consumer>
       {context =>
@@ -23,7 +42,7 @@ export default function Card({ columnUuid, uuid }) {
                 id={uuid}
                 {...provided.dragHandleProps}
               >
-                {StringTransformer.shortenWidth(context.cards[uuid].name, 1700)}
+                {element(context.cards[uuid].name, context.deleteCard)}
               </div>
               <div
                 className="item-card-divider"

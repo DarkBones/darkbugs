@@ -65,6 +65,7 @@ export default class ColumnsState {
   }
 
   static deleteCard(state, uuid) {
+    console.log('delete', uuid);
     const {
       cardOrder,
       cards,

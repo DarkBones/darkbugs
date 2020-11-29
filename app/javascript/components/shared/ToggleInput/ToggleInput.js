@@ -28,25 +28,28 @@ export default class ToggleInput extends React.Component {
     handleOnSubmit(data);
   }
 
+  handleCancel = () => {
+    const { handleOnCancel } = this.props;
+
+    this.setIsEditing(false);
+    handleOnCancel();
+  }
+
   handleOnClick = e => {
-    const { toggleInput } = this;
-    const { isEnabled, toggleOnClick} = this.props;
+    const { props, toggleInput } = this;
+    const { isEnabled, toggleOnClick } = props;
 
     if (!isEnabled) return;
 
-    let isEditing = toggleInput
-      && toggleInput.contains(e.target);
-
-    if (isEditing && !toggleOnClick) return;
-
-    this.setIsEditing(isEditing);
+    if (toggleInput && toggleInput.contains(e.target)) {
+      if (toggleOnClick) this.setIsEditing(true);
+    } else {
+      this.setIsEditing(false);
+      this.handleCancel();
+    }
   }
 
   setIsEditing = (isEditing) => {
-    const { handleOnCancel } = this.props;
-
-    if (this.state.isEditing && !isEditing && handleOnCancel) handleOnCancel();
-
     if(!this.mounted) return;
 
     this.setState({
@@ -75,7 +78,7 @@ export default class ToggleInput extends React.Component {
   render() {
     const input = (
       <ApiInput
-        handleCancel= {() => {this.setIsEditing(false);}}
+        handleCancel= {this.handleCancel}
         handleSubmit= {this.handleSubmit}
         value=        {this.props.value}
       />

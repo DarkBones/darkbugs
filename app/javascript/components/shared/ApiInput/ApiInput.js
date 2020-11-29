@@ -56,14 +56,14 @@ export default class ApiInput extends React.Component {
 }
 
 ApiInput.propTypes = {
-  focus:        PropTypes.bool,
+  focus:        PropTypes.bool.isRequired,
   handleCancel: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  name:         PropTypes.string,
+  name:         PropTypes.string.isRequired,
   value:        PropTypes.oneOfType([
                   PropTypes.string,
                   PropTypes.number
-                ])
+                ]).isRequired
 };
 
 ApiInput.defaultProps = {
