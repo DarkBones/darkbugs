@@ -155,6 +155,7 @@ export default class BoardsApp extends React.Component {
       boardOrder,
       boards,
       boardSlug,
+      cards,
       columnOrder,
       columns,
       component,
@@ -166,6 +167,7 @@ export default class BoardsApp extends React.Component {
 
     const contextValue = {
       boardSlug:      boardSlug,
+      cards:          cards,
       userIsAssigned: user.isAssigned,
       addColumn:      addColumn,
       deleteColumn:   deleteColumn,

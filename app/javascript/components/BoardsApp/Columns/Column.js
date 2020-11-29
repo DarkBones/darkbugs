@@ -1,3 +1,4 @@
+import Body           from './Body';
 import MainContext    from '../MainContext';
 import PropTypes      from 'prop-types';
 import React          from 'react';
@@ -31,6 +32,9 @@ export default function Column({ column, index, uuid }) {
                     cardCount=  {cardUuids.length}
                     columnUuid= {uuid}
                     name=       {column.name}
+                  />
+                  <Body
+                    column={column}
                   />
                 </div>
               </div>
