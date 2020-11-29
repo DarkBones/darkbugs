@@ -54,8 +54,8 @@ export default class BoardsApp extends React.Component {
     }, this.closeBoardModal());
   }
 
-  addCard = () => {
-    console.log('add card');
+  addCard = (columnUuid, columnIndex, name, uuid) => {
+    this.setState(ColumnsState.addCard(this.state, columnUuid, columnIndex, name, uuid));
   }
 
   addColumn = (uuid, name = '') => {

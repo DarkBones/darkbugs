@@ -13,9 +13,8 @@ export default function Body({ column }) {
 
   const handleOnClick = (e, findColumnIndex, addCard) => {
     const columnIndex = findColumnIndex(e);
-    console.log(columnIndex);
 
-    addCard();
+    addCard(columnUuid, columnIndex, '', 'new');
   }
 
   return (
