@@ -1,4 +1,5 @@
 import Card           from './Card';
+import ColumnsContext from './ColumnsContext';
 import PropTypes      from 'prop-types';
 import React          from 'react';
 import { Droppable }  from 'react-beautiful-dnd'
@@ -9,33 +10,38 @@ export default function Body({ column }) {
     card_uuids: cardUuids
   } = column;
 
-  const handleOnClick = e => {
-    console.log('click');
+  const handleOnClick = (e, findPreviousCard) => {
+    const previousCard = findPreviousCard(e);
+    console.log(previousCard);
   }
 
   return (
-    <Droppable
-      droppableId={columnUuid}
-      type="card"
-    >
-      {provided => (
-        <div
-          className="column-body"
-          id=       {columnUuid}
-          onClick=  {handleOnClick}
-          ref=      {provided.innerRef}
-          {...provided.droppableProps}
+    <ColumnsContext.Consumer>
+      {columnsContext =>
+        <Droppable
+          droppableId={columnUuid}
+          type="card"
         >
-          {cardUuids.map((uuid) =>
-            <Card
-              key={uuid}
-              uuid={uuid}
-            />
+          {provided => (
+            <div
+              className="column-body"
+              id=       {columnUuid}
+              onClick=  {(e) => { handleOnClick(e, columnsContext.findPreviousCard); }}
+              ref=      {provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {cardUuids.map((uuid) =>
+                <Card
+                  key={uuid}
+                  uuid={uuid}
+                />
+              )}
+              {provided.placeholder}
+            </div>
           )}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+        </Droppable>
+      }
+    </ColumnsContext.Consumer>
   );
 }
 
