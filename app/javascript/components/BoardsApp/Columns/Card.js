@@ -14,7 +14,7 @@ export default function Card({ columnIndex, columnUuid, uuid }) {
     }
 
     const params = {
-      column_uuid: columnUuid,
+      column_uuid:  columnUuid,
       column_index: columnIndex,
       card: {
         name: name
@@ -26,7 +26,7 @@ export default function Card({ columnIndex, columnUuid, uuid }) {
     if (response.status !== 200) return;
 
     saveCard(name, response.data.uuid, columnUuid);
-    
+
     addCard(columnUuid, columnIndex + 1, '', 'new');
   }
 
@@ -54,25 +54,25 @@ export default function Card({ columnIndex, columnUuid, uuid }) {
       {context =>
         <Draggable
           draggableId={uuid}
-          index={context.cardOrder.indexOf(uuid)}
+          index=      {context.cardOrder.indexOf(uuid)}
         >
           {provided => (
             <div
-              id={uuid}
-              ref={provided.innerRef}
+              id=   {uuid}
+              ref=  {provided.innerRef}
               {...provided.draggableProps}
             >
               <div
                 className="card item-card clickable"
-                id={uuid}
+                id=       {uuid}
                 {...provided.dragHandleProps}
               >
                 {element(context.cards[uuid].name, context.deleteCard, context.saveCard, context.addCard)}
               </div>
               <div
                 className="item-card-divider"
-                cardid={uuid}
-                columnid={columnUuid}
+                cardid=   {uuid}
+                columnid= {columnUuid}
               />
             </div>
           )}

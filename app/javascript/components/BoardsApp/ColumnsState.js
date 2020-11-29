@@ -80,8 +80,8 @@ export default class ColumnsState {
 
     newState = {
       ...newState,
-      cardOrder: newCardOrder,
-      cards: cards
+      cardOrder:  newCardOrder,
+      cards:      cards
     }
 
     let column;
@@ -166,12 +166,12 @@ export default class ColumnsState {
 
     return {
       ...state,
-      cards: cards,
-      cardOrder: cardOrder,
-      columns: {
-        ...columns,
-        [columnUuid]: newColumn
-      }
+      cards:      cards,
+      cardOrder:  cardOrder,
+      columns:    {
+                    ...columns,
+                    [columnUuid]: newColumn
+                  }
     };
   }
 }
