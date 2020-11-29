@@ -38,8 +38,9 @@ export default function Body({ column }) {
                   ref=      {provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {cardUuids.map((uuid) =>
+                  {cardUuids.map((uuid, index) =>
                     <Card
+                      columnIndex={index}
                       columnUuid={columnUuid}
                       key={uuid}
                       uuid={uuid}

@@ -65,7 +65,6 @@ export default class ColumnsState {
   }
 
   static deleteCard(state, uuid) {
-    console.log('delete', uuid);
     const {
       cardOrder,
       cards,
@@ -135,6 +134,44 @@ export default class ColumnsState {
       cardOrder:    cardOrder,
       columnOrder:  columnOrder,
       columns:      columns
+    };
+  }
+
+  static saveCard(state, name, uuid, columnUuid) {
+    const { cardOrder, columns } = state;
+    const allIndex = cardOrder.indexOf('new');
+
+    const column = columns[columnUuid];
+    const columnIndex = column.card_uuids.indexOf('new');
+
+    if (allIndex < 0) return state;
+
+    const cards = {
+      ...state.cards,
+      [uuid]: {
+        name: name,
+        uuid: uuid
+      }
+    };
+
+    const { card_uuids: cardUuids } = column;
+    cardUuids.splice(columnIndex, 1, uuid);
+
+    const newColumn = {
+      ...column,
+      card_uuids: cardUuids
+    }
+
+    cardOrder.splice(allIndex, 1, uuid);
+
+    return {
+      ...state,
+      cards: cards,
+      cardOrder: cardOrder,
+      columns: {
+        ...columns,
+        [columnUuid]: newColumn
+      }
     };
   }
 }

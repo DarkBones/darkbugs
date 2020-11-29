@@ -21,7 +21,7 @@ class Column < ApplicationRecord
   def previous_populated_column
     pc = previous_column
     while pc.present? && pc.cards.count == 0
-      pc = previous_column
+      pc = pc.previous_column
     end
 
     pc

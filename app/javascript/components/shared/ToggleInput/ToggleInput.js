@@ -23,8 +23,8 @@ export default class ToggleInput extends React.Component {
 
     // Return if data hasn't changed or is blank when not allowed
     if ((!data || data.toString().length === 0) && !allowBlank) return;
-    if (data === value) return;
-
+    if (data === value && data.length > 0) return;
+    
     handleOnSubmit(data);
   }
 

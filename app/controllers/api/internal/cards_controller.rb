@@ -51,8 +51,25 @@ module Api
         @column = Column.find_by!(uuid: params[:column_uuid])
       end
 
+      # private def load_previous_card
+      #   @previous_card = @column.board.cards.find_by(uuid: params[:previous_card])
+      #
+      #   puts params[:column_index]
+      # end
+
       private def load_previous_card
-        @previous_card = @column.board.cards.find_by(uuid: params[:previous_card])
+        column_index = params[:column_index] - 1
+        all_cards = @column.board.cards.ordered
+        column_cards = @column.cards.ordered
+
+        if column_index < 0 || @column.cards.count == 0
+          column = @column.previous_populated_column
+          @previous_card = column.cards.ordered.last unless column.nil?
+          return
+        end
+
+        column_index = [column_index, @column.cards.count - 1].min
+        @previous_card = column_cards.offset(column_index).first
       end
 
       private def check_is_member!

@@ -113,6 +113,10 @@ export default class BoardsApp extends React.Component {
     });
   }
 
+  saveCard = (name, uuid, columnUuid) => {
+    this.setState(ColumnsState.saveCard(this.state, name, uuid, columnUuid));
+  }
+
   setBoardName = name => {
     this.setState({
       name: name
@@ -154,6 +158,7 @@ export default class BoardsApp extends React.Component {
       closeBoardModal,
       deleteCard,
       deleteColumn,
+      saveCard,
       setBoardName,
       setColumnValue,
       showBoardModal,
@@ -185,6 +190,7 @@ export default class BoardsApp extends React.Component {
       addColumn:      addColumn,
       deleteCard:     deleteCard,
       deleteColumn:   deleteColumn,
+      saveCard:       saveCard,
       setColumnValue: setColumnValue
     }
 

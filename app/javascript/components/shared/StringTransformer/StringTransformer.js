@@ -57,7 +57,6 @@ export default class StringTransformer {
 
       if (length > maxWidth) {
         return `${shortened}...`;
-        console.log(`${shortened}...`);
       }
     })
 

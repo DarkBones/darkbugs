@@ -3,14 +3,39 @@ import PropTypes          from 'prop-types';
 import React              from 'react';
 import StringTransformer  from '../../shared/StringTransformer';
 import ToggleInput        from '../../shared/ToggleInput';
+import { CardApi }        from '../../../api/InternalApi';
 import { Draggable }      from 'react-beautiful-dnd';
 
-export default function Card({ columnUuid, uuid }) {
-  const input = deleteCard => {
+export default function Card({ columnIndex, columnUuid, uuid }) {
+  const handleSubmit = async (name, deleteCard, saveCard, addCard) => {
+    if (name.length === 0) {
+      deleteCard('new');
+      return;
+    }
+
+    const params = {
+      column_uuid: columnUuid,
+      column_index: columnIndex,
+      card: {
+        name: name
+      }
+    }
+
+    let response = await CardApi.createCard(params);
+    if (!response) return;
+    if (response.status !== 200) return;
+
+    saveCard(name, response.data.uuid, columnUuid);
+    
+    addCard(columnUuid, columnIndex + 1, '', 'new');
+  }
+
+  const input = (deleteCard, saveCard, addCard) => {
     return (
       <ToggleInput
+        allowBlank={true}
         handleOnCancel={() => { deleteCard('new'); }}
-        handleOnSubmit={data => { console.log(data); }}
+        handleOnSubmit={data => { handleSubmit(data, deleteCard, saveCard, addCard) }}
         isEditing={true}
       />
     );
@@ -20,8 +45,8 @@ export default function Card({ columnUuid, uuid }) {
     return StringTransformer.shortenWidth(name, 1700);
   }
 
-  const element = (name, deleteCard) => {
-    return uuid === 'new' ? input(deleteCard) : title(name);
+  const element = (name, deleteCard, saveCard, addCard) => {
+    return uuid === 'new' ? input(deleteCard, saveCard, addCard) : title(name);
   }
 
   return (
@@ -42,7 +67,7 @@ export default function Card({ columnUuid, uuid }) {
                 id={uuid}
                 {...provided.dragHandleProps}
               >
-                {element(context.cards[uuid].name, context.deleteCard)}
+                {element(context.cards[uuid].name, context.deleteCard, context.saveCard, context.addCard)}
               </div>
               <div
                 className="item-card-divider"
@@ -58,6 +83,7 @@ export default function Card({ columnUuid, uuid }) {
 }
 
 Card.propTypes = {
-  columnUuid: PropTypes.string.isRequired,
-  uuid:       PropTypes.string.isRequired
+  columnIndex:  PropTypes.number.isRequired,
+  columnUuid:   PropTypes.string.isRequired,
+  uuid:         PropTypes.string.isRequired
 }
