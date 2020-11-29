@@ -26,9 +26,12 @@ export default function Body({ column }) {
           ref=      {provided.innerRef}
           {...provided.droppableProps}
         >
-          {cardUuids.map((uuid) => {
-            <Card />
-          })}
+          {cardUuids.map((uuid) =>
+            <Card
+              key={uuid}
+              uuid={uuid}
+            />
+          )}
         </div>
       )}
     </Droppable>

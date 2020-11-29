@@ -33,10 +33,10 @@ export default function Column({ column, index, uuid }) {
                     columnUuid= {uuid}
                     name=       {column.name}
                   />
-                  <Body
-                    column={column}
-                  />
                 </div>
+                <Body
+                  column={column}
+                />
               </div>
             </div>
           }
