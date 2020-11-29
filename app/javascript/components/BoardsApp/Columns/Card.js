@@ -1,7 +1,8 @@
-import MainContext    from '../MainContext';
-import PropTypes      from 'prop-types';
-import React          from 'react';
-import { Draggable }  from 'react-beautiful-dnd';
+import MainContext        from '../MainContext';
+import PropTypes          from 'prop-types';
+import React              from 'react';
+import StringTransformer  from '../../shared/StringTransformer';
+import { Draggable }      from 'react-beautiful-dnd';
 
 export default function Card({ uuid }) {
   return (
@@ -22,7 +23,7 @@ export default function Card({ uuid }) {
                 id={uuid}
                 {...provided.dragHandleProps}
               >
-                CARD
+                {StringTransformer.shortenWidth(context.cards[uuid].name, 1700)}
               </div>
               <div
                 className="item-card-divider"

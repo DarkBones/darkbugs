@@ -32,6 +32,7 @@ export default function Body({ column }) {
               uuid={uuid}
             />
           )}
+          {provided.placeholder}
         </div>
       )}
     </Droppable>
