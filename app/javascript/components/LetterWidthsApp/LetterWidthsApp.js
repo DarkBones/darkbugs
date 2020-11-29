@@ -5,7 +5,7 @@ export default class LetterWidthsApp extends React.Component {
   constructor(props) {
     super(props);
 
-    this.chars = "ABCDEFGHIJKLMNOPQRSTOVWQRSTUVWabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()_+/*\\|{}[];:'\"<>?-.".split('');
+    this.chars = "ABCDEFGHIJKLMNOPQRSTOVWQRSTUVWabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()_+/*\\|{}[];:'\"<>?-.,".split('');
     // this.chars = "ABC".split('');
 
     this.widths = {};

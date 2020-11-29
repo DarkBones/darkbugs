@@ -1,10 +1,11 @@
-import i18n         from '../../i18n';
-import MainContext  from './MainContext'
-import PropTypes    from 'prop-types';
-import React        from 'react';
-import ToggleInput  from '../shared/ToggleInput';
-import { BoardApi } from '../../api/InternalApi';
-import { Dropdown } from 'react-bootstrap';
+import i18n               from '../../i18n';
+import MainContext        from './MainContext'
+import PropTypes          from 'prop-types';
+import StringTransformer  from '../shared/StringTransformer';
+import React              from 'react';
+import ToggleInput        from '../shared/ToggleInput';
+import { BoardApi }       from '../../api/InternalApi';
+import { Dropdown }       from 'react-bootstrap';
 
 export default class Title extends React.Component {
   constructor(props) {
@@ -68,7 +69,7 @@ export default class Title extends React.Component {
                   variant=    "link"
                 >
                   <h1>
-                    {name}
+                    {StringTransformer.shortenWidth(name, 3000)}
                   </h1>
                 </Dropdown.Toggle>
 
@@ -81,7 +82,7 @@ export default class Title extends React.Component {
                           key={slug}
                           slug={slug}
                         >
-                          {boards[slug].name}
+                          {StringTransformer.shortenWidth(boards[slug].name, 3000)}
                         </Dropdown.Item>
                       )}
                       <div className="dropdown-divider" />

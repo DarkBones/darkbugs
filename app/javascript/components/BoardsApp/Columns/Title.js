@@ -1,9 +1,10 @@
-import i18n           from '../../../i18n';
-import MainContext    from '../MainContext';
-import PropTypes      from 'prop-types';
-import React          from 'react';
-import ToggleInput    from '../../shared/ToggleInput';
-import { ColumnApi }  from '../../../api/InternalApi';
+import i18n               from '../../../i18n';
+import MainContext        from '../MainContext';
+import PropTypes          from 'prop-types';
+import React              from 'react';
+import StringTransformer  from '../../shared/StringTransformer';
+import ToggleInput        from '../../shared/ToggleInput';
+import { ColumnApi }      from '../../../api/InternalApi';
 
 export default function Title({ cardCount, columnUuid, name }) {
   const handleCancel = (deleteColumn) => {
@@ -71,7 +72,7 @@ export default function Title({ cardCount, columnUuid, name }) {
                 value=          {name}
               >
                 <h3>
-                  {name}
+                  {StringTransformer.shortenWidth(name, 1100)}
                 </h3>
               </ToggleInput>
             </div>
