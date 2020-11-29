@@ -11,7 +11,9 @@ export default function Body({ column }) {
     card_uuids: cardUuids
   } = column;
 
-  const handleOnClick = (e, findColumnIndex, addCard) => {
+  const handleOnClick = (e, findColumnIndex, addCard, userIsAssigned) => {
+    if (!userIsAssigned) return;
+
     const columnIndex = findColumnIndex(e);
 
     addCard(columnUuid, columnIndex, '', 'new');
@@ -30,7 +32,9 @@ export default function Body({ column }) {
                 <div
                   className="column-body"
                   id=       {columnUuid}
-                  onClick=  {(e) => { handleOnClick(e, columnsContext.findColumnIndex, context.addCard); }}
+                  onClick=  {(e) => {
+                    handleOnClick(e, columnsContext.findColumnIndex, context.addCard, context.userIsAssigned);
+                  }}
                   ref=      {provided.innerRef}
                   {...provided.droppableProps}
                 >
