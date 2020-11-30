@@ -6,8 +6,15 @@ import ToggleInput        from '../../shared/ToggleInput';
 import { CardApi }        from '../../../api/InternalApi';
 import { Draggable }      from 'react-beautiful-dnd';
 
-export default function Card({ columnIndex, columnUuid, uuid }) {
-  const handleSubmit = async (name, deleteCard, saveCard, addCard) => {
+export default class Card extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleSubmit = async (name) => {
+    const { columnUuid, columnIndex } = this.props;
+    const { addCard, deleteCard, saveCard } = this.context;
+
     if (name.length === 0) {
       deleteCard('new');
       return;
@@ -30,57 +37,64 @@ export default function Card({ columnIndex, columnUuid, uuid }) {
     addCard(columnUuid, columnIndex + 1, '', 'new');
   }
 
-  const input = (deleteCard, saveCard, addCard) => {
+  input = () => {
+    const { deleteCard } = this.context;
+
     return (
       <ToggleInput
-        allowBlank={true}
-        cancelOnClick={false}
-        handleOnCancel={() => { deleteCard('new'); }}
-        handleOnSubmit={data => { handleSubmit(data, deleteCard, saveCard, addCard) }}
-        isEditing={true}
+        allowBlank=     {true}
+        cancelOnClick=  {false}
+        handleOnCancel= {() => { deleteCard('new'); }}
+        handleOnSubmit= {data => { this.handleSubmit(data) }}
+        isEditing=      {true}
       />
     );
   }
 
-  const title = name => {
+  title = name => {
     return StringTransformer.shortenWidth(name, 1700);
   }
 
-  const element = (name, deleteCard, saveCard, addCard) => {
-    return uuid === 'new' ? input(deleteCard, saveCard, addCard) : title(name);
+  element = (name) => {
+    return this.props.uuid === 'new' ? this.input() : this.title(name);
   }
 
-  return (
-    <MainContext.Consumer>
-      {context =>
-        <Draggable
-          draggableId={uuid}
-          index=      {context.cardOrder.indexOf(uuid)}
-        >
-          {provided => (
-            <div
-              id=   {uuid}
-              ref=  {provided.innerRef}
-              {...provided.draggableProps}
-            >
+  render () {
+    const { element } = this;
+    const { columnUuid, uuid } = this.props;
+
+    return (
+      <MainContext.Consumer>
+        {context =>
+          <Draggable
+            draggableId={uuid}
+            index=      {context.cardOrder.indexOf(uuid)}
+          >
+            {provided => (
               <div
-                className="card item-card clickable"
-                id=       {uuid}
-                {...provided.dragHandleProps}
+                id=   {uuid}
+                ref=  {provided.innerRef}
+                {...provided.draggableProps}
               >
-                {element(context.cards[uuid].name, context.deleteCard, context.saveCard, context.addCard)}
+                <div
+                  className="card item-card clickable"
+                  id=       {uuid}
+                  {...provided.dragHandleProps}
+                >
+                  {element(context.cards[uuid].name)}
+                </div>
+                <div
+                  className="item-card-divider"
+                  cardid=   {uuid}
+                  columnid= {columnUuid}
+                />
               </div>
-              <div
-                className="item-card-divider"
-                cardid=   {uuid}
-                columnid= {columnUuid}
-              />
-            </div>
-          )}
-        </Draggable>
-      }
-    </MainContext.Consumer>
-  );
+            )}
+          </Draggable>
+        }
+      </MainContext.Consumer>
+    );
+  }
 }
 
 Card.propTypes = {
@@ -88,3 +102,5 @@ Card.propTypes = {
   columnUuid:   PropTypes.string.isRequired,
   uuid:         PropTypes.string.isRequired
 }
+
+Card.contextType = MainContext;
