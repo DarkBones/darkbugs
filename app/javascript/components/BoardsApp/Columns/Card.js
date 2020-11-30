@@ -34,6 +34,7 @@ export default function Card({ columnIndex, columnUuid, uuid }) {
     return (
       <ToggleInput
         allowBlank={true}
+        cancelOnClick={false}
         handleOnCancel={() => { deleteCard('new'); }}
         handleOnSubmit={data => { handleSubmit(data, deleteCard, saveCard, addCard) }}
         isEditing={true}

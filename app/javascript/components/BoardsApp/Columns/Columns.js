@@ -1,5 +1,4 @@
 import Column         from './Column';
-import ColumnsContext from './ColumnsContext';
 import MainContext    from '../MainContext';
 import PropTypes      from 'prop-types';
 import React          from 'react';
@@ -16,6 +15,14 @@ export default class Columns extends React.Component {
     this.state = {
       isDragging: false
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleOnClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleOnClick);
   }
 
   findColumnIndex = e => {
@@ -39,6 +46,32 @@ export default class Columns extends React.Component {
     } else {
       return 0;
     }
+  }
+
+  handleOnClick = e => {
+    const context = this.context;
+    const { deleteCard, userIsAssigned } = context;
+
+    if (!userIsAssigned) return;
+
+    const { classList, id } = e.target;
+
+    if (
+      classList.contains('item-card-divider') ||
+      classList.contains('column-body')
+    ) {
+      deleteCard('new');
+      const columnIndex = this.findColumnIndex(e);
+      const columnUuid = e.target.getAttribute('columnid');
+      context.addCard(columnUuid, columnIndex, '', 'new');
+      return;
+    }
+
+    if (classList.contains('item-card') && id === 'new' || classList.contains('form-control')) {
+      return;
+    }
+
+    deleteCard('new');
   }
 
   handleOnDragEnd = result => {
@@ -67,57 +100,51 @@ export default class Columns extends React.Component {
       columns
     } = this.props;
 
-    const contextValue = {
-      findColumnIndex: findColumnIndex
-    }
-
     return (
-      <ColumnsContext.Provider value={contextValue}>
-        <MainContext.Consumer>
-          {context =>
-            <DragDropContext
-              onDragEnd=  {handleOnDragEnd}
-              onDragStat= {handleOnDragStart}
+      <MainContext.Consumer>
+        {context =>
+          <DragDropContext
+            onDragEnd=  {handleOnDragEnd}
+            onDragStat= {handleOnDragStart}
+          >
+            <Droppable
+              droppableId=  "droppable-columns"
+              direction=    "horizontal"
+              type=         "column"
             >
-              <Droppable
-                droppableId=  "droppable-columns"
-                direction=    "horizontal"
-                type=         "column"
-              >
-                { provided =>
-                  <div
-                    id="columns"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {columnOrder.map((uuid, index) =>
-                      <Column
-                        column= {columns[uuid]}
-                        index=  {index}
-                        key=    {uuid}
-                        uuid=   {uuid}
+              { provided =>
+                <div
+                  id="columns"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {columnOrder.map((uuid, index) =>
+                    <Column
+                      column= {columns[uuid]}
+                      index=  {index}
+                      key=    {uuid}
+                      uuid=   {uuid}
+                    />
+                  )}
+                  {provided.placeholder}
+                  {context.userIsAssigned && !columnOrder.includes('new') &&
+                  <React.Fragment>
+                    <button
+                      className=  "btn create-column"
+                      onClick=    {() => { context.addColumn('new'); }}
+                    >
+                      <i
+                        className="fa fa-plus-circle fa-3x clickable"
                       />
-                    )}
-                    {provided.placeholder}
-                    {context.userIsAssigned && !columnOrder.includes('new') &&
-                    <React.Fragment>
-                      <button
-                        className=  "btn create-column"
-                        onClick=    {() => { context.addColumn('new'); }}
-                      >
-                        <i
-                          className="fa fa-plus-circle fa-3x clickable"
-                        />
-                      </button>
-                    </React.Fragment>
-                    }
-                  </div>
-                }
-              </Droppable>
-            </DragDropContext>
-          }
-        </MainContext.Consumer>
-      </ColumnsContext.Provider>
+                    </button>
+                  </React.Fragment>
+                  }
+                </div>
+              }
+            </Droppable>
+          </DragDropContext>
+        }
+      </MainContext.Consumer>
     );
   }
 }
@@ -126,3 +153,5 @@ Columns.propTypes = {
   columnOrder:  PropTypes.array.isRequired,
   columns:      PropTypes.object.isRequired
 };
+
+Columns.contextType = MainContext;

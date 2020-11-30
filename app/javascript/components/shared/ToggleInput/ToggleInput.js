@@ -37,13 +37,13 @@ export default class ToggleInput extends React.Component {
 
   handleOnClick = e => {
     const { props, toggleInput } = this;
-    const { isEnabled, toggleOnClick } = props;
+    const { cancelOnClick, isEnabled, toggleOnClick } = props;
 
     if (!isEnabled) return;
 
     if (toggleInput && toggleInput.contains(e.target)) {
       if (toggleOnClick) this.setIsEditing(true);
-    } else {
+    } else if (cancelOnClick) {
       this.setIsEditing(false);
       this.handleCancel();
     }
@@ -108,6 +108,7 @@ export default class ToggleInput extends React.Component {
 
 ToggleInput.propTypes = {
   allowBlank:     PropTypes.bool.isRequired,
+  cancelOnClick:  PropTypes.bool.isRequired,
   handleOnSubmit: PropTypes.func.isRequired,
   handleOnCancel: PropTypes.func,
   isEditing:      PropTypes.bool.isRequired,
@@ -122,6 +123,7 @@ ToggleInput.propTypes = {
 
 ToggleInput.defaultProps = {
   allowBlank:     false,
+  cancelOnClick:  true,
   isEditing:      false,
   isEnabled:      true,
   toggleOnClick:  true,
