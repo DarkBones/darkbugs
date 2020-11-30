@@ -28,7 +28,7 @@ module Api
         end
 
         private def load_card_item!
-          @card_item = CardItem.find_by!(uuid: params[:uuid])
+          @card_item ||= CardItem.find_by!(uuid: params[:uuid])
         end
 
         private def item_params
@@ -38,10 +38,12 @@ module Api
         end
 
         private def load_card!
-          @card = Card.find_by!(uuid: params[:card_uuid])
+          @card ||= Card.find_by!(uuid: params[:card_uuid])
         end
 
         private def check_is_author!
+          load_card_item!
+
           return if @card_item.author == @current_user
 
           raise ActionController::BadRequest
@@ -50,6 +52,8 @@ module Api
         end
 
         private def check_is_assignee!
+          load_card!
+
           board = @card.column.board
 
           return if board.user_is_assigned?(@current_user)

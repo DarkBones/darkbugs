@@ -2,7 +2,14 @@ module Api
   module Internal
     module BoardsApi
       class BaseBoardsApiController < Api::Internal::BaseApiInternalController
+        private def load_column
+          uuid = params[:column_uuid] || params[:uuid]
+          @column ||= Column.find_by(uuid: uuid)
+        end
+
         private def load_previous_card
+          load_column
+
           column_index = params[:column_index] - 1
           column_cards = @column.cards.ordered
 

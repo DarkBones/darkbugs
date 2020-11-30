@@ -2,7 +2,8 @@ module Api
   module Internal
     module BoardsApi
       class BoardsController < Api::Internal::BoardsApi::BaseBoardsApiController
-        before_action :load_board!,         only: %i[show create reorder_columns reorder_cards update]
+        before_action :load_board!,         only: %i[show create reorder_columns, reorder_cards update]
+        before_action :load_previous_card,  only: %i[reorder_cards]
         before_action :check_is_assignee!,  only: %i[create update destroy]
         before_action :load_component!,     only: %i[create]
 
@@ -30,15 +31,14 @@ module Api
         end
 
         def reorder_cards
-          card =          @board.cards.find_by!(uuid: params[:card_uuid])
-          column =        @board.columns.find_by!(uuid: params[:column_uuid])
-          previous_card = @board.cards.find_by(uuid: params[:previous_card])
+          card = @board.cards.find_by!(uuid: params[:card_uuid])
+          column = @board.columns.find_by!(uuid: params[:column_uuid])
 
           Cards::ReorderService.new(
               board: @board,
               column: column,
               card: card,
-              previous_card: previous_card
+              previous_card: @previous_card
           ).execute
 
           render json: 'success'
@@ -67,7 +67,7 @@ module Api
         end
 
         private def load_project!
-          @project = Project.find_by!(key: params[:project_key])
+          @project ||= Project.find_by!(key: params[:project_key])
         end
 
         private def load_board!

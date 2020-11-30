@@ -145,14 +145,22 @@ export default class Columns extends React.Component {
     const previousCardCount = this.previousCardCount(destinationColumn.uuid);
 
     const relativeSourceIdx = sourceColumn.card_uuids.indexOf(draggableId);
-    const relativeDestIdx   = destination.index - previousCardCount;
+    let relativeDestIdx   = destination.index - previousCardCount;
 
     sourceColumn.card_uuids.splice(relativeSourceIdx, 1);
     destinationColumn.card_uuids.splice(relativeDestIdx, 0, draggableId);
 
     let destIdx = destination.index;
     if (destIdx === 0) destIdx = previousCardCount;
-    if (destIdx > source.index && destination.droppableId !== source.droppableId) destIdx -= 1;
+
+    // compensate splices
+    if (destIdx > source.index) {
+      if (destination === source) {
+        relativeDestIdx += 1;
+      } else {
+        destIdx -= 1;
+      }
+    }
 
     cardOrder.splice(source.index, 1);
     cardOrder.splice(destIdx, 0, draggableId);
@@ -164,10 +172,12 @@ export default class Columns extends React.Component {
       context.boardSlug,
       {
         card_uuid: draggableId,
-        column_index: relativeSourceIdx,
+        column_index: relativeDestIdx,
         column_uuid: destinationColumn.uuid
       }
-    )
+    ).catch((e) => {
+      console.log(e);
+    });
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {

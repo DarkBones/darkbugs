@@ -22,10 +22,6 @@ module Api
           @column&.destroy!
         end
 
-        private def load_column
-          @column = Column.find_by(uuid: params[:uuid])
-        end
-
         private def load_board!
           @board = Board.find_by!(slug: params[:board_slug])
         end
