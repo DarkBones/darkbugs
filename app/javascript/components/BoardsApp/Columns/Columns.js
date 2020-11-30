@@ -2,6 +2,7 @@ import Column         from './Column';
 import MainContext    from '../MainContext';
 import PropTypes      from 'prop-types';
 import React          from 'react';
+import { BoardApi }   from '../../../api/InternalApi';
 
 import {
   DragDropContext,
@@ -75,16 +76,83 @@ export default class Columns extends React.Component {
   }
 
   handleOnDragEnd = result => {
-    console.log(result);
+    const { setIsDragging, updateCardOrder, updateColumnOrder } = this;
 
-    this.setState({
-      isDragging: false
-    });
+    setIsDragging(false);
+
+    const {
+      destination,
+      draggableId,
+      source,
+      type
+    } = result;
+
+    // return if no changes
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    type === 'column'
+      ? updateColumnOrder(
+        source,
+        destination,
+        draggableId
+      )
+      : updateCardOrder(
+        source,
+        destination,
+        draggableId
+      )
   }
 
   handleOnDragStart = () => {
+    this.setIsDragging(true);
+  }
+
+  setIsDragging = isDragging => {
     this.setState({
-      isDragging: true
+      isDragging: isDragging
+    })
+  }
+
+  updateCardOrder = (source, destination, draggableId) => {
+    console.log('update card order');
+  }
+
+  updateColumnOrder = async (source, destination, draggableId) => {
+    const { context, props } = this;
+
+    const originalCardOrder = Array.from(props.cardOrder);
+    const originalColumnOrder = Array.from(props.columnOrder);
+
+    const { columns, projectKey } = props;
+    const columnOrder = Array.from(props.columnOrder);
+
+    columnOrder.splice(source.index, 1);
+    columnOrder.splice(destination.index, 0, draggableId);
+
+    let cardOrder = [];
+    columnOrder.forEach((uuid) => {
+      cardOrder = cardOrder.concat(columns[uuid].card_uuids);
+    });
+
+    context.setColumnOrder(cardOrder, columnOrder);
+
+    await BoardApi.reorderColumns(
+      projectKey,
+      context.boardSlug,
+      {
+        columns: columnOrder
+      }
+    ).catch((e) => {
+      console.log(e);
+      context.setColumnOrder(originalCardOrder, originalColumnOrder);
     });
   }
 
@@ -104,7 +172,7 @@ export default class Columns extends React.Component {
         {context =>
           <DragDropContext
             onDragEnd=  {handleOnDragEnd}
-            onDragStat= {handleOnDragStart}
+            onDragStart={handleOnDragStart}
           >
             <Droppable
               droppableId="droppable-columns"
@@ -149,8 +217,10 @@ export default class Columns extends React.Component {
 }
 
 Columns.propTypes = {
+  cardOrder:    PropTypes.array.isRequired,
   columnOrder:  PropTypes.array.isRequired,
-  columns:      PropTypes.object.isRequired
+  columns:      PropTypes.object.isRequired,
+  projectKey:   PropTypes.string.isRequired
 };
 
 Columns.contextType = MainContext;

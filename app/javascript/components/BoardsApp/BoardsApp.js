@@ -132,6 +132,13 @@ export default class BoardsApp extends React.Component {
     });
   }
 
+  setColumnOrder = (cardOrder, columnOrder) => {
+    this.setState({
+      cardOrder: cardOrder,
+      columnOrder: columnOrder
+    });
+  }
+
   setColumnValue = (columnUuid, key, value) => {
     this.setState({
       columns: {
@@ -160,6 +167,7 @@ export default class BoardsApp extends React.Component {
       deleteColumn,
       saveCard,
       setBoardName,
+      setColumnOrder,
       setColumnValue,
       showBoardModal,
       switchBoard
@@ -191,6 +199,7 @@ export default class BoardsApp extends React.Component {
       deleteCard:     deleteCard,
       deleteColumn:   deleteColumn,
       saveCard:       saveCard,
+      setColumnOrder: setColumnOrder,
       setColumnValue: setColumnValue
     }
 
@@ -220,8 +229,10 @@ export default class BoardsApp extends React.Component {
               />
 
               <Columns
+                cardOrder=    {cardOrder}
                 columnOrder=  {columnOrder}
                 columns=      {columns}
+                projectKey=   {projectKey}
               />
             </React.Fragment>
           }

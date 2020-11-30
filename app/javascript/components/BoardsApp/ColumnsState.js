@@ -137,6 +137,24 @@ export default class ColumnsState {
     };
   }
 
+  static reorderColumns(state, source, destination, draggableId) {
+    const newColumnOrder = Array.from(state.columnOrder);
+    const { columns } = state;
+
+    newColumnOrder.splice(source.index, 1, draggableId);
+
+    let cardOrder = [];
+    newColumnOrder.forEach((uuid) => {
+      cardOrder = cardOrder.concat(columns[uuid].card_uuids);
+    });
+
+    return {
+      ...state,
+      cardOrder:    cardOrder,
+      columnOrder:  newColumnOrder
+    }
+  }
+
   static saveCard(state, name, uuid, columnUuid) {
     const { cardOrder, columns } = state;
     const allIndex = cardOrder.indexOf('new');
