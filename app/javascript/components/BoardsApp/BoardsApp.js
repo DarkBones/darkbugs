@@ -257,8 +257,8 @@ export default class BoardsApp extends React.Component {
           />
 
           <CardModal
-            cardId={cardModalId}
-            show={cardModalShowing}
+            cardUuid= {cardModalId}
+            show=     {cardModalShowing}
           />
 
           {!showSpinner &&

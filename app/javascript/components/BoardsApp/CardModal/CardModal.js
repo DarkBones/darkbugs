@@ -6,10 +6,29 @@ import React        from 'react';
 export default class CardModal extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      cardUuid: ''
+    }
   }
 
+  componentDidUpdate = prevProps => {
+    const { show, cardUuid } = this.props;
+
+    if (!prevProps.show && show && cardUuid !== this.state.cardUuid) {
+      this.fetchCardData(cardUuid)
+    }
+  }
+
+  fetchCardData = (cardUuid) => {
+    this.setState({
+      cardUuid: this.props.cardUuid
+    });
+  }
+
+
   render() {
-    const { show, cardId } = this.props;
+    const { show, cardUuid } = this.props;
 
     return (
       <MainContext.Consumer>
@@ -17,7 +36,7 @@ export default class CardModal extends React.Component {
           <Modal
             handleOnClose={() => { context.setCardModalId(); }}
             show={show}
-            title={cardId}
+            title={cardUuid}
           >
 
           </Modal>
@@ -28,6 +47,6 @@ export default class CardModal extends React.Component {
 }
 
 CardModal.propTypes = {
-  cardId: PropTypes.string.isRequired,
-  show:   PropTypes.bool.isRequired
+  cardUuid: PropTypes.string.isRequired,
+  show:     PropTypes.bool.isRequired
 }
