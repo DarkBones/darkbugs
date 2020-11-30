@@ -1,4 +1,5 @@
 import BoardModal   from './BoardModal';
+import CardModal    from './CardModal';
 import Columns      from './Columns';
 import ColumnsState from './ColumnsState';
 import MainContext  from './MainContext';
@@ -25,6 +26,8 @@ export default class BoardsApp extends React.Component {
       boardOrder:         [],
       boards:             {},
       boardSlug:          board_slug,
+      cardModalId:        '',
+      cardModalShowing:   false,
       cardOrder:          [],
       cards:              {},
       columnOrder:        [],
@@ -130,6 +133,13 @@ export default class BoardsApp extends React.Component {
     });
   }
 
+  setCardModalId = (cardId = '') => {
+    this.setState({
+      cardModalId: cardId,
+      cardModalShowing: cardId.length > 0
+    });
+  }
+
   setCardOrder = (cardOrder, sourceColumn, destinationColumn) => {
     this.setState({
       cardOrder: cardOrder,
@@ -191,6 +201,7 @@ export default class BoardsApp extends React.Component {
       fetchBoardData,
       saveCard,
       setBoardName,
+      setCardModalId,
       setCardOrder,
       setColumnOrder,
       setColumnValue,
@@ -203,6 +214,8 @@ export default class BoardsApp extends React.Component {
       boardOrder,
       boards,
       boardSlug,
+      cardModalShowing,
+      cardModalId,
       cardOrder,
       cards,
       columnOrder,
@@ -215,19 +228,20 @@ export default class BoardsApp extends React.Component {
     } = this.state;
 
     const contextValue = {
-      boardSlug:      boardSlug,
-      cardOrder:      cardOrder,
-      cards:          cards,
-      userIsAssigned: user.isAssigned,
-      addCard:        addCard,
-      addColumn:      addColumn,
-      deleteCard:     deleteCard,
-      deleteColumn:   deleteColumn,
-      fetchBoardData: fetchBoardData,
-      saveCard:       saveCard,
-      setCardOrder:   setCardOrder,
-      setColumnOrder: setColumnOrder,
-      setColumnValue: setColumnValue
+      boardSlug:        boardSlug,
+      cardOrder:        cardOrder,
+      cards:            cards,
+      userIsAssigned:   user.isAssigned,
+      addCard:          addCard,
+      addColumn:        addColumn,
+      deleteCard:       deleteCard,
+      deleteColumn:     deleteColumn,
+      fetchBoardData:   fetchBoardData,
+      saveCard:         saveCard,
+      setCardModalId:   setCardModalId,
+      setCardOrder:     setCardOrder,
+      setColumnOrder:   setColumnOrder,
+      setColumnValue:   setColumnValue
     }
 
     return (
@@ -240,6 +254,11 @@ export default class BoardsApp extends React.Component {
             handleClose=  {closeBoardModal}
             projectKey=   {projectKey}
             show=         {boardModalShowing}
+          />
+
+          <CardModal
+            cardId={cardModalId}
+            show={cardModalShowing}
           />
 
           {!showSpinner &&

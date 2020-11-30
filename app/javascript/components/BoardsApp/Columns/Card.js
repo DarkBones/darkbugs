@@ -80,6 +80,7 @@ export default class Card extends React.Component {
                   className="card item-card clickable"
                   id=       {uuid}
                   {...provided.dragHandleProps}
+                  onClick={() => { context.setCardModalId(uuid); }}
                 >
                   {element(context.cards[uuid].name)}
                 </div>
