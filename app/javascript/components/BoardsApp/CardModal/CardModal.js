@@ -1,5 +1,6 @@
 import CardModalState     from './CardModalState';
 import i18n               from '../../../i18n';
+import Item               from './Item';
 import MainContext        from '../MainContext';
 import Modal              from '../../shared/Modal';
 import PropTypes          from 'prop-types';
@@ -35,6 +36,10 @@ export default class CardModal extends React.Component {
     if (!prevProps.show && show) {
       this.fetchCardData(cardUuid, cardUuid !== this.state.cardUuid);
     }
+  }
+
+  deleteItem = uuid => {
+    this.setState(CardModalState.deleteItem(this.state, uuid));
   }
 
   fetchCardData = async (cardUuid, resetState) => {
@@ -88,8 +93,9 @@ export default class CardModal extends React.Component {
   }
 
   render() {
-    const { newItem, updateCardName } = this;
+    const { deleteItem, newItem, updateCardName } = this;
     const { show } = this.props;
+    const { itemOrder, items } = this.state;
 
     return (
       <MainContext.Consumer>
@@ -108,6 +114,16 @@ export default class CardModal extends React.Component {
                 {StringTransformer.shortenWidth(this.state.name, 9400)}
               </h1>
             </ToggleInput>
+
+            {itemOrder.map(uuid =>
+              <Item
+                deleteItem= {deleteItem}
+                key=        {uuid}
+                params=     {items[uuid].params}
+                type=       {items[uuid].type}
+                uuid=       {items[uuid].uuid}
+              />
+            )}
 
             <Toolbar>
               <ToolbarButton
