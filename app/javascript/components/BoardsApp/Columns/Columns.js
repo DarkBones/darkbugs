@@ -27,7 +27,7 @@ export default class Columns extends React.Component {
 
   findColumnIndex = e => {
     const classList = e.target.classList;
-    const { columnOrder, columns } = this.props;
+    const { columns } = this.props;
 
     if (classList.contains('item-card-divider')) {
       const cardId = e.target.getAttribute('cardid');
@@ -49,8 +49,7 @@ export default class Columns extends React.Component {
   }
 
   handleOnClick = e => {
-    const context = this.context;
-    const { deleteCard, userIsAssigned } = context;
+    const { addCard, deleteCard, userIsAssigned } = this.context;
 
     if (!userIsAssigned) return;
 
@@ -63,7 +62,8 @@ export default class Columns extends React.Component {
       deleteCard('new');
       const columnIndex = this.findColumnIndex(e);
       const columnUuid = e.target.getAttribute('columnid');
-      context.addCard(columnUuid, columnIndex, '', 'new');
+
+      addCard(columnUuid, columnIndex, '', 'new');
       return;
     }
 
@@ -90,7 +90,6 @@ export default class Columns extends React.Component {
 
   render() {
     const {
-      findColumnIndex,
       handleOnDragEnd,
       handleOnDragStart
     } = this;
@@ -108,13 +107,13 @@ export default class Columns extends React.Component {
             onDragStat= {handleOnDragStart}
           >
             <Droppable
-              droppableId=  "droppable-columns"
-              direction=    "horizontal"
-              type=         "column"
+              droppableId="droppable-columns"
+              direction=  "horizontal"
+              type=       "column"
             >
               { provided =>
                 <div
-                  id="columns"
+                  id= "columns"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -130,8 +129,8 @@ export default class Columns extends React.Component {
                   {context.userIsAssigned && !columnOrder.includes('new') &&
                   <React.Fragment>
                     <button
-                      className=  "btn create-column"
-                      onClick=    {() => { context.addColumn('new'); }}
+                      className="btn create-column"
+                      onClick=  {() => { context.addColumn('new'); }}
                     >
                       <i
                         className="fa fa-plus-circle fa-3x clickable"
