@@ -115,6 +115,21 @@ export default class Columns extends React.Component {
     this.setIsDragging(true);
   }
 
+  previousCardCount = columnUuid => {
+    const { columnOrder, columns } = this.props;
+    let count = 0;
+
+    let uuid;
+    for (let i = 0; i < columnOrder.length; i++) {
+      uuid = columnOrder[i];
+      if (uuid === columnUuid) break;
+
+      count += columns[uuid].card_uuids.length;
+    }
+
+    return count;
+  }
+
   setIsDragging = isDragging => {
     this.setState({
       isDragging: isDragging
@@ -123,6 +138,28 @@ export default class Columns extends React.Component {
 
   updateCardOrder = (source, destination, draggableId) => {
     console.log('update card order');
+
+    const { context, props } = this;
+    const { cardOrder, columns } = props;
+
+    const sourceColumn      = columns[source.droppableId];
+    const destinationColumn = columns[destination.droppableId];
+    const previousCardCount = this.previousCardCount(destinationColumn.uuid);
+
+    const relativeSourceIdx = sourceColumn.card_uuids.indexOf(draggableId);
+    const relativeDestIdx   = destination.index - previousCardCount;
+
+    sourceColumn.card_uuids.splice(relativeSourceIdx, 1);
+    destinationColumn.card_uuids.splice(relativeDestIdx, 0, draggableId);
+
+    let destIdx = destination.index;
+    if (destIdx === 0) destIdx = previousCardCount;
+    if (destIdx > source.index && destination.droppableId !== source.droppableId) destIdx -= 1;
+
+    cardOrder.splice(source.index, 1);
+    cardOrder.splice(destIdx, 0, draggableId);
+
+    context.setCardOrder(cardOrder, sourceColumn, destinationColumn);
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {

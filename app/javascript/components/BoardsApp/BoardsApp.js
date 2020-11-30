@@ -132,6 +132,23 @@ export default class BoardsApp extends React.Component {
     });
   }
 
+  setCardOrder = (cardOrder, sourceColumn, destinationColumn) => {
+    this.setState({
+      cardOrder: cardOrder,
+      columns: {
+        ...this.state.columns,
+        [sourceColumn.uuid]: {
+          ...this.state.columns[sourceColumn.uuid],
+          card_uuids: sourceColumn.card_uuids
+        },
+        [destinationColumn.uuid]: {
+          ...this.state.columns[destinationColumn.uuid],
+          card_uuids: destinationColumn.card_uuids
+        }
+      }
+    })
+  }
+
   setColumnOrder = (cardOrder, columnOrder) => {
     this.setState({
       cardOrder: cardOrder,
@@ -167,6 +184,7 @@ export default class BoardsApp extends React.Component {
       deleteColumn,
       saveCard,
       setBoardName,
+      setCardOrder,
       setColumnOrder,
       setColumnValue,
       showBoardModal,
@@ -199,6 +217,7 @@ export default class BoardsApp extends React.Component {
       deleteCard:     deleteCard,
       deleteColumn:   deleteColumn,
       saveCard:       saveCard,
+      setCardOrder:   setCardOrder,
       setColumnOrder: setColumnOrder,
       setColumnValue: setColumnValue
     }
