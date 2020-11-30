@@ -140,6 +140,18 @@ export default class BoardsApp extends React.Component {
     });
   }
 
+  setCardName = (cardUuid, name) => {
+    this.setState({
+      cards: {
+        ...this.state.cards,
+        [cardUuid]: {
+          ...this.state.cards[cardUuid],
+          name: name
+        }
+      }
+    });
+  }
+
   setCardOrder = (cardOrder, sourceColumn, destinationColumn) => {
     this.setState({
       cardOrder: cardOrder,
@@ -202,6 +214,7 @@ export default class BoardsApp extends React.Component {
       saveCard,
       setBoardName,
       setCardModalId,
+      setCardName,
       setCardOrder,
       setColumnOrder,
       setColumnValue,
@@ -239,6 +252,7 @@ export default class BoardsApp extends React.Component {
       fetchBoardData:   fetchBoardData,
       saveCard:         saveCard,
       setCardModalId:   setCardModalId,
+      setCardName:      setCardName,
       setCardOrder:     setCardOrder,
       setColumnOrder:   setColumnOrder,
       setColumnValue:   setColumnValue
