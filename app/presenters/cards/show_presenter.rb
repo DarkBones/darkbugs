@@ -11,15 +11,13 @@ module Cards
 
     def to_h
       {
-        card: {
-          board_order: board_order,
-          boards: boards,
-          item_order: card.card_items.ordered.pluck(:uuid),
-          items: card_items,
-          name: card.name,
-          number: card.card_number,
-          uuid: card.uuid
-        }
+        board_order: board_order,
+        boards: boards,
+        item_order: card.card_items.ordered.pluck(:uuid),
+        items: card_items,
+        name: card.name,
+        number: card.card_number,
+        uuid: card.uuid
       }
     end
 

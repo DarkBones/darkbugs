@@ -17,7 +17,7 @@ module Api
         def show
           card_hash = Cards::ShowPresenter.new(@card, @current_user).to_h
 
-          render json: card_hash
+          render json: {data: card_hash, status: 200}
         end
 
         def destroy

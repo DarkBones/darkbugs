@@ -1,14 +1,20 @@
-import MainContext  from '../MainContext';
-import Modal        from '../../shared/Modal';
-import PropTypes    from 'prop-types';
-import React        from 'react';
+import MainContext        from '../MainContext';
+import Modal              from '../../shared/Modal';
+import PropTypes          from 'prop-types';
+import React              from 'react';
+import StringTransformer  from '../../shared/StringTransformer';
+import ToggleInput        from '../../shared/ToggleInput';
+import { CardApi }        from '../../../api/InternalApi';
 
 export default class CardModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cardUuid: ''
+      cardUuid:   '',
+      isFetching: false,
+      title: '',
+      name: ''
     }
   }
 
@@ -20,15 +26,31 @@ export default class CardModal extends React.Component {
     }
   }
 
-  fetchCardData = (cardUuid) => {
+  fetchCardData = async (cardUuid) => {
+    if (this.state.isFetching) return;
+
     this.setState({
-      cardUuid: this.props.cardUuid
+      cardUuid: cardUuid,
+      isFetching: true
     });
+
+    let response = await CardApi.getDetails(cardUuid);
+    if (!response) return;
+    if (response.status !== 200) return;
+
+    console.log(response.data);
+
+    const { name, number } = response.data;
+
+    this.setState({
+      name: name,
+      title: `${number} - ${name}`
+    })
   }
 
 
   render() {
-    const { show, cardUuid } = this.props;
+    const { show } = this.props;
 
     return (
       <MainContext.Consumer>
@@ -36,9 +58,17 @@ export default class CardModal extends React.Component {
           <Modal
             handleOnClose={() => { context.setCardModalId(); }}
             show={show}
-            title={cardUuid}
+            title={StringTransformer.shortenWidth(this.state.title, 5800)}
           >
-
+            <ToggleInput
+              handleOnSubmit={(data) => { console.log(data); }}
+              value={this.state.name}
+              triggerOn="mouseup"
+            >
+              <h1>
+                {StringTransformer.shortenWidth(this.state.name, 9400)}
+              </h1>
+            </ToggleInput>
           </Modal>
         }
       </MainContext.Consumer>
