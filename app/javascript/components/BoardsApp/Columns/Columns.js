@@ -136,11 +136,9 @@ export default class Columns extends React.Component {
     })
   }
 
-  updateCardOrder = (source, destination, draggableId) => {
-    console.log('update card order');
-
+  updateCardOrder = async (source, destination, draggableId) => {
     const { context, props } = this;
-    const { cardOrder, columns } = props;
+    const { cardOrder, columns, projectKey } = props;
 
     const sourceColumn      = columns[source.droppableId];
     const destinationColumn = columns[destination.droppableId];
@@ -160,6 +158,16 @@ export default class Columns extends React.Component {
     cardOrder.splice(destIdx, 0, draggableId);
 
     context.setCardOrder(cardOrder, sourceColumn, destinationColumn);
+
+    await BoardApi.reorderCards(
+      projectKey,
+      context.boardSlug,
+      {
+        card_uuid: draggableId,
+        column_index: relativeSourceIdx,
+        column_uuid: destinationColumn.uuid
+      }
+    )
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
