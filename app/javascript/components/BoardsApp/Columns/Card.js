@@ -67,8 +67,9 @@ export default class Card extends React.Component {
       <MainContext.Consumer>
         {context =>
           <Draggable
-            draggableId={uuid}
-            index=      {context.cardOrder.indexOf(uuid)}
+            draggableId=    {uuid}
+            index=          {context.cardOrder.indexOf(uuid)}
+            isDragDisabled= {!context.userIsAssigned}
           >
             {provided => (
               <div
