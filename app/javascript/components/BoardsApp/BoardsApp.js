@@ -17,6 +17,9 @@ export default class BoardsApp extends React.Component {
       project_key
     } = props;
 
+    this.refresher = null; // interval to refresh page every 60 seconds
+    this.boardSlug = board_slug;
+
     this.state = {
       boardModalShowing:  false,
       boardOrder:         [],
@@ -64,11 +67,6 @@ export default class BoardsApp extends React.Component {
 
   componentDidMount() {
     this.fetchBoardData(this.state.boardSlug);
-
-    // TODO: Test this doesn't affect dragging / typing actions
-    // setInterval(() => {
-    //   if (!this.state.fetchingData) this.fetchBoardData(this.state.boardSlug);
-    // }, 1000 * 60);
   }
 
   deleteCard = uuid => {
@@ -80,7 +78,7 @@ export default class BoardsApp extends React.Component {
   }
 
   fetchBoardData = async (slug) => {
-    if (this.state.fetchingData) return;
+    clearInterval(this.refresher);
 
     this.setState({
       fetchingData: true,
@@ -110,7 +108,7 @@ export default class BoardsApp extends React.Component {
                       ...this.state.users,
                       isAssigned: data.user_is_assigned
                     }
-    });
+    }, this.setRefresher());
   }
 
   saveCard = (name, uuid, columnUuid) => {
@@ -168,8 +166,16 @@ export default class BoardsApp extends React.Component {
     });
   }
 
+  setRefresher = () => {
+    this.refresher = setInterval(() => {
+      if (!this.state.fetchingData) this.fetchBoardData(this.boardSlug);
+    }, 1000 * 60);
+  }
+
   switchBoard = (path, slug) => {
     window.history.pushState({}, '', path);
+
+    this.boardSlug = slug;
 
     this.fetchBoardData(slug);
   }
