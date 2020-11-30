@@ -1,12 +1,13 @@
 import {get, put, post, del} from './BaseApi'
 
 const BASE_URL = '/internal'
+const BASE_BOARDS_URL = `${BASE_URL}/boards_api`
 
 const AVATAR_PATH     = `${BASE_URL}/user_avatars`
-const BOARD_PATH      = `${BASE_URL}/projects/:project_key/boards`
-const CARD_ITEM_PATH  = `${BASE_URL}/card_items`
-const CARD_PATH       = `${BASE_URL}/cards`
-const COLUMN_PATH     = `${BASE_URL}/columns`
+const BOARD_PATH      = `${BASE_BOARDS_URL}/projects/:project_key/boards`
+const CARD_ITEM_PATH  = `${BASE_BOARDS_URL}/card_items`
+const CARD_PATH       = `${BASE_BOARDS_URL}/cards`
+const COLUMN_PATH     = `${BASE_BOARDS_URL}/columns`
 
 export class UserAvatarApi {
   static uploadAvatar(params) {
