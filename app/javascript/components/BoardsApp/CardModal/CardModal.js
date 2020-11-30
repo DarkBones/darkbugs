@@ -1,3 +1,4 @@
+import CardModalState     from './CardModalState';
 import i18n               from '../../../i18n';
 import MainContext        from '../MainContext';
 import Modal              from '../../shared/Modal';
@@ -16,14 +17,16 @@ export default class CardModal extends React.Component {
     this.defaultState = {
       cardUuid:   '',
       isFetching: false,
+      itemOrder:  [],
+      items:      {},
       title:      '',
       name:       '',
       number:     ''
-    }
+    };
 
     this.state = {
       ...this.defaultState
-    }
+    };
   }
 
   componentDidUpdate = prevProps => {
@@ -49,45 +52,21 @@ export default class CardModal extends React.Component {
     if (!response) return;
     if (response.status !== 200) return;
 
-    const { name, number } = response.data;
+    const { item_order: itemOrder, items, name, number } = response.data;
 
     console.log(response.data);
 
     this.setState({
       isFetching: false,
+      itemOrder:  itemOrder,
+      items:      items,
       name:       name,
       number:     number
     })
   }
 
   newItem = (type, params, uuid = 'new') => {
-    // const item = {
-    //   ...this.defaultItems[type],
-    //   params: params
-    // }
-    //
-    // const newState = CardModalState
-    //   .deleteItem(this.state, 'new')
-    //
-    // const itemOrder = Array.from(newState.cardData.itemOrder)
-    // itemOrder.push(uuid)
-    //
-    // this.setState({
-    //   ...newState,
-    //   cardData: {
-    //     ...newState.cardData,
-    //     itemOrder: itemOrder,
-    //     items: {
-    //       ...newState.cardData.items,
-    //       [item.uuid]: item
-    //     }
-    //   }
-    // })
-
-    const item = {
-      ...this.defaultItems[type],
-      params: params
-    };
+    this.setState(CardModalState.addItem(this.state, type, params, uuid));
   }
 
   title = name => {
@@ -109,7 +88,7 @@ export default class CardModal extends React.Component {
   }
 
   render() {
-    const { updateCardName } = this;
+    const { newItem, updateCardName } = this;
     const { show } = this.props;
 
     return (
@@ -134,7 +113,7 @@ export default class CardModal extends React.Component {
               <ToolbarButton
                 faIconClass="fa fa-sticky-note"
                 buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_note')}
-                onClick={() => { console.log('click'); }}
+                onClick={() => { newItem('note', { content: '' }); }}
               />
             </Toolbar>
           </Modal>
