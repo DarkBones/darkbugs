@@ -26,25 +26,25 @@ export default class CardModal extends React.Component {
   componentDidUpdate = prevProps => {
     const { show, cardUuid } = this.props;
 
-    if (!prevProps.show && show && cardUuid !== this.state.cardUuid) {
-      this.fetchCardData(cardUuid)
+    if (!prevProps.show && show) {
+      this.fetchCardData(cardUuid, cardUuid !== this.state.cardUuid);
     }
   }
 
-  fetchCardData = async (cardUuid) => {
+  fetchCardData = async (cardUuid, resetState) => {
     if (this.state.isFetching) return;
 
-    this.setState({
-      ...this.defaultState,
-      cardUuid: cardUuid,
-      isFetching: true
-    });
+    if (resetState) {
+      this.setState({
+        ...this.defaultState,
+        cardUuid: cardUuid,
+        isFetching: true
+      });
+    }
 
     let response = await CardApi.getDetails(cardUuid);
     if (!response) return;
     if (response.status !== 200) return;
-
-    console.log(response.data);
 
     const { name, number } = response.data;
 
