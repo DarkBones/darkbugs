@@ -2,10 +2,10 @@ module Api
   module Internal
     module BoardsApi
       class CardItemsController < Api::Internal::BoardsApi::BaseBoardsApiController
-        before_action :load_card!, only: %i[create]
-        before_action :load_card_item!, only: %i[destroy update]
-        before_action :check_is_assignee!, only: %i[create]
-        before_action :check_is_author!, only: %i[destroy update]
+        before_action :load_card!,          only: %i[create]
+        before_action :load_card_item!,     only: %i[destroy update]
+        before_action :check_is_assignee!,  only: %i[create]
+        before_action :check_is_author!,    only: %i[destroy update]
 
         def create
           service = CardItems::CreateService.new(params[:type], item_params, @current_user, @card).execute

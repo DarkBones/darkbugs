@@ -2,9 +2,9 @@ module Api
   module Internal
     module BoardsApi
       class ColumnsController < Api::Internal::BoardsApi::BaseBoardsApiController
-        before_action :load_column, only: %i[update destroy]
-        before_action :load_board!, only: %i[create]
-        before_action :check_is_assignee!, only: %i[create update destroy]
+        before_action :load_column,         only: %i[update destroy]
+        before_action :load_board!,         only: %i[create]
+        before_action :check_is_assignee!,  only: %i[create update destroy]
 
         def create
           @column = @board.columns.create!(column_params)

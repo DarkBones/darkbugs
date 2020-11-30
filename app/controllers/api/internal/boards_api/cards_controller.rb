@@ -2,12 +2,12 @@ module Api
   module Internal
     module BoardsApi
       class CardsController < Api::Internal::BoardsApi::BaseBoardsApiController
-        skip_before_action :authenticate!, only: %i[show]
+        skip_before_action :authenticate!,  only: %i[show]
 
-        before_action :load_card, only: %i[show destroy update create_board]
-        before_action :load_column, only: %i[create]
-        before_action :load_previous_card, only: %i[create]
-        before_action :check_is_member!, only: %i[create create_board]
+        before_action :load_card,           only: %i[show destroy update create_board]
+        before_action :load_column,         only: %i[create]
+        before_action :load_previous_card,  only: %i[create]
+        before_action :check_is_member!,    only: %i[create create_board]
 
         def create
           service = Cards::CreateCardService.new(card_params, @column, @previous_card, @current_user).execute
