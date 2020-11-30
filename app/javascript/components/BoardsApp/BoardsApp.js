@@ -80,7 +80,7 @@ export default class BoardsApp extends React.Component {
   }
 
   fetchBoardData = async (slug) => {
-    // if (this.state.fetchingData) return;
+    if (this.state.fetchingData) return;
 
     this.setState({
       fetchingData: true,
@@ -182,6 +182,7 @@ export default class BoardsApp extends React.Component {
       closeBoardModal,
       deleteCard,
       deleteColumn,
+      fetchBoardData,
       saveCard,
       setBoardName,
       setCardOrder,
@@ -216,6 +217,7 @@ export default class BoardsApp extends React.Component {
       addColumn:      addColumn,
       deleteCard:     deleteCard,
       deleteColumn:   deleteColumn,
+      fetchBoardData: fetchBoardData,
       saveCard:       saveCard,
       setCardOrder:   setCardOrder,
       setColumnOrder: setColumnOrder,

@@ -165,26 +165,27 @@ export default class Columns extends React.Component {
     cardOrder.splice(source.index, 1);
     cardOrder.splice(destIdx, 0, draggableId);
 
-    context.setCardOrder(cardOrder, sourceColumn, destinationColumn);
+    const { boardSlug, fetchBoardData, setCardOrder } = context;
+
+    setCardOrder(cardOrder, sourceColumn, destinationColumn);
 
     await BoardApi.reorderCards(
       projectKey,
-      context.boardSlug,
+      boardSlug,
       {
-        card_uuid: draggableId,
+        card_uuid:    draggableId,
         column_index: relativeDestIdx,
-        column_uuid: destinationColumn.uuid
+        column_uuid:  destinationColumn.uuid
       }
     ).catch((e) => {
       console.log(e);
     });
+
+    fetchBoardData(boardSlug);
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
     const { context, props } = this;
-
-    const originalCardOrder = Array.from(props.cardOrder);
-    const originalColumnOrder = Array.from(props.columnOrder);
 
     const { columns, projectKey } = props;
     const columnOrder = Array.from(props.columnOrder);
@@ -197,18 +198,21 @@ export default class Columns extends React.Component {
       cardOrder = cardOrder.concat(columns[uuid].card_uuids);
     });
 
-    context.setColumnOrder(cardOrder, columnOrder);
+    const { boardSlug, fetchBoardData, setColumnOrder } = context;
+
+    setColumnOrder(cardOrder, columnOrder);
 
     await BoardApi.reorderColumns(
       projectKey,
-      context.boardSlug,
+      boardSlug,
       {
         columns: columnOrder
       }
     ).catch((e) => {
       console.log(e);
-      context.setColumnOrder(originalCardOrder, originalColumnOrder);
     });
+
+    fetchBoardData(boardSlug);
   }
 
   render() {

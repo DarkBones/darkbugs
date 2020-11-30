@@ -2,7 +2,7 @@ module Api
   module Internal
     module BoardsApi
       class BoardsController < Api::Internal::BoardsApi::BaseBoardsApiController
-        before_action :load_board!,         only: %i[show create reorder_columns, reorder_cards update]
+        before_action :load_board!,         only: %i[show create reorder_columns reorder_cards update]
         before_action :load_previous_card,  only: %i[reorder_cards]
         before_action :check_is_assignee!,  only: %i[create update destroy]
         before_action :load_component!,     only: %i[create]
