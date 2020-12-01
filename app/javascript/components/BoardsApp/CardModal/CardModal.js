@@ -136,13 +136,15 @@ export default class CardModal extends React.Component {
               />
             )}
 
-            <Toolbar>
-              <ToolbarButton
-                faIconClass="fa fa-sticky-note"
-                buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_note')}
-                onClick={() => { addItem('note', { content: '' }); }}
-              />
-            </Toolbar>
+            {context.userIsAssigned &&
+              <Toolbar>
+                <ToolbarButton
+                  faIconClass="fa fa-sticky-note"
+                  buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_note')}
+                  onClick={() => { addItem('note', { content: '' }); }}
+                />
+              </Toolbar>
+            }
           </Modal>
         }
       </MainContext.Consumer>

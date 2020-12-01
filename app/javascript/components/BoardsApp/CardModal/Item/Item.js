@@ -137,6 +137,7 @@ export default class Item extends React.Component {
 
   render() {
     const { itemElement } = this;
+    const { user_is_author: userIsAuthor } = this.props.item;
 
     const links = [
       [i18n.t('components.projects.cards.CardModal.items.menu.edit'), this.editItem],
@@ -146,7 +147,7 @@ export default class Item extends React.Component {
     return (
       <React.Fragment>
         <div className="card-item">
-          {!this.state.isEditing &&
+          {!this.state.isEditing && userIsAuthor &&
             <Ellipsis
               links={links}
             />
