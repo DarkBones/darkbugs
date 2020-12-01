@@ -30,8 +30,8 @@ export default class CardModal extends React.Component {
     };
   }
 
-  addItem = (type, params, uuid = 'new') => {
-    this.setState(CardModalState.addItem(this.state, type, params, uuid));
+  addItem = (type, data, uuid = 'new') => {
+    this.setState(CardModalState.addItem(this.state, type, data, uuid));
   }
 
   componentDidUpdate = prevProps => {

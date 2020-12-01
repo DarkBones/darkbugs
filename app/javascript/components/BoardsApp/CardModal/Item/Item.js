@@ -15,13 +15,13 @@ export default class Item extends React.Component {
     }
   }
 
-  createItem = async (data) => {
+  createItem = async (params) => {
     const { addItem, cardUuid, deleteItem, item: { type } } = this.props;
 
     const itemParams = {
       card_uuid: cardUuid,
       type: type,
-      item: data
+      item: params
     };
 
     let response = await CardItemApi.createItem(itemParams)
@@ -31,9 +31,9 @@ export default class Item extends React.Component {
 
     if (!response) return;
     if (response.status !== 200) return;
-    
-    const { params, uuid } = response.data;
-    addItem(type, params, uuid);
+
+    const { data } = response;
+    addItem(type, data, data.uuid);
   }
 
   deleteItem = async () => {
