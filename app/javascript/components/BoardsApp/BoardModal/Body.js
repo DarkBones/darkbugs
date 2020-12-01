@@ -27,8 +27,10 @@ export default class Body extends React.Component {
   }
 
   render() {
-    const { fieldOrder, fields } = this.formParams;
-    const { handleClose, handleSubmit } = this.props;
+    const {
+      formParams: { fieldOrder, fields },
+      props: { handleClose, handleSubmit }
+    } = this;
 
     return (
       <Form

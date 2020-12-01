@@ -16,8 +16,7 @@ export default class Item extends React.Component {
   }
 
   createItem = async (data) => {
-    const { addItem, cardUuid, deleteItem, item } = this.props;
-    const { type } = item;
+    const { addItem, cardUuid, deleteItem, item: { type } } = this.props;
 
     const itemParams = {
       card_uuid: cardUuid,
@@ -32,14 +31,13 @@ export default class Item extends React.Component {
 
     if (!response) return;
     if (response.status !== 200) return;
-
+    
     const { params, uuid } = response.data;
-
     addItem(type, params, uuid);
   }
 
   deleteItem = async () => {
-    const { uuid } = this.props.item;
+    const { deleteItem, item: { uuid }} = this.props;
 
     if (uuid !== 'new') {
       let response = await CardItemApi.deleteItem(uuid);
@@ -47,7 +45,7 @@ export default class Item extends React.Component {
       if (response.status !== 200) return;
     }
 
-    this.props.deleteItem(uuid);
+    deleteItem(uuid);
   }
 
   editItem = () => {

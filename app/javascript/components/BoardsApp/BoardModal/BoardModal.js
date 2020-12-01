@@ -5,10 +5,8 @@ import PropTypes    from 'prop-types';
 import React        from 'react';
 import { BoardApi } from '../../../api/InternalApi';
 
-export default function BoardModal({ addBoard, boardSlug, component, handleClose, projectKey, show }) {
+export default function BoardModal({ addBoard, boardSlug, component: { type, uuid }, handleClose, projectKey, show }) {
   const handleSubmit = async (data) => {
-    const { type, uuid } = component;
-
     const params = {
       board_slug:     boardSlug,
       component_type: type,
