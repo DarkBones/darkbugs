@@ -3,8 +3,6 @@ import React      from 'react';
 import { fadeIn } from 'react-animations';
 
 import Radium, { StyleRoot } from 'radium';
-import i18n from "../../../i18n";
-import ToolbarButton from "./ToolbarButton";
 
 export default class Toolbar extends React.Component {
   constructor(props) {
@@ -51,3 +49,7 @@ export default class Toolbar extends React.Component {
     );
   }
 }
+
+Toolbar.propTypes = {
+  children: PropTypes.object
+};

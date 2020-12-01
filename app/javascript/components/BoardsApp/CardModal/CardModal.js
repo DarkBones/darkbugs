@@ -165,6 +165,6 @@ export default class CardModal extends React.Component {
 CardModal.propTypes = {
   cardUuid: PropTypes.string.isRequired,
   show:     PropTypes.bool.isRequired
-}
+};
 
 CardModal.contextType = MainContext;

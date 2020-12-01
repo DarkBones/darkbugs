@@ -167,4 +167,4 @@ Item.propTypes = {
   deleteItem: PropTypes.func.isRequired,
   item:       PropTypes.object.isRequired,
   updateItem: PropTypes.func.isRequired
-}
+};

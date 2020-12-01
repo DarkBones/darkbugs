@@ -2,7 +2,7 @@ import React      from 'react';
 import PropTypes  from 'prop-types';
 
 export default function ToolbarButton(props) {
-  const { onClick, faIconClass, buttonText} = props;
+  const { onClick, faIconClass, buttonText } = props;
 
   return (
     <React.Fragment>

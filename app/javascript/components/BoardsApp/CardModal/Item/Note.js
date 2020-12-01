@@ -16,4 +16,4 @@ export default function Note({ params, uuid }) {
 Note.propTypes = {
   params: PropTypes.object.isRequired,
   uuid:   PropTypes.string.isRequired
-}
+};
