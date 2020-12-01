@@ -50,7 +50,10 @@ export default class Columns extends React.Component {
   }
 
   handleOnClick = e => {
-    const { addCard, deleteCard, userIsAssigned } = this.context;
+    const {
+      findColumnIndex,
+      context: { addCard, deleteCard, userIsAssigned }
+    } = this;
 
     if (!userIsAssigned) return;
 
@@ -61,7 +64,7 @@ export default class Columns extends React.Component {
       classList.contains('column-body')
     ) {
       deleteCard('new');
-      const columnIndex = this.findColumnIndex(e);
+      const columnIndex = findColumnIndex(e);
       const columnUuid = e.target.getAttribute('columnid');
 
       addCard(columnUuid, columnIndex, '', 'new');
@@ -115,7 +118,7 @@ export default class Columns extends React.Component {
     this.setIsDragging(true);
   }
 
-  previousCardCount = columnUuid => {
+  getPreviousCardCount = columnUuid => {
     const { columnOrder, columns } = this.props;
     let count = 0;
 
@@ -137,12 +140,15 @@ export default class Columns extends React.Component {
   }
 
   updateCardOrder = async (source, destination, draggableId) => {
-    const { context, props } = this;
-    const { cardOrder, columns, projectKey } = props;
+    const {
+      getPreviousCardCount,
+      context: { boardSlug, fetchBoardData, setCardOrder },
+      props: { cardOrder, columns, projectKey }
+    } = this;
 
     const sourceColumn      = columns[source.droppableId];
     const destinationColumn = columns[destination.droppableId];
-    const previousCardCount = this.previousCardCount(destinationColumn.uuid);
+    const previousCardCount = getPreviousCardCount(destinationColumn.uuid);
 
     const relativeSourceIdx = sourceColumn.card_uuids.indexOf(draggableId);
     let relativeDestIdx   = destination.index - previousCardCount;
@@ -165,8 +171,6 @@ export default class Columns extends React.Component {
     cardOrder.splice(source.index, 1);
     cardOrder.splice(destIdx, 0, draggableId);
 
-    const { boardSlug, fetchBoardData, setCardOrder } = context;
-
     setCardOrder(cardOrder, sourceColumn, destinationColumn);
 
     await BoardApi.reorderCards(
@@ -185,28 +189,28 @@ export default class Columns extends React.Component {
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {
-    const { context, props } = this;
+    const {
+      context: { boardSlug, fetchBoardData, setColumnOrder },
+      props: { columnOrder, columns, projectKey }
+    } = this;
 
-    const { columns, projectKey } = props;
-    const columnOrder = Array.from(props.columnOrder);
+    const newColumnOrder = Array.from(columnOrder);
 
-    columnOrder.splice(source.index, 1);
-    columnOrder.splice(destination.index, 0, draggableId);
+    newColumnOrder.splice(source.index, 1);
+    newColumnOrder.splice(destination.index, 0, draggableId);
 
     let cardOrder = [];
-    columnOrder.forEach((uuid) => {
+    newColumnOrder.forEach((uuid) => {
       cardOrder = cardOrder.concat(columns[uuid].card_uuids);
     });
 
-    const { boardSlug, fetchBoardData, setColumnOrder } = context;
-
-    setColumnOrder(cardOrder, columnOrder);
+    setColumnOrder(cardOrder, newColumnOrder);
 
     await BoardApi.reorderColumns(
       projectKey,
       boardSlug,
       {
-        columns: columnOrder
+        columns: newColumnOrder
       }
     ).catch((e) => {
       console.log(e);
@@ -217,14 +221,9 @@ export default class Columns extends React.Component {
 
   render() {
     const {
-      handleOnDragEnd,
-      handleOnDragStart
+      handleOnDragEnd, handleOnDragStart,
+      props: { columnOrder, columns }
     } = this;
-
-    const {
-      columnOrder,
-      columns
-    } = this.props;
 
     return (
       <MainContext.Consumer>

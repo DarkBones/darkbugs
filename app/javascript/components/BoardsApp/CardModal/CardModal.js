@@ -35,10 +35,14 @@ export default class CardModal extends React.Component {
   }
 
   componentDidUpdate = prevProps => {
-    const { show, cardUuid } = this.props;
+    const {
+      fetchCardData,
+      props: { cardUuid, show },
+      state: { cardUuid: stateCardUuid }
+    } = this
 
     if (!prevProps.show && show) {
-      this.fetchCardData(cardUuid, cardUuid !== this.state.cardUuid);
+      fetchCardData(cardUuid, cardUuid !== stateCardUuid);
     }
   }
 
@@ -77,8 +81,12 @@ export default class CardModal extends React.Component {
   }
 
   updateCardName = async (name) => {
-    const { setCardName } = this.context;
-    let response = await CardApi.updateCard(this.props.cardUuid, { name: name });
+    const {
+      context: { setCardName },
+      state: { cardUuid }
+    } = this;
+
+    let response = await CardApi.updateCard(cardUuid, { name: name });
 
     if (!response) return;
     if (response.status !== 200) return;
@@ -87,7 +95,7 @@ export default class CardModal extends React.Component {
       name: name
     })
 
-    setCardName(this.state.cardUuid, name);
+    setCardName(cardUuid, name);
   }
 
   updateItem = (uuid, params) => {
@@ -103,9 +111,11 @@ export default class CardModal extends React.Component {
   }
 
   render() {
-    const { addItem, deleteItem, updateCardName, updateItem } = this;
-    const { cardUuid, show } = this.props;
-    const { itemOrder, items } = this.state;
+    const {
+      addItem, deleteItem, updateCardName, updateItem,
+      props: { cardUuid, show },
+      state: { itemOrder, items, name, number }
+    } = this;
 
     return (
       <MainContext.Consumer>
@@ -113,15 +123,15 @@ export default class CardModal extends React.Component {
           <Modal
             handleOnClose={() => { context.setCardModalId(); }}
             show={show}
-            title={StringTransformer.shortenWidth(`${this.state.number} - ${this.state.name}`, 5800)}
+            title={StringTransformer.shortenWidth(`${number} - ${name}`, 5800)}
           >
             <ToggleInput
               handleOnSubmit={updateCardName}
-              value={this.state.name}
+              value={name}
               isEnabled={context.userIsAssigned}
             >
               <h1 style={{wordBreak: 'break-all'}}>
-                {StringTransformer.shortenWidth(this.state.name, 9400)}
+                {StringTransformer.shortenWidth(name, 9400)}
               </h1>
             </ToggleInput>
 

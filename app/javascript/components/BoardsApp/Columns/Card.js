@@ -12,8 +12,10 @@ export default class Card extends React.Component {
   }
 
   handleSubmit = async (name) => {
-    const { columnUuid, columnIndex } = this.props;
-    const { addCard, deleteCard, saveCard } = this.context;
+    const {
+      props: { columnUuid, columnIndex },
+      context: { addCard, deleteCard, saveCard }
+    } = this;
 
     if (name.length === 0) {
       deleteCard('new');
@@ -26,7 +28,7 @@ export default class Card extends React.Component {
       card: {
         name: name
       }
-    }
+    };
 
     let response = await CardApi.createCard(params);
     if (!response) return;
@@ -60,8 +62,7 @@ export default class Card extends React.Component {
   }
 
   render () {
-    const { element } = this;
-    const { columnUuid, uuid } = this.props;
+    const { element, props: { columnUuid, uuid }} = this;
 
     return (
       <MainContext.Consumer>
@@ -80,8 +81,8 @@ export default class Card extends React.Component {
                 <div
                   className="card item-card clickable"
                   id=       {uuid}
+                  onClick=  {() => { context.setCardModalId(uuid); }}
                   {...provided.dragHandleProps}
-                  onClick={() => { context.setCardModalId(uuid); }}
                 >
                   {element(context.cards[uuid].name)}
                 </div>
