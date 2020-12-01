@@ -7,8 +7,6 @@ import { BoardApi }       from '../../../api/InternalApi';
 
 export default function Board({ addBoard, deleteBoard, name, path, slug, cardUuid }) {
   const handleSubmit = async (data, projectKey, boardSlug) => {
-    console.log('handle submit', data);
-
     if (data.length === 0 || data === name) {
       if (slug.length === 0) {
         deleteBoard(slug);

@@ -1,25 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes  from 'prop-types';
+import React      from 'react';
 
-export default function Avatar(props) {
-  const size = props.size || 'xl'
+export default function Avatar({ name, size, url }) {
+  if (!size) size = 'xl';
   const divClass = `avatar avatar-${size}`
 
   return (
     <div
       className={divClass}
-      title={props.name}
+      title=    {name}
     >
       <img
         className="avatar-img img-fluid dropdown-user-img"
-        src={props.url}
+        src=      {url}
       />
     </div>
-  )
+  );
 }
 
 Avatar.propTypes = {
   name: PropTypes.string.isRequired,
   size: PropTypes.string,
-  url: PropTypes.string.isRequired
-}
+  url:  PropTypes.string.isRequired
+};

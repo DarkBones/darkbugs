@@ -178,14 +178,14 @@ export default class Columns extends React.Component {
       boardSlug,
       {
         card_uuid:    draggableId,
-        column_index: relativeDestIdx,
+        column_index: destinationColumn.card_uuids.indexOf(draggableId),
         column_uuid:  destinationColumn.uuid
       }
     ).catch((e) => {
       console.log(e);
     });
 
-    fetchBoardData(boardSlug);
+    // fetchBoardData(boardSlug);
   }
 
   updateColumnOrder = async (source, destination, draggableId) => {

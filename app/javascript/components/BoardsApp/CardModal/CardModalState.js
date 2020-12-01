@@ -16,7 +16,6 @@ const DEFAULT_ITEMS = {
 
 export default class CardModalState {
   static addBoard(state, name, slug, path) {
-    console.log(state.boardOrder);
     const boardOrder = Array.from(state.boardOrder);
     const idx = boardOrder.indexOf('');
     if (idx > 0) boardOrder.splice(idx, 1);

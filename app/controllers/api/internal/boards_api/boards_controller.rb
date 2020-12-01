@@ -2,7 +2,8 @@ module Api
   module Internal
     module BoardsApi
       class BoardsController < Api::Internal::BoardsApi::BaseBoardsApiController
-        before_action :load_board!,         only: %i[show create reorder_columns reorder_cards update]
+        before_action :load_board!,         only: %i[show create reorder_columns update]
+        before_action :load_card!,          only: %i[reorder_cards]
         before_action :load_previous_card,  only: %i[reorder_cards]
         before_action :check_is_assignee!,  only: %i[create update destroy]
         before_action :load_component!,     only: %i[create]
@@ -31,13 +32,12 @@ module Api
         end
 
         def reorder_cards
-          card = @board.cards.find_by!(uuid: params[:card_uuid])
           column = @board.columns.find_by!(uuid: params[:column_uuid])
 
           Cards::ReorderService.new(
               board: @board,
               column: column,
-              card: card,
+              card: @card,
               previous_card: @previous_card
           ).execute
 
@@ -48,6 +48,12 @@ module Api
           @board.update!(board_params)
 
           render :create
+        end
+
+        private def load_card!
+          load_board!
+
+          @card = @board.cards.find_by!(uuid: params[:card_uuid])
         end
 
         private def board_params
@@ -75,7 +81,7 @@ module Api
 
           slug = params[:slug] || params[:board_slug]
 
-          @board = Board.find_by!(slug: slug, root_project_id: @project.id)
+          @board ||= Board.find_by!(slug: slug, root_project_id: @project.id)
         end
 
         private def check_is_assignee!

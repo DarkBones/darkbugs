@@ -15,7 +15,12 @@ module Api
 
           if column_index < 0 || @column.cards.count == 0
             column = @column.previous_populated_column
-            @previous_card = column.cards.ordered.last unless column.nil?
+
+            if @card.present?
+              @previous_card = column.cards.ordered.where.not(uuid: @card.uuid).last unless column.nil?
+            else
+              @previous_card = column.cards.ordered.last unless column.nil?
+            end
             return
           end
 
