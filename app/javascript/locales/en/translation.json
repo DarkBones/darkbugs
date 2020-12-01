@@ -25,6 +25,10 @@
           "delete_card": "Delete Card",
           "delete_confirm": "Are you sure?",
           "new_board": "New Board"
+        },
+        "Item": {
+          "edit": "Edit Item",
+          "delete": "Delete Item"
         }
       },
       "Columns": {

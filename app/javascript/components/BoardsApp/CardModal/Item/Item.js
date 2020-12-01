@@ -19,9 +19,9 @@ export default class Item extends React.Component {
     const { addItem, cardUuid, deleteItem, item: { type } } = this.props;
 
     const itemParams = {
-      card_uuid: cardUuid,
-      type: type,
-      item: params
+      card_uuid:  cardUuid,
+      type:       type,
+      item:       params
     };
 
     let response = await CardItemApi.createItem(itemParams)
@@ -82,9 +82,9 @@ export default class Item extends React.Component {
   }
 
   handleSubmit = (data) => {
-    const { createItem, props, updateItem } = this;
+    const { createItem, props: { item: { uuid } }, updateItem } = this;
 
-    props.item.uuid === 'new'
+    uuid === 'new'
       ? createItem(data)
       : updateItem(data)
   }
@@ -111,18 +111,18 @@ export default class Item extends React.Component {
 
     return (
       <Form
-        fieldOrder={fieldOrder}
-        fields={fields}
-        handleCancel={handleCancel}
-        handleSubmit={handleSubmit}
+        fieldOrder=   {fieldOrder}
+        fields=       {fields}
+        handleCancel= {handleCancel}
+        handleSubmit= {handleSubmit}
       />
     )
   }
 
   updateItem = async (data) => {
-    const { uuid } = this.props.item;
+    const { item: { uuid }, updateItem } = this.props;
 
-    let response = await CardItemApi.updateItem(uuid, {item: data});
+    let response = await CardItemApi.updateItem(uuid, { item: data });
     if (!response) return;
     if (response.status !== 200) return;
 
@@ -130,16 +130,20 @@ export default class Item extends React.Component {
       isEditing: false
     });
 
-    this.props.updateItem(uuid, data);
+    updateItem(uuid, data);
   }
 
   render() {
-    const { itemElement } = this;
-    const { user_is_author: userIsAuthor } = this.props.item;
+    const {
+      editItem,
+      deleteItem,
+      itemElement,
+      props: { item: { user_is_author: userIsAuthor } }
+    } = this;
 
     const links = [
-      [i18n.t('components.projects.cards.CardModal.items.menu.edit'), this.editItem],
-      [i18n.t('components.projects.cards.CardModal.items.menu.delete'), this.deleteItem]
+      [i18n.t('components.BoardsApp.CardModal.Item.edit'), editItem],
+      [i18n.t('components.BoardsApp.CardModal.Item.delete'), deleteItem]
     ];
 
     return (
