@@ -138,7 +138,8 @@ export default class Item extends React.Component {
       editItem,
       deleteItem,
       itemElement,
-      props: { item: { user_is_author: userIsAuthor } }
+      props: { item: { user_is_author: userIsAuthor } },
+      state: { isEditing }
     } = this;
 
     const links = [
@@ -149,7 +150,7 @@ export default class Item extends React.Component {
     return (
       <React.Fragment>
         <div className="card-item">
-          {!this.state.isEditing && userIsAuthor &&
+          {!isEditing && userIsAuthor &&
             <Ellipsis
               links={links}
             />
