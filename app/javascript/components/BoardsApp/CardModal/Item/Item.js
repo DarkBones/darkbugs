@@ -1,4 +1,6 @@
+import Ellipsis         from '../../../shared/ellipsis/Ellipsis';
 import Form             from '../../../shared/Form';
+import i18n             from '../../../../i18n';
 import Note             from './Note';
 import PropTypes        from 'prop-types';
 import React            from 'react';
@@ -36,6 +38,24 @@ export default class Item extends React.Component {
     addItem(type, params, uuid);
   }
 
+  deleteItem = async () => {
+    const { uuid } = this.props.item;
+
+    if (uuid !== 'new') {
+      let response = await CardItemApi.deleteItem(uuid);
+      if (!response) return;
+      if (response.status !== 200) return;
+    }
+
+    this.props.deleteItem(uuid);
+  }
+
+  editItem = () => {
+    this.setState({
+      isEditing: true
+    });
+  }
+
   formParams = () => {
     const { params, type } = this.props.item;
     
@@ -55,6 +75,12 @@ export default class Item extends React.Component {
           }
         };
     }
+  }
+
+  handleCancel = () => {
+    this.setState({
+      isEditing: false
+    }, this.props.deleteItem('new'));
   }
 
   handleSubmit = (data) => {
@@ -82,30 +108,49 @@ export default class Item extends React.Component {
   }
 
   itemForm = () => {
-    const { handleSubmit } = this;
-    const { deleteItem } = this.props;
+    const { handleCancel, handleSubmit } = this;
     const { fieldOrder, fields } = this.formParams();
 
     return (
       <Form
         fieldOrder={fieldOrder}
         fields={fields}
-        handleCancel={() => { deleteItem('new'); }}
-        handleSubmit={(data) => { handleSubmit(data); }}
+        handleCancel={handleCancel}
+        handleSubmit={handleSubmit}
       />
     )
   }
 
-  updateItem = data => {
-    console.log('update item', data);
+  updateItem = async (data) => {
+    const { uuid } = this.props.item;
+
+    let response = await CardItemApi.updateItem(uuid, {item: data});
+    if (!response) return;
+    if (response.status !== 200) return;
+
+    this.setState({
+      isEditing: false
+    });
+
+    this.props.updateItem(uuid, data);
   }
 
   render() {
     const { itemElement } = this;
 
+    const links = [
+      [i18n.t('components.projects.cards.CardModal.items.menu.edit'), this.editItem],
+      [i18n.t('components.projects.cards.CardModal.items.menu.delete'), this.deleteItem]
+    ];
+
     return (
       <React.Fragment>
         <div className="card-item">
+          {!this.state.isEditing &&
+            <Ellipsis
+              links={links}
+            />
+          }
           {itemElement()}
         </div>
       </React.Fragment>
@@ -117,5 +162,6 @@ Item.propTypes = {
   addItem:    PropTypes.func.isRequired,
   cardUuid:   PropTypes.string.isRequired,
   deleteItem: PropTypes.func.isRequired,
-  item:       PropTypes.object.isRequired
+  item:       PropTypes.object.isRequired,
+  updateItem: PropTypes.func.isRequired
 }

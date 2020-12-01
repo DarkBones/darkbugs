@@ -90,8 +90,20 @@ export default class CardModal extends React.Component {
     setCardName(this.state.cardUuid, name);
   }
 
+  updateItem = (uuid, params) => {
+    this.setState({
+      items: {
+        ...this.state.items,
+        [uuid]: {
+          ...this.state.items[uuid],
+          params: params
+        }
+      }
+    });
+  }
+
   render() {
-    const { addItem, deleteItem, updateCardName } = this;
+    const { addItem, deleteItem, updateCardName, updateItem } = this;
     const { cardUuid, show } = this.props;
     const { itemOrder, items } = this.state;
 
@@ -120,6 +132,7 @@ export default class CardModal extends React.Component {
                 deleteItem=   {deleteItem}
                 key=          {uuid}
                 item=         {items[uuid]}
+                updateItem=   {updateItem}
               />
             )}
 
