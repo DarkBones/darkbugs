@@ -56,10 +56,26 @@
       height: 100%;
     }
 
-    #project-items-app {
+    #boards-app {
       margin-top: 20px;
       width: 100%;
       height: calc(100% - 80px);
+
+      .spinner-container {
+        height: 100%;
+        position: relative;
+
+        .spinner-center {
+          width: 32px;
+          height: 32px;
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+        }
+      }
 
       #board-title {
         padding-left: 40px;

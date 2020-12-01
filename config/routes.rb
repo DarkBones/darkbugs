@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     get :delete
     post :destroy
 
-    resources :boards, param: :slug, only: [:show]
+    resources :boards, param: :slug, only: [:index, :show]
   end
 
   resources :users
@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   # =========================================================================
   namespace :admin do
     resources :users, param: :uuid
+    resource :letter_widths, only: [:show]
   end
 
   # =========================================================================
@@ -47,17 +48,19 @@ Rails.application.routes.draw do
   # =========================================================================
   namespace :api, path: 'api/v:api_version', defaults: { format: :json } do
     namespace :internal do
-      resources :columns, param: :uuid
-      resources :cards, param: :uuid do
-        post :create_board
-      end
+      namespace :boards_api do
+        resources :columns, param: :uuid
+        resources :cards, param: :uuid do
+          post :create_board
+        end
 
-      resources :boards, param: :slug do
-        put :reorder_columns
-        put :reorder_cards
-      end
+        resources :boards, path: 'projects/:project_key/boards', param: :slug, only: [:show, :create, :update] do
+          put :reorder_columns
+          put :reorder_cards
+        end
 
-      resources :card_items, param: :uuid
+        resources :card_items, param: :uuid
+      end
 
       resource :user_avatars, only: [:create, :destroy]
     end

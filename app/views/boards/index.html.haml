@@ -1,0 +1,6 @@
+- content_for :page_title do
+  = @project.name
+
+#project-items-field
+  #project-items-container
+    = react_component('BoardsApp/BoardsApp', @props, { prerender: false })

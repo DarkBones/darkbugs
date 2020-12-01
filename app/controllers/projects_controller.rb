@@ -3,13 +3,11 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[new create]
   before_action :load_project, only: %i[delete destroy show]
   before_action :check_is_admin!, only: %i[new delete destroy]
-  before_action :no_footer, only: %i[show]
 
   def index; end
 
   def show
-    board = @project.boards.first
-    @props = Boards::BoardPresenter.new(board, @current_user).to_h
+    redirect_to project_boards_path(project_key: @project.key)
   end
 
   def new; end

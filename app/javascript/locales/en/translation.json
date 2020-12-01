@@ -12,6 +12,36 @@
         }
       }
     },
+    "BoardsApp": {
+      "BoardModal": {
+        "title": "Create New Board",
+        "Body": {
+          "placeholder": "Create New Board"
+        }
+      },
+      "CardModal": {
+        "Toolbar": {
+          "new_note": "New Note",
+          "delete_card": "Delete Card",
+          "delete_confirm": "Are you sure?",
+          "new_board": "New Board"
+        },
+        "Item": {
+          "edit": "Edit Item",
+          "delete": "Delete Item"
+        },
+        "boards": "Boards"
+      },
+      "Columns": {
+        "Title": {
+          "delete_warning": "Are you sure? Deleting this column will also delete its cards."
+        }
+      },
+      "Title": {
+        "edit_name": "Edit Name",
+        "new_board": "New Board"
+      }
+    },
     "projects": {
       "cardmodal": {
         "item": {
@@ -78,11 +108,10 @@
           "new_note": "New Note"
         }
       },
-      "modal": {
-        "Modal": {
-          "buttons": {
-            "close": "Close"
-          }
+      "Modal": {
+        "buttons": {
+          "close": "Close",
+          "submit": "Submit"
         }
       }
     }
