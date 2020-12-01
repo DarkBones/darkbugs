@@ -73,7 +73,10 @@ export default class Item extends React.Component {
     switch (type) {
       case 'note':
         return (
-          <Note />
+          <Note
+            params= {params}
+            uuid=   {uuid}
+          />
         );
     }
   }
