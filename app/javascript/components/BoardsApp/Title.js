@@ -35,20 +35,16 @@ export default class Title extends React.Component {
 
   render() {
     const {
-      updateBoardName
+      updateBoardName,
+      props: {
+        boardOrder,
+        boards,
+        name,
+        showBoardModal,
+        switchBoard
+      },
+      state: { nameIsEditing }
     } = this;
-
-    const {
-      boardOrder,
-      boards,
-      name,
-      showBoardModal,
-      switchBoard
-    } = this.props;
-
-    const {
-      nameIsEditing
-    } = this.state;
 
     return (
       <MainContext.Consumer>
@@ -93,12 +89,12 @@ export default class Title extends React.Component {
                     <Dropdown.Item
                       onClick={() => { this.setState({nameIsEditing: true}); }}
                     >
-                      {i18n.t('components.projects.title.dropdown.edit_name')}
+                      {i18n.t('components.BoardsApp.Title.edit_name')}
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={showBoardModal}
                     >
-                      {i18n.t('components.projects.title.dropdown.new_board')}
+                      {i18n.t('components.BoardsApp.Title.new_board')}
                     </Dropdown.Item>
                   </React.Fragment>
                   }

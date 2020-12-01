@@ -166,7 +166,7 @@ export default class BoardsApp extends React.Component {
           card_uuids: destinationColumn.card_uuids
         }
       }
-    })
+    });
   }
 
   setColumnOrder = (cardOrder, columnOrder) => {
@@ -219,26 +219,25 @@ export default class BoardsApp extends React.Component {
       setColumnOrder,
       setColumnValue,
       showBoardModal,
-      switchBoard
-    } = this
-
-    const {
-      boardModalShowing,
-      boardOrder,
-      boards,
-      boardSlug,
-      cardModalShowing,
-      cardModalId,
-      cardOrder,
-      cards,
-      columnOrder,
-      columns,
-      component,
-      name,
-      projectKey,
-      showSpinner,
-      user
-    } = this.state;
+      switchBoard,
+      state: {
+        boardModalShowing,
+        boardOrder,
+        boards,
+        boardSlug,
+        cardModalShowing,
+        cardModalId,
+        cardOrder,
+        cards,
+        columnOrder,
+        columns,
+        component,
+        name,
+        projectKey,
+        showSpinner,
+        user
+      }
+    } = this;
 
     const contextValue = {
       boardSlug:        boardSlug,
@@ -256,7 +255,7 @@ export default class BoardsApp extends React.Component {
       setCardOrder:     setCardOrder,
       setColumnOrder:   setColumnOrder,
       setColumnValue:   setColumnValue
-    }
+    };
 
     return (
       <div id="boards-app">

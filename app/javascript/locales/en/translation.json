@@ -35,6 +35,10 @@
         "Title": {
           "delete_warning": "Are you sure? Deleting this column will also delete its cards."
         }
+      },
+      "Title": {
+        "edit_name": "Edit Name",
+        "new_board": "New Board"
       }
     },
     "projects": {
