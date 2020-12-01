@@ -29,7 +29,8 @@
         "Item": {
           "edit": "Edit Item",
           "delete": "Delete Item"
-        }
+        },
+        "boards": "Boards"
       },
       "Columns": {
         "Title": {

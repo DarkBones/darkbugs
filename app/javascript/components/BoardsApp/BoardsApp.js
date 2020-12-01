@@ -197,9 +197,14 @@ export default class BoardsApp extends React.Component {
   switchBoard = (path, slug) => {
     window.history.pushState({}, '', path);
 
-    this.boardSlug = slug;
+    const { closeBoardModal, fetchBoardData } = this;
 
-    this.fetchBoardData(slug);
+    this.setState({
+      cardModalShowing: false
+    });
+
+    this.boardSlug = slug;
+    fetchBoardData(slug);
   }
 
   render() {
@@ -243,6 +248,7 @@ export default class BoardsApp extends React.Component {
       boardSlug:        boardSlug,
       cardOrder:        cardOrder,
       cards:            cards,
+      projectKey:       projectKey,
       userIsAssigned:   user.isAssigned,
       addCard:          addCard,
       addColumn:        addColumn,
@@ -254,7 +260,8 @@ export default class BoardsApp extends React.Component {
       setCardName:      setCardName,
       setCardOrder:     setCardOrder,
       setColumnOrder:   setColumnOrder,
-      setColumnValue:   setColumnValue
+      setColumnValue:   setColumnValue,
+      switchBoard:      switchBoard
     };
 
     return (

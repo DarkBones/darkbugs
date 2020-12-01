@@ -2,13 +2,13 @@ import React      from 'react';
 import PropTypes  from 'prop-types';
 
 export default function ToolbarButton(props) {
-  const { onClick, faIconClass, buttonText } = props;
+  const { handleOnClick, faIconClass, buttonText } = props;
 
   return (
     <React.Fragment>
       <button
         className="btn btn-default btn-circle btn-circle-xl"
-        onClick={onClick}
+        onClick={handleOnClick}
       >
         <i
           className={`${faIconClass} fa-3x`}
@@ -24,7 +24,7 @@ export default function ToolbarButton(props) {
 }
 
 ToolbarButton.propTypes = {
-  buttonText:   PropTypes.string.isRequired,
-  faIconClass:  PropTypes.string.isRequired,
-  onClick:      PropTypes.func.isRequired
+  buttonText:     PropTypes.string.isRequired,
+  faIconClass:    PropTypes.string.isRequired,
+  handleOnClick:  PropTypes.func.isRequired
 };

@@ -15,6 +15,7 @@ export default class ToggleInput extends React.Component {
     const { setIsEditing } = this;
     const {
       allowBlank,
+      allowSame,
       handleOnSubmit,
       value
     } = this.props;
@@ -23,7 +24,7 @@ export default class ToggleInput extends React.Component {
 
     // Return if data hasn't changed or is blank when not allowed
     if ((!data || data.toString().length === 0) && !allowBlank) return;
-    if (data === value && data.length > 0) return;
+    if (data === value && data.length > 0 && !allowSame) return;
     
     handleOnSubmit(data);
   }
@@ -108,6 +109,7 @@ export default class ToggleInput extends React.Component {
 
 ToggleInput.propTypes = {
   allowBlank:     PropTypes.bool.isRequired,
+  allowSame:      PropTypes.bool.isRequired,
   cancelOnClick:  PropTypes.bool.isRequired,
   handleOnSubmit: PropTypes.func.isRequired,
   handleOnCancel: PropTypes.func,
@@ -123,6 +125,7 @@ ToggleInput.propTypes = {
 
 ToggleInput.defaultProps = {
   allowBlank:     false,
+  allowSame:      false,
   cancelOnClick:  true,
   isEditing:      false,
   isEnabled:      true,

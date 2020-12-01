@@ -15,6 +15,30 @@ const DEFAULT_ITEMS = {
 };
 
 export default class CardModalState {
+  static addBoard(state, name, slug, path) {
+    console.log(state.boardOrder);
+    const boardOrder = Array.from(state.boardOrder);
+    const idx = boardOrder.indexOf('');
+    if (idx > 0) boardOrder.splice(idx, 1);
+
+    if (boardOrder.indexOf(slug) < 0) boardOrder.push(slug);
+
+    console.log(boardOrder);
+    console.log(state.boardOrder);
+
+    return {
+      ...state,
+      boardOrder: boardOrder,
+      boards: {
+        ...state.boards,
+        [slug]: {
+          name: name,
+          path: path
+        }
+      }
+    };
+  }
+
   static addItem(state, type, data, uuid) {
     const newState = this.deleteItem(state, 'new');
 
@@ -31,6 +55,20 @@ export default class CardModalState {
           uuid: uuid
         }
       }
+    };
+  }
+
+  static deleteBoard(state, slug) {
+    const newBoardOrder = Array.from(state.boardOrder);
+    const idx = newBoardOrder.indexOf(slug);
+
+    if (idx < 0) return state;
+
+    newBoardOrder.splice(idx, 1);
+
+    return {
+      ...state,
+      boardOrder: newBoardOrder
     };
   }
 

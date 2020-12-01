@@ -1,3 +1,4 @@
+import Board              from './Board';
 import CardModalState     from './CardModalState';
 import i18n               from '../../../i18n';
 import Item               from './Item';
@@ -16,6 +17,8 @@ export default class CardModal extends React.Component {
     super(props);
 
     this.defaultState = {
+      boardOrder: [],
+      boards:     {},
       cardUuid:   '',
       isFetching: false,
       itemOrder:  [],
@@ -28,6 +31,10 @@ export default class CardModal extends React.Component {
     this.state = {
       ...this.defaultState
     };
+  }
+
+  addBoard = (name, slug, path) => {
+    this.setState(CardModalState.addBoard(this.state, name, slug, path));
   }
 
   addItem = (type, data, uuid = 'new') => {
@@ -48,6 +55,10 @@ export default class CardModal extends React.Component {
     if (!prevProps.show && show) {
       fetchCardData(cardUuid, cardUuid !== stateCardUuid);
     }
+  }
+
+  deleteBoard = slug => {
+    this.setState(CardModalState.deleteBoard(this.state, slug));
   }
 
   deleteCard = async () => {
@@ -92,9 +103,11 @@ export default class CardModal extends React.Component {
     if (!response) return;
     if (response.status !== 200) return;
 
-    const { item_order: itemOrder, items, name, number } = response.data;
+    const { board_order: boardOrder, boards, item_order: itemOrder, items, name, number } = response.data;
 
     this.setState({
+      boardOrder: boardOrder,
+      boards:     boards,
       isFetching: false,
       itemOrder:  itemOrder,
       items:      items,
@@ -139,9 +152,16 @@ export default class CardModal extends React.Component {
 
   render() {
     const {
-      addItem, closeModal, deleteCard, deleteItem, updateCardName, updateItem,
+      addBoard,
+      addItem,
+      closeModal,
+      deleteBoard,
+      deleteCard,
+      deleteItem,
+      updateCardName,
+      updateItem,
       props: { cardUuid, show },
-      state: { itemOrder, items, name, number }
+      state: { boardOrder, boards, itemOrder, items, name, number }
     } = this;
 
     return (
@@ -157,34 +177,62 @@ export default class CardModal extends React.Component {
               value={name}
               isEnabled={context.userIsAssigned}
             >
-              <h1 style={{wordBreak: 'break-all'}}>
+              <h1 style={{wordBreak: 'break-all'}} className="mb-4">
                 {StringTransformer.shortenWidth(name, 9400)}
               </h1>
             </ToggleInput>
 
-            {itemOrder.map((uuid, index) =>
-              <Item
-                addItem=      {addItem}
-                cardUuid=     {cardUuid}
-                deleteItem=   {deleteItem}
-                key=          {uuid}
-                item=         {items[uuid]}
-                previousItem= {items[itemOrder[index - 1]]}
-                updateItem=   {updateItem}
-              />
-            )}
+            {boardOrder.length > 0 &&
+              <React.Fragment>
+                <h3>
+                  {i18n.t('components.BoardsApp.CardModal.boards')}
+                </h3>
+                <ul className="list-unstyled">
+                  {boardOrder.map(slug =>
+                    <Board
+                      addBoard=   {addBoard}
+                      cardUuid=   {cardUuid}
+                      deleteBoard={deleteBoard}
+                      key=        {slug}
+                      name=       {boards[slug].name}
+                      path=       {boards[slug].path}
+                      slug=       {slug}
+                    />
+                  )}
+                </ul>
+              </React.Fragment>
+            }
+
+            <div className="mt-3">
+              {itemOrder.map((uuid, index) =>
+                <Item
+                  addItem=      {addItem}
+                  cardUuid=     {cardUuid}
+                  deleteItem=   {deleteItem}
+                  key=          {uuid}
+                  item=         {items[uuid]}
+                  previousItem= {items[itemOrder[index - 1]]}
+                  updateItem=   {updateItem}
+                />
+              )}
+            </div>
 
             {context.userIsAssigned &&
               <Toolbar>
                 <ToolbarButton
+                  faIconClass="fa fa-columns"
+                  buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_board')}
+                  handleOnClick={() => { addBoard('', '', ''); }}
+                />
+                <ToolbarButton
                   faIconClass="fa fa-sticky-note"
                   buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_note')}
-                  onClick={() => { addItem('note', { content: '' }); }}
+                  handleOnClick={() => { addItem('note', { content: '' }); }}
                 />
                 <ToolbarButton
                   faIconClass="fa fa-trash"
                   buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.delete_card')}
-                  onClick={deleteCard}
+                  handleOnClick={deleteCard}
                 />
               </Toolbar>
             }
