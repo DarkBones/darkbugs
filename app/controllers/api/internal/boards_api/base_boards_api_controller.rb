@@ -10,7 +10,7 @@ module Api
         private def load_previous_card
           load_column
 
-          column_index = params[:column_index] - 1
+          column_index = params[:column_index].to_i - 1
           column_cards = @column.cards.ordered
 
           if column_index < 0 || @column.cards.count == 0

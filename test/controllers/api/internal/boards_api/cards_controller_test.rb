@@ -17,6 +17,7 @@ module Api
           post :create, params: {
               api_version: Api::VERSION,
               column_uuid: @column.uuid,
+              column_index: 0,
               card: {
                   name: 'New Card'
               }
@@ -49,7 +50,7 @@ module Api
           }
 
           data = JSON.parse(response.body)
-          assert_equal expected, data['card']['boards']
+          assert_equal expected, data['data']['boards']
         end
 
         def test_create_board
