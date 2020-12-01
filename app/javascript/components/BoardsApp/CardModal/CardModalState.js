@@ -18,7 +18,7 @@ export default class CardModalState {
   static addItem(state, type, params, uuid) {
     const newState = this.deleteItem(state, 'new');
 
-    const { itemOrder } = newState;
+    const itemOrder = Array.from(newState.itemOrder);
     itemOrder.push(uuid);
 
     return {

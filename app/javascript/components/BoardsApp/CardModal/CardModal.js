@@ -30,6 +30,10 @@ export default class CardModal extends React.Component {
     };
   }
 
+  addItem = (type, params, uuid = 'new') => {
+    this.setState(CardModalState.addItem(this.state, type, params, uuid));
+  }
+
   componentDidUpdate = prevProps => {
     const { show, cardUuid } = this.props;
 
@@ -59,8 +63,6 @@ export default class CardModal extends React.Component {
 
     const { item_order: itemOrder, items, name, number } = response.data;
 
-    console.log(response.data);
-
     this.setState({
       isFetching: false,
       itemOrder:  itemOrder,
@@ -68,10 +70,6 @@ export default class CardModal extends React.Component {
       name:       name,
       number:     number
     })
-  }
-
-  newItem = (type, params, uuid = 'new') => {
-    this.setState(CardModalState.addItem(this.state, type, params, uuid));
   }
 
   title = name => {
@@ -93,8 +91,8 @@ export default class CardModal extends React.Component {
   }
 
   render() {
-    const { deleteItem, newItem, updateCardName } = this;
-    const { show } = this.props;
+    const { addItem, deleteItem, updateCardName } = this;
+    const { cardUuid, show } = this.props;
     const { itemOrder, items } = this.state;
 
     return (
@@ -117,11 +115,11 @@ export default class CardModal extends React.Component {
 
             {itemOrder.map(uuid =>
               <Item
-                deleteItem= {deleteItem}
-                key=        {uuid}
-                params=     {items[uuid].params}
-                type=       {items[uuid].type}
-                uuid=       {items[uuid].uuid}
+                addItem=      {addItem}
+                cardUuid=     {cardUuid}
+                deleteItem=   {deleteItem}
+                key=          {uuid}
+                item=         {items[uuid]}
               />
             )}
 
@@ -129,7 +127,7 @@ export default class CardModal extends React.Component {
               <ToolbarButton
                 faIconClass="fa fa-sticky-note"
                 buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_note')}
-                onClick={() => { newItem('note', { content: '' }); }}
+                onClick={() => { addItem('note', { content: '' }); }}
               />
             </Toolbar>
           </Modal>
