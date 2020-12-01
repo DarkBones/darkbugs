@@ -41,7 +41,7 @@ export default class CardModalState {
 
     if (idx < 0) return state;
 
-    newItemOrder.splice(idx);
+    newItemOrder.splice(idx, 1);
     delete newItems[uuid];
 
     return {
