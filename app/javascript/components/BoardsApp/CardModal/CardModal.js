@@ -135,13 +135,14 @@ export default class CardModal extends React.Component {
               </h1>
             </ToggleInput>
 
-            {itemOrder.map(uuid =>
+            {itemOrder.map((uuid, index) =>
               <Item
                 addItem=      {addItem}
                 cardUuid=     {cardUuid}
                 deleteItem=   {deleteItem}
                 key=          {uuid}
                 item=         {items[uuid]}
+                previousItem= {items[itemOrder[index - 1]]}
                 updateItem=   {updateItem}
               />
             )}

@@ -1,3 +1,4 @@
+import Author           from './Author';
 import Ellipsis         from '../../../shared/ellipsis/Ellipsis';
 import Form             from '../../../shared/Form';
 import i18n             from '../../../../i18n';
@@ -138,9 +139,10 @@ export default class Item extends React.Component {
       editItem,
       deleteItem,
       itemElement,
-      props: { item: { user_is_author: userIsAuthor } },
+      props: { item, previousItem },
       state: { isEditing }
     } = this;
+    const { user_is_author: userIsAuthor } = item;
 
     const links = [
       [i18n.t('components.BoardsApp.CardModal.Item.edit'), editItem],
@@ -149,6 +151,11 @@ export default class Item extends React.Component {
 
     return (
       <React.Fragment>
+        <Author
+          item=         {item}
+          isEditing=    {isEditing}
+          previousItem= {previousItem}
+        />
         <div className="card-item">
           {!isEditing && userIsAuthor &&
             <Ellipsis
@@ -163,9 +170,10 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
-  addItem:    PropTypes.func.isRequired,
-  cardUuid:   PropTypes.string.isRequired,
-  deleteItem: PropTypes.func.isRequired,
-  item:       PropTypes.object.isRequired,
-  updateItem: PropTypes.func.isRequired
+  addItem:      PropTypes.func.isRequired,
+  cardUuid:     PropTypes.string.isRequired,
+  deleteItem:   PropTypes.func.isRequired,
+  item:         PropTypes.object.isRequired,
+  previousItem: PropTypes.object,
+  updateItem:   PropTypes.func.isRequired
 };
