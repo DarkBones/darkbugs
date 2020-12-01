@@ -40,7 +40,11 @@ export default class Toolbar extends React.Component {
               <ul
                 className="list-unstyled"
               >
-                {children}
+                {children.map((child, index) =>
+                  <li key={index}>
+                    {child}
+                  </li>
+                )}
               </ul>
             </div>
           </StyleRoot>
@@ -51,5 +55,5 @@ export default class Toolbar extends React.Component {
 }
 
 Toolbar.propTypes = {
-  children: PropTypes.object
+  children: PropTypes.array.isRequired
 };

@@ -34,6 +34,10 @@ export default class CardModal extends React.Component {
     this.setState(CardModalState.addItem(this.state, type, data, uuid));
   }
 
+  closeModal = () => {
+    this.context.setCardModalId();
+  }
+
   componentDidUpdate = prevProps => {
     const {
       fetchCardData,
@@ -44,6 +48,29 @@ export default class CardModal extends React.Component {
     if (!prevProps.show && show) {
       fetchCardData(cardUuid, cardUuid !== stateCardUuid);
     }
+  }
+
+  deleteCard = async () => {
+    const {
+      closeModal,
+      context,
+      state: { cardUuid, itemOrder, isFetching }
+    } = this;
+
+    if ( isFetching || cardUuid.length === 0 ) return;
+
+    if (itemOrder.length > 0) {
+      let r = confirm(
+        i18n.t('components.BoardsApp.CardModal.Toolbar.delete_confirm')
+      );
+
+      if (!r) return;
+    }
+
+    await CardApi.deleteCard(cardUuid);
+
+    closeModal();
+    context.deleteCard(cardUuid);
   }
 
   deleteItem = uuid => {
@@ -112,7 +139,7 @@ export default class CardModal extends React.Component {
 
   render() {
     const {
-      addItem, deleteItem, updateCardName, updateItem,
+      addItem, closeModal, deleteCard, deleteItem, updateCardName, updateItem,
       props: { cardUuid, show },
       state: { itemOrder, items, name, number }
     } = this;
@@ -121,7 +148,7 @@ export default class CardModal extends React.Component {
       <MainContext.Consumer>
         {context =>
           <Modal
-            handleOnClose={() => { context.setCardModalId(); }}
+            handleOnClose={closeModal}
             show={show}
             title={StringTransformer.shortenWidth(`${number} - ${name}`, 5800)}
           >
@@ -153,6 +180,11 @@ export default class CardModal extends React.Component {
                   faIconClass="fa fa-sticky-note"
                   buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.new_note')}
                   onClick={() => { addItem('note', { content: '' }); }}
+                />
+                <ToolbarButton
+                  faIconClass="fa fa-trash"
+                  buttonText={i18n.t('components.BoardsApp.CardModal.Toolbar.delete_card')}
+                  onClick={deleteCard}
                 />
               </Toolbar>
             }
