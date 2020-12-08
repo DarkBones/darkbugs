@@ -20,5 +20,5 @@ spec:
             project: {{ .Values.ingress.clouddns_project }}
             serviceAccountSecretRef:
               name: {{ .Values.ingress.cloud_secret_name | quote }}
-              key: service-account.json
+              key: key.json
 {{- end -}}

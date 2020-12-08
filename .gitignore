@@ -49,3 +49,4 @@ docker-compose.yml
 /deploy/secret*
 /deploy/release_values*
 /deploy/service-account*
+/deploy/key.json
